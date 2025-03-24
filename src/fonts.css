@@ -1,0 +1,74 @@
+/* Regular Font */
+@font-face {
+  font-family: "Graphik-Regular-Trial";
+  src: url("/font/Graphik-Regular-Trial.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Graphik-Medium-Trial";
+  src: url("../public/font/Graphik-Medium-Trial.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Graphik-Semibold-Trial";
+  src: url("/font/Graphik-Semibold-Trial.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Graphik-Light-Trial";
+  src: url("../public/font/Graphik-Light-Trial.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Graphik-Thin-Trial";
+  src: url("../public/font/Graphik-Thin-Trial.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Define a CSS variable for the font */
+:root {
+  --reg-font: "Graphik-Regular-Trial";
+  --med-font: "Graphik-Medium-Trial";
+  --semibold-font: "Graphik-Semibold-Trial";
+  --light-font: "Graphik-Light-Trial";
+  --tin-font: "Graphik-Thin-Trial";
+}
+
+/* Global class */
+.reg-font {
+  font-family: var(--reg-font) !important;
+}
+
+.med-font {
+  font-family: var(--med-font) !important;
+}
+
+.semibold-font {
+  font-family: var(--semibold-font) !important;
+}
+
+.light-font {
+  font-family: var(--light-font) !important;
+}
+
+.tin-font {
+  font-family: var(--tin-font) !important;
+}
+
+body {
+  font-family: var(--reg-font);
+}

@@ -1,0 +1,38 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+  font-family: 'CircularXXWeb', 'Helvetica', 'Arial', sans-serif;
+}
+
+/* For Webkit browsers (Chrome, Safari, Edge, etc.) */
+::-webkit-scrollbar {
+    width: 8px; /* Adjust the width of the scrollbar */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background-color: #4565BF; /* Purple color for the scrollbar thumb */
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light color for the scrollbar track */
+  }
+  
+  .dynamic-content ul {
+    list-style-type: disc; /* Add bullets */
+    padding-left: 1.5rem; /* Indent the list */
+  }
+  
+  .dynamic-content li {
+    margin-bottom: 0.5rem; /* Add spacing between items */
+  }
+
+
+

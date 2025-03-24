@@ -1,0 +1,890 @@
+import React, { useEffect, useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import {
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { FaArrowRight, FaCheck, FaCheckCircle, FaSearch } from "react-icons/fa";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { nextStep } from "../../store/slice/stepper";
+import { useDispatch, useSelector } from "react-redux";
+import { setStep1 } from "../../store/slice/stepSlice";
+import dayjs from "dayjs";
+import moment from "moment";
+import { useFetchAddressesQuery } from "../../store/services/addressApi/addressApi";
+import toast from "react-hot-toast";
+import { usePostStepsMutation } from "../../store/services/Steps/Steps";
+import NextButton from "../NextBtn/NextButton";
+const Stepone = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // You can change to "auto" for instant scrolling
+    });
+  }, []);
+
+  // changes done on live..??
+  const dispatch = useDispatch();
+  const stepPrevApiData = localStorage.getItem("stepPrevApiData");
+  const stepPrev = localStorage.getItem("step1");
+  const userData = localStorage.getItem("userData");
+  const [lastConsultation, setLastConsultation] = useState(null);
+  const [prevStep1, setPrevStep1] = useState(null);
+  const [userInfo, setUseriIfo] = useState(null);
+  useEffect(() => {
+    if (stepPrevApiData !== null || stepPrev !== undefined || userData !== undefined) {
+      const parsedData = JSON.parse(stepPrevApiData);
+      const stepPrevParse = JSON.parse(stepPrev);
+      const userInfo = JSON.parse(userData);
+
+      setLastConsultation(parsedData?.last_consultation_data?.patientInfo);
+      setPrevStep1(stepPrevParse);
+      setUseriIfo(userInfo?.profile?.user)
+    }
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    setValue,
+    trigger,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onChange", // Validation mode
+    defaultValues: {
+      firstName: prevStep1?.firstName || userInfo?.fname || lastConsultation?.firstName || "",
+      lastName: prevStep1?.lastName || userInfo?.lname || lastConsultation?.lastName || "",
+      phoneNumber: prevStep1?.phoneNo || userInfo?.phone || lastConsultation?.phoneNo || "",
+      gender: prevStep1?.gender || userInfo?.gender || lastConsultation?.gender || "",
+      dateOfBirth: prevStep1?.dob || userInfo?.dob || lastConsultation?.dob || null,
+      breastFeeding: prevStep1?.pregnancy || lastConsultation?.pregnancy || "",
+      streetAddress: prevStep1?.addressone || lastConsultation?.address?.addressone || "",
+      postCode: prevStep1?.postalcode || lastConsultation?.address?.postalcode || "",
+      state: prevStep1?.state || lastConsultation?.address?.state || "",
+      city: prevStep1?.city || lastConsultation?.address?.city || "",
+      ethnicity: prevStep1?.ethnicity || lastConsultation?.ethnicity || "",
+    },
+  });
+
+
+  // Watch the values of gender and breastFeeding
+  const gender = watch("gender");
+  const selectedEthnicity = watch("ethnicity");
+  const breastFeeding = watch("breastFeeding");
+  const [WarningMessage, setWarningMessage] = useState();
+  const [zipCode, setZipCode] = useState("");
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [addressOptions, setAddressOptions] = useState([]);
+  const [searchClicked, setSearchClicked] = useState(false);
+
+  useEffect(() => {
+    if (lastConsultation || prevStep1 || userInfo) {
+      setZipCode(
+        prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || ""
+      );
+      setValue(
+        "postCode",
+        prevStep1?.address?.postalcode || "" || lastConsultation?.address?.postalcode
+      );
+      setValue(
+        "firstName",
+        prevStep1?.firstName || "" || lastConsultation?.firstName || userInfo?.fname
+      );
+      setValue(
+        "lastName",
+        prevStep1?.lastName || "" || lastConsultation?.lastName || userInfo?.lname
+      );
+      setValue(
+        "phoneNumber",
+        prevStep1?.phoneNo || "" || lastConsultation?.phoneNo || userInfo?.phone
+      );
+      setValue("gender", prevStep1?.gender || "" || lastConsultation?.gender || userInfo?.gender);
+      setValue("dateOfBirth", prevStep1?.dob || "" || lastConsultation?.dob || userInfo?.dob);
+      setValue(
+        "breastFeeding",
+        prevStep1?.pregnancy || "" || lastConsultation?.pregnancy
+      );
+      setValue(
+        "ethnicity",
+        prevStep1?.ethnicity || "" || lastConsultation?.ethnicity
+      );
+      setValue(
+        "streetAddress",
+        prevStep1?.address?.addressone || "" || lastConsultation?.address?.addressone
+      );
+      setValue(
+        "streetAddress2",
+        prevStep1?.address?.addresstwo || "" || lastConsultation?.address?.addresstwo
+      );
+      setValue("city", prevStep1?.address?.city || "" || lastConsultation?.address?.city);
+      // setValue("country", lastConsultation.address?.country || "");
+
+      setValue(
+        "state",
+        prevStep1?.address?.state || "" || lastConsultation?.address?.state
+      );
+      trigger([
+        "firstName",
+        "lastName",
+        "phoneNumber",
+        "gender",
+        "dateOfBirth",
+        "breastFeeding",
+        "streetAddress",
+        "postCode",
+        "state",
+        "city",
+        "ethnicity",
+      ]).then((isValid) => {
+        if (!isValid) console.log("Errors:", errors);
+      });
+    }
+  }, [lastConsultation, setValue, trigger, prevStep1]);
+
+
+  // 👇👇**RTK Query - Fetch addresses**👇👇
+  const { data, error, isLoading } = useFetchAddressesQuery(zipCode, {
+    skip: !searchClicked || !zipCode,
+  });
+
+
+  const handleSearch = () => {
+    if (zipCode.trim() !== "") {
+      setSearchClicked(true);
+    } else {
+
+
+      toast.error(error?.message);
+    }
+    // if (error) {
+    //   toast.error(error?.message || "Invalid Postal Code");
+    // }
+  };
+
+  const handleSelect = (index, setValue) => {
+    const selected = addressOptions[index];
+    setSelectedAddress(selected);
+    setValue("streetAddress", selected.line_1 || "");
+    setValue("streetAddress2", selected.line_2 || "");
+    setValue("city", selected.town_or_city || "");
+    setValue("state", selected.county || "");
+    setValue("postalCode", zipCode || "");
+  };
+
+  // **Effect to Update Dropdown Options**
+  useEffect(() => {
+    if (data?.addresses) {
+      setAddressOptions(data.addresses);
+    } else {
+      setAddressOptions([]);
+    }
+  }, [data]);
+  const currentStep = useSelector((state) => state.step.currentStep);
+  const [postSteps, { error: isError, isLoading: loader }] =
+    usePostStepsMutation();
+
+  const getPid = localStorage.getItem("pid");
+
+  const onSubmit = async (data) => {
+    const patientInfo = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      phoneNo: data.phoneNumber,
+      gender: data.gender,
+      dob: data.dateOfBirth,
+      pregnancy: data.breastFeeding,
+      address: {
+        postalcode: data.postCode,
+        addressone: data.streetAddress,
+        addresstwo: data.streetAddress2,
+        city: data.city,
+        state: data.state,
+        // country: "country",
+      },
+
+      ethnicity: data.ethnicity,
+      universal_note: "",
+    };
+    try {
+      const response = await postSteps({
+        patientInfo: patientInfo,
+        pid: getPid,
+      }).unwrap();
+
+      if (response?.status === true) {
+        dispatch(setStep1(response?.lastConsultation?.fields?.patientInfo));
+
+        // toast.success(response?.message);
+        dispatch(nextStep());
+      } else {
+        toast.error("Invalid login response");
+      }
+    } catch (err) {
+      const errors = err?.data?.errors;
+      if (errors && typeof errors === "object") {
+        Object.keys(errors).forEach((key) => {
+          const errorMessage = errors[key];
+          Array.isArray(errorMessage)
+            ? errorMessage.forEach((msg) => toast.error(msg))
+            : toast.error(errorMessage);
+        });
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
+    }
+  };
+
+  // Date Check?????????????????????????????????????????/
+
+  const [dobError, setDobError] = useState("");
+
+  const today = dayjs();
+
+  const handleDateChange = (date) => {
+    if (!date) {
+      setDobError("Date of birth is required");
+      setValue("dateOfBirth", null);
+      return;
+    }
+
+    const age = today.diff(date, "year");
+
+    if (age < 18) {
+      setDobError("You must be at least 18 years old");
+      setValue("dateOfBirth", date);
+    } else {
+      setDobError("");
+      // const formattedDate = moment(date).format("DD-MM-YYYY");
+      setValue("dateOfBirth", date);
+    }
+  };
+
+  return (
+    <div className="max-w-[700px] mx-auto p-6 mb-32">
+      <div className="flex justify-center">
+        {/* <div className="flex items-center gap-3 mb-6">
+          <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
+            0{currentStep}
+          </span>
+          <h1 className="text-2xl md:text-4xl re-font tracking-[-2px] ">
+            Patient Information
+          </h1>
+        </div> */}
+
+
+        <div className="flex justify-center sm:mt-10 mt-0">
+          <div className="flex items-center gap-3 mb-6">
+            <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
+              0{currentStep}
+            </span>
+            <h1 className="text-2xl md:text-4xl re-font tracking-[-2px]">
+              Patient Information
+            </h1>
+          </div>
+        </div>
+      </div>
+
+      <h6 className="font-bold text-xl text-black my-6"> Personal Information </h6>
+
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3">
+        {/* First Name & Last Name */}
+        <div className="flex gap-4">
+          <TextField
+            label="First Name"
+            fullWidth
+            variant="standard"
+            value={watch("firstName") || ""}
+            {...register("firstName", { required: "First name is required" })}
+            error={!!errors.firstName}
+            helperText={errors.firstName?.message}
+          />
+          <TextField
+            label="Last Name"
+            variant="standard"
+            value={watch("lastName") || ""}
+            fullWidth
+            {...register("lastName", { required: "Last name is required" })}
+            error={!!errors.lastName}
+            helperText={errors.lastName?.message}
+          />
+        </div>
+        <div className="mb-3 sm:mb-0">
+          <p className="text-xs text-gray-500 font-medium">
+            Please enter your first and last name exactly as it appears on your ID.
+          </p>
+        </div>
+
+        {/* Phone Number */}
+
+        <Controller
+          name="phoneNumber"
+          control={control}
+          value={watch("phoneNumber") || ""}
+          rules={{ required: "Phone number is required" }}
+          render={({ field }) => (<>
+            <label htmlFor="" className="font-medium text-md text-gray-700">Phone Number</label>
+            <PhoneInput
+              country="gb"
+              placeholder="Enter your number"
+              inputStyle={{ width: "100%" }}
+              {...field}
+            />
+          </>
+          )}
+        />
+        {errors.phoneNumber && (
+          <label htmlFor="" className="text-red-500 text-sm">{errors.phoneNumber.message}</label>
+        )}
+
+        {/* Gender Selection */}
+        {/* <div className="sm:flex justify-between">
+          <div className="">
+            <p className="reg-font text-[#1C1C29]  my-2 text-md">
+              What is your gender?*
+            </p>
+          </div>
+          <div className="flex gap-4">
+            <label
+              className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${gender === "female"
+                ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                : "bg-white"
+                }`}
+            >
+              <input
+                type="radio"
+                value="female"
+                {...register("gender", {
+                  required: "",
+                })}
+                className="hidden"
+              />
+              <span>Female</span>
+              {gender === "female" && (
+                <span>
+                  <FaCheck className="ms-2" size={15} />
+                </span>
+              )}
+            </label>
+
+            <label
+              className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer  ${gender === "male"
+                ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                : "bg-white"
+                }`}
+            >
+              <input
+                type="radio"
+                value="male"
+                {...register("gender", {
+                  required: "",
+                })}
+                className="hidden"
+              />
+              <span>Male</span>
+              {gender === "male" && (
+                <span>
+                  <FaCheck className="ms-2" size={15} />
+                </span>
+              )}
+            </label>
+          </div>
+
+          {errors.gender && (
+            <p className="text-red-500">{errors.gender.message}</p>
+          )}
+        </div> */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-3 items-start">
+          {/* Gender Selection */}
+          <div className="my-4 sm:m-0">
+            <p className="font-medium text-md text-gray-700 sm:mb-6 mb-3">What is your gender?*</p>
+            <div className="flex gap-4">
+              <label
+                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "male"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                  : "rounded-lg shadow-md cursor-pointer bg-white"
+                  }`}
+              >
+                <input
+                  type="radio"
+                  value="male"
+                  {...register("gender", { required: "Gender is required" })}
+                  className="hidden"
+                />
+                <span>Male</span>
+                <FaCheck
+                  className={`ml-2 transition-opacity duration-300 ${gender === "male" ? "opacity-100" : "opacity-0"
+                    }`}
+                />
+              </label>
+
+              <label
+                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "female"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                  : "rounded-lg shadow-md cursor-pointer bg-white"
+                  }`}
+              >
+                <input
+                  type="radio"
+                  value="female"
+                  {...register("gender", { required: "Gender is required" })}
+                  className="hidden"
+                />
+                <span>Female</span>
+                <FaCheck
+                  className={`ml-2 transition-opacity duration-300 ${gender === "female" ? "opacity-100" : "opacity-0"
+                    }`}
+                />
+              </label>
+            </div>
+            {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
+          </div>
+          {/* Conditional Breastfeeding Question */}
+
+          {/* Date of Birth */}
+          <div className="block sm:hidden">
+            {gender === "female" && (
+              <div className="mb-2">
+                <p className="med-font text-[#3E3E3E] text-base mb-2">
+                  Are you breastfeeding or trying to get pregnant?*
+                </p>
+                <div className="flex gap-4">
+                  <label
+                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
+                      }`}
+                  >
+                    <input
+                      type="radio"
+                      value="Yes"
+                      {...register("breastFeeding", {
+                        required: "This field is required",
+                        validate: (value) => {
+                          if (value === "Yes") {
+                            setWarningMessage(`This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`);
+                          } else {
+                            setWarningMessage("");
+                          }
+                        },
+                      })}
+                      className="hidden"
+                    />
+                    <span>Yes</span>{" "}
+                    {breastFeeding === "Yes" && (
+                      <span>
+                        <FaCheck className="ms-2" size={15} />
+                      </span>
+                    )}
+                  </label>
+
+                  <label
+                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
+                      }`}
+                  >
+                    <input
+                      type="radio"
+                      value="No"
+                      {...register("breastFeeding", {
+                        required: "This field is required",
+                      })}
+                      className="hidden"
+                    />
+                    <span>No</span>
+
+                    {breastFeeding === "No" && (
+                      <span>
+                        <FaCheck className="ms-2" size={15} />
+                      </span>
+                    )}
+                  </label>
+                </div>
+                <p className="text-red-500 mt-4 text-sm">
+                  {WarningMessage?.length > 0 && WarningMessage}
+                </p>
+                {errors.breastFeeding && (
+                  <p className="text-red-500 mt-2 text-sm">
+                    {errors.breastFeeding.message}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+          <div>
+            <p className="font-medium text-md text-gray-700 sm:mb-6 mb-0">What is your date of birth?*</p>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+              <Controller
+                name="dateOfBirth"
+                control={control}
+                rules={{ required: "Date of birth is required" }}
+                render={({ field }) => (
+                  <DatePicker
+                    label=" "
+                    value={field.value ? dayjs(field.value) : null} // Convert ISO string to dayjs object
+                    onChange={(date) => handleDateChange(date)}
+                    maxDate={today}
+                    slotProps={{
+                      textField: {
+                        variant: "standard",
+                        fullWidth: true,
+                        error: !!dobError || !!errors.dateOfBirth,
+                        helperText: dobError || errors.dateOfBirth?.message,
+                      },
+                    }}
+                  />
+                )}
+              />
+            </LocalizationProvider>
+          </div>
+        </div>
+        <div className="hidden sm:block">
+          {gender === "female" && (
+            <div className="mb-2">
+              <p className="med-font text-[#3E3E3E] text-base mb-2">
+                Are you breastfeeding or trying to get pregnant?*
+              </p>
+              <div className="flex gap-4">
+                <label
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
+                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                    : "bg-white"
+                    }`}
+                >
+                  <input
+                    type="radio"
+                    value="Yes"
+                    {...register("breastFeeding", {
+                      required: "This field is required",
+                      validate: (value) => {
+                        if (value === "Yes") {
+                          setWarningMessage(`This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`);
+                        } else {
+                          setWarningMessage("");
+                        }
+                      },
+                    })}
+                    className="hidden"
+                  />
+                  <span>Yes</span>{" "}
+                  {breastFeeding === "Yes" && (
+                    <span>
+                      <FaCheck className="ms-2" size={15} />
+                    </span>
+                  )}
+                </label>
+
+                <label
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
+                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                    : "bg-white"
+                    }`}
+                >
+                  <input
+                    type="radio"
+                    value="No"
+                    {...register("breastFeeding", {
+                      required: "This field is required",
+                    })}
+                    className="hidden"
+                  />
+                  <span>No</span>
+
+                  {breastFeeding === "No" && (
+                    <span>
+                      <FaCheck className="ms-2" size={15} />
+                    </span>
+                  )}
+                </label>
+              </div>
+              <p className="text-red-500 mt-4 text-sm">
+                {WarningMessage?.length > 0 && WarningMessage}
+              </p>
+              {errors.breastFeeding && (
+                <p className="text-red-500 mt-2 text-sm">
+                  {errors.breastFeeding.message}
+                </p>
+              )}
+            </div>
+          )}
+        </div>
+
+
+        {/* Date of Birth */}
+        {/* <div>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Controller
+              name="dateOfBirth"
+              control={control}
+              rules={{ required: "Date of birth is required" }}
+              render={({ field }) => (
+                <DatePicker
+                  label="What is your date of birth?"
+                  value={field.value ? dayjs(field.value) : null} // Convert ISO string to dayjs object
+                  onChange={(date) => handleDateChange(date)}
+                  maxDate={today}
+                  slotProps={{
+                    textField: {
+                      variant: "standard",
+                      fullWidth: true,
+                      error: !!dobError || !!errors.dateOfBirth,
+                      helperText: dobError || errors.dateOfBirth?.message,
+                    },
+                  }}
+                />
+              )}
+            />
+          </LocalizationProvider>
+        </div> */}
+
+
+        <div className=" mt-3">
+          <h6 className="font-bold text-xl text-black">
+            Residential Address  </h6>
+          <p class="text-sm italic text-green-600  pt-1 pb-4">(Require for age verification purpose)</p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 sm:gap-4 gap-0">
+          <TextField
+            label="Postal Code"
+            variant="standard"
+            value={zipCode}
+            {...register("postCode", { required: "Postal Code is required" })}
+            error={!!errors.postCode || error} // Displays error state
+            helperText={errors.postCode?.message} // Shows error message
+            fullWidth
+            onChange={(e) => {
+              setZipCode(e.target.value); // Update zipCode state
+              setSearchClicked(false); // Reset search clicked
+            }}
+            InputProps={{
+              endAdornment: (
+                <>
+                  {zipCode && (
+                    <div className="relative -top-2">
+                      <button
+                        type="button"
+                        onClick={handleSearch}
+                        disabled={!zipCode.trim() || isLoading || error}
+                        className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                      >
+                        <span className="mr-2 text-sm">
+                          {isLoading ? "SEARCH..." : "SEARCH"}
+                        </span>
+                        <FaSearch
+                          className={`text-white ${isLoading ? "animate-spin" : ""}`}
+                        />
+                      </button>
+                    </div>
+                  )}
+                </>
+              ),
+            }}
+          />
+
+          <div className="mt-3 sm:mt-0">
+            {!error && searchClicked && addressOptions.length > 0 && (
+              <div className="">
+                <FormControl
+                  fullWidth
+                  variant="standard"
+                  error={!!errors.addressSelect}
+                >
+                  <InputLabel>Select Autofill</InputLabel>
+                  <Select
+                    {...register("addressSelect", {
+                      required: "Please select an address",
+                    })} // Validation for Select
+                    onChange={(e) => handleSelect(e.target.value, setValue)}
+                    defaultValue=""
+                  >
+                    {addressOptions.map((address, index) => (
+                      <MenuItem key={index} value={index}>
+                        {`${address.line_1}, ${address.town_or_city}`}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                  {errors.addressSelect && (
+                    <FormHelperText>
+                      {errors.addressSelect.message}
+                    </FormHelperText> // Display error message
+                  )}
+                </FormControl>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Address Dropdown - Show only after clicking Search */}
+
+        {/* Address Fields */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <TextField
+            label="Address Line 1"
+            variant="standard"
+            value={watch("streetAddress") || ""}
+            fullWidth
+            {...register("streetAddress", {
+              required: "Address Line 1 is required",
+            })}
+            error={!!errors.streetAddress}
+            helperText={errors.streetAddress?.message}
+          />
+          <TextField
+            label="Address Line 2"
+            variant="standard"
+            fullWidth
+            value={watch("streetAddress2") || ""}
+            {...register("streetAddress2")}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <TextField
+            label="City"
+            value={watch("city") || ""}
+            variant="standard"
+            fullWidth
+            {...register("city", { required: "City is required" })}
+            error={!!errors.city}
+            helperText={errors.city?.message}
+          />
+          <TextField
+            value={watch("state") || ""}
+            label="State / Province / Region"
+            variant="standard"
+            fullWidth
+            {...register("state")}
+          />
+        </div>
+
+        {/* Ethnicity Selection */}
+
+        <div>
+          <h6 className="font-bold text-xl text-black my-6">
+            Confirm Ethnicity for BMI
+
+          </h6>
+          <p className="font-med text-md text-gray pb-3">
+            People of certain ethnicities may be suitable for treatment at a lower BMI than others, if appropriate. Does one of the following options describe your ethnic group or background?
+
+
+          </p>
+          <ul className="list-disc ms-5 my-5">
+            <li className="my-1 font-reg text-gray-800">South Asian</li>
+            <li className="my-1 font-reg text-gray-800">Chinese</li>
+            <li className="my-1 font-reg text-gray-800">Other Asian</li>
+            <li className="my-1 font-reg text-gray-800"> Middle Eastern</li>
+            <li className="my-1 font-reg text-gray-800">Black African</li>
+            <li className="my-1 font-reg text-gray-800">African-Caribbean</li>
+
+          </ul>
+
+
+
+          <div className="flex flex-col gap-4">
+            {[
+              { value: "yes", label: "Yes" },
+              { value: "no", label: "No" },
+              { value: "prefer not to say", label: "Prefer not to say" },
+            ].map((option) => (
+              <label
+                key={option.value}
+                className={`flex items-center px-6 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value
+                  ? "bg-green-100 text-green-600 border-green-500 font-bold"
+                  : "bg-white text-gray-700 border-gray-300"
+                  }`}
+              >
+                <input
+                  type="radio"
+                  value={option.value}
+                  {...register("ethnicity", {
+                    required: "Ethnicity is required",
+                  })}
+                  className="hidden"
+                />
+                <span>{option.label}</span>
+                {selectedEthnicity === option.value && <FaCheck className="text-green-500 ml-auto" />}
+              </label>
+            ))}
+          </div>
+
+
+          {errors.ethnicity && (
+            <p className="text-red-500 mt-1">{errors.ethnicity.message}</p>
+          )}
+        </div>
+
+        {/* <div className="flex justify-end">
+          <div className="mt-4 sm:max-w-40">
+            <div className="text-center my-3">
+              <button
+                type="submit"
+                disabled={!isValid || !watch("ethnicity") || loader || error} // Check if ethnicity is filled
+                className={`rounded-md px-4 py-2 shadow-md text-white ${isValid && watch("ethnicity") && !loader
+                  ? "bg-[#4565BF] hover:bg-[#3a54a0] cursor-pointer"
+                  : "bg-gray-400 cursor-not-allowed"
+                  }`}
+              >
+                {loader ? "Loading..." : "Next"}
+              </button>
+            </div>
+          </div>
+        </div> */}
+
+        <div className="hidden  justify-end  sm:flex">
+          <div className="mt-4 sm:max-w-40">
+            <div className="text-center my-3">
+              <NextButton
+                disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
+                label={"Next"}
+                loading={loader}
+              />
+            </div>
+          </div>
+        </div>
+
+
+        <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
+          <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
+
+            <div className="relative flex w-full justify-end items-center">
+              <button
+                type="submit"
+                disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
+                className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage
+                  ? "disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] text-white rounded-md"
+                  : "text-white rounded-md bg-[#4565BF]"
+                  }`}
+              >
+                {loader ? (
+                  // Loading Spinner with Label
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span></span>
+                  </div>
+                ) : (
+                  <span className="text-md font-semibold px-6">
+                    Next
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+};
+
+export default Stepone;
