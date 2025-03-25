@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaCheck, FaMinus, FaPlus } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import ConfirmationModal from "../Modal/ConfirmationModal";
 import moment from "moment/moment";
+import { HiOutlineTrash } from "react-icons/hi";
 
 const Dose = ({
   id,
@@ -32,9 +33,9 @@ const Dose = ({
 
   const handleConfirmRemove = () => {
     if (!itemToRemove) return;
-  
+
     const removeitem = removeSeleted.filter((item) => item.id === itemToRemove.id);
-  
+
     if (removeitem.length > 0) {
       handleSelect(removeitem[0].e, removeitem[0].id);
       setRemoveSelected(removeSeleted.filter((item) => item.id !== itemToRemove.id));
@@ -45,11 +46,11 @@ const Dose = ({
         )
       );
     }
-  
+
     handleRemoveItem(itemToRemove.id, itemToRemove.id);
     setShowModal(false); // Close the modal
   };
-  
+
 
 
   const handleCancelRemove = () => {
@@ -84,96 +85,125 @@ const Dose = ({
 
   return (
     <>
-      <div
-        onClick={(e) => {
-          onClick(e);
-          handleSelected(e);
-        }}
-        className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer mb-3 transition-all duration-300 ease-in-out ${isSelected || doseData.isSelected
-          ? "border-blue-500 bg-blue-100 hover:bg-blue-200"
-          : "border-gray-300 bg-white hover:bg-gray-50"
-          }`}
-      >
-        <div className="flex items-center space-x-3">
-          <input
-            type="checkbox"
-            checked={isSelected}
-            onChange={handleSelected}
-            className="appearance-none w-5 h-5 border-2 border-gray-300 rounded-full bg-white checked:border-blue-500 checked:bg-blue-500 transition-all duration-300 cursor-pointer"
-          />
-          <span
-            className={`font-med text-sm sm:text-md lowercase ${isSelected || doseData.isSelected ? "text-blue-600" : "text-gray-800"
-              } text-lg`}
-          >
-            <span className="font-med text-sm sm:text-md capitalize">
+      <div className="flex flex-col items-center">
+        {/* Main Card */}
+        <div
+          onClick={(e) => {
+            onClick(e);
+            handleSelected(e);
+          }}
+          
+          className={`w-48 overflow-hidden variations pt-8 pb-3 px-2 relative bg-white text-center cursor-pointer rounded-tl-md rounded-tr-md duration-300 border-2
+          ${isSelected ? "border-violet-700" : "border-gray-300 hover:border-violet-700"}`}
+        >
+          {/* Radio Button in Top Left */}
+          <div className="absolute top-3 left-3">
+            <input
+              type="radio"
+              checked={isSelected}
+              onChange={handleSelected}
+              className="appearance-none w-5 h-5 border-2 border-gray-400 rounded-full checked:border-violet-700 checked:bg-violet-700 transition-all duration-300 cursor-pointer"
+            />
+          </div>
+          <div className="absolute top-3 left-3">
+            <div
+              onClick={handleSelected}
+              className={`w-5 h-5 border-2 border-gray-400 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300
+      ${isSelected ? "border-violet-700 bg-violet-700" : "bg-white"}`}
+            >
+              {isSelected && (
+                <FaCheck size={10} color="white" />
+              )}
+            </div>
+          </div>
+
+          {/* Product Name & Dosage */}
+          <div className="w-full flex flex-col gap-2 mt-4">
+            <div className="text-white bg-violet-700 font-reg text-center py-2 rounded-md text-xs">
               {productName}
-            </span>{" "}
-            <br />
-            <span className="font-bold text-sm sm:text-md lowercase ">
+            </div>
+            <div className="text-white bg-violet-700 font-reg text-center py-2 rounded-md text-xs">
               {doseData.name}
-            </span>
-            <br />
+            </div>
+          </div>
 
-
-            <h5 className="font-sm md:text-[12px] mt-3 text-red-600 capitalize">
-
-              {doseData?.expiry
-                ? `Expiry: ${moment(doseData?.expiry).format("DD/MM/YYYY")}`
-                : ""}
-            </h5>
-
-          </span>
-        </div>
-
-        <div className="flex items-center space-x-3">
-          <span
-            className={`font-med text-sm sm:text-md ${isSelected || doseData.isSelected ? "text-blue-600" : "text-gray-700"
-              } font-bold text-sm sm:text-md`}
-          >
+          {/* Price */}
+          <span className="font-bold text-md mt-2 block ">
             £{parseFloat(doseData.price).toFixed(2)}
           </span>
 
-          {isSelected && (
-            <div className="flex items-center space-x-1">
-              <button
-                type="button"
-                onClick={handleDecrement}
-                className="bg-gray-200 text-gray-700 hover:bg-gray-300 px-2 py-2 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              >
-                <FaMinus size={10} />
-              </button>
-              <span className="px-2 py-1 bg-white border border-gray-300 text-gray-700 text-sm font-semibold rounded-lg shadow-sm">
-                {doseData.qty}
-              </span>
-              <button
-                type="button"
-                onClick={handleIncrement}
-                className={`bg-gray-200 text-gray-700 hover:bg-gray-300 px-2 py-2 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ${totalSelectedQty >= allowed ? "cursor-not-allowed opacity-60" : ""
-                  }`}
-                disabled={totalSelectedQty >= allowed}
-              >
-                <FaPlus size={10} />
-              </button>
+          {/* Quantity Adjuster */}
 
-            </div>
-          )}
         </div>
-
         {isSelected && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleDeleteClick(doseData);
-            }}
-            className="bg-red-100 hover:bg-red-200 text-red-500 rounded-md p-2 ml-3"
-          >
-            <MdDelete />
-          </button>
+          <div className=" w-48 flex items-center justify-evenly bg-violet-700 py-2  rounded-bl-lg rounded-br-lg">
+            <button
+              type="button"
+              onClick={handleDecrement}
+              className=" text-white px-2 py-1 rounded-md transition-all duration-300"
+            >
+              <FaMinus size={12} />
+            </button>
+            <span className="mx-2 px-3 py-1 bg-white text-gray-900 text-sm font-semibold rounded-md">
+              {doseData.qty}
+            </span>
+            <button
+              type="button"
+              onClick={handleIncrement}
+              className={` text-white  px-2 py-1 rounded-md transition-all duration-300 ${totalSelectedQty >= allowed ? "cursor-not-allowed opacity-60" : ""
+                }`}
+              disabled={totalSelectedQty >= allowed}
+            >
+              <FaPlus size={12} />
+            </button>
+          </div>
         )}
-      </div>
+        {/* Remove Button (Only When Selected) */}
+        {/* {isSelected && (
+          <div className="flex justify-center">
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClick(doseData);
+              }}
+              className="bg-red-100 hover:bg-red-200 text-red-500 rounded-md px-3 py-1 mt-2 flex items-center"
+            >
+              <span
+              // onClick={(e) => handleStopModal(e, isVisible)} // Ensure modal closes
+
+              >
+                <HiOutlineTrash />{" "}
+                <span className="font-semibold text-sm px-1">
+                  Remove
+                </span>
+              </span>
+            </button>
+          </div>
+        )} */}
 
 
+        <div className="flex justify-center">
+          {isSelected && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDeleteClick(doseData);
+              }}
+              className="mt-2 px-2 py-2"
+            >
+              <span
+                className="inline-flex items-center justify-center px-2 py-0.5 ms-2 text-md text-red-600 cursor-pointer  shadow-sm bg-red-100 hover:bg-red-200 rounded dark:bg-gray-700 dark:text-gray-400"
+              >
+                <HiOutlineTrash />{" "}
+                <span className="font-semibold text-sm px-1">
+                  Remove
+                </span>
+              </span>
+            </button>
+          )}
+        </div> </div>
 
       <ConfirmationModal
         showModal={showModal}

@@ -11,7 +11,7 @@ const AddonList = () => {
     const dispatch = useDispatch();
     const [getPrev] = useGetPrevsMutation();
     const [removeSeleted, setRemoveSelected] = useState([]);
-    const clinic_id = 2;
+    const clinic_id = 1;
     const url = import.meta.env.VITE_BASE_URL;
 
     const [addons, setAddons] = useState([]);

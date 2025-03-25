@@ -25,7 +25,7 @@ const StepSeven = () => {
   const reorder_concent = JSON.parse(localStorage.getItem("reorder") || "false"); // ✅ Convert to Boolean
 
   const dispatch = useDispatch();
-  const { register, handleSubmit, clearErrors,setValue, formState: { isValid, errors } } = useForm({
+  const { register, handleSubmit, clearErrors, setValue, formState: { isValid, errors } } = useForm({
     mode: "onChange",
   }); const [getPrev] = useGetPrevsMutation();
   const [removeSeleted, setRemoveSelected] = useState([]);
@@ -33,7 +33,7 @@ const StepSeven = () => {
   const [removeSeletedAddon, setRemoveSelectedAddon] = useState([]);
   const stepProps = JSON.parse(localStorage.getItem("stepPrevApiData"));
 
-  const clinic_id = 2;
+  const clinic_id = 1;
   const url = import.meta.env.VITE_BASE_URL;
 
   const [addons, setAddons] = useState([]);
@@ -50,8 +50,8 @@ const StepSeven = () => {
       setIsExpiryRequired(true);
     } else {
       setIsExpiryRequired(false);
-      clearErrors("terms"); 
-      setValue("terms", false); 
+      clearErrors("terms");
+      setValue("terms", false);
     }
   }, [product?.show_expiry, clearErrors, setValue]);
   useEffect(() => {
@@ -700,20 +700,20 @@ const StepSeven = () => {
     //   </form>
     // </section>
 
-    <section className="bg-[#e9f6fa] flex items-center justify-center">
-      <div className="w-full max-w-screen-lg mx-auto sm:px-8 bg-[#e9f6fa] my-6 rounded-md">
-        <div className="flex justify-center">
-          <h1 className="text-2xl md:text-4xl text-center my-3">Suggested Treatment</h1>
+    <section className="bg-[#DACFFF] flex items-center justify-center p-5 xl:p-10">
+      <div className="w-full  bg-white my-6 rounded-xl">
+        <div className="flex justify-start">
+
         </div>
         <form onSubmit={handleSubmit(onSubmit)} >
 
           <div className="grid grid-cols-12 gap-4 px-4">
             {/* Left Column (Main Content) */}
-            <div className="col-span-12 sm:col-span-6 md:px-4 py-10">
+            <div className="col-span-12 sm:col-span-8 md:px-4 py-10">
 
 
               {/* Product Info */}
-              <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
+              {/* <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
                 <div className="bg-[#4565BF] p-6">
                   <img src={product?.img} alt={product?.name} className="w-full h-40 object-contain" />
                 </div>
@@ -721,38 +721,65 @@ const StepSeven = () => {
                   <h2 className="text-2xl mb-4">{product?.name}</h2>
                   <span className="text-gray-800">From £{product?.price}</span>
                 </div>
+              </div> */}
+
+              <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+                Suggested
+                <span className="font-bold">
+                  {" "}
+                  Treatment
+                </span>
+              </h1>
+              <div className="bg-gray-100 border border-gray-200 mt-4 flex flex-row items-center md:w-full rounded-lg shadow">
+                <img
+                  className="bg-white p-4 object-cover rounded-lg w-2/5 md:h-auto md:w-1/4 md:rounded-none md:rounded-s-lg"
+                  src={product.img}
+                  alt=""
+                />
+                <div className="flex flex-col justify-between p-4 leading-normal md:w-[65%]">
+                  <h5 className="mb-2 md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                    {product.name}
+                  </h5>
+                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">
+                    From £{product.price}
+                  </p>
+
+                </div>
               </div>
 
-              <h1 className="my-4 font-reg text-2xl">
-                Select <span className="font-bold text-2xl">Dosage</span>
-              </h1>
+              <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4">
+                Select
+                <span className="font-bold"> Dosage</span>
+              </h2>
+              <div className="grid grid-cols-2 w-full md:grid-cols-3 xl:grid-cols-4 gap-x-3 gap-y-5 md:w-full sm:w-[50%]">
+                {Array.isArray(variations) &&
+                  variations.map((dose, index) => (
+                    <Dose
+                      key={index}
+                      id={dose.id}
+                      index={index}
+                      onClick={() => handleVariationClick(dose.name, index)}
+                      doseData={dose || cart}
+                      allowed={parseInt(product?.allowed)}
+                      onIncrement={() => handleIncrementDose(index)}
+                      onDecrement={() => handleDecrementDose(index)}
+                      totalSelectedQty={getTotalSelectedQty()}
+                      isSelected={dose.qty > 0}
+                      productName={product?.name}
+                      onSelect={(e) => {
+                        setRemoveSelected((prevState) => [...prevState, { e, index }]);
+                        handleSelect(e, index);
+                      }}
+                      cart={cart}
+                      setVariations={setVariations}
+                      handleRemoveItem={handleRemoveItem}
+                      handleSelect={handleSelect}
+                      removeSeleted={removeSeleted}
+                      setRemoveSelected={setRemoveSelected}
+                    />
+                  ))}
 
-              {Array.isArray(variations) &&
-                variations.map((dose, index) => (
-                  <Dose
-                    key={index}
-                    id={dose.id}
-                    index={index}
-                    onClick={() => handleVariationClick(dose.name, index)}
-                    doseData={dose || cart}
-                    allowed={parseInt(product?.allowed)}
-                    onIncrement={() => handleIncrementDose(index)}
-                    onDecrement={() => handleDecrementDose(index)}
-                    totalSelectedQty={getTotalSelectedQty()}
-                    isSelected={dose.qty > 0}
-                    productName={product?.name}
-                    onSelect={(e) => {
-                      setRemoveSelected((prevState) => [...prevState, { e, index }]);
-                      handleSelect(e, index);
-                    }}
-                    cart={cart}
-                    setVariations={setVariations}
-                    handleRemoveItem={handleRemoveItem}
-                    handleSelect={handleSelect}
-                    removeSeleted={removeSeleted}
-                    setRemoveSelected={setRemoveSelected}
-                  />
-                ))}
+              </div>
               {console.log(product, "sdsdsdsd")}
               {product?.show_expiry === 1 && (
                 <div className="flex flex-col space-y-2 text-sm py-3">
@@ -795,36 +822,40 @@ const StepSeven = () => {
                 </div>
               )}
 
+              <div className="flex flex-col mt-4">
+                {addons?.length > 0 && (
+                  <>
+                    <h1 className="my-4 font-reg text-2xl">
+                      Select <span className="font-bold text-2xl">Addons</span>
+                    </h1>
 
-
-              {addons?.length > 0 && (
-                <>
-                  <h1 className="my-4 font-reg text-2xl">
-                    Select <span className="font-bold text-2xl">Addons</span>
-                  </h1>
-                  {addons.map((dose, index) => (
-                    <AddOn
-                      key={index}
-                      id={dose.id}
-                      doseData={dose}
-                      allowed={parseInt(5)}
-                      onIncrement={() => handleIncrementAddons(index)}
-                      onDecrement={() => handleDecrementAddons(index)}
-                      totalSelectedQty={getTotalSelectedQty()}
-                      isSelected={dose.qty > 0}
-                      onSelect={(e) => {
-                        setRemoveSelectedAddon((prevState) => [...prevState, { e, index }]);
-                        handleSelectAddon(e, index);
-                      }}
-                      setAddons={setAddons}
-                      handleRemoveItemAddon={handleRemoveItemAddon}
-                      handleSelectAddon={handleSelectAddon}
-                      removeSeletedAddon={removeSeletedAddon}
-                      setRemoveSelectedAddon={setRemoveSelectedAddon}
-                    />
-                  ))}
-                </>
-              )}
+                    {/* FLEX ROW TO SHOW IN ONE LINE */}
+                    <div className="flex flex-wrap gap-4">
+                      {addons.map((dose, index) => (
+                        <AddOn
+                          key={index}
+                          id={dose.id}
+                          doseData={dose}
+                          allowed={parseInt(5)}
+                          onIncrement={() => handleIncrementAddons(index)}
+                          onDecrement={() => handleDecrementAddons(index)}
+                          totalSelectedQty={getTotalSelectedQty()}
+                          isSelected={dose.qty > 0}
+                          onSelect={(e) => {
+                            setRemoveSelectedAddon((prevState) => [...prevState, { e, index }]);
+                            handleSelectAddon(e, index);
+                          }}
+                          setAddons={setAddons}
+                          handleRemoveItemAddon={handleRemoveItemAddon}
+                          handleSelectAddon={handleSelectAddon}
+                          removeSeletedAddon={removeSeletedAddon}
+                          setRemoveSelectedAddon={setRemoveSelectedAddon}
+                        />
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
 
               {/* Buttons */}
               <div className="sm:flex justify-between mt-6 hidden ">
@@ -834,38 +865,40 @@ const StepSeven = () => {
             </div>
 
             {/* Right Column (Order Summary) */}
-            <div className="col-span-12 sm:col-span-6">
-              <div className="bg-white mb-14 p-4 sm:p-2 rounded-lg shadow-md sm:fixed mt-0 sm:mt-[40px] w-full sm:w-96">
-                <h2 className="text-lg font-semibold mb-4 p-4">Order Summary</h2>
+            <div className="col-span-12 sm:col-span-4">
+              <div className="relative lg:sticky lg:top-56">
+                <div className="mx-auto md:mr-auto md:ml-0 w-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg
+        shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+                  <h2 className="text-lg font-semibold mb-4 p-4">Order Summary</h2>
 
-                <div className="overflow-y-auto max-h-56 p-2">
-                  <OrderSummary
-                    cart={cart}
-                    setVariations={setVariations}
-                    handleRemoveItem={handleRemoveItem}
-                    handleSelect={handleSelect}
-                    removeSeleted={removeSeleted}
-                    setRemoveSelected={setRemoveSelected}
-                  />
-                  <OrderSummaryAddons
-                    cart={addonCart?.addonCart}
-                    setAddons={setAddons}
-                    handleRemoveItem={handleRemoveItemAddon}
-                    handleSelect={handleSelectAddon}
-                    removeSeleted={removeSeletedAddon}
-                    setRemoveSelected={setRemoveSelectedAddon}
-                  />
-                </div>
+                  <div className="overflow-y-auto max-h-56 p-2">
+                    <OrderSummary
+                      cart={cart}
+                      setVariations={setVariations}
+                      handleRemoveItem={handleRemoveItem}
+                      handleSelect={handleSelect}
+                      removeSeleted={removeSeleted}
+                      setRemoveSelected={setRemoveSelected}
+                    />
+                    <OrderSummaryAddons
+                      cart={addonCart?.addonCart}
+                      setAddons={setAddons}
+                      handleRemoveItem={handleRemoveItemAddon}
+                      handleSelect={handleSelectAddon}
+                      removeSeleted={removeSeletedAddon}
+                      setRemoveSelected={setRemoveSelectedAddon}
+                    />
+                  </div>
 
-                {modalOpen && (
-                  <DosageCheckPopup text={ModalMessage} onHandleConfirmation={onHandleConfirmation} />
-                )}
+                  {modalOpen && (
+                    <DosageCheckPopup text={ModalMessage} onHandleConfirmation={onHandleConfirmation} />
+                  )}
 
-                <div className="flex justify-between items-center border-t border-gray-300 p-6 mt-4">
-                  <span className="font-medium text-gray-700">Total</span>
-                  <span className="font-semibold text-lg">£{calculateSubtotal()}</span>
-                </div>
-              </div>
+                  <div className="flex justify-between items-center border-t border-gray-300 p-6 mt-4">
+                    <span className="font-medium text-gray-700">Total</span>
+                    <span className="font-semibold text-lg">£{calculateSubtotal()}</span>
+                  </div>
+                </div></div>
 
 
 

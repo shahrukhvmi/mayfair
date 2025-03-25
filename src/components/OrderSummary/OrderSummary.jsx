@@ -72,7 +72,7 @@ const OrderSummary = ({
           cart.map((item, index) => (
             <React.Fragment key={item.id}>
               {/* Main Cart Item */}
-              <div className="flex justify-between items-center bg-blue-50 px-4 py-3 rounded-lg mb-3">
+              <div className="flex justify-between items-center bg-[#E8E1FC] px-4 py-3 rounded-lg mb-3">
                 <span className="text-black font-med text-sm flex-1 sm:truncate">
                   {item.product} {item.name}, {item.qty}x
                   <span className="font-bold mx-1 text-md">

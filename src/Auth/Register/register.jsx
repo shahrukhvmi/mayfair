@@ -27,7 +27,7 @@ const Register = () => {
     mode: "onChange",
   });
   const navigate = useNavigate();
-  const company_id = 2;
+  const company_id = 1;
 
   // Register Api here 👇👇
   const [registerPatient, { isLoading }] = useRegisterMutation();

@@ -87,7 +87,7 @@ const OrderSummaryAddons = ({
                     cart.map((item, index) => (
                         <div
                             key={item.id}
-                            className="flex justify-between items-center bg-blue-50 px-4 py-3 rounded-lg mb-3"
+                            className="flex justify-between items-center bg-[#E8E1FC] px-4 py-3 rounded-lg mb-3"
                         >
                             <span className="text-black font-med text-sm flex-1 sm:truncate">
                                 {item.name}, {item.qty}x

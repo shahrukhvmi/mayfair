@@ -72,7 +72,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   };
   // post pid or save preApiData 
   const [getPrev, { data, error, isLoading }] = useGetPrevsMutation();
-  const clinic_id = 2;
+  const clinic_id = 1;
   const url = import.meta.env.VITE_BASE_URL;
 
   const handleConfirm = async () => {

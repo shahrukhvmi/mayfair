@@ -220,13 +220,14 @@ const Stepone = () => {
         patientInfo: patientInfo,
         pid: getPid,
       }).unwrap();
-
+      console.log(response, "response")
       if (response?.status === true) {
         dispatch(setStep1(response?.lastConsultation?.fields?.patientInfo));
 
         // toast.success(response?.message);
         dispatch(nextStep());
       } else {
+        console.log(isError, "isError")
         toast.error("Invalid login response");
       }
     } catch (err) {

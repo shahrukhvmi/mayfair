@@ -70,6 +70,7 @@ const Stepeight = () => {
   // const [shipping, setShipping] = useState(null);
   // const [userInfo, setUserInfo] = useState(null);
   const [email, setEmail] = useState(null)
+  const [userProfile, setUserProfile] = useState(null)
   const [countryShippingPrice, setCountryShippingPrice] = useState(null);
   const [coutryPrice, setCountryPrice] = useState(null)
 
@@ -77,6 +78,8 @@ const Stepeight = () => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const user = JSON.parse(localStorage.getItem("user"));
     setEmail(user?.email);
+    setUserProfile(user)
+    console.log(user, "sdssd")
     if (!cart || cart.length === 0) {
       localStorage.setItem("currentStep", 7);
       localStorage.removeItem("addonCart")
@@ -217,7 +220,7 @@ const Stepeight = () => {
     } else {
       const patientData = storedPrev?.last_consultation_data?.fields?.patientInfo;
       setPatientInfo(patientData);
-      
+
     }
 
     // if (user) setUser(user);
@@ -519,27 +522,27 @@ const Stepeight = () => {
   const onSubmit = async (data) => {
 
     const checkout = {
-      firstName: patientInfo.firstName,
-      lastName: patientInfo.lastName,
+      firstName: patientInfo?.firstName || userProfile?.fname,
+      lastName: patientInfo?.lastName || userProfile?.lname,
       email: userInfo?.email || email,
-      phoneNo: patientInfo.phoneNo,
+      phoneNo: patientInfo?.phoneNo || userProfile?.phone,
       shipping: {
-        postalcode: data.postCode,
-        addressone: data.streetAddress,
-        addresstwo: data.streetAddress2,
-        city: data.city,
-        state: data.state,
-        country: data.country,
+        postalcode: data?.postCode,
+        addressone: data?.streetAddress,
+        addresstwo: data?.streetAddress2,
+        city: data?.city,
+        state: data?.state,
+        country: data?.country,
       },
       terms: true,
       sameAddress: isBillingSameAsShipping,
       billing: {
-        postalcode: data.billingPostalCode,
-        addressone: data.billingStreetAddress,
-        addresstwo: data.billingStreetAddress2,
-        city: data.billingCity,
-        state: data.billingState,
-        country: data.billingCountry || billingAddres?.country.name,
+        postalcode: data?.billingPostalCode,
+        addressone: data?.billingStreetAddress,
+        addresstwo: data?.billingStreetAddress2,
+        city: data?.billingCity,
+        state: data?.billingState,
+        country: data?.billingCountry || billingAddres?.country?.name,
       },
       discount: {
         code: discountCode,
@@ -566,7 +569,7 @@ const Stepeight = () => {
     try {
       const response = await postSteps({
         checkout: checkout,
-        patientInfo: patientInfo,
+        patientInfo: patientInfo || user,
         items: updatedDoses,
         addons: updatedAddons,
         pid: getPid,
@@ -589,7 +592,7 @@ const Stepeight = () => {
         localStorage.removeItem("discountAmount");
         // <PaymentPage paymentData={response?.paymentData} />
         setPaymentData(response?.paymentData);
-
+        console.log(response?.paymentData, "response?.paymentData")
         // navigate("/thank-you");
 
 

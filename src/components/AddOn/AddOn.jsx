@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { useSelector } from "react-redux";
 import ConfirmationModal from "../Modal/ConfirmationModal";
 
 const AddOn = ({
@@ -86,71 +84,66 @@ const AddOn = ({
 
   return (
     <>
-      <div
-        onClick={handleSelected}
-        checked={isSelected}
-        className={`flex items-center justify-between p-4 border rounded-lg cursor-pointer mb-3 transition-all duration-300 ease-in-out
-      ${isSelected || doseData.isSelected ? "border-blue-500 bg-blue-100 hover:bg-blue-200" : "border-gray-300 bg-white hover:bg-gray-50"}`}
-      >
-        <div className="flex items-center space-x-3">
-          <input
-            type="checkbox"
-            checked={isSelected}
+      <div className="flex flex-col items-center">
+        {/* Main Add-On Card */}
+        <div
+          onClick={onSelect}
+          className={`w-80 flex items-center justify-between p-6 border rounded-lg cursor-pointer transition-all duration-300 ease-in-out
+          ${isSelected ? "border-violet-700 bg-violet-300" : "border-gray-300 bg-white hover:border-violet-700"}`}
+        >
+          {/* Name & Price */}
+          <div className="flex items-center space-x-4">
+            <span className="text-sm font-bold">{doseData.name}</span>
+            <span className="text-md text-black font-bold">
+              £{parseFloat(doseData.price).toFixed(2)}
+            </span>
+          </div>
 
-            onChange={handleSelected}
-            className="appearance-none w-5 h-5 border-2 border-gray-300 rounded-full bg-white checked:border-blue-500 checked:bg-blue-500 transition-all duration-300 cursor-pointer"
-          />
-          <span className={`font-med text-sm sm:text-md capitalize ${isSelected || doseData.isSelected ? "text-blue-600" : "text-gray-800"} text-lg`}>
-            {doseData.name}
-          </span>
-        </div>
-
-        <div className="flex items-center space-x-3">
-          <span className={`font-bold text-sm sm:text-md ${isSelected || doseData.isSelected ? "text-blue-600" : "text-gray-700"} font-bold text-sm sm:text-md`}>
-            £{parseFloat(doseData.price).toFixed(2)}
-          </span>
-
-          {isSelected && (
-            <div className="flex items-center space-x-1">
-              <button
-                type="button"
-                onClick={handleDecrement}
-                className="bg-gray-200 text-gray-700 hover:bg-gray-300 px-2 py-2 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300"
-              >
-                <FaMinus size={10} />
-              </button>
-              <span className="px-2 py-1 bg-white border border-gray-300 text-gray-700 text-sm font-semibold rounded-lg shadow-sm">
-                {doseData.qty}
-              </span>
-              <button
-                type="button"
-                onClick={handleIncrement}
-                className={`bg-gray-200 text-gray-700 hover:bg-gray-300 px-2 py-2 rounded-full shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-300 ${totalSelectedQty >= allowed ? "cursor-not-allowed opacity-60" : ""}`}
-                disabled={totalSelectedQty >= allowed}
-              >
-                <FaPlus size={10} />
-
-              </button>
-            </div>
-          )}
-
-
-          {isSelected && (
+          {/* Quantity Controls */}
+          <div className="flex items-center space-x-2">
             <button
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                handleDeleteClick(doseData);
+                onDecrement(id);
               }}
-              className="bg-red-100 hover:bg-red-200 text-red-500 rounded-md p-2 ml-3"
+              className="bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-all duration-200"
+              disabled={!isSelected || doseData.qty <= 0}
             >
-              <MdDelete />
+              <FaMinus className="text-sm" />
             </button>
-          )}
 
+            <span className="text-sm font-semibold">{doseData.qty}</span>
+
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onIncrement(id);
+              }}
+              className={`bg-gray-200 p-2 rounded-full hover:bg-gray-300 transition-all duration-200 ${totalSelectedQty >= allowed ? "cursor-not-allowed opacity-60" : ""
+                }`}
+              disabled={totalSelectedQty >= allowed}
+            >
+              <FaPlus className="text-sm" />
+            </button>
+          </div>
         </div>
-      </div>
 
+        {/* Remove Button (Only When Selected) */}
+        {isSelected && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect(e);
+            }}
+            className="mt-2 bg-red-100 hover:bg-red-200 text-red-500 rounded-md px-3 py-1 flex items-center gap-1"
+          >
+         
+            <span className="font-semibold text-sm">Remove</span>
+          </button>
+        )}
+      </div>
       <ConfirmationModal
         showModal={showModal}
         onConfirm={handleConfirmRemove}

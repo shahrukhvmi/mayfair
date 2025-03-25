@@ -19,7 +19,7 @@ import { AuthContext } from "../AuthContext";
 const Login = () => {
   const { islogin } = useContext(AuthContext);
 
-  const company_id = 2;
+  const company_id = 1;
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
   const [login, { isLoading, error }] = useLoginMutation();

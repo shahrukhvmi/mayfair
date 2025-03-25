@@ -29,7 +29,7 @@ export const stepApi = createApi({
         // Mutation for posting step data
         postSteps: builder.mutation({
             query: (data) => ({
-                url: "api/order/consultation",
+                url: "api/order/consultationMayfair",
                 method: "POST", 
                 body: data,
             }),
