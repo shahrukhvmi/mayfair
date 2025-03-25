@@ -33,7 +33,7 @@ const Steps = () => {
       case 6:
         return <Stepsix />;
       case 7:
-        return <Stepseven />;
+        return <Stepseven setHideSidebar={setHideSidebar} />;
       case 8:
         return <Stepeight />;
       case 9:

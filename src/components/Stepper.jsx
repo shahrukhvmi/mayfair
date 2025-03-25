@@ -10,7 +10,7 @@ export default function Stepper() {
     //     display: animatedProgress === 100 ? "hidden" : "", // Set height to 0 when animatedProgress is 100
     //   }}
     >
-      <div className="stepper | flex gap-4 hidden">
+      <div className="stepper |  gap-4 hidden">
         <div className="stepper-item | flex text-sm transition-colors duration-700">
           Step 1
         </div>

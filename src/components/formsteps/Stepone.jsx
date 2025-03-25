@@ -24,7 +24,7 @@ import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
 import { BorderBottom, LineWeight } from "@mui/icons-material";
-const Stepone = () => {
+const Stepone = ({setHideSidebar}) => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
