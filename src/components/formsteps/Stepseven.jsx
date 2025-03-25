@@ -782,7 +782,7 @@ const StepSeven = () => {
               </div>
               {console.log(product, "sdsdsdsd")}
               {product?.show_expiry === 1 && (
-                <div className="flex flex-col space-y-2 text-sm py-3">
+                <div className="flex flex-col space-y-2 text-sm py-3 mt-6">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -795,8 +795,8 @@ const StepSeven = () => {
                           <span className="w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />
                         }
                         checkedIcon={
-                          <span className="w-5 h-5 border-2 border-[#4565BF] rounded-full flex items-center justify-center">
-                            <span className="w-2.5 h-2.5 bg-[#4565BF] rounded-full" />
+                          <span className="w-5 h-5 border-2 border-violet-700 rounded-full flex items-center justify-center">
+                            <span className="w-2.5 h-2.5 bg-violet-700 rounded-full" />
                           </span>
                         }
                         sx={{
@@ -807,7 +807,7 @@ const StepSeven = () => {
                       />
                     }
                     label={
-                      <p className="font-sans font-bold text-sm italic">
+                      <p className="font-sans font-bold text-md italic">
                         Please confirm that you have reviewed the expiry dates of the selected doses.
                       </p>
                     }
@@ -825,9 +825,9 @@ const StepSeven = () => {
               <div className="flex flex-col mt-4">
                 {addons?.length > 0 && (
                   <>
-                    <h1 className="my-4 font-reg text-2xl">
+                    <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4">
                       Select <span className="font-bold text-2xl">Addons</span>
-                    </h1>
+                    </h2>
 
                     {/* FLEX ROW TO SHOW IN ONE LINE */}
                     <div className="flex flex-wrap gap-4">

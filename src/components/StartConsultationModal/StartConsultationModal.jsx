@@ -34,7 +34,7 @@ const StartConsultationModal = ({ text, loading, closeModel, onHandleConfirm }) 
         sessionStorage.setItem("ischecked", checked);
         localStorage.setItem("reorder", false);
     };
-  
+
 
     return (
         <div
@@ -85,7 +85,7 @@ const StartConsultationModal = ({ text, loading, closeModel, onHandleConfirm }) 
                             className="px-6 py-2 disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-[#4565BF] focus:bg-bg-[#4565BF] active:bg-[#4565BF] focus:outline-none focus:ring-2 focus:ring-[#4565BF] focus:ring-offset-2 transition ease-in-out duration-150"
                             type="submit"
                             onClick={onHandleConfirm}
-                            disabled={!abilityState || !isChecked || loading}
+                            disabled={!abilityState || !PurchasingYourself || !isChecked || loading}
                         >
                             {loading ? (
                                 <div className="relative">

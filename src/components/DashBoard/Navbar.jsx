@@ -85,7 +85,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
   };
 
   return (
-    <div className="bg-white shadow-md p-4 flex items-center justify-between relative">
+    <div className="bg-white shadow-md px-4 sm:px-6 lg:px-6 flex items-center justify-between relative">
       {/* Hamburger Button (only visible on mobile) */}
       <button
         onClick={toggleSidebar}
@@ -95,9 +95,9 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
       </button>
 
       {/* Logo */}
-      <div className="w-32 sm:w-52">
+      <div className="w-32 sm:w-40">
         <Link to="/">
-          <img src="/logo.png" className="w-32 sm:w-52" alt="Logo" />
+          <img src="/logo.svg" className="w-32 sm:w-40" alt="Logo" />
         </Link>
       </div>
 
@@ -111,7 +111,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
 
 
           <img
-            src="/images/admin.png"
+            src="/images/user.png"
             alt="User Avatar"
             className="w-10 h-10 rounded-full"
           />

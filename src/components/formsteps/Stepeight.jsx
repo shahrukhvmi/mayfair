@@ -13,7 +13,7 @@ import {
   IconButton,
 } from "@mui/material";
 import "../../../src/fonts.css";
-import { FaSearch, FaEdit } from "react-icons/fa";
+import { FaSearch, FaEdit, FaCheck } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { nextStep, prevStep, triggerStep } from "../../store/slice/stepper";
 import { useNavigate } from "react-router-dom";
@@ -626,8 +626,8 @@ const Stepeight = () => {
 
         : (<>
 
-          <section className="bg-[#e6effc] sm:p-6">
-            <div className="">
+          <section className="bg-violet-100 sm:p-6">
+            <div className="bg-white rounded-lg">
 
               <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-screen-2xl mx-auto">
                 <div className="grid grid-cols-12 gap-4 px-4">
@@ -641,467 +641,489 @@ const Stepeight = () => {
                       </h1>
 
                       {/* Shipping Information */}
-                      <Box className="bg-white p-6 rounded-lg shadow-md mb-8">
-                        <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">
-                          Shipping Information
-                        </h6>
-                        <Box className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <TextField
-                            label="First Name"
-                            variant="standard"
-                            value={watch("firstName") || ""}
-                            fullWidth
-                            {...register("firstName", {
-                              required: "First Name is required",
-                            })}
-                            error={!!errors.firstName}
-                            helperText={errors.firstName?.message}
-                          />
-                          <TextField
-                            label="Last Name"
-                            variant="standard"
-                            value={watch("lastName") || ""}
-                            fullWidth
-                            {...register("lastName", {
-                              required: "Last Name is required",
-                            })}
-                            error={!!errors.lastName}
-                            helperText={errors.lastName?.message}
-                          />
-                        </Box>
-                        <Box className="flex sm:grid sm:grid-flow-row my-4">
-                          <FormControl variant="standard" fullWidth error={!!errors.country}>
-                            <InputLabel>Country</InputLabel>
-                            <Select
-                              {...register("country", {
-                                required: "Country is required",
+                      <Box className="bg-[#F9FAFB] rounded-lg border mb-8">
+                        <div class="bg-gray-100 flex py-2 px-5 items-center gap-2">
+                          <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">01</div>
+                          <h2 class="text-left font-medium text-gray-900 py-3">Shipping Address</h2></div>
+
+                        <div className="p-6">
+                          <Box className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+                            <TextField
+                              label="First Name"
+                              variant="standard"
+                              value={watch("firstName") || ""}
+                              fullWidth
+                              {...register("firstName", {
+                                required: "First Name is required",
                               })}
-                              value={watch("country")} // Bind the current country value
+                              error={!!errors.firstName}
+                              helperText={errors.firstName?.message}
+                            />
+                            <TextField
+                              label="Last Name"
+                              variant="standard"
+                              value={watch("lastName") || ""}
+                              fullWidth
+                              {...register("lastName", {
+                                required: "Last Name is required",
+                              })}
+                              error={!!errors.lastName}
+                              helperText={errors.lastName?.message}
+                            />
+                          </Box>
+                          <Box className="flex sm:grid sm:grid-flow-row my-4">
+                            <FormControl variant="standard" fullWidth error={!!errors.country}>
+                              <InputLabel>Country</InputLabel>
+                              <Select
+                                {...register("country", {
+                                  required: "Country is required",
+                                })}
+                                value={watch("country")} // Bind the current country value
+                                onChange={(e) => {
+                                  const selectedCountry = ShipmentCountry.find(
+                                    (country) => country.name === e.target.value
+                                  );
+                                  handleCountryChange(selectedCountry);
+                                }}
+                              >
+                                {ShipmentCountry?.map((country, index) => (
+                                  <MenuItem key={index} value={country?.name} >
+                                    {country?.name}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+
+                              {/* Display error message */}
+                              {errors.country && (
+                                <Typography variant="body2" color="error" className="mt-1">
+                                  {errors.country.message}
+                                </Typography>
+                              )}
+                            </FormControl>
+                          </Box>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <TextField
+                              label="Postal Code"
+                              // value={watch("postCode") || zipCode}
+                              value={zipCode}
+                              variant="standard"
+                              fullWidth
+                              {...register("postCode", {
+                                required: "Postal Code is required",
+                              })}
+                              error={!!errors.postCode || !!error}
+                              helperText={errors.postCode?.message || error?.message}
+                              // value={zipCode}
                               onChange={(e) => {
-                                const selectedCountry = ShipmentCountry.find(
-                                  (country) => country.name === e.target.value
-                                );
-                                handleCountryChange(selectedCountry);
+                                setZipCode(e.target.value);
+                                setSearchClicked(false);
                               }}
-                            >
-                              {ShipmentCountry?.map((country, index) => (
-                                <MenuItem key={index} value={country?.name} >
-                                  {country?.name}
-                                </MenuItem>
-                              ))}
-                            </Select>
+                              InputProps={{
+                                endAdornment: (
+                                  <>
+                                    {zipCode && (
+                                      <div className="relative -top-2">
+                                        <button
+                                          type="button"
+                                          onClick={handleSearch}
+                                          disabled={!zipCode.trim() || isLoading || error}
+                                          className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                                        >
+                                          {/* Search Text */}
+                                          <FaSearch
+                                            className={`text-white ${isLoading ? "animate-spin" : ""
+                                              }`}
+                                          />
+                                          <span className="mr-2 text-sm ">
+                                            {" "}
 
-                            {/* Display error message */}
-                            {errors.country && (
-                              <Typography variant="body2" color="error" className="mt-1">
-                                {errors.country.message}
-                              </Typography>
-                            )}
-                          </FormControl>
-                        </Box>
+                                            {isLoading ? "SEARCH..." : "SEARCH"}{" "}
+                                          </span>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <TextField
-                            label="Postal Code"
-                            // value={watch("postCode") || zipCode}
-                            value={zipCode}
-                            variant="standard"
-                            fullWidth
-                            {...register("postCode", {
-                              required: "Postal Code is required",
-                            })}
-                            error={!!errors.postCode || !!error}
-                            helperText={errors.postCode?.message || error?.message}
-                            // value={zipCode}
-                            onChange={(e) => {
-                              setZipCode(e.target.value);
-                              setSearchClicked(false);
-                            }}
-                            InputProps={{
-                              endAdornment: (
-                                <>
-                                  {zipCode && (
-                                    <div className="relative -top-2">
-                                      <button
-                                        type="button"
-                                        onClick={handleSearch}
-                                        disabled={!zipCode.trim() || isLoading || error}
-                                        className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
-                                      >
-                                        {/* Search Text */}
-                                        <span className="mr-2 text-sm ">
-                                          {" "}
-                                          {isLoading ? "SEARCH..." : "SEARCH"}{" "}
-                                        </span>
-                                        <FaSearch
-                                          className={`text-white ${isLoading ? "animate-spin" : ""
-                                            }`}
-                                        />
-                                      </button>
-                                    </div>
-                                  )}
-                                </>
-                              ),
-                            }}
-                          />
+                                        </button>
+                                      </div>
+                                    )}
+                                  </>
+                                ),
+                              }}
+                            />
 
-                          <div className="">
-                            {!error && searchClicked && addressOptions.length > 0 && (
-                              <div className="">
-                                <FormControl
-                                  fullWidth
-                                  variant="standard"
-                                  error={!!errors.addressSelect}
-                                >
-                                  <InputLabel>Select Autofill</InputLabel>
-                                  <Select
-                                    {...register("addressSelect", {
-                                      required: "Please select an address",
-                                    })} // Validation for Select
-                                    onChange={(e) =>
-                                      handleSelect(e.target.value, setValue)
-                                    } // Use selected index for `handleSelect`
-                                    defaultValue=""
+                            <div className="">
+                              {!error && searchClicked && addressOptions.length > 0 && (
+                                <div className="">
+                                  <FormControl
+                                    fullWidth
+                                    variant="standard"
+                                    error={!!errors.addressSelect}
                                   >
-                                    {addressOptions.map((address, index) => (
-                                      <MenuItem key={index} value={index}>
-                                        {`${address.line_1}, ${address.town_or_city}`}
-                                      </MenuItem>
-                                    ))}
-                                  </Select>
-                                  {errors.addressSelect && (
-                                    <FormHelperText>
-                                      {errors.addressSelect.message}
-                                    </FormHelperText> // Display error message
-                                  )}
-                                </FormControl>
-                              </div>
-                            )}
+                                    <InputLabel>Select Autofill</InputLabel>
+                                    <Select
+                                      {...register("addressSelect", {
+                                        required: "Please select an address",
+                                      })} // Validation for Select
+                                      onChange={(e) =>
+                                        handleSelect(e.target.value, setValue)
+                                      } // Use selected index for `handleSelect`
+                                      defaultValue=""
+                                    >
+                                      {addressOptions.map((address, index) => (
+                                        <MenuItem key={index} value={index}>
+                                          {`${address.line_1}, ${address.town_or_city}`}
+                                        </MenuItem>
+                                      ))}
+                                    </Select>
+                                    {errors.addressSelect && (
+                                      <FormHelperText>
+                                        {errors.addressSelect.message}
+                                      </FormHelperText> // Display error message
+                                    )}
+                                  </FormControl>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Address Fields */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <TextField
+                              label="Address Line 1"
+                              variant="standard"
+                              value={watch("streetAddress") || ""}
+                              fullWidth
+                              {...register("streetAddress", {
+                                required: "Address Line 1 is required",
+                              })}
+                              error={!!errors.streetAddress}
+                              helperText={errors.streetAddress?.message}
+                            />
+                            <TextField
+                              label="Address Line 2"
+                              variant="standard"
+                              fullWidth
+                              value={watch("streetAddress2") || ""}
+                              {...register("streetAddress2")}
+                            />
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                            <TextField
+                              label="City"
+                              value={watch("city") || ""}
+                              variant="standard"
+                              fullWidth
+                              {...register("city", { required: "City is required" })}
+                              error={!!errors.city}
+                              helperText={errors.city?.message}
+                            />
+                            <TextField
+                              value={watch("state") || ""}
+                              label="State / Province / Region"
+                              variant="standard"
+                              fullWidth
+                              {...register("state")}
+                            />
+                          </div>
+
+                          <div className="pt-3  sm:mt-4 mt-5">
+                            <FormControlLabel
+                              control={
+                                <Checkbox
+                                  checked={isBillingSameAsShipping}
+                                  onChange={handleBillingCheckbox}
+                                  icon={
+                                    <span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />
+                                  }
+                                  checkedIcon={
+                                    <span className="w-5 h-5 border-2 border-[#6D28D9] bg-[#6D28D9] rounded-full flex items-center justify-center">
+                                      <FaCheck size={10} className="text-white text-xs" /> {/* Check Icon */}
+                                    </span>
+                                  }
+                                  sx={{
+                                    "& .MuiSvgIcon-root": {
+                                      display: "none", // Hide the default Material-UI checkbox icon
+                                    },
+                                  }}
+                                />
+                              }
+
+
+                              label={
+                                <p className="font-sans font-reg text-gray-600 text-sm  capitalize ">
+                                  Make billing address same as shipping
+                                </p>
+                              }
+                            />
+
                           </div>
                         </div>
 
-                        {/* Address Fields */}
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <TextField
-                            label="Address Line 1"
-                            variant="standard"
-                            value={watch("streetAddress") || ""}
-                            fullWidth
-                            {...register("streetAddress", {
-                              required: "Address Line 1 is required",
-                            })}
-                            error={!!errors.streetAddress}
-                            helperText={errors.streetAddress?.message}
-                          />
-                          <TextField
-                            label="Address Line 2"
-                            variant="standard"
-                            fullWidth
-                            value={watch("streetAddress2") || ""}
-                            {...register("streetAddress2")}
-                          />
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                          <TextField
-                            label="City"
-                            value={watch("city") || ""}
-                            variant="standard"
-                            fullWidth
-                            {...register("city", { required: "City is required" })}
-                            error={!!errors.city}
-                            helperText={errors.city?.message}
-                          />
-                          <TextField
-                            value={watch("state") || ""}
-                            label="State / Province / Region"
-                            variant="standard"
-                            fullWidth
-                            {...register("state")}
-                          />
-                        </div>
-
-                        <div className="pt-3  sm:mt-4 mt-5">
-                          <FormControlLabel
-                            control={
-                              <Checkbox
-                                checked={isBillingSameAsShipping}
-                                onChange={handleBillingCheckbox}
-                                icon={
-                                  <span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />
-                                }
-                                checkedIcon={
-                                  <span className="w-5 h-5 border-2 border-[#4565BF] rounded-full flex items-center justify-center">
-                                    <span className="w-2.5 h-2.5 bg-[#4565BF] rounded-full" />
-                                  </span>
-                                }
-                                sx={{
-                                  "& .MuiSvgIcon-root": {
-                                    display: "none", // Hide the default Material-UI checkbox icon
-                                  },
-                                }}
-                              />
-                            }
-                            label={
-                              <p className="font-sans font-bold italic text-md  capitalize ">
-                                Make billing address same as shipping
-                              </p>
-                            }
-                          />
-                        </div>
                       </Box>
 
                       {/* Billing Information */}
                       {!isBillingSameAsShipping && (
-                        <Box className="bg-white p-8 pb-12 rounded-lg shadow-md mb-8">
+                        <Box className="bg-[#f9fafb] pb-12 rounded-lg border mb-8">
                           <>
-                            <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">
-                              Billing Information
-                            </h6>
+
+
+                            <div class="bg-gray-100 flex py-2 px-5 items-center gap-2">
+                              <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">
+                                02</div>
+                              <h2 class="text-left font-medium text-gray-900 py-3">
+                                Billing Information</h2>
+                            </div>
 
                             {!isBillingSameAsShipping && (
-                              <Box>
-                                <Box className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                  <TextField
-                                    label="First Name"
-                                    variant="standard"
-                                    fullWidth
-                                    value={watch("billingFirstName") || ""}
-                                    {...register("billingFirstName", {
-                                      required:
-                                        !isBillingSameAsShipping &&
-                                        "First Name is required",
-                                    })}
-                                    error={!!errors.billingFirstName}
-                                    helperText={errors.billingFirstName?.message}
-                                  />
-                                  <TextField
-                                    label="Last Name"
-                                    value={watch("billingLastName") || ""}
-                                    variant="standard"
-                                    fullWidth
-                                    {...register("billingLastName", {
-                                      required:
-                                        !isBillingSameAsShipping &&
-                                        "Last Name is required",
-                                    })}
-                                    error={!!errors.billingLastName}
-                                    helperText={errors.billingLastName?.message}
-                                  />
-                                </Box>
-                                <Box className="flex sm:grid sm:grid-flow-row mt-6">
-                                  <FormControl variant="standard" fullWidth>
-                                    <InputLabel>Country Billing</InputLabel>
-                                    <Select
-                                      value={watch("billingCountry") || ""} // Use the billingCountry value from the form state
-                                      onChange={(e) => {
-                                        const selectedValue = e.target.value;
-                                        setValue("billingCountry", selectedValue); // Update the form state
-                                        const selectedIndex = BillingCountrys.findIndex(
-                                          (country) => country.name === selectedValue
-                                        );
-                                        if (selectedIndex !== -1) {
-                                          handleSelectChange(BillingCountrys[selectedIndex], selectedIndex);
-                                        }
-                                      }}
-                                    >
-                                      {BillingCountrys.map((country, index) => (
-                                        <MenuItem key={index} value={country.name}>
-                                          {country.name}
-                                        </MenuItem>
-                                      ))}
-                                    </Select>
-                                  </FormControl>
-                                </Box>
-
-
-                                <Box className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 w-full">
-                                  {selectedStates ? (
-                                    <>
-                                      <TextField
-                                        label="Postal Code"
-                                        value={zipCodeBill}
-                                        variant="standard"
-                                        fullWidth
-                                        disabled={!selectedStates}
-                                        {...register("billingPostalCode", {
-                                          required: "Postal Code is required",
-                                        })}
-                                        error={!!errors.billingPostalCode || !!errorBill}
-                                        helperText={
-                                          errors.billingPostalCode?.message || errorBill?.message
-                                        }
+                              <div className="p-8">
+                                <Box>
+                                  <Box className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+                                    <TextField
+                                      label="First Name"
+                                      variant="standard"
+                                      fullWidth
+                                      value={watch("billingFirstName") || ""}
+                                      {...register("billingFirstName", {
+                                        required:
+                                          !isBillingSameAsShipping &&
+                                          "First Name is required",
+                                      })}
+                                      error={!!errors.billingFirstName}
+                                      helperText={errors.billingFirstName?.message}
+                                    />
+                                    <TextField
+                                      label="Last Name"
+                                      value={watch("billingLastName") || ""}
+                                      variant="standard"
+                                      fullWidth
+                                      {...register("billingLastName", {
+                                        required:
+                                          !isBillingSameAsShipping &&
+                                          "Last Name is required",
+                                      })}
+                                      error={!!errors.billingLastName}
+                                      helperText={errors.billingLastName?.message}
+                                    />
+                                  </Box>
+                                  <Box className="flex sm:grid sm:grid-flow-row mt-6">
+                                    <FormControl variant="standard" fullWidth>
+                                      <InputLabel>Country Billing</InputLabel>
+                                      <Select
+                                        value={watch("billingCountry") || ""} // Use the billingCountry value from the form state
                                         onChange={(e) => {
-                                          setZipCodeBill(e.target.value);
-                                          setSearchClickedBill(false);
+                                          const selectedValue = e.target.value;
+                                          setValue("billingCountry", selectedValue); // Update the form state
+                                          const selectedIndex = BillingCountrys.findIndex(
+                                            (country) => country.name === selectedValue
+                                          );
+                                          if (selectedIndex !== -1) {
+                                            handleSelectChange(BillingCountrys[selectedIndex], selectedIndex);
+                                          }
                                         }}
-                                        InputProps={{
-                                          className: `${!selectedStates ? "cursor-not-allowed" : ""}`,
-                                          endAdornment: (
-                                            <>
-                                              {zipCodeBill && (
-                                                <div className="relative -top-2">
-                                                  <button
-                                                    type="button"
-                                                    onClick={handleSearchBilling}
-                                                    disabled={
-                                                      !zipCodeBill.trim() ||
-                                                      load ||
-                                                      errorBill ||
-                                                      !selectedStates
-                                                    }
-                                                    className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
-                                                  >
-                                                    <span className="mr-2 text-sm">
-                                                      {load ? "SEARCH..." : "SEARCH"}
-                                                    </span>
-                                                    <FaSearch
-                                                      className={`${`text-white ${load ? "animate-spin" : ""
-                                                        }`}`}
-                                                    />
-                                                  </button>
-                                                </div>
-                                              )}
-                                            </>
-                                          ),
-                                        }}
-                                      />
+                                      >
+                                        {BillingCountrys.map((country, index) => (
+                                          <MenuItem key={index} value={country.name}>
+                                            {country.name}
+                                          </MenuItem>
+                                        ))}
+                                      </Select>
+                                    </FormControl>
+                                  </Box>
 
-                                      {searchClickedBill && (
-                                        <>
-                                          {!error &&
-                                            searchClickedBill &&
-                                            addressOptionsBilling.length > 0 && (
-                                              <div className="w-full">
-                                                <FormControl
-                                                  fullWidth
-                                                  className={`${!selectedStates ? "cursor-not-allowed" : ""}`}
-                                                  disabled={!selectedStates}
-                                                  variant="standard"
-                                                  error={!!errors.addressSelect}
-                                                >
-                                                  <InputLabel>Select Autofill</InputLabel>
-                                                  <Select
-                                                    {...register("addressSelect", {
-                                                      required: "Please select an address",
-                                                    })}
-                                                    onChange={(e) =>
-                                                      handleSelectBilling(e.target.value, setValue)
-                                                    }
-                                                    defaultValue=""
-                                                  >
-                                                    {addressOptionsBilling.map((address, index) => (
-                                                      <MenuItem key={index} value={index}>
-                                                        {`${address.line_1}, ${address.town_or_city}`}
-                                                      </MenuItem>
-                                                    ))}
-                                                  </Select>
-                                                  {errors.addressSelect && (
-                                                    <FormHelperText>
-                                                      {errors.addressSelect.message}
-                                                    </FormHelperText>
-                                                  )}
-                                                </FormControl>
-                                              </div>
-                                            )}
-                                        </>
-                                      )}
-                                    </>
-                                  ) : (
-                                    <>
-                                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+                                  <Box className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 w-full">
+                                    {selectedStates ? (
+                                      <>
                                         <TextField
                                           label="Postal Code"
-                                          value={watch("billingPostalCode") || ""}
+                                          value={zipCodeBill}
                                           variant="standard"
                                           fullWidth
-                                          error={!!errorBill || !!errors.billingPostalCode}
-                                          helperText={
-                                            errorBill?.message || errors.billingPostalCode?.message
-                                          }
+                                          disabled={!selectedStates}
                                           {...register("billingPostalCode", {
                                             required: "Postal Code is required",
                                           })}
+                                          error={!!errors.billingPostalCode || !!errorBill}
+                                          helperText={
+                                            errors.billingPostalCode?.message || errorBill?.message
+                                          }
+                                          onChange={(e) => {
+                                            setZipCodeBill(e.target.value);
+                                            setSearchClickedBill(false);
+                                          }}
+                                          InputProps={{
+                                            className: `${!selectedStates ? "cursor-not-allowed" : ""}`,
+                                            endAdornment: (
+                                              <>
+                                                {zipCodeBill && (
+                                                  <div className="relative -top-2">
+                                                    <button
+                                                      type="button"
+                                                      onClick={handleSearchBilling}
+                                                      disabled={
+                                                        !zipCodeBill.trim() ||
+                                                        load ||
+                                                        errorBill ||
+                                                        !selectedStates
+                                                      }
+                                                      className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                                                    >
+                                                      <FaSearch
+                                                        className={`${`text-white ${load ? "animate-spin" : ""
+                                                          }`}`}
+                                                      />
+                                                      <span className="mr-2 text-sm">
+                                                        {load ? "SEARCH..." : "SEARCH"}
+                                                      </span>
+
+                                                    </button>
+                                                  </div>
+                                                )}
+                                              </>
+                                            ),
+                                          }}
                                         />
-                                      </div>
-                                    </>
-                                  )}
+
+                                        {searchClickedBill && (
+                                          <>
+                                            {!error &&
+                                              searchClickedBill &&
+                                              addressOptionsBilling.length > 0 && (
+                                                <div className="w-full">
+                                                  <FormControl
+                                                    fullWidth
+                                                    className={`${!selectedStates ? "cursor-not-allowed" : ""}`}
+                                                    disabled={!selectedStates}
+                                                    variant="standard"
+                                                    error={!!errors.addressSelect}
+                                                  >
+                                                    <InputLabel>Select Autofill</InputLabel>
+                                                    <Select
+                                                      {...register("addressSelect", {
+                                                        required: "Please select an address",
+                                                      })}
+                                                      onChange={(e) =>
+                                                        handleSelectBilling(e.target.value, setValue)
+                                                      }
+                                                      defaultValue=""
+                                                    >
+                                                      {addressOptionsBilling.map((address, index) => (
+                                                        <MenuItem key={index} value={index}>
+                                                          {`${address.line_1}, ${address.town_or_city}`}
+                                                        </MenuItem>
+                                                      ))}
+                                                    </Select>
+                                                    {errors.addressSelect && (
+                                                      <FormHelperText>
+                                                        {errors.addressSelect.message}
+                                                      </FormHelperText>
+                                                    )}
+                                                  </FormControl>
+                                                </div>
+                                              )}
+                                          </>
+                                        )}
+                                      </>
+                                    ) : (
+                                      <>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                          <TextField
+                                            label="Postal Code"
+                                            value={watch("billingPostalCode") || ""}
+                                            variant="standard"
+                                            fullWidth
+                                            error={!!errorBill || !!errors.billingPostalCode}
+                                            helperText={
+                                              errorBill?.message || errors.billingPostalCode?.message
+                                            }
+                                            {...register("billingPostalCode", {
+                                              required: "Postal Code is required",
+                                            })}
+                                          />
+                                        </div>
+                                      </>
+                                    )}
+                                  </Box>
+
+
+
+                                  {/* Address Fields */}
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+                                    <TextField
+                                      label="Street Address"
+                                      variant="standard"
+                                      value={watch("billingStreetAddress") || ""}
+                                      fullWidth
+                                      {...register("billingStreetAddress", {
+                                        required:
+                                          !isBillingSameAsShipping &&
+                                          "Address Line 1 is required",
+                                      })}
+                                      error={!!errors.billingStreetAddress}
+                                      helperText={errors.billingStreetAddress?.message}
+                                    />
+                                    <TextField
+                                      label="Address Line 2"
+                                      variant="standard"
+                                      fullWidth
+                                      value={watch("billingStreetAddress2") || ""}
+                                      // {...register("billingStreetAddress2")}
+                                      {...register("billingStreetAddress2", {
+                                        required:
+                                          !isBillingSameAsShipping &&
+                                          "Address Line 2 is required",
+                                      })}
+                                    />
+                                  </div>
+
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <TextField
+                                      label="City"
+                                      variant="standard"
+                                      value={watch("billingCity") || ""}
+                                      fullWidth
+                                      {...register("billingCity", {
+                                        required:
+                                          !isBillingSameAsShipping && "City is required",
+                                      })}
+                                      error={!!errors.billingCity}
+                                      helperText={errors.billingCity?.message}
+                                    />
+                                    <TextField
+                                      label="State / Province / Region"
+                                      variant="standard"
+                                      fullWidth
+                                      value={watch("billingState") || ""}
+                                      // {...register("billingState")}
+                                      {...register("billingState", {
+                                        required:
+                                          !isBillingSameAsShipping && "State is required",
+                                      })}
+                                    />
+                                  </div>
                                 </Box>
-
-
-
-                                {/* Address Fields */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-                                  <TextField
-                                    label="Street Address"
-                                    variant="standard"
-                                    value={watch("billingStreetAddress") || ""}
-                                    fullWidth
-                                    {...register("billingStreetAddress", {
-                                      required:
-                                        !isBillingSameAsShipping &&
-                                        "Address Line 1 is required",
-                                    })}
-                                    error={!!errors.billingStreetAddress}
-                                    helperText={errors.billingStreetAddress?.message}
-                                  />
-                                  <TextField
-                                    label="Address Line 2"
-                                    variant="standard"
-                                    fullWidth
-                                    value={watch("billingStreetAddress2") || ""}
-                                    // {...register("billingStreetAddress2")}
-                                    {...register("billingStreetAddress2", {
-                                      required:
-                                        !isBillingSameAsShipping &&
-                                        "Address Line 2 is required",
-                                    })}
-                                  />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                                  <TextField
-                                    label="City"
-                                    variant="standard"
-                                    value={watch("billingCity") || ""}
-                                    fullWidth
-                                    {...register("billingCity", {
-                                      required:
-                                        !isBillingSameAsShipping && "City is required",
-                                    })}
-                                    error={!!errors.billingCity}
-                                    helperText={errors.billingCity?.message}
-                                  />
-                                  <TextField
-                                    label="State / Province / Region"
-                                    variant="standard"
-                                    fullWidth
-                                    value={watch("billingState") || ""}
-                                    // {...register("billingState")}
-                                    {...register("billingState", {
-                                      required:
-                                        !isBillingSameAsShipping && "State is required",
-                                    })}
-                                  />
-                                </div>
-                              </Box>
+                              </div>
                             )}
                           </>
                         </Box>
                       )}
 
                       {/* Terms & Conditions */}
-                      <Box className="bg-white p-6 rounded-lg shadow-md sm:mb-0">
+                      <Box className="bg-white rounded-lg border sm:mb-0">
                         {/* Terms and Conditions */}
                         <Box className="space-y-6 ">
-                          <h6 className="text-lg md:text-xl font-bold text-gray-800 mb-6">
-                            Please review the important information below regarding your
-                            treatment
-                          </h6>
+
+
+                          <div class="bg-[#f3f4f6] flex py-2 px-5 items-center gap-2">
+                            <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">
+                              {isBillingSameAsShipping ? "02" : "03"}</div>
+                            <h2 class="text-left font-medium text-gray-900 py-3">
+                              Please review the important information below regarding your
+                              treatment</h2>
+                          </div>
                           {typeof termCondition === "string" && termCondition.trim() ? (
                             <>
                               <div
-                                className="text-gray-600 text-sm leading-relaxed space-y-4"
+                                className="text-gray-600 text-sm leading-relaxed p-4 bg-[#F9FAFB]"
                                 dangerouslySetInnerHTML={{
                                   __html: `
           <style>
@@ -1192,7 +1214,7 @@ const Stepeight = () => {
                           )}
 
                           {/* Checkbox with Agreement */}
-                          <div className="flex items-center space-x-4 text-sm">
+                          <div className="space-x-4 text-sm p-6">
                             <FormControlLabel
                               className=""
                               control={
@@ -1223,20 +1245,26 @@ const Stepeight = () => {
                                 </p>
                               }
                             />
+
+
+                            {errors.terms && (
+                              <Typography
+                                variant="body2"
+                                color="error"
+                                className="mt-2 text-red-500"
+                              >
+                                {errors.terms.message}
+                              </Typography>
+                            )}
                           </div>
 
-                          {/* Error Message */}
+
+
+
+
                         </Box>
 
-                        {errors.terms && (
-                          <Typography
-                            variant="body2"
-                            color="error"
-                            className="mt-2 text-red-500"
-                          >
-                            {errors.terms.message}
-                          </Typography>
-                        )}
+
                       </Box>
 
                       {/* Navigation Buttons */}

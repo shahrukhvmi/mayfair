@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaMinus, FaPlus } from "react-icons/fa";
 import ConfirmationModal from "../Modal/ConfirmationModal";
+import { HiOutlineTrash } from "react-icons/hi";
 
 const AddOn = ({
   id,
@@ -139,7 +140,7 @@ const AddOn = ({
             }}
             className="mt-2 bg-red-100 hover:bg-red-200 text-red-500 rounded-md px-3 py-1 flex items-center gap-1"
           >
-         
+           <HiOutlineTrash />
             <span className="font-semibold text-sm">Remove</span>
           </button>
         )}

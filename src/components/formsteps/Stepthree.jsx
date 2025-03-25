@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { nextStep, prevStep } from "../../store/slice/stepper";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
@@ -142,39 +142,28 @@ const Stepthree = () => {
     );
   });
 
+  
+
 
 
   return (
 
-    <div className="mx-auto md:w-[700px] w-full block sm:mt-16 mt-7 mb-36 px-6">
-
-      <div className="flex justify-center">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
-            0{currentStep}
-          </span>
-          <h1 className="text-2xl md:text-4xl re-font tracking-[-2px]">
-            Medical Questions
-          </h1>
-        </div>
-      </div>
-      {/* <div className="flex justify-center">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
-            0{currentStep}
-          </span>
-          <h1 className="text-2xl md:text-4xl reg-font tracking-[-2px]">Medical Questions</h1>
-        </div>
-      </div> */}
+    <div className="">
+      
+      <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+              Step 3: <span className="font-bold">Medical Questions</span>
+            </h1>
+      
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
         {questions.map((q) => {
           const selectedAnswer = watch(`responses[${q.id}].answer`);
+        {console.log(q, "Questions")}
           return (
-            <div key={q.id} className="mb-8">
-              <div className="font-reg md:text-xl text-[#1C1C29] mb-4">
+            <div key={q.id} className={`mb-8 flex justify-between field | border rounded-md p-3  flex-col lg:flex-row  items-start gap-5 lg:gap-10 ${errorMessages[q.id] ? "border-red-300" : "border-gray-300"}`}>
+              <div className="font-reg md:text-sm text-[#1C1C29]">
                 {/ul|li/.test(q.content) ? (
                   <div
-                    className="font-reg md:text-xl text-[#1C1C29] mb-4 leading-relaxed"
+                    className="font-reg md:text-sm text-[#1C1C29] leading-relaxed pe-2"
                     dangerouslySetInnerHTML={{
                       __html: q.content.replace(
                         /<ul>/g,
@@ -184,12 +173,27 @@ const Stepthree = () => {
                   ></div>
                 ) : (
                   // Render plain text for non-list content
-                  <div className="font-reg md:text-xl text-[#1C1C29] mb-4">{q.content}</div>
+                  <div className="font-reg md:text-sm text-[#1C1C29]pe-2">{q.content}</div>
+                  
                 )}
+                {q.has_sub_field && selectedAnswer === "yes" && (
+                <textarea
+                  className="w-full p-2 border border-gray-300 rounded mt-4"
+                  placeholder={q.sub_field_prompt}
+                  value={responses[q.id]?.subfield_response}
+                  onChange={(e) => handleChange(q.id, e.target.value, true)}
+                />
+              )}
+
+              {errorMessages[q.id] && (
+                <p className="text-red-500 text-sm mb-2">{errorMessages[q.id]}</p>
+              )}
               </div>
-              <div className="flex gap-4 mb-4">
+              
+              <div className="flex gap-4">
                 {q.options.map((option) => (
-                  <label
+                  <div>
+                    <label
                     key={option}
                     className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"}`}
                   >
@@ -212,25 +216,15 @@ const Stepthree = () => {
                     </span>
                     {selectedAnswer === option && <FaCheck color="#4DB581" className="ml-2" size={14} />}
                   </label>
+                  </div>
                 ))}
               </div>
 
-              {errorMessages[q.id] && (
-                <p className="text-red-500 text-sm mb-2">{errorMessages[q.id]}</p>
-              )}
-
-              {q.has_sub_field && selectedAnswer === "yes" && (
-                <textarea
-                  className="w-full p-2 border border-gray-300 rounded"
-                  placeholder={q.sub_field_prompt}
-                  value={responses[q.id]?.subfield_response}
-                  onChange={(e) => handleChange(q.id, e.target.value, true)}
-                />
-              )}
+              
             </div>
           );
         })}
-        <div className="mt-10  justify-between mb-10 hidden sm:flex">
+        <div className="mt-10 mb-10 hidden sm:flex">
           <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
           <NextButton disabled={!isNextEnabled || isLoading} label={"Next"} loading={isLoading} />
         </div>

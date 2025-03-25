@@ -10,7 +10,7 @@ const Dashboard = ({ children }) => {
   };
 
   return (
-    <div className="grid grid-rows-[auto_1fr] grid-cols-1 h-screen overflow-auto">
+    <div className="grid grid-rows-[auto_1fr] grid-cols-1 h-screen overflow-auto bg-[#f3f4f6]">
       {/* Navbar (full width) */}
       <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
@@ -20,7 +20,7 @@ const Dashboard = ({ children }) => {
         <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
         {/* Main Content */}
-        <div className="bg-white rounded-md">{children}</div>
+        <div className="rounded-md">{children}</div>
       </div>
     </div>
   );

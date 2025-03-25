@@ -93,7 +93,7 @@ const Dose = ({
             handleSelected(e);
           }}
           
-          className={`w-48 overflow-hidden variations pt-8 pb-3 px-2 relative bg-white text-center cursor-pointer rounded-tl-md rounded-tr-md duration-300 border-2
+          className={`w-full sm:w-48 overflow-hidden variations pt-8 pb-3 px-2 relative bg-white text-center cursor-pointer rounded-tl-md rounded-tr-md duration-300 border-2
           ${isSelected ? "border-violet-700" : "border-gray-300 hover:border-violet-700"}`}
         >
           {/* Radio Button in Top Left */}
@@ -136,7 +136,7 @@ const Dose = ({
 
         </div>
         {isSelected && (
-          <div className=" w-48 flex items-center justify-evenly bg-violet-700 py-2  rounded-bl-lg rounded-br-lg">
+          <div className="w-full sm:w-48 flex items-center justify-evenly bg-violet-700 py-2  rounded-bl-lg rounded-br-lg">
             <button
               type="button"
               onClick={handleDecrement}

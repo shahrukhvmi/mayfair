@@ -659,9 +659,9 @@ const updateMetric = () => {
   }, [prevStep1]);
 
   return (
-    <section className="bg-[#e9f6fa] overflow-y-scroll sm:py-10 mb-20 sm:mb-0">
-      <div className="mx-auto w-full overflow-auto sm:max-w-[1000px] px-5 py-4 bg-white rounded-md shadow-lg shadow-slate-300">
-        <div className="flex justify-center my-3">
+    <section className="">
+      {/* <div className="mx-auto w-full overflow-auto sm:max-w-[1000px] px-5 py-4 bg-white rounded-md shadow-lg shadow-slate-300"> */}
+        {/* <div className="flex justify-center my-3">
           <div className="flex items-center gap-3 mb-6">
             <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
               0{currentStep}
@@ -670,12 +670,15 @@ const updateMetric = () => {
               Let's Check Your BMI
             </h1>
           </div>
-        </div>
+        </div> */}
+          <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+              Step 2: <span className="font-bold">BMI Details</span>
+          </h1>
         <div className="grid grid-cols-12">
-          <div className="sm:col-span-7 col-span-full">
+          <div className="sm:col-span-6 col-span-full">
             <form
               onSubmit={handleSubmit(onSubmit)}
-              className="max-w-lg mx-auto p-0 sm:p-6 space-y-6 overflow-y-auto"
+              className="max-w-lg mx-auto p-0 sm:pe-5 space-y-6 overflow-y-auto"
             >
 
               <p className="light-font text-[#1C1C29] text-md mr-4">
@@ -1271,7 +1274,7 @@ const updateMetric = () => {
                 </div>
               </div>
               {/* <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} /> */}
-              <div className="mt-10 justify-between hidden sm:flex">
+              <div className="mt-10 hidden sm:flex">
                 <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
                 <NextButton
                   disabled={
@@ -1323,7 +1326,7 @@ const updateMetric = () => {
               </div>
             </form>
           </div>
-          <div className="sm:col-span-5 col-span-full mt-0 sm:mt-[45px]">
+          <div className="sm:col-span-6 col-span-full mt-0 sm:mt-[45px]">
             <div className="right | w-full lg:w-[350px]">
               {/* {bmi && bmiCategory && (
         <Box className={`p-4 rounded text-center ${bmiCategory.color || ""}`}>
@@ -1469,7 +1472,7 @@ const updateMetric = () => {
           </div>
         </div>
 
-      </div >
+      {/* </div > */}
     </section >
   );
 };

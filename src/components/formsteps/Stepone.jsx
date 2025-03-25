@@ -23,6 +23,7 @@ import { useFetchAddressesQuery } from "../../store/services/addressApi/addressA
 import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
+import { BorderBottom, LineWeight } from "@mui/icons-material";
 const Stepone = () => {
   useEffect(() => {
     window.scrollTo({
@@ -270,32 +271,69 @@ const Stepone = () => {
     }
   };
 
+  const textFieldStyles = {
+    "& label": {
+    color: "#6b7280", // Default label color
+    fontSize: 16,
+    top: "-2px",
+    },
+    "& label.Mui-focused": {
+    color: "#6c757d", // Label color when focused
+    },
+    "& .MuiInputBase-input": {
+      color: "#111827", // Text color inside input
+      borderBottom: "2px solid #f2f3f5"
+    },
+    "& .MuiInputBase-input:focus": {
+      color: "#111827", // Text color inside input
+      borderBottom: "2px solid #f7a564"
+    },
+    "& .MuiInput-underline:before": {
+      display: "none", // Default underline color
+    },
+    "& .MuiInput-underline:hover:before": {
+      display: "none", // Default underline color
+    },
+    "& .MuiInput-underline:after": {
+      display: "none", // Default underline color
+    },
+  };
+
+  const selectStyles = {
+    "& label": {
+      color: "#6b7280", // Default label color
+      fontSize: 20,
+      top: "-2px",
+    },
+    "& label.Mui-focused": {
+      color: "#6c757d", // Label color when focused
+    },
+    "& .MuiSelect-select": {
+      color: "#111827", // Text color inside select
+      borderBottom: "2px solid #f2f3f5", // Custom bottom border
+    },
+    "& .MuiSelect-select:focus": {
+      color: "#111827",
+      borderBottom: "2px solid #f7a564", // Focus bottom border
+    },
+    "& .MuiInput-underline:before": {
+      display: "none", // Removes default underline
+    },
+    "& .MuiInput-underline:hover:before": {
+      display: "none",
+    },
+    "& .MuiInput-underline:after": {
+      display: "none",
+    },
+  };
+
   return (
-    <div className="max-w-[700px] mx-auto p-6 mb-32">
-      <div className="flex justify-center">
-        {/* <div className="flex items-center gap-3 mb-6">
-          <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
-            0{currentStep}
-          </span>
-          <h1 className="text-2xl md:text-4xl re-font tracking-[-2px] ">
-            Patient Information
-          </h1>
-        </div> */}
+    <div className="">
+        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+            Step 1: <span className="font-bold">Patient Information</span>
+        </h1>
 
-
-        <div className="flex justify-center sm:mt-10 mt-0">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
-              0{currentStep}
-            </span>
-            <h1 className="text-2xl md:text-4xl re-font tracking-[-2px]">
-              Patient Information
-            </h1>
-          </div>
-        </div>
-      </div>
-
-      <h6 className="font-bold text-xl text-black my-6"> Personal Information </h6>
+        <p className="text-2xl text-gray-800 mb-3 pb-2 font pt-5 lg:pt-5">Personal Information</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3">
         {/* First Name & Last Name */}
@@ -303,6 +341,7 @@ const Stepone = () => {
           <TextField
             label="First Name"
             fullWidth
+            sx={textFieldStyles}
             variant="standard"
             value={watch("firstName") || ""}
             {...register("firstName", { required: "First name is required" })}
@@ -314,6 +353,7 @@ const Stepone = () => {
             variant="standard"
             value={watch("lastName") || ""}
             fullWidth
+            sx={textFieldStyles}
             {...register("lastName", { required: "Last name is required" })}
             error={!!errors.lastName}
             helperText={errors.lastName?.message}
@@ -337,7 +377,7 @@ const Stepone = () => {
             <PhoneInput
               country="gb"
               placeholder="Enter your number"
-              inputStyle={{ width: "100%" }}
+              inputStyle={{ width: "50%" }}
               {...field}
             />
           </>
@@ -468,6 +508,7 @@ const Stepone = () => {
                     <input
                       type="radio"
                       value="Yes"
+                      sx={textFieldStyles}
                       {...register("breastFeeding", {
                         required: "This field is required",
                         validate: (value) => {
@@ -497,6 +538,7 @@ const Stepone = () => {
                     <input
                       type="radio"
                       value="No"
+                      sx={textFieldStyles}
                       {...register("breastFeeding", {
                         required: "This field is required",
                       })}
@@ -535,6 +577,7 @@ const Stepone = () => {
                     value={field.value ? dayjs(field.value) : null} // Convert ISO string to dayjs object
                     onChange={(date) => handleDateChange(date)}
                     maxDate={today}
+                    sx={textFieldStyles}
                     slotProps={{
                       textField: {
                         variant: "standard",
@@ -567,6 +610,7 @@ const Stepone = () => {
                     value="Yes"
                     {...register("breastFeeding", {
                       required: "This field is required",
+                      
                       validate: (value) => {
                         if (value === "Yes") {
                           setWarningMessage(`This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`);
@@ -660,6 +704,7 @@ const Stepone = () => {
             label="Postal Code"
             variant="standard"
             value={zipCode}
+            sx={textFieldStyles}
             {...register("postCode", { required: "Postal Code is required" })}
             error={!!errors.postCode || error} // Displays error state
             helperText={errors.postCode?.message} // Shows error message
@@ -677,13 +722,13 @@ const Stepone = () => {
                         type="button"
                         onClick={handleSearch}
                         disabled={!zipCode.trim() || isLoading || error}
-                        className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                        className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-3 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
                       >
                         <span className="mr-2 text-sm">
                           {isLoading ? "SEARCH..." : "SEARCH"}
                         </span>
                         <FaSearch
-                          className={`text-white ${isLoading ? "animate-spin" : ""}`}
+                          className={`text-white`}
                         />
                       </button>
                     </div>
@@ -700,9 +745,11 @@ const Stepone = () => {
                   fullWidth
                   variant="standard"
                   error={!!errors.addressSelect}
+                  sx={selectStyles}
                 >
                   <InputLabel>Select Autofill</InputLabel>
-                  <Select
+                  <Select              
+                    
                     {...register("addressSelect", {
                       required: "Please select an address",
                     })} // Validation for Select
@@ -735,6 +782,7 @@ const Stepone = () => {
             variant="standard"
             value={watch("streetAddress") || ""}
             fullWidth
+            sx={textFieldStyles}
             {...register("streetAddress", {
               required: "Address Line 1 is required",
             })}
@@ -745,6 +793,7 @@ const Stepone = () => {
             label="Address Line 2"
             variant="standard"
             fullWidth
+            sx={textFieldStyles}
             value={watch("streetAddress2") || ""}
             {...register("streetAddress2")}
           />
@@ -756,6 +805,7 @@ const Stepone = () => {
             value={watch("city") || ""}
             variant="standard"
             fullWidth
+            sx={textFieldStyles}
             {...register("city", { required: "City is required" })}
             error={!!errors.city}
             helperText={errors.city?.message}
@@ -765,6 +815,7 @@ const Stepone = () => {
             label="State / Province / Region"
             variant="standard"
             fullWidth
+            sx={textFieldStyles}
             {...register("state")}
           />
         </div>
@@ -793,7 +844,7 @@ const Stepone = () => {
 
 
 
-          <div className="flex flex-col gap-4">
+          <div className="w-2/3">
             {[
               { value: "yes", label: "Yes" },
               { value: "no", label: "No" },
@@ -801,9 +852,9 @@ const Stepone = () => {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex items-center px-6 py-4 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value
-                  ? "bg-green-100 text-green-600 border-green-500 font-bold"
-                  : "bg-white text-gray-700 border-gray-300"
+                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value
+                  ? "bg-[#6d28d9] text-white"
+                  : "bg-[#e5e7eb] text-gray-700"
                   }`}
               >
                 <input
@@ -812,10 +863,10 @@ const Stepone = () => {
                   {...register("ethnicity", {
                     required: "Ethnicity is required",
                   })}
-                  className="hidden"
+                  className="hidden "
                 />
                 <span>{option.label}</span>
-                {selectedEthnicity === option.value && <FaCheck className="text-green-500 ml-auto" />}
+                {/* {selectedEthnicity === option.value && <FaCheck className="text-green-500 ml-auto" />} */}
               </label>
             ))}
           </div>
@@ -843,9 +894,9 @@ const Stepone = () => {
           </div>
         </div> */}
 
-        <div className="hidden  justify-end  sm:flex">
-          <div className="mt-4 sm:max-w-40">
-            <div className="text-center my-3">
+        <div className="hidden justify-start sm:flex">
+          <div className="mt-2 sm:max-w-40">
+            <div className="text-center">
               <NextButton
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
                 label={"Next"}
