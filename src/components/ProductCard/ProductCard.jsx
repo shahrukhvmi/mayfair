@@ -172,9 +172,9 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   return (
     <>
       <div
-        className="relative bg-white rounded-lg shadow-md overflow-hidden cursor-pointer transition-transform"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden cursor-pointer transition-transform"
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
       >
 
 
@@ -202,13 +202,13 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
           <img
             src={image}
             alt={title}
-            className="product-image w-full h-full object-contain transition-transform duration-300"
+            className="w-full h-full object-contain"
             onError={(e) => (e.target.src = "/images/default.png")}
           />
         </div>
 
         {/* Product Details */}
-        <div className="bg-[#EDE9FE] p-5 text-center rounded-b-lg">
+        <div className="bg-[#EDE9FE] p-5 text-center rounded-2xl">
           <h2 className="text-lg semibold-font mb-3 text-gray-900">{title}</h2>
 
           <p className="mb-3 text-sm  font-semibold">
@@ -217,7 +217,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
           </p>
           <button
             onClick={handleClick}
-            className={`w-full py-2 rounded-md text-white reg-font transition-transform duration-300 ${status ? "bg-[#4C63C6] hover:bg-[#3B4F9B] hover:scale-105" : "bg-gray-400 cursor-not-allowed"
+            className={`px-6 py-2 w-48 rounded-full text-white reg-font ${status ? "bg-[#7c3aed] hover:bg-[#fff]  hover:text-[#7c3aed] hover:scale-105" : "bg-gray-400 cursor-not-allowed"
               }`}
             disabled={!status}
           >

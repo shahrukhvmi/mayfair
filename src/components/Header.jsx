@@ -79,11 +79,11 @@ const Header = () => {
 
 
   return (
-    <div className={`bg-white shadow-md ${isAuth ? " py-4 sm:py-8" : "p-4"}  flex items-center justify-around sm:justify-between relative`}>
+    <div className={`bg-white ${isAuth ? " py-4 sm:py-8" : "p-4"}  flex items-center justify-around sm:justify-between relative`}>
       {/* Logo - Centered, Only visible on non-login/register pages */}
       {!isAuth && (
         <a className="text-base items-center space-x-1 hidden lg:flex reg-font" href="">
-          <MdEmail size="30" className="me-2 mb-0 text-[#4565BF]" />
+          <MdEmail size="30" className="me-2 mb-0 text-[#5b45a7]" />
           contact@weightlosspharmacy.co.uk
         </a>
       )}
@@ -91,7 +91,7 @@ const Header = () => {
 
       <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
         <Link to="/">
-          <img src="/logo.png" className="w-32 sm:w-52" alt="Logo" />
+          <img src="/logo.svg" className="w-36 sm:w-36" alt="Logo" />
         </Link>
       </div>
 
@@ -102,7 +102,7 @@ const Header = () => {
           <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDropdown}>
 
             <img
-              src="/images/admin.png"
+              src="/images/user.png"
               alt="User Avatar"
               className="w-10 h-10 rounded-full"
             />

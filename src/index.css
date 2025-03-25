@@ -33,6 +33,9 @@ body {
   .dynamic-content li {
     margin-bottom: 0.5rem; /* Add spacing between items */
   }
+  .field:first-child{
+    align-items: center !important;
+  }
 
 
 

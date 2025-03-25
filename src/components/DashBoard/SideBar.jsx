@@ -7,15 +7,15 @@ import "./sidebar.css"
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
-      className={`sm:m-5 fixed top-0 left-0 lg:relative h-full w-64 bg-[#F9FAFB] p-5 flex flex-col shadow-md transform ${isOpen ? "translate-x-0" : "-translate-x-full"
-        } transition-transform duration-300 ease-in-out z-50 sm:relative sm:translate-x-0 sm:w-64`}
+      className={`sm:m-5 sm:rounded-lg fixed top-0 left-0 lg:relative h-full w-80 bg-[#F9FAFB] p-5 flex flex-col shadow-md transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+        } transition-transform duration-300 ease-in-out z-50 sm:relative sm:translate-x-0 sm:w-80`}
     >
       <div className="flex justify-between p-1 mb-3 md:hidden">
         <div>
           <img src="/logo.png" alt="logo" />
         </div>
 
-        <div className="align-middle ms-2 pt-2 text-2xl text-[#4565BF]" onClick={toggleSidebar}>
+        <div className="align-middle ms-2 pt-2 text-2xl text-[#7c3aed]" onClick={toggleSidebar}>
           <FiX size={30} />
         </div>
       </div>
@@ -24,7 +24,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  font-bold tab-home ${isActive ? "bg-[#4565BF] text-white active-tab" : "hover:bg-gray-200 text-[#000000] "}`
+            `flex items-center p-2 rounded-md tab-home ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
           onClick={toggleSidebar}
         >
@@ -35,7 +35,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/orders"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  font-bold tab-orders ${isActive ? "bg-[#4565BF] text-white active-tab" : "hover:bg-gray-200 text-[#000000] "}`
+            `flex items-center p-2 rounded-md tab-orders ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
           }
           onClick={toggleSidebar}
         >
@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/profile"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  font-bold tab-profile ${isActive ? "bg-[#4565BF] text-white active-tab" : "hover:bg-gray-200 text-[#000000] "}`
+            `flex items-center p-2 rounded-md  tab-profile ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
           }
           onClick={toggleSidebar}
         >
@@ -57,7 +57,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/address"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  font-bold tab-address ${isActive ? "bg-[#4565BF] text-white active-tab" : "hover:bg-gray-200 text-[#000000] "}`
+            `flex items-center p-2 rounded-md  tab-address ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
           onClick={toggleSidebar}
         >
@@ -68,7 +68,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         <NavLink
           to="/change-password"
           className={({ isActive }) =>
-            `flex items-center p-2 rounded-md  font-bold tab-password ${isActive ? "bg-[#4565BF] text-white active-tab" : "hover:bg-gray-200 text-[#000000] "}`
+            `flex items-center p-2 rounded-md  tab-password ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
           onClick={toggleSidebar}
         >
