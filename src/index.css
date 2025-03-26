@@ -36,6 +36,37 @@ body {
   .field:first-child{
     align-items: center !important;
   }
+  .profile-input:before{
+    display: none;
+  }
+  .profile-input:after{
+    display: none;
+  }
+  .profile-input {
+    margin-top: 5px !important;
+  }
+  .u-profile-datePicker .MuiInputBase-root {
+    background-color: #fff;
+    margin-top: 5px;
+  }
+  .u-profile-datePicker input {
+    padding: 9px;
+  }
+  .u-update-password {
+    position: relative;
+  }
+  .u-upade-password-icon {
+    position: absolute;
+    right: 12%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .u-upade-password-icon2 {
+    position: absolute;
+    right: 12%;
+    top: 33%;
+    transform: translateY(-50%);
+  }
 
 
 
