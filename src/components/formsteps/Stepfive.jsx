@@ -16,7 +16,8 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import { setStep5 } from "../../store/slice/stepSlice";
 
-const Stepfive = () => {
+const Stepfive = ({setHideSidebar}) => {
+  setHideSidebar(false)
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -37,7 +38,9 @@ const Stepfive = () => {
     const stepFivePrev = localStorage.getItem("step5");
     if (lastConsultation !== null || prevStepFiveData !== undefined) {
       const dataParse = JSON.parse(stepPrevAPiData);
-      const stepfiveParse = JSON.parse(stepFivePrev);
+      // const stepfiveParse = JSON.parse(stepFivePrev);
+      const stepfiveParse = stepFivePrev !== undefined && stepFivePrev != "undefined" && stepFivePrev ? JSON.parse(stepFivePrev) : undefined;
+
       setLastConsultation(dataParse?.last_consultation_data?.gpdetails);
       setprevStepFiveData(stepfiveParse);
     }

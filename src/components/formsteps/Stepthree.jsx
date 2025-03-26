@@ -9,7 +9,9 @@ import NextButton from "../NextBtn/NextButton";
 import PrevButton from "../PrevBtn/PrevButton";
 import { FaCheck } from "react-icons/fa";
 
-const Stepthree = () => {
+const Stepthree = ({ setHideSidebar }) => {
+
+  setHideSidebar(false)
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -34,7 +36,8 @@ const Stepthree = () => {
   const stepPrevApiData = useMemo(() => localStorage.getItem("stepPrevApiData"), []);
   const stepPrev3 = useMemo(() => localStorage.getItem("step3"), []);
   const parsedData = stepPrevApiData ? JSON.parse(stepPrevApiData) : null;
-  const stepPrev3Data = stepPrev3 ? JSON.parse(stepPrev3) : null;
+  // const stepPrev3Data = stepPrev3 ? JSON.parse(stepPrev3) : null;
+  const stepPrev3Data = stepPrev3 !== undefined && stepPrev3 != "undefined" && stepPrev3 ? JSON.parse(stepPrev3) : undefined;
 
   useEffect(() => {
 
@@ -142,22 +145,22 @@ const Stepthree = () => {
     );
   });
 
-  
+
 
 
 
   return (
 
     <div className="">
-      
+
       <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
-              Step 3: <span className="font-bold">Medical Questions</span>
-            </h1>
-      
+        Step 3: <span className="font-bold">Medical Questions</span>
+      </h1>
+
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
         {questions.map((q) => {
           const selectedAnswer = watch(`responses[${q.id}].answer`);
-        {console.log(q, "Questions")}
+          { console.log(q, "Questions") }
           return (
             <div key={q.id} className={`mb-8 flex justify-between field | border rounded-md p-3  flex-col lg:flex-row  items-start gap-5 lg:gap-10 ${errorMessages[q.id] ? "border-red-300" : "border-gray-300"}`}>
               <div className="font-reg md:text-sm text-[#1C1C29]">
@@ -174,53 +177,53 @@ const Stepthree = () => {
                 ) : (
                   // Render plain text for non-list content
                   <div className="font-reg md:text-sm text-[#1C1C29]pe-2">{q.content}</div>
-                  
+
                 )}
                 {q.has_sub_field && selectedAnswer === "yes" && (
-                <textarea
-                  className="w-full p-2 border border-gray-300 rounded mt-4"
-                  placeholder={q.sub_field_prompt}
-                  value={responses[q.id]?.subfield_response}
-                  onChange={(e) => handleChange(q.id, e.target.value, true)}
-                />
-              )}
+                  <textarea
+                    className="w-full p-2 border border-gray-300 rounded mt-4"
+                    placeholder={q.sub_field_prompt}
+                    value={responses[q.id]?.subfield_response}
+                    onChange={(e) => handleChange(q.id, e.target.value, true)}
+                  />
+                )}
 
-              {errorMessages[q.id] && (
-                <p className="text-red-500 text-sm mb-2">{errorMessages[q.id]}</p>
-              )}
+                {errorMessages[q.id] && (
+                  <p className="text-red-500 text-sm mb-2">{errorMessages[q.id]}</p>
+                )}
               </div>
-              
+
               <div className="flex gap-4">
                 {q.options.map((option) => (
                   <div>
                     <label
-                    key={option}
-                    className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"}`}
-                  >
-                    <Controller
-                      name={`responses[${q.id}].answer`}
-                      control={control}
-                      render={({ field }) => (
-                        <input
-                          type="radio"
-                          {...field}
-                          value={option}
-                          checked={field.value === option}
-                          onChange={(e) => handleChange(q.id, e.target.value)}
-                          className="hidden"
-                        />
-                      )}
-                    />
-                    <span className={`text-sm font-semibold capitalize ${selectedAnswer === option ? "text-[#4DB581]" : "text-gray-500 "}`}>
-                      {option}
-                    </span>
-                    {selectedAnswer === option && <FaCheck color="#4DB581" className="ml-2" size={14} />}
-                  </label>
+                      key={option}
+                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"}`}
+                    >
+                      <Controller
+                        name={`responses[${q.id}].answer`}
+                        control={control}
+                        render={({ field }) => (
+                          <input
+                            type="radio"
+                            {...field}
+                            value={option}
+                            checked={field.value === option}
+                            onChange={(e) => handleChange(q.id, e.target.value)}
+                            className="hidden"
+                          />
+                        )}
+                      />
+                      <span className={`text-sm font-semibold capitalize ${selectedAnswer === option ? "text-[#4DB581]" : "text-gray-500 "}`}>
+                        {option}
+                      </span>
+                      {selectedAnswer === option && <FaCheck color="#4DB581" className="ml-2" size={14} />}
+                    </label>
                   </div>
                 ))}
               </div>
 
-              
+
             </div>
           );
         })}

@@ -17,9 +17,9 @@ import NextButton from "../NextBtn/NextButton";
 import PrevButton from "../PrevBtn/PrevButton";
 import { BsInfoCircle } from "react-icons/bs";
 
-const Steptwo = () => {
+const Steptwo = ({setHideSidebar}) => {
 
-
+  setHideSidebar(false)
   const {
     register,
     setValue,
@@ -92,7 +92,9 @@ const Steptwo = () => {
     if (stepPrevApiData || stepPrev || stepPrev2) {
 
       const parsedData = JSON.parse(stepPrevApiData);
-      const stepPrevParse = JSON.parse(stepPrev);
+      const stepPrevParse = stepPrev !== undefined && stepPrev != "undefined" && stepPrev ? JSON.parse(stepPrev) : undefined;
+
+      // const stepPrevParse = JSON.parse(stepPrev);
       const stepPrevParse2 = JSON.parse(stepPrev2);
       setLastConsultation(parsedData);
       setLastBmi(parsedData?.last_consultation_data?.fields?.bmi || parsedData?.last_consultation_data?.bmi);

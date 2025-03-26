@@ -31,7 +31,7 @@ const DosageCheckPopup = ({ text, onHandleConfirmation }) => {
                         </h3>
 
                         <button
-                            className="font-bold tracking-[1px] bg-[#4565BF] text-white rounded-md px-3 py-2 text-sm uppercase"
+                            className="font-bold tracking-[1px] bg-violet-700 text-white rounded-md px-3 py-2 text-sm uppercase"
                             
                             onClick={onHandleConfirmation}
 

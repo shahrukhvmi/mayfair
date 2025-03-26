@@ -15,7 +15,7 @@ import { addToCartAddon, removeFromCartAddon, updateCartAddon } from "../../stor
 import DosageCheckPopup from "../DosageCheckPopup/DosageCheckPopup";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
-const StepSeven = ({setHideSidebar}) => {
+const StepSeven = ({ setHideSidebar }) => {
 
   setHideSidebar(true);
 
@@ -703,16 +703,16 @@ const StepSeven = ({setHideSidebar}) => {
     //   </form>
     // </section>
 
-    <section className="bg-[#DACFFF] flex items-center justify-center p-5 xl:p-10">
+    <section className="flex items-center justify-center">
       <div className="w-full  bg-white my-6 rounded-xl">
         <div className="flex justify-start">
 
         </div>
         <form onSubmit={handleSubmit(onSubmit)} >
 
-          <div className="grid grid-cols-12 gap-4 px-4">
+          <div className="grid grid-cols-12 gap-4">
             {/* Left Column (Main Content) */}
-            <div className="col-span-12 sm:col-span-8 md:px-4 py-10">
+            <div className="col-span-12 sm:col-span-8 md:px-4">
 
 
               {/* Product Info */}
@@ -869,7 +869,7 @@ const StepSeven = ({setHideSidebar}) => {
 
             {/* Right Column (Order Summary) */}
             <div className="col-span-12 sm:col-span-4">
-              <div className="relative lg:sticky lg:top-56">
+              <div className="relative lg:sticky lg:top-[7rem]">
                 <div className="mx-auto md:mr-auto md:ml-0 w-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg
         shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
                   <h2 className="text-lg font-semibold mb-4 p-4">Order Summary</h2>

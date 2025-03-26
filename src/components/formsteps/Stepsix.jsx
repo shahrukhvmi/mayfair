@@ -6,7 +6,8 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import dayjs from "dayjs";
 
-const Stepsix = () => {
+const Stepsix = ({ setHideSidebar }) => {
+  setHideSidebar(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -34,7 +35,9 @@ const Stepsix = () => {
 
       stepKeys.forEach((step) => {
         const storedData = localStorage.getItem(step);
-        data[step] = storedData ? JSON.parse(storedData) : null;
+        data[step] = storedData !== undefined && storedData != "undefined" && storedData ? JSON.parse(storedData) : undefined;
+        // storedData !== undefined && storedData != "undefined" && storedData ? JSON.parse(storedData) : undefined;
+
       });
 
       setStepsData(data); // Update state with loaded steps data
@@ -194,13 +197,13 @@ const Stepsix = () => {
                             </div>
                           </td>
 
-             
+
                           <td className="p-4 w-1/6 align-center border-r border-gray-300 rounded-md capitalize text-center text-gray-700">
                             {item?.answer || <span className="text-gray-500">N/A</span>}
                           </td>
 
-                         
-                
+
+
                           <td className="p-4 w-full sm:w-1/3 border-gray-300 rounded-md">
                             <div className="mt-2 text-sm text-gray-700 break-words w-full whitespace-pre-wrap">
                               {item.subfield_response ? (
