@@ -563,7 +563,7 @@ const StepSeven = ({ setHideSidebar }) => {
 
     //         {/* Product Info */}
     //         <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6 hidden sm:block">
-    //           <div className="bg-[#4565BF] p-6">
+    //           <div className="bg-violet-700 p-6">
     //             <img
     //               src={product?.img}
     //               alt={product?.name}
@@ -647,7 +647,7 @@ const StepSeven = ({ setHideSidebar }) => {
 
     //         {/* Product Info */}
     //         <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6 sm:hidden block">
-    //           <div className="bg-[#4565BF] p-6">
+    //           <div className="bg-violet-700 p-6">
     //             <img
     //               src={product?.img}
     //               alt={product?.name}
@@ -717,7 +717,7 @@ const StepSeven = ({ setHideSidebar }) => {
 
               {/* Product Info */}
               {/* <div className="bg-white rounded-lg shadow-lg overflow-hidden mb-6">
-                <div className="bg-[#4565BF] p-6">
+                <div className="bg-violet-700 p-6">
                   <img src={product?.img} alt={product?.name} className="w-full h-40 object-contain" />
                 </div>
                 <div className="p-6">
@@ -921,7 +921,7 @@ const StepSeven = ({ setHideSidebar }) => {
             {/* Back Button */}
             <button
               onClick={() => dispatch(prevStep())}
-              className="flex flex-col items-center justify-center text-white rounded-md bg-[#4565BF] p-3"
+              className="flex flex-col items-center justify-center text-white rounded-md bg-violet-700 p-3"
             >
               <span className="text-md font-semibold px-2">Back</span>
             </button>
@@ -932,8 +932,8 @@ const StepSeven = ({ setHideSidebar }) => {
               onClick={() => dispatch(nextStep())}
               disabled={!isValid || !isDoseSelected}
               className={`p-3 flex flex-col items-center justify-center ${!isValid || !isDoseSelected
-                ? "disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] text-white rounded-md"
-                : "text-white rounded-md bg-[#4565BF]"
+                ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                : "text-white rounded-md bg-violet-700"
                 }`}
             >
               <span className="text-md font-semibold">Proceed to Checkout</span>

@@ -196,7 +196,7 @@ const Stepsix = ({ setHideSidebar }) => {
                   <div className="relative flex w-full justify-between items-center">
                     <button
                       onClick={() => dispatch(prevStep())}
-                      className="flex flex-col items-center justify-center text-white rounded-md bg-[#4565BF] p-3"
+                      className="flex flex-col items-center justify-center text-white rounded-md bg-violet-700 p-3"
                     >
                       <span className="text-md font-semibold px-6">Back</span>
                     </button>
@@ -204,7 +204,7 @@ const Stepsix = ({ setHideSidebar }) => {
                     <button
                       type="submit"
                       onClick={() => dispatch(nextStep())}
-                      className="p-3 flex flex-col items-center justify-center text-white rounded-md bg-[#4565BF]"
+                      className="p-3 flex flex-col items-center justify-center text-white rounded-md bg-violet-700"
                     >
                       <span className="text-md font-semibold px-6">Next</span>
                     </button>

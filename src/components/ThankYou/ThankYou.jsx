@@ -102,7 +102,7 @@ const ThankYou = () => {
             {/* Thank You Text */}
             <h1
                 ref={titleRef}
-                className="text-4xl md:text-5xl font-bold text-[#4565BF] mb-4"
+                className="text-4xl md:text-5xl font-bold text-violet-700 mb-4"
             >
                 Thank You!
             </h1>

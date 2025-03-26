@@ -897,7 +897,7 @@ const Stepone = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isValid || !watch("ethnicity") || loader || error} // Check if ethnicity is filled
                 className={`rounded-md px-4 py-2 shadow-md text-white ${isValid && watch("ethnicity") && !loader
-                  ? "bg-[#4565BF] hover:bg-[#3a54a0] cursor-pointer"
+                  ? "bg-violet-700 hover:bg-[#3a54a0] cursor-pointer"
                   : "bg-gray-400 cursor-not-allowed"
                   }`}
               >
@@ -928,8 +928,8 @@ const Stepone = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
                 className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage
-                  ? "disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] text-white rounded-md"
-                  : "text-white rounded-md bg-[#4565BF]"
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
                   }`}
               >
                 {loader ? (

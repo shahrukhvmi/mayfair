@@ -665,7 +665,7 @@ const updateMetric = () => {
       {/* <div className="mx-auto w-full overflow-auto sm:max-w-[1000px] px-5 py-4 bg-white rounded-md shadow-lg shadow-slate-300"> */}
         {/* <div className="flex justify-center my-3">
           <div className="flex items-center gap-3 mb-6">
-            <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
+            <span className="text-xl bg-violet-700 rounded-full text-white flex items-center justify-center w-11 h-11">
               0{currentStep}
             </span>
             <h1 className="text-2xl md:text-4xl re-font tracking-[-2px]">
@@ -1299,7 +1299,7 @@ const updateMetric = () => {
                     {/* Back Button */}
                     <button
                       onClick={() => dispatch(prevStep())}
-                      className="flex flex-col items-center justify-center text-white rounded-md bg-[#4565BF] p-3"
+                      className="flex flex-col items-center justify-center text-white rounded-md bg-violet-700 p-3"
                     >
                       <span className="text-md font-semibold px-6">Back</span>
                     </button>
@@ -1317,8 +1317,8 @@ const updateMetric = () => {
                         isLoading ||
                         !isValid ||
                         (showCheckBox && !isAtLeastOneCheckboxValid())
-                        ? "disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] text-white rounded-md"
-                        : "text-white rounded-md bg-[#4565BF]"
+                        ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                        : "text-white rounded-md bg-violet-700"
                         }`}
                     >
                       <span className="text-md font-semibold px-6">Next</span>

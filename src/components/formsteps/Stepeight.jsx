@@ -29,7 +29,8 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import { gsap } from "gsap";
 import PaymentPage from "../PaymentSection/PaymentPage";
-const Stepeight = ({setHideSidebar}) => {
+import { HiOutlinePencilAlt } from "react-icons/hi";
+const Stepeight = ({ setHideSidebar }) => {
 
   setHideSidebar(true);
 
@@ -1113,7 +1114,7 @@ const Stepeight = ({setHideSidebar}) => {
                       {/* Terms & Conditions */}
                       <Box className="bg-white rounded-lg border sm:mb-0">
                         {/* Terms and Conditions */}
-                        <Box className="space-y-6 ">
+                        <Box className="">
 
 
                           <div class="bg-[#f3f4f6] flex py-2 px-5 items-center gap-2">
@@ -1230,8 +1231,8 @@ const Stepeight = ({setHideSidebar}) => {
                                     <span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />
                                   }
                                   checkedIcon={
-                                    <span className="w-5 h-5 border-2 border-[#4565BF] rounded-full flex items-center justify-center">
-                                      <span className="w-2.5 h-2.5 bg-[#4565BF] rounded-full" />
+                                    <span className="w-5 h-5 border-2 border-violet-700 rounded-full flex items-center justify-center">
+                                      <span className="w-2.5 h-2.5 bg-violet-700 rounded-full" />
                                     </span>
                                   }
                                   sx={{
@@ -1243,8 +1244,7 @@ const Stepeight = ({setHideSidebar}) => {
                               }
                               label={
                                 <p className="font-sans font-bold text-md italic">
-                                  I confirm that I have reviewed and agree to the expiry
-                                  dates of the dosages mentioned above.
+                                  I agree that I have read, understood and agree to the above
                                 </p>
                               }
                             />
@@ -1290,7 +1290,7 @@ const Stepeight = ({setHideSidebar}) => {
 
                       {/* <div className="bg-white p-6 rounded-lg shadow-md sm:fixed mt-10 sm:mt-[100px]"> */}
 
-                      <Box className="bg-white p-6 rounded-lg shadow-md mt-6 sm:mt-[110px]">
+                      <Box className="bg-[#F9FAFB] p-6 rounded-lg shadow-md mt-6 sm:mt-[110px]">
                         <div className="overflow-y-auto ">
                           <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">
                             Order Summary
@@ -1302,9 +1302,9 @@ const Stepeight = ({setHideSidebar}) => {
                             {doses?.map((item, index) => (
                               <>
 
-                                <Box
+                                {/* <Box
                                   key={index}
-                                  className="flex justify-between  border border-green-400 rounded-md p-3"
+                                  className="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden"
                                 >
                                   <Box className="flex items-center space-x-2">
                                     <span className="font-medium text-sm">
@@ -1321,77 +1321,160 @@ const Stepeight = ({setHideSidebar}) => {
                                       <FaEdit />
                                     </IconButton>
                                   </Box>
-                                </Box>
+                                </Box> */}
+                                <li class="flex" key={index}>
+                                  <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                    <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.product} {item.name}</span>
 
+                                    <span class="text-[13px]">(x1)</span>
+                                    <span class="text-[13px]">£{item.price}
+                                    </span>
+                                  </div>
+                                  <button
+                                    onClick={() => handleEdit(item.id)}
+                                    class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded dark:bg-gray-700 dark:text-gray-400">
+                                    <HiOutlinePencilAlt />
+                                  </button>
+                                </li>
 
                                 {
                                   item.product === "Mounjaro (Tirzepatide)" && (
 
-                                    <Box
-                                      key={`${item.id}-needle`}
-                                      className="flex justify-between  border border-green-400 rounded-md p-3"
-                                    >
-                                      <Box className="flex items-center space-x-2">
-                                        <span className="font-medium text-sm">
-                                          Pack of 5 Needle, {item.qty}x
-                                        </span>
-                                        <span className="font-bold text-md">£0.00</span>
-                                      </Box>
-                                      <Box>
+                                    // <Box
+                                    //   key={`${item.id}-needle`}
+                                    //   className="flex justify-between  border border-green-400 rounded-md p-3"
+                                    // >
+                                    //   <Box className="flex items-center space-x-2">
+                                    //     <span className="font-medium text-sm">
+                                    //       Pack of 5 Needle, {item.qty}x
+                                    //     </span>
+                                    //     <span className="font-bold text-md">£0.00</span>
+                                    //   </Box>
+                                    //   <Box>
 
-                                      </Box>
-                                    </Box>
+                                    //   </Box>
+                                    // </Box>
+
+
+
+                                    <li class="flex" key={index}>
+                                      <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+
+
+                                        <span class="text-[13px]">  Pack of 5 Needle, {item.qty}x</span>
+                                        <span class="text-[13px]">£0.00
+                                        </span>
+                                      </div>
+
+                                    </li>
                                   )
                                 }
                               </>))}
 
                             {/* Addons */}
                             {addons?.map((item) => (
-                              <Box
-                                key={item.id}
-                                className="flex justify-between  border border-green-400 rounded-md p-3"
-                              >
-                                <Box className="flex items-center space-x-2">
-                                  <span className="font-medium text-sm">
-                                    {item.product} {item.name}
+                              // <Box
+                              //   key={item.id}
+                              //   className="flex justify-between  border border-green-400 rounded-md p-3"
+                              // >
+                              //   <Box className="flex items-center space-x-2">
+                              //     <span className="font-medium text-sm">
+                              //       {item.product} {item.name}
+                              //     </span>
+                              //     <span className="font-bold text-md">£{item.price}</span>
+                              //   </Box>
+                              //   <Box className="flex items-center space-x-2">
+                              //     <IconButton
+                              //       size="small"
+                              //       color="success"
+                              //       onClick={() => handleEdit(item.id)} // Ensure this function works
+                              //     >
+                              //       <FaEdit />
+                              //     </IconButton>
+                              //   </Box>
+                              // </Box>
+
+                              <li class="flex" key={item.id}>
+                                <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                  <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.name}</span>
+
+                                  <span class="text-[13px]">(x1)</span>
+                                  <span class="text-[13px]">£{item.price}
                                   </span>
-                                  <span className="font-bold text-md">£{item.price}</span>
-                                </Box>
-                                <Box className="flex items-center space-x-2">
-                                  <IconButton
-                                    size="small"
-                                    color="success"
-                                    onClick={() => handleEdit(item.id)} // Ensure this function works
-                                  >
-                                    <FaEdit />
-                                  </IconButton>
-                                </Box>
-                              </Box>
+                                </div>
+                                <button
+                                  onClick={() => handleEdit(item.id)}
+                                  class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded dark:bg-gray-700 dark:text-gray-400">
+                                  <HiOutlinePencilAlt />
+                                </button>
+                              </li>
                             ))}
                           </Box>
+
+
+                          {(countryShippingPrice !== null && countryShippingPrice !== undefined) ||
+                            (coutryPrice !== null && coutryPrice !== undefined) ? (<>
+
+
+                              {/* <div className="flex justify-between items-center">
+                                <Typography variant="body1" className="text-gray-600">Shipping</Typography>
+                                <span className="font-medium text-lg text-gray-800">
+                                  £{countryShippingPrice !== null && countryShippingPrice !== undefined
+                                    ? Number(countryShippingPrice).toFixed(2)
+                                    : Number(coutryPrice || 0).toFixed(2)}
+                                </span>
+                              </div> */}
+
+                              <li class="flex" >
+                                <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                  <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden">Shipping</span>
+
+                                  <span class="text-[13px]"> £{countryShippingPrice !== null && countryShippingPrice !== undefined
+                                    ? Number(countryShippingPrice).toFixed(2)
+                                    : Number(coutryPrice || 0).toFixed(2)}
+                                  </span>
+                                </div>
+
+                              </li>
+                            </>) : null}
+                          {/* <div className="flex justify-between items-center">
+                            <Typography variant="body1" className="text-gray-600">Subtotal</Typography>
+                            <span className="font-medium text-lg text-gray-800">£{subtotal.toFixed(2)}</span>
+                          </div> */}
+
+                          <div class="flex items-center justify-between mt-6 md:mt-8"><p class="text-sm text-gray-900 dark:text-white">Sub Total</p><p class="text-sm text-gray-900 dark:text-white">£{subtotal.toFixed(2)}</p></div>
+
+                          <hr className="my-2 md:my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mt-4" />
+
+
+
+                          <div class="flex items-center justify-between"><p class="text-base font-bold text-gray-900 dark:text-white">Total</p><p class="text-base font-bold text-gray-900 dark:text-white">£{total.toFixed(2)}</p></div>
+
+                          <hr className="my-2 md:my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mt-4" />
+
 
                           <div className="pt-6 flex flex-col space-y-6">
                             {/* Coupon Input Section */}
                             <div>
                               {!isCouponApplied && (
-                                <div className={`flex items-center border border-gray-100 rounded-lg px-4 py-3 shadow-sm hover:border-blue-600 focus:outline-blue transition-shadow duration-200 `}>
+                                <div className={`flex items-center py-3 shadow-sm  `}>
                                   <input
                                     type="text"
                                     value={discountCode}
                                     onChange={(e) => setDiscountCode(e.target.value)}
-                                    placeholder="Enter discount code"
-                                    className="flex-1 text-base text-gray-800 placeholder-gray-400 focus:outline-none rounded-md"
+                                    placeholder="Discount code"
+                                    className="flex-1 text-sm text-gray-800 placeholder-gray-400 focus:outline-none rounded-md p-2 hover:border-blue-600 focus:outline-blue transition-shadow duration-200"
                                   />
                                   <button
                                     type="button"
                                     onClick={handleApplyCoupon}
                                     disabled={discountCode.trim() === ""}
                                     className={`ml-3 px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition-all duration-200 ${discountCode.trim() === ""
-                                      ? "disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] text-white rounded-md"
-                                      : "bg-gradient-to-r from-[#4565BF] to-blue-500 text-white hover:from-[#4565BF] hover:to-blue-600"
+                                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                                      : "bg-gradient-to-r from-violet-700 to-violet-500 text-white hover:from-violet-700 hover:to-violet-600"
                                       }`}
                                   >
-                                    Apply
+                                    Apply Code
                                   </button>
                                 </div>
                               )}
@@ -1416,10 +1499,7 @@ const Stepeight = ({setHideSidebar}) => {
                             </div>
 
                             {/* Subtotal */}
-                            <div className="flex justify-between items-center">
-                              <Typography variant="body1" className="text-gray-600">Subtotal</Typography>
-                              <span className="font-medium text-lg text-gray-800">£{subtotal.toFixed(2)}</span>
-                            </div>
+
 
                             {/* Shipping */}
                             {/* {(countryShippingPrice !== null || coutryPrice) && (
@@ -1430,17 +1510,7 @@ const Stepeight = ({setHideSidebar}) => {
                           </span>
                         </div>
                       )} */}
-                            {(countryShippingPrice !== null && countryShippingPrice !== undefined) ||
-                              (coutryPrice !== null && coutryPrice !== undefined) ? (
-                              <div className="flex justify-between items-center">
-                                <Typography variant="body1" className="text-gray-600">Shipping</Typography>
-                                <span className="font-medium text-lg text-gray-800">
-                                  £{countryShippingPrice !== null && countryShippingPrice !== undefined
-                                    ? Number(countryShippingPrice).toFixed(2)
-                                    : Number(coutryPrice || 0).toFixed(2)}
-                                </span>
-                              </div>
-                            ) : null}
+                           
 
 
 
@@ -1458,10 +1528,7 @@ const Stepeight = ({setHideSidebar}) => {
                             )}
 
                             {/* Total */}
-                            <div className="flex justify-between items-center mt-4 border-t border-gray-200 pt-4">
-                              <Typography variant="h6" className="font-semibold text-gray-800">Total</Typography>
-                              <span className="font-bold text-lg text-gray-900">£{total.toFixed(2)}</span>
-                            </div>
+
                           </div>
 
                         </div>
@@ -1477,7 +1544,7 @@ const Stepeight = ({setHideSidebar}) => {
                       {/* Back Button */}
                       <button
                         onClick={() => dispatch(prevStep())}
-                        className="flex flex-col items-center justify-center text-white rounded-md bg-[#4565BF] p-3"
+                        className="flex flex-col items-center justify-center text-white rounded-md bg-violet-700 p-3"
                       >
                         <span className="text-md font-semibold px-3">Back</span>
                       </button>
@@ -1485,8 +1552,8 @@ const Stepeight = ({setHideSidebar}) => {
                         type="submit"
                         disabled={!isValid || loader}
                         className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
-                          ? "disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] text-white rounded-md"
-                          : "text-white rounded-md bg-[#4565BF]"
+                          ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                          : "text-white rounded-md bg-violet-700"
                           }`}
                       >
                         {loader ? (

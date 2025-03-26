@@ -26,7 +26,7 @@ const PaymentFailed = () => {
                 <div className="mt-6 flex gap-4 justify-center">
                     <button
                         onClick={handleGoBack}
-                        className="bg-[#4565BF] text-white dark:text-gray-900 font-semibold py-2 px-6 rounded-lg transition-all duration-300"
+                        className="bg-violet-700 text-white dark:text-gray-900 font-semibold py-2 px-6 rounded-lg transition-all duration-300"
                     >
                         Continue to Available Treatments
                     </button>

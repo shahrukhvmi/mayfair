@@ -18,7 +18,7 @@ const Pagination = ({ pagination }) => {
               href={links.prev || "#"}
               className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 links.prev
-                  ? "hover:bg-[#4565BF] hover:text-white bg-white border border-gray-300"
+                  ? "hover:bg-violet-700 hover:text-white bg-white border border-gray-300"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >
@@ -33,8 +33,8 @@ const Pagination = ({ pagination }) => {
                 href={links[i + 1]}
                 className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-medium border transition-all duration-300 ${
                   current_page === i + 1
-                    ? "bg-[#4565BF] text-white border-[#4565BF] shadow-lg"
-                    : "bg-white border-gray-300 text-gray-700 hover:bg-[#4565BF] hover:text-white"
+                    ? "bg-violet-700 text-white border-violet-700 shadow-lg"
+                    : "bg-white border-gray-300 text-gray-700 hover:bg-violet-700 hover:text-white"
                 }`}
               >
                 {i + 1}
@@ -48,7 +48,7 @@ const Pagination = ({ pagination }) => {
               href={links.next || "#"}
               className={`min-w-[40px] px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
                 links.next
-                  ? "hover:bg-[#4565BF] hover:text-white bg-white border border-gray-300"
+                  ? "hover:bg-violet-700 hover:text-white bg-white border border-gray-300"
                   : "bg-gray-300 text-gray-500 cursor-not-allowed"
               }`}
             >

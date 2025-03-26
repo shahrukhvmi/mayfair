@@ -144,7 +144,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
                       htmlFor="confirmNo"
                       className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${
                         field.value === "no"
-                          ? "border-[#4565BF] bg-violet-200"
+                          ? "border-violet-700 bg-violet-200"
                           : "border-gray-300 bg-white"
                       }`}
                       onClick={handleNoSelection}
@@ -153,7 +153,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
                         <span
                           className={`text-sm font-semibold uppercase ${
                             field.value === "no"
-                              ? "text-[#4565BF]"
+                              ? "text-violet-700"
                               : "text-gray-500"
                           }`}
                         >
@@ -188,7 +188,7 @@ const ReOrderModel = ({ closeModel, onHandleConfirm, loading }) => {
 
             <div className="flex justify-center">
               <button
-                className="px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed bg-[#4565BF] border border-transparent rounded-md text-xs text-white uppercase tracking-widest hover:bg-[#4565BF] transition ease-in-out duration-150"
+                className="px-6 py-2 disabled:opacity-50 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md text-xs text-white uppercase tracking-widest hover:bg-violet-700 transition ease-in-out duration-150"
                 type="submit"
                 disabled={!isValid || loading}
               >
