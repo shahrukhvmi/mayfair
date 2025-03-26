@@ -29,7 +29,10 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import { gsap } from "gsap";
 import PaymentPage from "../PaymentSection/PaymentPage";
-const Stepeight = () => {
+const Stepeight = ({setHideSidebar}) => {
+
+  setHideSidebar(true);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -626,11 +629,11 @@ const Stepeight = () => {
 
         : (<>
 
-          <section className="bg-violet-100 sm:p-6">
+          <section className="">
             <div className="bg-white rounded-lg">
 
               <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-screen-2xl mx-auto">
-                <div className="grid grid-cols-12 gap-4 px-4">
+                <div className="grid grid-cols-12 gap-4">
                   {/* Left Side: Main Form */}
 
                   <div className="col-span-12 sm:col-span-8  py-5">
@@ -1131,11 +1134,11 @@ const Stepeight = () => {
               list-style-type: decimal;
               padding-left: 1.5rem;
               margin-top: 0;
-              margin-bottom: 1rem;
+              // margin-bottom: 1rem;
             }
             li {
               line-height: 1.8;
-              margin-bottom: 0.75rem;
+              // margin-bottom: 0.75rem;
             }
             a {
               color: #2563eb;
@@ -1214,7 +1217,7 @@ const Stepeight = () => {
                           )}
 
                           {/* Checkbox with Agreement */}
-                          <div className="space-x-4 text-sm p-6">
+                          <div className="space-x-4 text-sm p-6 bg-gray-50">
                             <FormControlLabel
                               className=""
                               control={

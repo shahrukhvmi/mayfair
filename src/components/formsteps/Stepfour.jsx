@@ -9,7 +9,8 @@ import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 
-const Stepfour = () => {
+const Stepfour = ({setHideSidebar}) => {
+  setHideSidebar(false)
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -50,7 +51,8 @@ const Stepfour = () => {
     }
     const checkPrevData = localStorage.getItem("step4");
     if (checkPrevData) {
-      const dataParse = JSON.parse(checkPrevData);
+      // const dataParse = JSON.parse(checkPrevData);
+      const dataParse = checkPrevData !== undefined && checkPrevData != "undefined" && checkPrevData ? JSON.parse(checkPrevData) : undefined;
 
       if (dataParse[0].answer === true) {
         setValue("confirmation_question", true);

@@ -24,7 +24,9 @@ import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
 import { BorderBottom, LineWeight } from "@mui/icons-material";
-const Stepone = ({setHideSidebar}) => {
+const Stepone = ({ setHideSidebar }) => {
+
+  setHideSidebar(false)
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -45,7 +47,9 @@ const Stepone = ({setHideSidebar}) => {
   useEffect(() => {
     if (stepPrevApiData !== null || stepPrev !== undefined || userData !== undefined) {
       const parsedData = JSON.parse(stepPrevApiData);
-      const stepPrevParse = JSON.parse(stepPrev);
+
+
+      const stepPrevParse = stepPrev !== undefined && stepPrev != "undefined" && stepPrev ? JSON.parse(stepPrev) : undefined;
       const userInfo = JSON.parse(userData);
 
       setLastConsultation(parsedData?.last_consultation_data?.patientInfo);
@@ -277,12 +281,12 @@ const Stepone = ({setHideSidebar}) => {
 
   const textFieldStyles = {
     "& label": {
-    color: "#6b7280", // Default label color
-    fontSize: 16,
-    top: "-2px",
+      color: "#6b7280", // Default label color
+      fontSize: 16,
+      top: "-2px",
     },
     "& label.Mui-focused": {
-    color: "#6c757d", // Label color when focused
+      color: "#6c757d", // Label color when focused
     },
     "& .MuiInputBase-input": {
       color: "#111827", // Text color inside input
@@ -338,11 +342,11 @@ const Stepone = ({setHideSidebar}) => {
 
   return (
     <div className="">
-        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
-            Step 1: <span className="font-bold">Patient Information</span>
-        </h1>
+      <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+        Step 1: <span className="font-bold">Patient Information</span>
+      </h1>
 
-        <p className="text-2xl text-gray-800 mb-3 pb-2 font pt-5 lg:pt-5">Personal Information</p>
+      <p className="text-2xl text-gray-800 mb-3 pb-2 font pt-5 lg:pt-5">Personal Information</p>
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3">
         {/* First Name & Last Name */}
@@ -619,7 +623,7 @@ const Stepone = ({setHideSidebar}) => {
                     value="Yes"
                     {...register("breastFeeding", {
                       required: "This field is required",
-                      
+
                       validate: (value) => {
                         if (value === "Yes") {
                           setWarningMessage(`This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`);
@@ -757,8 +761,8 @@ const Stepone = ({setHideSidebar}) => {
                   sx={selectStyles}
                 >
                   <InputLabel>Select Autofill</InputLabel>
-                  <Select              
-                    
+                  <Select
+
                     {...register("addressSelect", {
                       required: "Please select an address",
                     })} // Validation for Select
