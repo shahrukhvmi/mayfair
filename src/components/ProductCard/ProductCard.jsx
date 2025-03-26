@@ -94,7 +94,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
         localStorage.removeItem("cart");
         dispatch(clearCart());
         dispatch(clearCartAddon());
-        
+
       } else {
 
         // localStorage.setItem("reorder", false);
@@ -172,9 +172,9 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   return (
     <>
       <div
-        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden cursor-pointer transition-transform"
-        // onMouseEnter={handleMouseEnter}
-        // onMouseLeave={handleMouseLeave}
+        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden cursor-pointer transition-transform shadow-md"
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
       >
 
 
@@ -202,7 +202,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
           <img
             src={image}
             alt={title}
-            className="w-full h-full object-contain"
+            className="w-full p-5 h-52 object-contain"
             onError={(e) => (e.target.src = "/images/default.png")}
           />
         </div>
@@ -215,14 +215,28 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
 
             {lastOrderDate && `Last Ordered: ${lastOrderDate}`}
           </p>
-          <button
+          {/* <button
             onClick={handleClick}
-            className={`px-6 py-2 w-48 rounded-full text-white reg-font ${status ? "bg-[#7c3aed] hover:bg-[#fff]  hover:text-[#7c3aed] hover:scale-105" : "bg-gray-400 cursor-not-allowed"
+            className={`px-6 py-2 w-50 rounded-full text-white reg-font ${status ? "bg-[#7c3aed] hover:bg-[#fff]  hover:text-[#7c3aed] hover:scale-105" : "bg-gray-400 cursor-not-allowed"
               }`}
             disabled={!status}
           >
             {buttonText}
-          </button>
+          </button> */}
+
+          <div className="w-full text-center">
+            <button
+              onClick={handleClick}
+              type="button"
+              className={
+                status === false
+                  ? "bg-[#897bba] text-white py-2 px-6 rounded-full text-sm text-center"
+                  : "bg-[#5b45a7] text-white font-medium py-2 px-6 rounded-full text-sm text-center hover:bg-white hover:text-violet-700 transition-colors duration-200"
+              }
+            >
+              {buttonText}
+            </button>
+          </div>
         </div>
       </div>
 

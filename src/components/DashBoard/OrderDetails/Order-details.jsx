@@ -58,32 +58,32 @@ const OrderDetails = () => {
   return (
     <div className="p-3 sm:p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 sm:me-5">
       <div className="relative">
-        <p className="h-fit whitespace-nowrap inline-flex items-center px-6 py-2 bg-[#4565BF] border border-transparent rounded-tr-full rounded-br-full font-semibold text-xs cursor-text text-white uppercase tracking-widest hover:bg-[#4565BF] focus:bg-[#4565BF] active:bg-[#4565BF] focus:outline-none focus:ring-2 focus:ring-[#4565BF] focus:ring-offset-2 transition ease-in-out duration-150  absolute -left-4 -top-4 lg:relative lg:top-0 lg:left-0">
+        <p className="h-fit whitespace-nowrap inline-flex items-center px-6 py-2 bg-violet-700 border border-transparent rounded-tr-full rounded-br-full font-semibold text-xs cursor-text text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-violet-700 active:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 transition ease-in-out duration-150  absolute -left-4 -top-4 lg:relative lg:top-0 lg:left-0">
           {date} {time}
         </p>
       </div>
       <div className="flex flex-col md:flex-row justify-between items-center my-6">
-        <h1 className="text-2xl semibold-font text-[#1C1C29] my-4 sm:mb-4 md:mb-0">
+        <h1 className="text-xl semibold-font text-[#1C1C29] my-4 sm:mb-4 md:mb-0">
           Details of Order #{data?.data?.order?.id}
         </h1>
 
         {/* Buttons for Order Details */}
         <div className="flex-wrap justify-between md:space-x-2 space-y-2 md:space-y-0 hidden sm:flex">
-          <button className="px-5 py-3 bg-[#4565BF] text-white rounded-full hover:bg-[#3a4e91] transition duration-300 ease-in-out w-full md:w-auto">
+          <button className="px-5 py-3 bg-violet-700 text-white rounded-full hover:bg-[#3a4e91] transition duration-300 ease-in-out w-full md:w-auto">
             <span className="mx-1 my-1">Order Status</span>
             <span className="font-semibold bg-[#223e8a] text-xs rounded-lg p-1">
               {data?.data?.order?.status}
             </span>
           </button>
 
-          <button className="px-5 py-3 bg-[#4565BF] text-white rounded-full hover:bg-[#3a4e91] transition duration-300 ease-in-out w-full md:w-auto">
+          <button className="px-5 py-3 bg-violet-700 text-white rounded-full hover:bg-[#3a4e91] transition duration-300 ease-in-out w-full md:w-auto">
             <span className="mx-1 my-1">Payment Status</span>
             <span className="font-semibold bg-[#223e8a] text-xs p-1 rounded-lg">
               {data?.data?.order?.payments?.status}
             </span>
           </button>
 
-          <button className="px-5 py-3 bg-[#4565BF] text-white rounded-full hover:bg-[#3a4e91] transition duration-300 ease-in-out w-full md:w-auto">
+          <button className="px-5 py-3 bg-violet-700 text-white rounded-full hover:bg-[#3a4e91] transition duration-300 ease-in-out w-full md:w-auto">
             <span className="mx-1 my-1">Order Total</span>
             <span className="font-semibold bg-[#223e8a] text-xs p-1 rounded-lg">
               £{data?.data?.order?.total_price}
@@ -487,7 +487,7 @@ const OrderDetails = () => {
       {/* Back Button */}
       <div className="flex justify-start">
         <Link to="/orders">
-          <button className="px-6 py-2 bg-[#4565BF] text-white rounded-md hover:bg-[#4565BF] transition">
+          <button className="px-6 py-2 bg-violet-700 text-white rounded-md hover:bg-violet-700 transition">
             Back
           </button>
         </Link>

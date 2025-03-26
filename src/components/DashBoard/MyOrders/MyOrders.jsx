@@ -96,7 +96,7 @@ const MyOrders = () => {
                 type="text"
                 id="simple-search"
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full pl-10 p-2"
-                placeholder="Search by Order ID, Treatment, or Dose"
+                placeholder="Search by Order ID"
               />
             </div>
           </form>
@@ -144,97 +144,211 @@ const MyOrders = () => {
         </div>
       </div>
 
+
+      <div class="my-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-6"><div class="flex items-start"><div class="flex"><span><svg class="w-6 h-6 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 4v1m-1-1h1a1 1 0 001-1v-1h-1v1m-1-1v-4h1a1 1 0 011 1v1h1v-1a1 1 0 00-1-1h-1V9m0-1a1 1 0 10-2 0v1H9m4-1V7H9v1h1v1h1v-1h1V8z"></path></svg></span><span class="font-bold">Note</span><span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span></div></div></div>
       {/* Orders Table */}
-      <div className="relative overflow-x-scroll lg:overflow-x-auto sm:w-full w-96 mt-6 overflow-hidden px-3">
-        <table className="w-full text-sm text-left text-gray-500 table-auto">
+      <div className="relative overflow-x-auto lg:overflow-x-visible">
+        <table className="w-full text-sm text-left text-gray-500 table-auto mt-4">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-            <tr>
-              <th className="px-4 py-3">Order ID</th>
-              <th className="px-4 py-3">Order Date</th>
-              <th className="px-4 py-3">Treatment</th>
-              <th className="px-4 py-3">Variation</th>
-              <th className="px-4 py-3">Status</th>
-              <th className="px-4 py-3">Total</th>
-              <th className="px-4 py-3">Actions</th>
+            <tr className="[&>th]:px-3 [&>th]:py-3 [&>th]:whitespace-nowrap">
+              {/* <th scope="col">#</th> */}
+              <th scope="col">
+                Order ID
+              </th>
+              <th scope="col">
+                Order Date
+              </th>
+              <th scope="col">
+                Treatment
+              </th>
+              <th scope="col">
+                Variation
+              </th>
+
+              <th scope="col">Status</th>
+              <th scope="col">Total</th>
+
+              <th scope="col">
+                <span className="sr-only">
+                  Actions
+                </span>
+              </th>
             </tr>
           </thead>
           <tbody>
-            {isLoading ? (
-              <tr className="border-b">
-                <td className="px-4 py-3">
-                  <Skeleton variant="text" width={100} height={20} />
-                </td>
-                <td className="px-4 py-3">
-                  <Skeleton variant="text" width={120} height={20} />
-                </td>
-                <td className="px-4 py-3">
-                  <Skeleton variant="text" width={150} height={20} />
-                </td>
-                <td className="px-4 py-3">
-                  <Skeleton variant="text" width={180} height={20} />
-                </td>
-                <td className="px-4 py-3">
-                  <Skeleton variant="text" width={80} height={20} />
-                </td>
-                <td className="px-4 py-3">
-                  <Skeleton variant="text" width={90} height={20} />
-                </td>
-                <td className="px-4 py-3">
-                  <Skeleton variant="rounded" width={20} height={20} />
-                </td>
-              </tr>
-            ) : filteredData?.length > 0 ? (
-              filteredData.map((order) => (
-                <tr key={order?.id} className="border-b">
-                  <td className="px-4 py-3">{order?.id}</td>
-                  <td className="px-4 py-3">{order?.created_at}</td>
-                  <td className="px-4 py-3">
-                    {order?.items?.[0]?.product}
-                  </td>
-
-                  <td className="px-4 py-3">
-
-                    {order?.items?.[0]?.name} x {order?.items?.[0]?.quantity}
-                    {/* {order?.items.map((item, index) => (
-                      <div key={index}>
-                        Dose: {item.name} x {item.quantity}
-                      </div>
-                    ))} */}
-                  </td>
-                  <td className="px-4 py-3">
-                    <span
-                      className={`${getStatusClasses(
-                        order?.status
-                      )} text-xs font-medium px-2.5 py-0.5 rounded-full`}
-                    >
-                      {order?.status}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3">£{order?.total_price}</td>
-                  <td className="px-4 py-3">
-                    <Link to={`/orders/${order?.id}`}>
-                      <IoEye size={20} color="#4565BF" />
-                    </Link>
-                  </td>
-                </tr>
-              ))
-            ) : (
+            {filteredData?.length === 0 ? (
               <tr>
-                <td colSpan="7" className="text-center py-4 text-base">
-                  No orders found
+                <td
+                  colSpan="7"
+                  className="text-center py-4"
+                >
+                  Orders are not
+                  available
                 </td>
               </tr>
+            ) : (
+              filteredData?.map(
+                (order, index) => (
+                  <tr className="border-b dark:border-gray-700 [&>td]:px-3 [&>td]:py-3 [&>td]:whitespace-nowrap">
+                    {/* <th scope="row" className="font-medium text-gray-900 whitespace-nowrap dark:text-white">{index+1}</th> */}
+                    <td>
+                      {
+                        order.order_id
+                      }
+                    </td>
+                    <td>
+                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                        {
+                          order.created_at
+                        }
+                      </span>
+                    </td>
+                    <td>
+                      {Array.from(
+                        new Set(
+                          order.items.map(
+                            (
+                              item
+                            ) =>
+                              item.product
+                          )
+                        )
+                      ).map(
+                        (
+                          uniqueProduct,
+                          index
+                        ) => (
+                          <li
+                            className="list-none"
+                            key={
+                              index
+                            }
+                          >
+                            {
+                              uniqueProduct
+                            }
+                          </li>
+                        )
+                      )}
+                    </td>
+
+                    <td>
+                      {Object.values(
+                        order.items.reduce(
+                          (
+                            acc,
+                            item
+                          ) => {
+                            const key =
+                              item.name;
+                            acc[
+                              key
+                            ] =
+                              acc[
+                              key
+                              ] || {
+                                name:
+                                  item.name ==
+                                    "" &&
+                                    item.label ==
+                                    "Pack of 5 Needles"
+                                    ? "Pack of 5 Needles"
+                                    : item.name,
+                                quantity: 0,
+                                count: 0,
+                              };
+                            acc[
+                              key
+                            ].quantity +=
+                              item.quantity;
+                            acc[
+                              key
+                            ].count += 1;
+                            return acc;
+                          },
+                          {}
+                        )
+                      ).map(
+                        (
+                          groupedItem,
+                          index
+                        ) => (
+                          <li
+                            key={
+                              index
+                            }
+                          >
+                            {
+                              groupedItem.name
+                            }{" "}
+                            x{" "}
+                            {
+                              groupedItem.quantity
+                            }
+                          </li>
+                        )
+                      )}
+                    </td>
+
+                    <td>
+                      <span
+                        className={`${order.status ===
+                          "Processing"
+                          ? "bg-yellow-100 border-yellow-500 text-yellow-800"
+                          : order.status ===
+                            "Incomplete"
+                            ? "bg-orange-100 border-orange-500 text-orange-800"
+                            : order.status ===
+                              "Cancelled"
+                              ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+                              : order.status ===
+                                "Approved"
+                                ? "bg-green-100 border-green-500 text-green-800"
+                                : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
+                          } text-xs font-medium me-2 px-2.5 py-0.5 rounded-full`}
+                      >
+                        {
+                          order.status
+                        }
+                      </span>
+                    </td>
+
+                    <td>
+                      £
+                      {
+                        order.total_price
+                      }
+                    </td>
+                    <td>
+                      <div className="flex items-center gap-6 justify-around">
+                        {/* View Link */}
+                        <div className="group relative">
+                          <Link to={`/orders/${order?.id}`}>
+                            <IoEye
+                              size={
+                                20
+                              }
+                              color="indigo"
+                              className="group-hover:opacity-75"
+                            />
+                          </Link>
+                          <div className="hidden whitespace-nowrap group-hover:block absolute bg-gray-800 text-white p-2 rounded shadow-lg text-xs left-[calc(50%-20px)] transform">
+                            View
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )
             )}
           </tbody>
         </table>
-
-
-
       </div>
 
       <Pagination pagination={data?.myorders} />
 
-    </div>
+    </div >
   );
 };
 

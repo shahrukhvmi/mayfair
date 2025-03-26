@@ -69,7 +69,7 @@ const ChangePassword = () => {
   return (
     <div className="p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 sm:me-5">
       <div className="">
-        <h1 className="md:text-3xl text-2xl mb-2 font-semibold">
+        <h1 className="md:text-2xl text-2xl mb-2 font-semibold">
           Update Password
         </h1>
         <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
@@ -83,7 +83,7 @@ const ChangePassword = () => {
                   type={showCurrentPassword ? "text" : "password"}
                   id="currentPassword"
                   label="Current Password"
-                  variant="standard"
+                  variant="outlined"
                   sx={{ width: "90%", position: "relative" }}
                   name="currentPassword"
                   {...register("currentPassword", {
@@ -109,7 +109,7 @@ const ChangePassword = () => {
                   id="newPassword"
                   name="newPassword"
                   label="New Password"
-                  variant="standard"
+                  variant="outlined"
                   sx={{ width: "90%", position: "relative" }}
                   {...register("newPassword", {
                     required: "New password is required",
@@ -156,7 +156,7 @@ const ChangePassword = () => {
                   id="confirmPassword"
                   name="confirmPassword"
                   label="Confirm Password"
-                  variant="standard"
+                  variant="outlined"
                   sx={{ width: "90%", position: "relative" }}
                   {...register("confirmPassword", {
                     required: "Please confirm your password",
@@ -182,7 +182,7 @@ const ChangePassword = () => {
                 <button
                   disabled={!isValid || isLoading}
                   type="submit"
-                  className="w-full px-6 py-2 disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-[#4565BF] focus:bg-bg-[#4565BF] active:bg-[#4565BF] focus:outline-none focus:ring-2 focus:ring-[#4565BF] focus:ring-offset-2 transition ease-in-out duration-150"
+                  className="w-full px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-400 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-[#4565BF] focus:bg-bg-[#4565BF] active:bg-violet-600 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 transition ease-in-out duration-150"
                 >
                   {/* Show a progress bar if loading is true */}
                   {isLoading ? (

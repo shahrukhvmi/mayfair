@@ -125,7 +125,7 @@ const App = () => {
                 path="/orders"
                 element={
                   <ProtectedRoute
-                    element={<DashBoardLayout element={<MyOrders />} />}
+                    element={<DashBoardLayout element={<MyOrders  />} />}
                   />
                 }
               />

@@ -84,10 +84,10 @@ const MyAddress = () => {
 
       const data = await response.json();
       if (response.ok) {
-     
+
         const user = data;
         localStorage.setItem("userData", JSON.stringify(user));
-       
+
 
         // Update state
         setUserData(user);
@@ -303,7 +303,7 @@ const MyAddress = () => {
         toast.error(result?.message);
       }
     } catch (error) {
-   
+
       toast.error("An unexpected error occurred while updating the profile.");
     } finally {
       setIsLoading(false);
@@ -340,7 +340,7 @@ const MyAddress = () => {
         toast.error(result?.message);
       }
     } catch (error) {
-   
+
       toast.error("An unexpected error occurred while updating the profile.");
     } finally {
       setIsLoading(false);
@@ -420,15 +420,16 @@ const MyAddress = () => {
                               isLoading ||
                               error
                             }
-                            className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                            className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
                           >
-                            <span className="mr-2 text-sm">
-                              {isLoading ? "SEARCH..." : "SEARCH"}
-                            </span>
+
                             <FaSearch
                               className={`text-white ${isLoading ? "animate-spin" : ""
                                 }`}
                             />
+                            <span className="mr-2 text-sm">
+                              {isLoading ? "SEARCH..." : "SEARCH"}
+                            </span>
                           </button>
                         </div>
                       ) : null}
@@ -473,10 +474,9 @@ const MyAddress = () => {
           {/* Address Dropdown - Show only after clicking Search */}
 
           {/* Address Fields */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="grid grid-cols-1  gap-4 mt-4">
             <TextField
-              label="Address Line 1"
-              variant="standard"
+              variant="outlined"
               fullWidth
               {...register("streetAddress", {
                 required: "Address Line 1 is required",
@@ -488,8 +488,7 @@ const MyAddress = () => {
               helperText={errors.streetAddress?.message}
             />
             <TextField
-              label="Address Line 2"
-              variant="standard"
+              variant="outlined"
               value={
                 watchShipping("streetAddress2")
 
@@ -499,10 +498,10 @@ const MyAddress = () => {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+          <div className="grid grid-cols-1 gap-4 mt-4">
             <TextField
-              label="City"
-              variant="standard"
+        
+              variant="outlined"
               fullWidth
               value={
                 watchShipping("city")
@@ -513,8 +512,8 @@ const MyAddress = () => {
               helperText={errors.city?.message}
             />
             <TextField
-              label="State / Province / Region"
-              variant="standard"
+
+              variant="outlined"
               fullWidth
               value={
                 watchShipping("state")
@@ -594,15 +593,16 @@ const MyAddress = () => {
                               errorBill ||
                               !selectedStates
                             }
-                            className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                            className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
                           >
-                            <span className="mr-2 text-sm">
-                              {load ? "SEARCH..." : "SEARCH"}
-                            </span>
+
                             <FaSearch
                               className={`${`text-white ${load ? "animate-spin" : ""
                                 }`}`}
                             />
+                            <span className="mr-2 text-sm">
+                              {load ? "SEARCH..." : "SEARCH"}
+                            </span>
                           </button>
                         </div>
                       )}
@@ -672,10 +672,9 @@ const MyAddress = () => {
           )}
         </Box>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
+        <div className="grid grid-cols-1  gap-4 mt-6">
           <TextField
-            label="Street Address"
-            variant="standard"
+            variant="outlined"
             value={watchBilling("billingStreetAddress") || ""}
             fullWidth
             {...register("billingStreetAddress", {
@@ -694,8 +693,8 @@ const MyAddress = () => {
           /> */}
 
           <TextField
-            label="Address Line 2"
-            variant="standard"
+
+            variant="outlined"
             value={
               watchBilling("billingStreetAddress2")
 
@@ -706,10 +705,10 @@ const MyAddress = () => {
 
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+        <div className="grid grid-cols-1  gap-4 mt-4">
           <TextField
-            label="City"
-            variant="standard"
+
+            variant="outlined"
             value={watchBilling("billingCity") || ""}
             fullWidth
             {...register("billingCity", {
@@ -719,8 +718,7 @@ const MyAddress = () => {
             helperText={errors.billingCity?.message || ""}
           />
           <TextField
-            label="State / Province / Region"
-            variant="standard"
+            variant="outlined"
             fullWidth
             value={watchBilling("billingState") || ""}
             {...register("billingState", {
@@ -742,7 +740,7 @@ const MyAddress = () => {
           <button
             disabled={!isValid || loading || error}
             type="submit"
-            className="w-full px-6 py-2 disabled:opacity-50 disabled:hover:bg-[#4565BF] disabled:cursor-not-allowed bg-[#4565BF] border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-[#4565BF] focus:bg-bg-[#4565BF] active:bg-[#4565BF] focus:outline-none focus:ring-2 focus:ring-[#4565BF] focus:ring-offset-2 transition ease-in-out duration-150"
+            className="w-full px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 transition ease-in-out duration-150"
           >
             {/* Show a progress bar if loading is true */}
             {loading ? (
@@ -769,13 +767,13 @@ const MyAddress = () => {
         {/* Shipping Tab */}
         <button
           onClick={() => tabActive("shipping")}
-          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "shipping" && "text-[#4565BF]"
+          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "shipping" && "text-violet-700"
             } tab-text-shipping`}
         >
           Shipping Address
           {activeTab === "shipping" && (
             <span
-              className={`tab-shipping absolute left-0 bottom-0 h-[4px] bg-[#4565BF] w-full`}
+              className={`tab-shipping absolute left-0 bottom-0 h-[4px] bg-violet-700 w-full`}
             />
           )}
         </button>
@@ -783,60 +781,65 @@ const MyAddress = () => {
         {/* Billing Tab */}
         <button
           onClick={() => tabActive("billing")}
-          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "billing" && "text-[#4565BF]"
+          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "billing" && "text-violet-700"
             } tab-text-billing`}
         >
           Billing Address
           {activeTab === "billing" && (
             <span
-              className={`tab-billing absolute left-0 bottom-0 h-[4px] bg-[#4565BF] w-full`}
+              className={`tab-billing absolute left-0 bottom-0 h-[4px] bg-violet-700 w-full`}
             />
           )}
         </button>
       </div>
 
       {/* Forms */}
-      {activeTab === "shipping" ? (
-        <>
-          <div className=" my-4 w-full">
-            <h1 className="md:text-3xl text-2xl mb-2 font-semibold">
-              Shipping Information
-            </h1>
-            <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
-              Update your shipping information
-            </p>
-          </div>
-          <form onSubmit={handleSubmitShipping(onSubmitShipping)}>
-            {renderForm(
-              registerShipping,
-              errorsShipping,
-              isValidShipping,
-              setValueShipping,
-              getValuesShipping
-            )}
-          </form>
-        </>
-      ) : (
-        <>
-          <div className=" my-4  w-full">
-            <h1 className="md:text-3xl text-2xl mb-2 font-semibold">
-              Billing Information
-            </h1>
-            <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
-              Update your billing information
-            </p>
-          </div>
-          <form onSubmit={handleSubmitBilling(onSubmitBilling)}>
-            {renderForm(
-              registerBilling,
-              errorsBilling,
-              isValidBilling,
-              setValueBilling,
-              getValuesBilling
-            )}
-          </form>
-        </>
-      )}
+      <div className="bg-white p-4 rounded-md">
+
+
+
+        {activeTab === "shipping" ? (
+          <>
+            <div className=" my-4 w-full">
+              <h1 className="md:text-2xl text-2xl mb-2 font-semibold">
+                Shipping Information
+              </h1>
+              <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
+                Update your shipping information
+              </p>
+            </div>
+            <form onSubmit={handleSubmitShipping(onSubmitShipping)}>
+              {renderForm(
+                registerShipping,
+                errorsShipping,
+                isValidShipping,
+                setValueShipping,
+                getValuesShipping
+              )}
+            </form>
+          </>
+        ) : (
+          <>
+            <div className=" my-4  w-full">
+              <h1 className="md:text-2xl text-2xl mb-2 font-semibold">
+                Billing Information
+              </h1>
+              <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
+                Update your billing information
+              </p>
+            </div>
+            <form onSubmit={handleSubmitBilling(onSubmitBilling)}>
+              {renderForm(
+                registerBilling,
+                errorsBilling,
+                isValidBilling,
+                setValueBilling,
+                getValuesBilling
+              )}
+            </form>
+          </>
+        )}
+      </div>
     </div>
   );
 };
