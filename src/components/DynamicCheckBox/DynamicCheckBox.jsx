@@ -3,7 +3,7 @@ import { FaCheck } from "react-icons/fa";
 
 const DynamicRadioButton = ({ name, label, terms, register, isChecked }) => {
   return (
-    <div className="rounded-md border-[#4DB581] border-2 p-4 sm:p-6 w-full my-3">
+    <div className="rounded-md border-[#d1d5db] border-2 p-4 sm:p-2 w-full my-3">
       <div className="space-y-3">
         <div className="flex sm:items-center  items-start space-x-3">
           <div className="relative">
@@ -18,13 +18,13 @@ const DynamicRadioButton = ({ name, label, terms, register, isChecked }) => {
             <div
               className={`w-5 h-5 border-2 rounded-full cursor-pointer ${
                 isChecked
-                  ? "bg-white border-green-500 p-1"
+                  ? "bg-[#6d28d9] border-[#6d28d9] p-1"
                   : "bg-white border-gray-400"
               } transition duration-300`}
             >
               {isChecked && (
                 <div className="w-full h-full flex items-center justify-center">
-                  <FaCheck color="#4DB581" />
+                  <FaCheck color="#fff" />
                 </div>
               )}
             </div>

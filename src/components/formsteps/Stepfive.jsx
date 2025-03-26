@@ -8,7 +8,7 @@ import {
   FaCheck,
   FaChevronDown,
 } from "react-icons/fa";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { BiSearchAlt } from "react-icons/bi";
 import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
@@ -30,6 +30,7 @@ const Stepfive = () => {
   const [lastConsultation, setLastConsultation] = useState(null);
   const [prevStepFiveData, setprevStepFiveData] = useState(null);
   const dispatch = useDispatch();
+  const [btnZipCode, setbtnZipCode] = useState(false);
 
 
   useEffect(() => {
@@ -60,6 +61,8 @@ const Stepfive = () => {
   const searchClicked = watch("searchClicked", false);
   const addressOptions = watch("addressOptions", []);
   const selectedAddress = watch("selectedAddress", null);
+
+ 
 
   const getPid = localStorage.getItem("pid");
   const onSubmit = async (data, e) => {
@@ -113,12 +116,16 @@ const Stepfive = () => {
 
   const handleSelect = (index) => {
     const selected = addressOptions[index];
+
+    console.log(selected);
+
     setValue("selectedAddress", selected);
     setValue("addressLine1", selected.Address1 || "");
     setValue("addressLine2", selected.Address2 || "");
     setValue("city", selected.City || "");
     setValue("state", selected.County || "");
     setValue("postalCode", postalCode || "");
+    setValue("gpName", selected.OrganisationName || "");
   };
 
   const handleAddress = async () => {
@@ -205,36 +212,106 @@ const Stepfive = () => {
     trigger("gpDetails")
   }, [lastConsultation, setValue, prevStepFiveData, trigger]);
 
+
+  const textFieldStyles = {
+    "& label": {
+    color: "#6b7280", // Default label color
+    fontSize: 16,
+    top: "-2px",
+    },
+    "& label.Mui-focused": {
+    color: "#6c757d", // Label color when focused
+    },
+    "& .MuiInputBase-input": {
+      color: "#111827", // Text color inside input
+      borderBottom: "2px solid #f2f3f5"
+    },
+    "& .MuiInputBase-input:focus": {
+      color: "#111827", // Text color inside input
+      borderBottom: "2px solid #f7a564"
+    },
+    "& .MuiInput-underline:before": {
+      display: "none", // Default underline color
+    },
+    "& .MuiInput-underline:hover:before": {
+      display: "none", // Default underline color
+    },
+    "& .MuiInput-underline:after": {
+      display: "none", // Default underline color
+    },
+  };
+
+  const selectStyles = {
+    "& label": {
+      color: "#6b7280", // Default label color
+      fontSize: 20,
+      top: "-2px",
+    },
+    "& label.Mui-focused": {
+      color: "#6c757d", // Label color when focused
+    },
+    "& .MuiSelect-select": {
+      color: "#111827", // Text color inside select
+      borderBottom: "2px solid #f2f3f5", // Custom bottom border
+    },
+    "& .MuiSelect-select:focus": {
+      color: "#111827",
+      borderBottom: "2px solid #f7a564", // Focus bottom border
+    },
+    "& .MuiInput-underline:before": {
+      display: "none", // Removes default underline
+    },
+    "& .MuiInput-underline:hover:before": {
+      display: "none",
+    },
+    "& .MuiInput-underline:after": {
+      display: "none",
+    },
+  };
+
+   // Effect to enable/disable the button
+    useEffect(() => {
+      setbtnZipCode(!postalCode?.trim()); // Disable if empty
+    }, [postalCode]);
+
   return (
-    <div className="mx-auto w-full max-w-[636px] px-4 my-7 overflow-auto p-0 sm:py-6 mb-14 sm:mb-0">
+    <div className=" w-full max-w-[636px] my-7 overflow-auto">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step Indicator */}
-        <div className="flex justify-center">
-          <div className="flex items-center gap-3 mb-6">
-            <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
-              0{currentStep}
-            </span>
-            <h1 className="text-2xl md:text-4xl tracking-[-2px]">GP Details</h1>
-          </div>
+        <div className="mb-6">
+        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+            Step 5:{" "}
+            <span className="font-bold">GP Details</span>
+        </h1>
+        <p className="text-muted-2 pt-3 hidden">
+            Your Doctor/GP of any treatment you receive. If you
+            are registered with a GP in the UK then we can
+            inform them on your behalf.
+        </p>
         </div>
+
+        <h3 className=" font-medium text-base leading-5 mb-3">
+            If you are registered with a GP in the UK
+            then we can inform them on your behalf.
+        </h3>
 
         {/* Question: Inform GP */}
         <div>
-          <h1 className="text-gray-500 text-base">
-            Would you like us to inform your GP about this consultation and any
-            prescribed treatments?
+          <h1 className="text-gray-500 text-base mb-4">
+          Are you registered with a GP in the UK?
           </h1>
-          <div className="flex mt-4 gap-2">
+          <div className="grid md:grid-cols-1 md:gap-4 md:w-1/2 lg:w-1/3 xl:w-2/5">
+          <div className="flex gap-4">
             <label
               htmlFor="yes"
               className={
                 gpDetails === "yes"
-                  ? "border-[#4DB581] text-[#4DB581] bg-green-50 border-[2px] rounded shadow-lg flex justify-center items-center w-1/2"
-                  : "border-gray-300 border-[1px] text-gray-500 px-4 py-1.5 rounded w-1/2 text-center cursor-pointer"
+                  ? "border-[#4DB581] text-gray-500 bg-green-50 border-[2px] rounded-md shadow-lg flex justify-between items-center w-28 px-4 font-medium"
+                  : "border-gray-300 text-gray-500 px-4 py-2 rounded-md w-28 text-left cursor-pointer shadow-md font-medium"
               }
             >
               Yes{" "}
-              {gpDetails === "yes" && <FaCheck className="ms-4" size={15} />}
+              {gpDetails === "yes" && <FaCheck className="ms-4 text-[#4DB581]" size={15} />}
               <input
                 id="yes"
                 type="radio"
@@ -250,11 +327,11 @@ const Stepfive = () => {
               htmlFor="no"
               className={
                 gpDetails === "no"
-                  ? "border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg flex justify-center items-center w-1/2"
-                  : "border-gray-300 border-[1px] text-gray-500 px-4 py-1.5 rounded w-1/2 text-center cursor-pointer"
+                  ? "border-[#4DB581] cursor-pointer text-gray-500 rounded-md bg-green-50 border-[2px] shadow-lg flex justify-between items-center w-28 px-4"
+                  : "border-gray-300 text-gray-500 px-4 py-2 rounded-md w-28 text-left cursor-pointer shadow-md"
               }
             >
-              No {gpDetails === "no" && <FaCheck className="ms-4" size={15} />}
+              No {gpDetails === "no" && <FaCheck className="ms-4 text-[#4DB581]" size={15} />}
               <input
                 id="no"
                 type="radio"
@@ -270,26 +347,28 @@ const Stepfive = () => {
           {errors.gpDetails && (
             <p className="text-red-500 mt-2">{errors.gpDetails.message}</p>
           )}
+          </div>
         </div>
 
         {/* Conditional Rendering for Yes */}
         {gpDetails === "yes" && (
           <div>
-            <p className="text-gray-500 mt-6 sm:mt-8 text-sm sm:text-base">
+            <p className="text-black mt-6 sm:mt-8 text-sm sm:text-base mb-4">
               Do you consent for us to inform your GP about the treatment we have provided?
             </p>
 
             {/* Options */}
-            <div className="flex flex-col sm:flex-row gap-3 mt-3 sm:mt-4">
+            <div className="grid md:grid-cols-1">
+            <div className="flex gap-4">
               <label
                 htmlFor="gepTreatMentYes"
                 className={`${gepTreatMent === "yes"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-base text-[#4DB581] rounded bg-green-50 border-[2px] shadow-md flex justify-center items-center w-full sm:w-1/2"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-base text-gray-500 rounded border-[1px] flex justify-center items-center w-full sm:w-1/2 cursor-pointer"
+                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
                   }`}
               >
                 Yes - Please inform my GP{" "}
-                {gepTreatMent === "yes" && <FaCheck className="ml-2" size={15} />}
+                {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
                 <input
                   id="gepTreatMentYes"
                   type="radio"
@@ -304,11 +383,11 @@ const Stepfive = () => {
               <label
                 htmlFor="gepTreatMentNo"
                 className={`${gepTreatMent === "no"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-base text-[#4DB581] rounded bg-green-50 border-[2px] shadow-md flex justify-center items-center w-full sm:w-1/2"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-base text-gray-500 rounded border-[1px] flex justify-center items-center w-full sm:w-1/2 cursor-pointer"
+                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
                   }`}
               >
-                No {gepTreatMent === "no" && <FaCheck className="ml-2" size={15} />}
+                No – I will inform my GP prior to starting treatment {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
                 <input
                   id="gepTreatMentNo"
                   type="radio"
@@ -325,6 +404,7 @@ const Stepfive = () => {
             {errors.gepTreatMent && (
               <p className="text-red-500 mt-2 text-sm sm:text-base">{errors.gepTreatMent.message}</p>
             )}
+            </div>
           </div>
         )}
 
@@ -350,7 +430,7 @@ const Stepfive = () => {
                   id="standard-basic"
                   label="Email"
                   variant="standard"
-                  sx={{ width: "50%" }}
+                  sx={textFieldStyles}
                   {...register("email", {
                     pattern: {
                       value:
@@ -363,23 +443,6 @@ const Stepfive = () => {
                 />
               </div>
             </div>
-            <div className="mt-4">
-              <TextField
-                id="standard-basic"
-                label="GP Name"
-                type="text"
-                variant="standard"
-                sx={{ width: "100%" }}
-                {...register("gpName", {
-                  required:
-                    gpDetails === "yes" && gepTreatMent === "yes"
-                      ? "GP Name is required."
-                      : false,
-                })}
-                error={!!errors.gpName}
-                helperText={errors.gpName?.message}
-              />
-            </div>
             <div className="mt-8">
               <p className="mb-2">
                 Enter postal code to search GP address. If you can't find it
@@ -390,6 +453,7 @@ const Stepfive = () => {
                   <TextField
                     id="standard-basic"
                     label="PostalCode"
+                    sx={textFieldStyles}
                     type="text"
                     variant="standard"
                     error={!!errors.postalCode}
@@ -401,7 +465,8 @@ const Stepfive = () => {
                   />
                   <button
                     type="button"
-                    className="bg-[#4565BF] px-3 py-1.5 rounded text-white flex items-center ml-2"
+                    className="px-3 py-1.5 rounded text-white flex items-center ml-2 disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200"
+                    disabled={btnZipCode}
                     onClick={() => {
                       setValue("addressOptions", []); // Clear previous address options
                       setValue("searchClicked", true);
@@ -416,6 +481,13 @@ const Stepfive = () => {
 
                 {addressOptions.length > 0 && (
                   <div className="ml-1.5 w-1/2">
+                    <FormControl
+                      fullWidth
+                      variant="standard"
+                      error={!!errors.addressSelect}
+                      sx={selectStyles}
+                    >
+                      <InputLabel>Select Autofill</InputLabel>
                     <Select
                       variant="standard"
                       IconComponent={FaChevronDown}
@@ -432,17 +504,39 @@ const Stepfive = () => {
                         </MenuItem>
                       ))}
                     </Select>
+                    </FormControl>
                   </div>
                 )}
               </div>
             </div>
 
-            <div className="mt-8 flex w-full gap-2 justify-between">
+            <div className="mt-4">
+              <TextField
+                id="standard-basic"
+                label="GP Name"
+                type="text"
+                sx={textFieldStyles}
+                variant="standard"
+                value={watch("gpName")}
+                {...register("gpName", {
+                  required:
+                    gpDetails === "yes" && gepTreatMent === "yes"
+                      ? "GP Name is required."
+                      : false,
+                })}
+                error={!!errors.gpName}
+                helperText={errors.gpName?.message}
+              />
+            </div>
+
+            <div className="mt-4 flex w-full gap-2 justify-between">
               <div className="w-1/2">
                 <TextField
                   id="standard-basic"
                   label="Addressline 1"
+                  value={watch("addressLine1") || ""}
                   type="text"
+                  sx={textFieldStyles}
                   variant="standard"
                   className="w-full"
                   {...register("addressLine1")}
@@ -452,20 +546,24 @@ const Stepfive = () => {
                 <TextField
                   id="standard-basic"
                   label="Addressline 2"
+                  value={watch("addressLine2") || ""}
                   variant="standard"
                   className="w-full"
+                  sx={textFieldStyles}
                   {...register("addressLine2")}
                 />
               </div>
             </div>
-            <div className="mt-8 flex w-full gap-2 justify-between">
+            <div className="mt-4 flex w-full gap-2 justify-between">
               <div className="w-1/2">
                 <TextField
                   id="standard-basic"
                   type="text"
                   label="County"
+                  value={watch("state") || ""}
                   variant="standard"
                   className="w-full"
+                  sx={textFieldStyles}
                   {...register("state")}
                 />
               </div>
@@ -474,7 +572,9 @@ const Stepfive = () => {
                   id="standard-basic"
                   type="text"
                   label="City"
+                  value={watch("city") || ""}
                   variant="standard"
+                  sx={textFieldStyles}
                   className="w-full"
                   {...register("city")}
                 />
@@ -483,17 +583,17 @@ const Stepfive = () => {
           </div>
         )}
 
-        <div className="mt-10 sm:flex justify-between mb-10 hidden ">
+        <div className="mt-10 sm:flex mb-10 hidden ">
           <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
           <NextButton label={"Next"} disabled={!isValid || isLoading} loading={isLoading} />
         </div>
 
 
         <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
-          <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
+          <div className="relative flex items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
 
             {/* Content Layer (to prevent blur on buttons) */}
-            <div className="relative flex w-full justify-between items-center">
+            <div className="relative flex w-full items-center">
               {/* Back Button */}
               <button
                 onClick={() => dispatch(prevStep())}

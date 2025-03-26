@@ -86,19 +86,15 @@ const Stepfour = () => {
   };
 
   return (
-    <div className="mx-auto block md:my-24 md:mt-6 sm:mt-10 mt-7 mb-36">
-      <div className="flex justify-center">
-        <div className="flex items-center gap-3 sm:mt-10 mb-6">
-          <span className="text-xl bg-[#4565BF] rounded-full text-white flex items-center justify-center w-11 h-11">
-            0{currentStep}
-          </span>
-          <h1 className="text-2xl md:text-4xl red-font tracking-[-2px]">
-            Consent
-          </h1>
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto p-6">
+    <div className="mb-36">
+        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+          Step 4: <span className="font-bold">Consent</span>
+        </h1>
+        <p className="text-[#6c757d] pt-3 text-sm lg:text-base mb-7">
+          Your information is kept private and will be reviewed by a healthcare professional. The questions are meant to help the prescriber make an informed decision about the suitability of the
+          treatment.
+        </p>
+      <div className="max-w-7xl mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Dynamically Render Checkboxes */}
           {getQuestion && (
@@ -148,7 +144,7 @@ const Stepfour = () => {
             </div>
           </div> */}
 
-          <div className="mt-10 justify-between mb-10 hidden sm:flex">
+          <div className="mt-10 mb-10 hidden sm:flex">
             <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
             <NextButton disabled={!isValid || loader} label={"Next"} loading={loader} />
           </div>
@@ -157,7 +153,7 @@ const Stepfour = () => {
             <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
 
               {/* Content Layer (to prevent blur on buttons) */}
-              <div className="relative flex w-full justify-between items-center">
+              <div className="relative flex w-full items-center">
                 {/* Back Button */}
                 <button
                   onClick={() => dispatch(prevStep())}

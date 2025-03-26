@@ -40,6 +40,8 @@ const Stepone = ({setHideSidebar}) => {
   const [lastConsultation, setLastConsultation] = useState(null);
   const [prevStep1, setPrevStep1] = useState(null);
   const [userInfo, setUseriIfo] = useState(null);
+  const [btnZipCode, setbtnZipCode] = useState(false);
+
   useEffect(() => {
     if (stepPrevApiData !== null || stepPrev !== undefined || userData !== undefined) {
       const parsedData = JSON.parse(stepPrevApiData);
@@ -51,6 +53,8 @@ const Stepone = ({setHideSidebar}) => {
       setUseriIfo(userInfo?.profile?.user)
     }
   }, []);
+
+  
 
   const {
     register,
@@ -326,6 +330,11 @@ const Stepone = ({setHideSidebar}) => {
       display: "none",
     },
   };
+
+  // Effect to enable/disable the button
+  useEffect(() => {
+    setbtnZipCode(!zipCode?.trim()); // Disable if empty
+  }, [zipCode]);
 
   return (
     <div className="">
@@ -716,12 +725,12 @@ const Stepone = ({setHideSidebar}) => {
             InputProps={{
               endAdornment: (
                 <>
-                  {zipCode && (
+
                     <div className="relative -top-2">
                       <button
                         type="button"
                         onClick={handleSearch}
-                        disabled={!zipCode.trim() || isLoading || error}
+                        disabled={btnZipCode}
                         className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-3 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
                       >
                         <span className="mr-2 text-sm">
@@ -732,7 +741,7 @@ const Stepone = ({setHideSidebar}) => {
                         />
                       </button>
                     </div>
-                  )}
+                 
                 </>
               ),
             }}

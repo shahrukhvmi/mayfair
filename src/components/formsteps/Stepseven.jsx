@@ -15,9 +15,8 @@ import { addToCartAddon, removeFromCartAddon, updateCartAddon } from "../../stor
 import DosageCheckPopup from "../DosageCheckPopup/DosageCheckPopup";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
-const StepSeven = ({setHideSidebar}) => {
+const StepSeven = () => {
 
-  setHideSidebar(true);
 
   useEffect(() => {
     window.scrollTo({
