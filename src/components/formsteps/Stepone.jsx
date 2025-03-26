@@ -58,7 +58,7 @@ const Stepone = ({ setHideSidebar }) => {
     }
   }, []);
 
-  
+
 
   const {
     register,
@@ -730,22 +730,23 @@ const Stepone = ({ setHideSidebar }) => {
               endAdornment: (
                 <>
 
-                    <div className="relative -top-2">
-                      <button
-                        type="button"
-                        onClick={handleSearch}
-                        disabled={btnZipCode}
-                        className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-3 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
-                      >
-                        <span className="mr-2 text-sm">
-                          {isLoading ? "SEARCH..." : "SEARCH"}
-                        </span>
-                        <FaSearch
-                          className={`text-white`}
-                        />
-                      </button>
-                    </div>
-                 
+                  <div className="relative -top-2">
+                    <button
+                      type="button"
+                      onClick={handleSearch}
+                      disabled={btnZipCode}
+                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-3 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
+                    >
+
+                      <FaSearch
+                        className={`text-white`}
+                      />
+                      <span className="mr-2 text-sm">
+                        {isLoading ? "SEARCH..." : "SEARCH"}
+                      </span>
+                    </button>
+                  </div>
+
                 </>
               ),
             }}

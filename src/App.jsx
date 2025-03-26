@@ -125,18 +125,15 @@ const App = () => {
                 path="/orders"
                 element={
                   <ProtectedRoute
-                    element={<DashBoardLayout element={<MyOrders  />} />}
+                    element={<DashBoardLayout element={<MyOrders />} />}
                   />
                 }
               />
               <Route
                 path="/orders/:id"
-                element={
-                  <ProtectedRoute
-                    element={<DashBoardLayout element={<OrderDetails />} />}
-                  />
-                }
+               element={<OrderDetails />}
               />
+
               <Route
                 path="/profile"
                 element={

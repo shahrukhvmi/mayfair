@@ -673,9 +673,10 @@ const updateMetric = () => {
             </h1>
           </div>
         </div> */}
-          <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+          <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light mb-3">
               Step 2: <span className="font-bold">BMI Details</span>
           </h1>
+
         <div className="grid grid-cols-12">
           <div className="sm:col-span-6 col-span-full">
             <form
@@ -683,8 +684,8 @@ const updateMetric = () => {
               className="max-w-lg mx-auto p-0 sm:pe-5 space-y-6 overflow-y-auto"
             >
 
-              <p className="light-font text-[#1C1C29] text-md mr-4">
-                What units do you want to use? <span className="text-red-500">*</span>
+              <p className="text-md text-gray-500 pt-3">
+                What units do you want to use?  <span className="text-red-500">*</span>
               </p>
               <Box className="flex sm:justify-start justify-evenly gap-4 items-center">
 
