@@ -418,7 +418,7 @@ const MyAddress = () => {
             <div className="grid grid-cols-1  gap-4 mt-4">
               <TextField
                 label="Street Address 1"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 {...register("streetAddress", {
                   required: "Address Line 1 is required",
@@ -428,7 +428,7 @@ const MyAddress = () => {
                 helperText={errors.streetAddress?.message}
               />
               <TextField
-                variant="outlined"
+                variant="standard"
                 label="Street Address 2"
                 value={watchShipping("streetAddress2")}
                 fullWidth
@@ -439,14 +439,14 @@ const MyAddress = () => {
             <div className="grid grid-cols-1 gap-4 mt-4">
               <TextField
                 label="City"
-                variant="outlined"
+                variant="standard"
                 fullWidth
                 value={watchShipping("city")}
                 {...register("city", { required: "City is required" })}
                 error={!!errors.city}
                 helperText={errors.city?.message}
               />
-              <TextField variant="outlined" label="State" fullWidth value={watchShipping("state")} {...register("state")} />
+              <TextField variant="standard" label="State" fullWidth value={watchShipping("state")} {...register("state")} />
             </div>
           </Box>
         </>
@@ -573,7 +573,7 @@ const MyAddress = () => {
           <div className="grid grid-cols-1  gap-4 mt-6">
             <TextField
               label="Street Address 1"
-              variant="outlined"
+              variant="standard"
               value={watchBilling("billingStreetAddress") || ""}
               fullWidth
               {...register("billingStreetAddress", {
@@ -592,7 +592,7 @@ const MyAddress = () => {
           /> */}
 
             <TextField
-              variant="outlined"
+              variant="standard"
               label="Street Address 2"
               value={watchBilling("billingStreetAddress2")}
               fullWidth
@@ -603,7 +603,7 @@ const MyAddress = () => {
           <div className="grid grid-cols-1  gap-4 mt-4">
             <TextField
               label="City"
-              variant="outlined"
+              variant="standard"
               value={watchBilling("billingCity") || ""}
               fullWidth
               {...register("billingCity", {
@@ -614,7 +614,7 @@ const MyAddress = () => {
             />
             <TextField
               label="State"
-              variant="outlined"
+              variant="standard"
               fullWidth
               value={watchBilling("billingState") || ""}
               {...register("billingState", {

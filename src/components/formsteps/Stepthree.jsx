@@ -10,8 +10,7 @@ import PrevButton from "../PrevBtn/PrevButton";
 import { FaCheck } from "react-icons/fa";
 
 const Stepthree = ({ setHideSidebar }) => {
-
-  setHideSidebar(false)
+  setHideSidebar(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -28,7 +27,14 @@ const Stepthree = ({ setHideSidebar }) => {
   const [errorMessages, setErrorMessages] = useState({}); // Error messages for validation
 
   // React Hook Form
-  const { control, handleSubmit, setValue, watch, trigger, formState: { errors, isValid } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    watch,
+    trigger,
+    formState: { errors, isValid },
+  } = useForm({
     mode: "onChange",
   });
 
@@ -40,7 +46,6 @@ const Stepthree = ({ setHideSidebar }) => {
   const stepPrev3Data = stepPrev3 !== undefined && stepPrev3 != "undefined" && stepPrev3 ? JSON.parse(stepPrev3) : undefined;
 
   useEffect(() => {
-
     if (parsedData) {
       const medicalQuestions = parsedData?.medical_question || [];
       const lastConsultationData = parsedData?.last_consultation_data?.medicalInfo || [];
@@ -48,9 +53,7 @@ const Stepthree = ({ setHideSidebar }) => {
       // Merge Data
       const mergedQuestions = medicalQuestions.map((q, index) => {
         const prevAnswer = stepPrev3Data?.find((p) => p.question === q.content);
-        const matchedConsultation = lastConsultationData.find(
-          (lq) => lq.question === q.content
-        );
+        const matchedConsultation = lastConsultationData.find((lq) => lq.question === q.content);
 
         return {
           ...q,
@@ -76,16 +79,12 @@ const Stepthree = ({ setHideSidebar }) => {
       });
       setResponses(initialResponses);
     }
-
   }, [stepPrevApiData, stepPrev3, setValue]);
 
   // Handle Changes
   const handleChange = async (id, value, isSubField = false) => {
     setResponses((prev) => {
-
-      const updated = isSubField
-        ? { ...prev[id], subfield_response: value }
-        : { ...prev[id], answer: value };
+      const updated = isSubField ? { ...prev[id], subfield_response: value } : { ...prev[id], answer: value };
 
       // Clear subfield if "No"
       if (!isSubField && value === "no") updated.subfield_response = "";
@@ -145,14 +144,8 @@ const Stepthree = ({ setHideSidebar }) => {
     );
   });
 
-
-
-
-
   return (
-
-    <div className="">
-
+    <div className="pb-20 sm:pb-0">
       <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
         Step 3: <span className="font-bold">Medical Questions</span>
       </h1>
@@ -160,24 +153,27 @@ const Stepthree = ({ setHideSidebar }) => {
       <form onSubmit={handleSubmit(onSubmit)} className="mt-8">
         {questions.map((q) => {
           const selectedAnswer = watch(`responses[${q.id}].answer`);
-          { console.log(q, "Questions") }
+          {
+            console.log(q, "Questions");
+          }
           return (
-            <div key={q.id} className={`mb-8 flex justify-between field | border rounded-md p-3  flex-col lg:flex-row  items-start gap-5 lg:gap-10 ${errorMessages[q.id] ? "border-red-300" : "border-gray-300"}`}>
+            <div
+              key={q.id}
+              className={`mb-8 flex justify-between field | border rounded-md p-3  flex-col lg:flex-row  items-start gap-5 lg:gap-10 ${
+                errorMessages[q.id] ? "border-red-300" : "border-gray-300"
+              }`}
+            >
               <div className="font-reg md:text-sm text-[#1C1C29]">
                 {/ul|li/.test(q.content) ? (
                   <div
                     className="font-reg md:text-sm text-[#1C1C29] leading-relaxed pe-2"
                     dangerouslySetInnerHTML={{
-                      __html: q.content.replace(
-                        /<ul>/g,
-                        '<ul class="list-disc ml-5 space-y-2">'
-                      ),
+                      __html: q.content.replace(/<ul>/g, '<ul class="list-disc ml-5 space-y-2">'),
                     }}
                   ></div>
                 ) : (
                   // Render plain text for non-list content
                   <div className="font-reg md:text-sm text-[#1C1C29]pe-2">{q.content}</div>
-
                 )}
                 {q.has_sub_field && selectedAnswer === "yes" && (
                   <textarea
@@ -188,9 +184,7 @@ const Stepthree = ({ setHideSidebar }) => {
                   />
                 )}
 
-                {errorMessages[q.id] && (
-                  <p className="text-red-500 text-sm mb-2">{errorMessages[q.id]}</p>
-                )}
+                {errorMessages[q.id] && <p className="text-red-500 text-sm mb-2">{errorMessages[q.id]}</p>}
               </div>
 
               <div className="flex gap-4">
@@ -198,7 +192,9 @@ const Stepthree = ({ setHideSidebar }) => {
                   <div>
                     <label
                       key={option}
-                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"}`}
+                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${
+                        selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"
+                      }`}
                     >
                       <Controller
                         name={`responses[${q.id}].answer`}
@@ -222,8 +218,6 @@ const Stepthree = ({ setHideSidebar }) => {
                   </div>
                 ))}
               </div>
-
-
             </div>
           );
         })}
@@ -234,7 +228,6 @@ const Stepthree = ({ setHideSidebar }) => {
 
         <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
           <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
-
             {/* Content Layer (to prevent blur on buttons) */}
             <div className="relative flex w-full justify-between items-center">
               {/* Back Button */}
@@ -249,17 +242,17 @@ const Stepthree = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 disabled={!isNextEnabled || isLoading}
-                className={`p-3 flex flex-col items-center justify-center ${!isNextEnabled || isLoading
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
-                  }`}
+                className={`p-3 flex flex-col items-center justify-center ${
+                  !isNextEnabled || isLoading
+                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                    : "text-white rounded-md bg-violet-700"
+                }`}
               >
                 <span className="text-md font-semibold px-6">Next</span>
               </button>
             </div>
           </div>
         </div>
-
       </form>
     </div>
   );

@@ -2,12 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { nextStep, prevStep } from "../../store/slice/stepper";
-import {
-  FaArrowRight,
-  FaArrowLeft,
-  FaCheck,
-  FaChevronDown,
-} from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft, FaCheck, FaChevronDown } from "react-icons/fa";
 import { FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { BiSearchAlt } from "react-icons/bi";
 import toast from "react-hot-toast";
@@ -16,8 +11,8 @@ import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import { setStep5 } from "../../store/slice/stepSlice";
 
-const Stepfive = ({setHideSidebar}) => {
-  setHideSidebar(false)
+const Stepfive = ({ setHideSidebar }) => {
+  setHideSidebar(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -26,13 +21,11 @@ const Stepfive = ({setHideSidebar}) => {
   }, []);
 
   const currentStep = useSelector((state) => state.step.currentStep);
-  const [postSteps, { error: isError, isLoading }] =
-    usePostStepsMutation();
+  const [postSteps, { error: isError, isLoading }] = usePostStepsMutation();
   const [lastConsultation, setLastConsultation] = useState(null);
   const [prevStepFiveData, setprevStepFiveData] = useState(null);
   const dispatch = useDispatch();
   const [btnZipCode, setbtnZipCode] = useState(false);
-
 
   useEffect(() => {
     const stepPrevAPiData = localStorage.getItem("stepPrevApiData");
@@ -65,41 +58,18 @@ const Stepfive = ({setHideSidebar}) => {
   const addressOptions = watch("addressOptions", []);
   const selectedAddress = watch("selectedAddress", null);
 
- 
-
   const getPid = localStorage.getItem("pid");
   const onSubmit = async (data, e) => {
     const gpDetails = {
       gpConsent: data.gpDetails,
       consentDetail: data.gpDetails === "yes" ? data.gepTreatMent : "",
-      email:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.email
-          : "",
-      gpName:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.gpName
-          : "",
-      zipcode:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.postalCode
-          : "",
-      addressLine1:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.addressLine1
-          : "",
-      addressLine2:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.addressLine2
-          : "",
-      state:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.state
-          : "",
-      city:
-        data.gpDetails === "yes" && data.gepTreatMent === "yes"
-          ? data.city
-          : "",
+      email: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.email : "",
+      gpName: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.gpName : "",
+      zipcode: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.postalCode : "",
+      addressLine1: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.addressLine1 : "",
+      addressLine2: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.addressLine2 : "",
+      state: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.state : "",
+      city: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.city : "",
     };
     try {
       const response = await postSteps({
@@ -111,7 +81,6 @@ const Stepfive = ({setHideSidebar}) => {
         dispatch(setStep5(response?.lastConsultation?.fields?.gpdetails));
       }
       // e.preventDefault();
-
     } catch (error) {
       console.log(error);
     }
@@ -133,22 +102,18 @@ const Stepfive = ({setHideSidebar}) => {
 
   const handleAddress = async () => {
     try {
-      const response = await fetch(
-        `https://api.nhs.uk/service-search/search-postcode-or-place?api-version=1&search=${postalCode}`,
-        {
-          method: "POST",
-          headers: {
-            "subscription-key": "7a46f2abc01b47b58e586ec1cda38c68",
-          },
-          body: JSON.stringify({
-            filter:
-              "(OrganisationTypeID eq 'GPB') or (OrganisationTypeID eq 'GPP')",
-            top: 25,
-            skip: 0,
-            count: true,
-          }),
-        }
-      );
+      const response = await fetch(`https://api.nhs.uk/service-search/search-postcode-or-place?api-version=1&search=${postalCode}`, {
+        method: "POST",
+        headers: {
+          "subscription-key": "7a46f2abc01b47b58e586ec1cda38c68",
+        },
+        body: JSON.stringify({
+          filter: "(OrganisationTypeID eq 'GPB') or (OrganisationTypeID eq 'GPP')",
+          top: 25,
+          skip: 0,
+          count: true,
+        }),
+      });
       const data = await response.json();
       if (data.errorName) {
         toast.error("No address found for the given postal code.");
@@ -174,64 +139,38 @@ const Stepfive = ({setHideSidebar}) => {
     }
   }, [searchClicked, postalCode]);
 
-
   useEffect(() => {
     if (lastConsultation || prevStepFiveData) {
-      setValue(
-        "gpDetails",
-        prevStepFiveData?.gpConsent || "" || lastConsultation?.gpConsent
-      );
-      setValue(
-        "gepTreatMent",
-        prevStepFiveData?.consentDetail || "" || lastConsultation?.consentDetail
-      );
-      setValue(
-        "email",
-        prevStepFiveData?.email || "" || lastConsultation?.email
-      );
-      setValue(
-        "gpName",
-        prevStepFiveData?.gpName || "" || lastConsultation?.gpName
-      );
-      setValue(
-        "postalCode",
-        prevStepFiveData?.zipcode || "" || lastConsultation?.zipcode
-      );
-      setValue(
-        "addressLine1",
-        prevStepFiveData?.addressLine1 || "" || lastConsultation?.addressLine1
-      );
-      setValue(
-        "addressLine2",
-        prevStepFiveData?.addressLine2 || "" || lastConsultation?.addressLine2
-      );
-      setValue(
-        "state",
-        prevStepFiveData?.state || "" || lastConsultation?.state
-      );
+      setValue("gpDetails", prevStepFiveData?.gpConsent || "" || lastConsultation?.gpConsent);
+      setValue("gepTreatMent", prevStepFiveData?.consentDetail || "" || lastConsultation?.consentDetail);
+      setValue("email", prevStepFiveData?.email || "" || lastConsultation?.email);
+      setValue("gpName", prevStepFiveData?.gpName || "" || lastConsultation?.gpName);
+      setValue("postalCode", prevStepFiveData?.zipcode || "" || lastConsultation?.zipcode);
+      setValue("addressLine1", prevStepFiveData?.addressLine1 || "" || lastConsultation?.addressLine1);
+      setValue("addressLine2", prevStepFiveData?.addressLine2 || "" || lastConsultation?.addressLine2);
+      setValue("state", prevStepFiveData?.state || "" || lastConsultation?.state);
       setValue("city", prevStepFiveData?.city || "" || lastConsultation?.city);
     }
 
-    trigger("gpDetails")
+    trigger("gpDetails");
   }, [lastConsultation, setValue, prevStepFiveData, trigger]);
-
 
   const textFieldStyles = {
     "& label": {
-    color: "#6b7280", // Default label color
-    fontSize: 16,
-    top: "-2px",
+      color: "#6b7280", // Default label color
+      fontSize: 16,
+      top: "-2px",
     },
     "& label.Mui-focused": {
-    color: "#6c757d", // Label color when focused
+      color: "#6c757d", // Label color when focused
     },
     "& .MuiInputBase-input": {
       color: "#111827", // Text color inside input
-      borderBottom: "2px solid #f2f3f5"
+      borderBottom: "2px solid #f2f3f5",
     },
     "& .MuiInputBase-input:focus": {
       color: "#111827", // Text color inside input
-      borderBottom: "2px solid #f7a564"
+      borderBottom: "2px solid #f7a564",
     },
     "& .MuiInput-underline:before": {
       display: "none", // Default underline color
@@ -272,84 +211,73 @@ const Stepfive = ({setHideSidebar}) => {
     },
   };
 
-   // Effect to enable/disable the button
-    useEffect(() => {
-      setbtnZipCode(!postalCode?.trim()); // Disable if empty
-    }, [postalCode]);
+  // Effect to enable/disable the button
+  useEffect(() => {
+    setbtnZipCode(!postalCode?.trim()); // Disable if empty
+  }, [postalCode]);
 
   return (
-    <div className=" w-full max-w-[636px] my-7 overflow-auto">
+    <div className="pb-20 sm:pb-0 w-full max-w-[636px] my-7 overflow-auto">
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Step Indicator */}
         <div className="mb-6">
-        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
-            Step 5:{" "}
-            <span className="font-bold">GP Details</span>
-        </h1>
-        <p className="text-muted-2 pt-3 hidden">
-            Your Doctor/GP of any treatment you receive. If you
-            are registered with a GP in the UK then we can
-            inform them on your behalf.
-        </p>
+          <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+            Step 5: <span className="font-bold">GP Details</span>
+          </h1>
+          <p className="text-muted-2 pt-3 hidden">
+            Your Doctor/GP of any treatment you receive. If you are registered with a GP in the UK then we can inform them on your behalf.
+          </p>
         </div>
 
-        <h3 className=" font-medium text-base leading-5 mb-3">
-            If you are registered with a GP in the UK
-            then we can inform them on your behalf.
-        </h3>
+        <h3 className=" font-medium text-base leading-5 mb-3">If you are registered with a GP in the UK then we can inform them on your behalf.</h3>
 
         {/* Question: Inform GP */}
         <div>
-          <h1 className="text-gray-500 text-base mb-4">
-          Are you registered with a GP in the UK?
-          </h1>
+          <h1 className="text-gray-500 text-base mb-4">Are you registered with a GP in the UK?</h1>
           <div className="grid md:grid-cols-1 md:gap-4 md:w-1/2 lg:w-1/3 xl:w-2/5">
-          <div className="flex gap-4">
-            <label
-              htmlFor="yes"
-              className={
-                gpDetails === "yes"
-                  ? "border-[#4DB581] text-gray-500 bg-green-50 border-[2px] rounded-md shadow-lg flex justify-between items-center w-28 px-4 font-medium"
-                  : "border-gray-300 text-gray-500 px-4 py-2 rounded-md w-28 text-left cursor-pointer shadow-md font-medium"
-              }
-            >
-              Yes{" "}
-              {gpDetails === "yes" && <FaCheck className="ms-4 text-[#4DB581]" size={15} />}
-              <input
-                id="yes"
-                type="radio"
-                value="yes"
-                {...register("gpDetails", {
-                  // required: "Please select Yes or No.",
-                  required: "",
-                })}
-                className="hidden"
-              />
-            </label>
-            <label
-              htmlFor="no"
-              className={
-                gpDetails === "no"
-                  ? "border-[#4DB581] cursor-pointer text-gray-500 rounded-md bg-green-50 border-[2px] shadow-lg flex justify-between items-center w-28 px-4"
-                  : "border-gray-300 text-gray-500 px-4 py-2 rounded-md w-28 text-left cursor-pointer shadow-md"
-              }
-            >
-              No {gpDetails === "no" && <FaCheck className="ms-4 text-[#4DB581]" size={15} />}
-              <input
-                id="no"
-                type="radio"
-                value="no"
-                {...register("gpDetails", {
-                  required: " ",
-                  // required: "Please select Yes or No.",
-                })}
-                className="hidden"
-              />
-            </label>
-          </div>
-          {errors.gpDetails && (
-            <p className="text-red-500 mt-2">{errors.gpDetails.message}</p>
-          )}
+            <div className="flex gap-4">
+              <label
+                htmlFor="yes"
+                className={
+                  gpDetails === "yes"
+                    ? "border-[#4DB581] text-gray-500 bg-green-50 border-[2px] rounded-md shadow-lg flex justify-between items-center w-28 px-4 font-medium"
+                    : "border-gray-300 text-gray-500 px-4 py-2 rounded-md w-28 text-left cursor-pointer shadow-md font-medium"
+                }
+              >
+                Yes {gpDetails === "yes" && <FaCheck className="ms-4 text-[#4DB581]" size={15} />}
+                <input
+                  id="yes"
+                  type="radio"
+                  value="yes"
+                  {...register("gpDetails", {
+                    // required: "Please select Yes or No.",
+                    required: "",
+                  })}
+                  className="hidden"
+                />
+              </label>
+              <label
+                htmlFor="no"
+                className={
+                  gpDetails === "no"
+                    ? "border-[#4DB581] cursor-pointer text-gray-500 rounded-md bg-green-50 border-[2px] shadow-lg flex justify-between items-center w-28 px-4"
+                    : "border-gray-300 text-gray-500 px-4 py-2 rounded-md w-28 text-left cursor-pointer shadow-md"
+                }
+              >
+                No {gpDetails === "no" && <FaCheck className="ms-4 text-[#4DB581]" size={15} />}
+                <input
+                  id="no"
+                  type="radio"
+                  value="no"
+                  {...register("gpDetails", {
+                    required: " ",
+                    // required: "Please select Yes or No.",
+                  })}
+                  className="hidden"
+                />
+              </label>
+            </div>
+            {errors.gpDetails && <p className="text-red-500 mt-2">{errors.gpDetails.message}</p>}
           </div>
         </div>
 
@@ -362,63 +290,61 @@ const Stepfive = ({setHideSidebar}) => {
 
             {/* Options */}
             <div className="grid md:grid-cols-1">
-            <div className="flex gap-4">
-              <label
-                htmlFor="gepTreatMentYes"
-                className={`${gepTreatMent === "yes"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+              <div className="flex gap-4 flex-col sm:flex-row">
+                <label
+                  htmlFor="gepTreatMentYes"
+                  className={`${
+                    gepTreatMent === "yes"
+                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
                   }`}
-              >
-                Yes - Please inform my GP{" "}
-                {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
-                <input
-                  id="gepTreatMentYes"
-                  type="radio"
-                  value="yes"
-                  {...register("gepTreatMent", {
-                    required: gpDetails === "yes" ? "Please select Yes or No." : true,
-                  })}
-                  className="hidden"
-                />
-              </label>
+                >
+                  Yes - Please inform my GP {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
+                  <input
+                    id="gepTreatMentYes"
+                    type="radio"
+                    value="yes"
+                    {...register("gepTreatMent", {
+                      required: gpDetails === "yes" ? "Please select Yes or No." : true,
+                    })}
+                    className="hidden"
+                  />
+                </label>
 
-              <label
-                htmlFor="gepTreatMentNo"
-                className={`${gepTreatMent === "no"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                <label
+                  htmlFor="gepTreatMentNo"
+                  className={`${
+                    gepTreatMent === "no"
+                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
                   }`}
-              >
-                No – I will inform my GP prior to starting treatment {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
-                <input
-                  id="gepTreatMentNo"
-                  type="radio"
-                  value="no"
-                  {...register("gepTreatMent", {
-                    required: gpDetails === "yes" ? "Please select Yes or No." : false,
-                  })}
-                  className="hidden"
-                />
-              </label>
-            </div>
+                >
+                  No – I will inform my GP prior to starting treatment{" "}
+                  {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
+                  <input
+                    id="gepTreatMentNo"
+                    type="radio"
+                    value="no"
+                    {...register("gepTreatMent", {
+                      required: gpDetails === "yes" ? "Please select Yes or No." : false,
+                    })}
+                    className="hidden"
+                  />
+                </label>
+              </div>
 
-            {/* Error Message */}
-            {errors.gepTreatMent && (
-              <p className="text-red-500 mt-2 text-sm sm:text-base">{errors.gepTreatMent.message}</p>
-            )}
+              {/* Error Message */}
+              {errors.gepTreatMent && <p className="text-red-500 mt-2 text-sm sm:text-base">{errors.gepTreatMent.message}</p>}
             </div>
           </div>
         )}
-
 
         {/* Conditional Rendering for No */}
         {gpDetails === "no" && (
           <div className="bg-[#FFF3CD] px-4 py-4 mt-6 text-gray-700 rounded-lg shadow-md hover:bg-[#FFEBB5]">
             <p className="text-sm md:text-base">
-              You should inform your doctor of any medication you take. If you
-              would like us to email you a letter to forward onto your doctor,
-              please contact us.
+              You should inform your doctor of any medication you take. If you would like us to email you a letter to forward onto your doctor, please
+              contact us.
             </p>
           </div>
         )}
@@ -436,8 +362,7 @@ const Stepfive = ({setHideSidebar}) => {
                   sx={textFieldStyles}
                   {...register("email", {
                     pattern: {
-                      value:
-                        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
                       message: "Invalid email format.",
                     },
                   })}
@@ -447,10 +372,7 @@ const Stepfive = ({setHideSidebar}) => {
               </div>
             </div>
             <div className="mt-8">
-              <p className="mb-2">
-                Enter postal code to search GP address. If you can't find it
-                enter manually.
-              </p>
+              <p className="mb-2">Enter postal code to search GP address. If you can't find it enter manually.</p>
               <div className="flex items-center mt-8">
                 <div className="flex items-center">
                   <TextField
@@ -461,8 +383,7 @@ const Stepfive = ({setHideSidebar}) => {
                     variant="standard"
                     error={!!errors.postalCode}
                     {...register("postalCode", {
-                      required:
-                        gpDetails === "yes" ? "PostalCode is required." : false,
+                      required: gpDetails === "yes" ? "PostalCode is required." : false,
                     })}
                     helperText={errors.postalCode?.message}
                   />
@@ -484,29 +405,24 @@ const Stepfive = ({setHideSidebar}) => {
 
                 {addressOptions.length > 0 && (
                   <div className="ml-1.5 w-1/2">
-                    <FormControl
-                      fullWidth
-                      variant="standard"
-                      error={!!errors.addressSelect}
-                      sx={selectStyles}
-                    >
+                    <FormControl fullWidth variant="standard" error={!!errors.addressSelect} sx={selectStyles}>
                       <InputLabel>Select Autofill</InputLabel>
-                    <Select
-                      variant="standard"
-                      IconComponent={FaChevronDown}
-                      fullWidth
-                      {...register("addressSelect", {
-                        required: "Please select an address",
-                      })} // Validation for Select
-                      onChange={(e) => handleSelect(e.target.value)}
-                      defaultValue=""
-                    >
-                      {addressOptions.map((address, index) => (
-                        <MenuItem key={index} value={index}>
-                          {`${address.OrganisationName}`}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                      <Select
+                        variant="standard"
+                        IconComponent={FaChevronDown}
+                        fullWidth
+                        {...register("addressSelect", {
+                          required: "Please select an address",
+                        })} // Validation for Select
+                        onChange={(e) => handleSelect(e.target.value)}
+                        defaultValue=""
+                      >
+                        {addressOptions.map((address, index) => (
+                          <MenuItem key={index} value={index}>
+                            {`${address.OrganisationName}`}
+                          </MenuItem>
+                        ))}
+                      </Select>
                     </FormControl>
                   </div>
                 )}
@@ -522,10 +438,7 @@ const Stepfive = ({setHideSidebar}) => {
                 variant="standard"
                 value={watch("gpName")}
                 {...register("gpName", {
-                  required:
-                    gpDetails === "yes" && gepTreatMent === "yes"
-                      ? "GP Name is required."
-                      : false,
+                  required: gpDetails === "yes" && gepTreatMent === "yes" ? "GP Name is required." : false,
                 })}
                 error={!!errors.gpName}
                 helperText={errors.gpName?.message}
@@ -591,12 +504,10 @@ const Stepfive = ({setHideSidebar}) => {
           <NextButton label={"Next"} disabled={!isValid || isLoading} loading={isLoading} />
         </div>
 
-
         <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
           <div className="relative flex items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
-
             {/* Content Layer (to prevent blur on buttons) */}
-            <div className="relative flex w-full items-center">
+            <div className="relative flex w-full justify-between items-center">
               {/* Back Button */}
               <button
                 onClick={() => dispatch(prevStep())}
@@ -608,11 +519,11 @@ const Stepfive = ({setHideSidebar}) => {
               {/* Proceed Button */}
               <button
                 type="submit"
-                disabled={!isValid || isLoading}
-                className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
-                  }`}
+                className={`p-3 flex flex-col items-center justify-center ${
+                  !isValid || isLoading
+                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                    : "text-white rounded-md bg-violet-700"
+                }`}
               >
                 <span className="text-md font-semibold px-6">Next</span>
               </button>

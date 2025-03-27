@@ -9,8 +9,8 @@ import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 
-const Stepfour = ({setHideSidebar}) => {
-  setHideSidebar(false)
+const Stepfour = ({ setHideSidebar }) => {
+  setHideSidebar(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -23,10 +23,8 @@ const Stepfour = ({setHideSidebar}) => {
   const [getQuestion, setGetQuestion] = useState(null);
   const [confirmationInfo, setconfirmationInfo] = useState(null);
 
-  const [postSteps, { error: isError, isLoading: loader }] =
-    usePostStepsMutation();
+  const [postSteps, { error: isError, isLoading: loader }] = usePostStepsMutation();
   const pid = localStorage.getItem("pid");
-
 
   // Initialize useForm
   const {
@@ -62,7 +60,6 @@ const Stepfour = ({setHideSidebar}) => {
     }
   }, []);
 
-
   useEffect(() => {
     const updatedConfirmation = [
       {
@@ -89,13 +86,13 @@ const Stepfour = ({setHideSidebar}) => {
 
   return (
     <div className="mb-36">
-        <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
-          Step 4: <span className="font-bold">Consent</span>
-        </h1>
-        <p className="text-[#6c757d] pt-3 text-sm lg:text-base mb-7">
-          Your information is kept private and will be reviewed by a healthcare professional. The questions are meant to help the prescriber make an informed decision about the suitability of the
-          treatment.
-        </p>
+      <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
+        Step 4: <span className="font-bold">Consent</span>
+      </h1>
+      <p className="text-[#6c757d] pt-3 text-sm lg:text-base mb-7">
+        Your information is kept private and will be reviewed by a healthcare professional. The questions are meant to help the prescriber make an
+        informed decision about the suitability of the treatment.
+      </p>
       <div className="max-w-7xl mx-auto">
         <form onSubmit={handleSubmit(onSubmit)}>
           {/* Dynamically Render Checkboxes */}
@@ -113,11 +110,7 @@ const Stepfour = ({setHideSidebar}) => {
           )}
 
           {/* Validation Error Message */}
-          {errors.confirmation_question && (
-            <p className="text-red-500 mt-2">
-              {errors.confirmation_question.message}
-            </p>
-          )}
+          {errors.confirmation_question && <p className="text-red-500 mt-2">{errors.confirmation_question.message}</p>}
 
           {/* Navigation Buttons */}
           {/* <div className="mt-10 flex justify-between">
@@ -153,9 +146,8 @@ const Stepfour = ({setHideSidebar}) => {
 
           <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
             <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
-
               {/* Content Layer (to prevent blur on buttons) */}
-              <div className="relative flex w-full items-center">
+              <div className="relative flex w-full justify-between items-center">
                 {/* Back Button */}
                 <button
                   onClick={() => dispatch(prevStep())}
@@ -169,10 +161,11 @@ const Stepfour = ({setHideSidebar}) => {
                   type="submit"
                   // onClick={() => dispatch(nextStep())}
                   disabled={!isValid || loader}
-                  className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
-                    }`}
+                  className={`p-3 flex flex-col items-center justify-center ${
+                    !isValid || loader
+                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                      : "text-white rounded-md bg-violet-700"
+                  }`}
                 >
                   <span className="text-md font-semibold px-6">Next</span>
                 </button>

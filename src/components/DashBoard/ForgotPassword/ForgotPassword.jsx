@@ -29,22 +29,17 @@ const ForgotPassword = () => {
       toast.success(response.message || "Password reset link sent!");
       reset();
     } catch (err) {
-
       toast.error(err?.data?.errors?.User);
     }
   };
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#DACFFF] px-4 pt-6">
-      <div className="">
-
-
-        <div className="bg-white sm:p-10 w-96 rounded-lg mb-10 ">
-          <h2 className="text-xl font-semibold text-center text-[#1C1C29] mb-4">
-            Forgot your password?
-          </h2>
+      <div className="xl:w-1/3 lg:w-2/5 sm:w-1/2 bg-white xl:p-10 sm:p-7 border shadow-lg rounded-xl px-4 py-4">
+        <div className="bg-white w-full rounded-lg mb-10 ">
+          <h2 className="text-xl font-semibold text-center text-[#1C1C29] mb-4">Forgot your password?</h2>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             {/* Email Field */}
-            <div className="mb-4">
+            <div className="mb-4 w-full">
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
                 Email
               </label>
@@ -59,14 +54,12 @@ const ForgotPassword = () => {
                     message: "Invalid email address",
                   },
                 })}
-                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-600 transition ${errors.email ? "border-red-500" : "border-gray-300"
-                  }`}
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-600 transition ${
+                  errors.email ? "border-red-500" : "border-gray-300"
+                }`}
               />
-              {errors.email && (
-                <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
-              )}
+              {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>}
             </div>
-
 
             {/* Submit Button */}
             <div className="text-center mt-6">
@@ -78,7 +71,6 @@ const ForgotPassword = () => {
                 {isLoading ? "Sending..." : "Send Password Reset Link"}
               </button>
             </div>
-
           </form>
         </div>
       </div>

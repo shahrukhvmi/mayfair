@@ -437,7 +437,7 @@ const Steptwo = ({ setHideSidebar }) => {
   }, [prevStep1]);
 
   return (
-    <section className="">
+    <section className="pb-20 sm:pb-0">
       <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light mb-3">
         Step 2: <span className="font-bold">BMI Details</span>
       </h1>
