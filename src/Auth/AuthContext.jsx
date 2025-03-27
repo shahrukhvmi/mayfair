@@ -31,6 +31,8 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("isCouponApplied");
     localStorage.removeItem("discountType");
     localStorage.removeItem("discountAmount");
+    localStorage.removeItem("selectedMessages");
+    localStorage.removeItem("selectedVariations");
     setIsAuthenticated(false);
     navigate("/login");
   };

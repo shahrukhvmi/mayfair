@@ -214,48 +214,51 @@ const StepSeven = ({ setHideSidebar }) => {
   console.log(reorder_concent, "reorder_concent")
   const selectedMessages = AllSelectedMessage.messages;
   const handleVariationClick = (name, index) => {
-    setModalOpen(!reorder_concent);
-
     const clickedMgValue = extractMgValue(name);
-
     const dynamicMessages = generateMessages(variations, clickedMgValue);
+  
     const sortedVariations = variations
       .map((item) => ({ ...item, mgValue: extractMgValue(item?.name) }))
       .sort((a, b) => a.mgValue - b.mgValue);
-
+  
     const lowestVariations = sortedVariations.slice(0, 2);
     const lowestMgValues = lowestVariations.map((item) => item.mgValue);
-
-    if (
+  
+    const shouldOpenModal =
       !stepProps.isReturning &&
       !openedVariationIndex.includes(index) &&
-      !lowestMgValues.includes(clickedMgValue)
-    ) {
+      !lowestMgValues.includes(clickedMgValue);
+  
+    if (shouldOpenModal) {
       const message =
         dynamicMessages[clickedMgValue] ||
         `You have selected ${clickedMgValue}mg.`;
-
+  
       setModalMessage(message);
-
       setOpenedVariationIndex((prevState) => [...prevState, index]);
-
-      // ✅ Extract `id` based on the `name`
+  
       const matchedVariation = variations?.find(
-        (variation) => variation.name.trim().toLowerCase() === name.trim().toLowerCase()
+        (variation) =>
+          variation.name.trim().toLowerCase() === name.trim().toLowerCase()
       );
-      const id = matchedVariation?.id || null; // ✅ Ensure `id` is extracted safely
-
+      const id = matchedVariation?.id || null;
+  
       SetAllSelectedMessage((prevState) => {
-        const previousMessages = Array.isArray(prevState) ? prevState : prevState?.messages || [];
-
+        const previousMessages = Array.isArray(prevState)
+          ? prevState
+          : prevState?.messages || [];
+  
         const newMessages = [...previousMessages, { id, name, message }];
-
         localStorage.setItem("selectedMessages", JSON.stringify(newMessages));
-
-        return newMessages; // ✅ Return the updated messages array
+  
+        return newMessages;
       });
+  
+      // ✅ Open modal only when needed
+      setModalOpen(true);
     }
   };
+  
 
   const onHandleConfirmation = () => {
     setModalOpen(false);

@@ -1,39 +1,84 @@
 /* Regular Font */
 @font-face {
-  font-family: "Graphik-Regular-Trial";
-  src: url("/font/Graphik-Regular-Trial.otf") format("opentype");
+  font-family: "Figtree-Regular";
+  src: url("../public/font/Figtree/Figtree-Regular.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Graphik-Medium-Trial";
-  src: url("../public/font/Graphik-Medium-Trial.otf") format("opentype");
+  font-family: "Figtree-Medium";
+  src: url("../public/font/Figtree/Figtree-Medium.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Graphik-Semibold-Trial";
-  src: url("/font/Graphik-Semibold-Trial.otf") format("opentype");
+  font-family: "Figtree-SemiBold";
+  src: url("../public/font/Figtree/Figtree-SemiBold.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Graphik-Light-Trial";
-  src: url("../public/font/Graphik-Light-Trial.otf") format("opentype");
+  font-family: "Figtree-Light";
+  src: url("../public/font/Figtree/Figtree-Light.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: "Graphik-Thin-Trial";
-  src: url("../public/font/Graphik-Thin-Trial.otf") format("opentype");
+  font-family: "Figtree-SemiBold";
+  src: url("../public/font/Figtree/Figtree-SemiBold.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+
+
+
+/* Inter  Font import here👀 */
+@font-face {
+  font-family: "Inter_28pt-Regular";
+  src: url("../public/font/inter/Inter_28pt-Regular.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter_28pt-Medium";
+  src: url("../public/font/inter/Inter_28pt-Medium.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter_28pt-SemiBold";
+  src: url("../public/font/inter/Inter_28pt-SemiBold.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter_28pt-Bold";
+  src: url("../public/font/inter/Inter_28pt-Bold.ttf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Inter_28pt-Light";
+  src: url("../public/font/inter/Inter_28pt-Light.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -41,10 +86,10 @@
 
 /* Define a CSS variable for the font */
 :root {
-  --reg-font: "Graphik-Regular-Trial";
-  --med-font: "Graphik-Medium-Trial";
-  --semibold-font: "Graphik-Semibold-Trial";
-  --light-font: "Graphik-Light-Trial";
+  --reg-font: "Inter_28pt-Regular";
+  --med-font: "Inter_28pt-Medium";
+  --semibold-font: "Inter_28pt-SemiBold";
+  --light-font: "Inter_28pt-Light";
   --tin-font: "Graphik-Thin-Trial";
 }
 

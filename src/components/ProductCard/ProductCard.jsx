@@ -92,6 +92,8 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
         dispatch(triggerStep(1));
         localStorage.removeItem("addonCart");
         localStorage.removeItem("cart");
+        localStorage.removeItem("selectedVariations");
+        localStorage.removeItem("selectedMessages");
         dispatch(clearCart());
         dispatch(clearCartAddon());
 
@@ -107,6 +109,8 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
         dispatch(clearCartAddon());
         localStorage.removeItem("addonCart");
         localStorage.removeItem("cart");
+        localStorage.removeItem("selectedVariations");
+        localStorage.removeItem("selectedMessages");
       }
     } else {
 

@@ -183,11 +183,12 @@ const Stepeight = ({ setHideSidebar }) => {
   // State to track true/false status
   const [selectedStates, setSelectedStates] = useState([]);
   const [termCondition, setTermCondition] = useState("");
-  const [patientInfo, setPatientInfo] = useState([]);
-  const [medicalInfo, setMedicalInfoData] = useState([]);
-  const [gpDetails, setGpdetails] = useState([]);
-  const [getBmi, setBmi] = useState([]);
-  const [confirmationInfo, setconfirmationInfo] = useState([]);
+  const [patientInfo, setPatientInfo] = useState(null);
+  const [medicalInfo, setMedicalInfoData] = useState(null);
+  const [gpDetails, setGpdetails] = useState(null);
+  const [getBmi, setBmi] = useState(null);
+  const [confirmationInfo, setconfirmationInfo] = useState(null);
+
 
   const [user, setUser] = useState([]);
 
@@ -197,18 +198,18 @@ const Stepeight = ({ setHideSidebar }) => {
   }));
 
   const updatedDoses = doses.map(({ qty, id, ...rest }) => {
-    // ✅ Find matching dose message by `id`
     const matchingMessage = doseMessage?.find((item) => item.id === id);
 
     return {
       ...rest,
-      id, // Keep id for reference
-      quantity: qty, // ✅ Update quantity
+      id, 
+      quantity: qty, 
       product_concent: matchingMessage?.message || null,
     };
   });
 
 
+  const isValidObj = (obj) => obj && typeof obj === "object" && Object.keys(obj).length > 0;
 
 
   useEffect(() => {
@@ -216,49 +217,49 @@ const Stepeight = ({ setHideSidebar }) => {
     const storedAddons = JSON.parse(localStorage.getItem("addonCart"));
     const storedDoseMessage = JSON.parse(localStorage.getItem("selectedMessages"));
     const storedPrev = JSON.parse(localStorage.getItem("stepPrevApiData")) || {};
-  
+
     const step1 = JSON.parse(localStorage.getItem("step1") || "null");
     const step2 = JSON.parse(localStorage.getItem("step2") || "null");
     const step3 = JSON.parse(localStorage.getItem("step3") || "null");
     const step4 = JSON.parse(localStorage.getItem("step4") || "null");
     const step5 = JSON.parse(localStorage.getItem("step5") || "null");
-  
+
     // Set addon
     if (storedAddons) setAddon(storedAddons);
-  
-    // Fallback fields from storedPrev
-    const fallbackFields = storedPrev?.last_consultation_data?.fields || {};
+
+    const fallbackFields = storedPrev?.last_consultation_data || {};
+    console.log(step1, fallbackFields, "sdjsdhusd")
     const patientData = fallbackFields?.patientInfo || {};
     const bmiData = fallbackFields?.bmi || {};
     const medicalInfoData = fallbackFields?.medicalInfo || {};
     const confirmationInfoData = fallbackFields?.confirmationInfo || {};
     const gpdetailsData = fallbackFields?.gpdetails || {};
-  
-    // Step values with fallback to storedPrev
-    setPatientInfo(step1 && Object.keys(step1).length > 0 ? step1 : patientData);
-    setBmi(step2 && Object.keys(step2).length > 0 ? step2 : bmiData);
-    setMedicalInfoData(step3 && Object.keys(step3).length > 0 ? step3 : medicalInfoData);
-    setconfirmationInfo(step4 && Object.keys(step4).length > 0 ? step4 : confirmationInfoData);
-    setGpdetails(step5 && Object.keys(step5).length > 0 ? step5 : gpdetailsData);
-  
+
+    // Step data with fallback
+    setPatientInfo(isValidObj(step1) ? step1 : patientData);
+    setBmi(isValidObj(step2) ? step2 : bmiData);
+    setMedicalInfoData(isValidObj(step3) ? step3 : medicalInfoData);
+    setconfirmationInfo(isValidObj(step4) ? step4 : confirmationInfoData);
+    setGpdetails(isValidObj(step5) ? step5 : gpdetailsData);
+
     // Dose info
     if (storedDoses) setDose(storedDoses);
     if (storedDoseMessage) setDoseMessage(storedDoseMessage);
-  
+
     // Shipment and countries
     if (storedPrev) {
       setShipmentCountry(storedPrev?.selected_product?.shippments || []);
-  
+
       const countries = storedPrev?.billing_countries || [];
       const termConditions = storedPrev?.selected_product?.terms_and_conditon || [];
       setBillingCountrys(countries);
       setTermCondition(termConditions);
-  
+
       const initialStates = countries.map((_, index) => index < 3);
       setSelectedStates(initialStates);
     }
   }, []);
-  
+
 
   const handleSelectChange = (value, index) => {
     setBillingAddres({ ...billingAddres, country: value }); // Update selected country
