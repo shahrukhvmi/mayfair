@@ -254,7 +254,7 @@ const MyProfile = () => {
 
           {/* Email Field */}
           <div className="relative top-3">
-            <div className=" bg-white border border-gray-400 rounded-[4px] border-1 p-[6px] cursor-not-allowed my-auto">
+            <div className=" bg-white border border-gray-400 rounded-[4px] border-1 p-[6px] cursor-not-allowed my-auto h-9">
               <p className="font-med text-sm text-gray-400">{user?.email}</p>
 
               {/* Helper text */}

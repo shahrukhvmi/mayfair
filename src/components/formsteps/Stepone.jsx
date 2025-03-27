@@ -1,13 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import {
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { FaCheck, FaSearch } from "react-icons/fa";
@@ -17,14 +10,13 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { nextStep } from "../../store/slice/stepper";
 import { useDispatch, useSelector } from "react-redux";
 import { setStep1 } from "../../store/slice/stepSlice";
-import dayjs from "dayjs";;
+import dayjs from "dayjs";
 import { useFetchAddressesQuery } from "../../store/services/addressApi/addressApi";
 import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
 const Stepone = ({ setHideSidebar }) => {
-
-  setHideSidebar(false)
+  setHideSidebar(false);
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -32,8 +24,6 @@ const Stepone = ({ setHideSidebar }) => {
     });
   }, []);
 
-
-  
   // changes done on live..??
   const dispatch = useDispatch();
   const stepPrevApiData = localStorage.getItem("stepPrevApiData");
@@ -48,17 +38,14 @@ const Stepone = ({ setHideSidebar }) => {
     if (stepPrevApiData !== null || stepPrev !== undefined || userData !== undefined) {
       const parsedData = JSON.parse(stepPrevApiData);
 
-
       const stepPrevParse = stepPrev !== undefined && stepPrev != "undefined" && stepPrev ? JSON.parse(stepPrev) : undefined;
       const userInfo = JSON.parse(userData);
 
       setLastConsultation(parsedData?.last_consultation_data?.patientInfo);
       setPrevStep1(stepPrevParse);
-      setUseriIfo(userInfo?.profile?.user)
+      setUseriIfo(userInfo?.profile?.user);
     }
   }, []);
-
-
 
   const {
     register,
@@ -85,7 +72,6 @@ const Stepone = ({ setHideSidebar }) => {
     },
   });
 
-
   // Watch the values of gender and breastFeeding
   const gender = watch("gender");
   const selectedEthnicity = watch("ethnicity");
@@ -98,50 +84,21 @@ const Stepone = ({ setHideSidebar }) => {
 
   useEffect(() => {
     if (lastConsultation || prevStep1 || userInfo) {
-      setZipCode(
-        prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || ""
-      );
-      setValue(
-        "postCode",
-        prevStep1?.address?.postalcode || "" || lastConsultation?.address?.postalcode
-      );
-      setValue(
-        "firstName",
-        prevStep1?.firstName || "" || lastConsultation?.firstName || userInfo?.fname
-      );
-      setValue(
-        "lastName",
-        prevStep1?.lastName || "" || lastConsultation?.lastName || userInfo?.lname
-      );
-      setValue(
-        "phoneNumber",
-        prevStep1?.phoneNo || "" || lastConsultation?.phoneNo || userInfo?.phone
-      );
+      setZipCode(prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
+      setValue("postCode", prevStep1?.address?.postalcode || "" || lastConsultation?.address?.postalcode);
+      setValue("firstName", prevStep1?.firstName || "" || lastConsultation?.firstName || userInfo?.fname);
+      setValue("lastName", prevStep1?.lastName || "" || lastConsultation?.lastName || userInfo?.lname);
+      setValue("phoneNumber", prevStep1?.phoneNo || "" || lastConsultation?.phoneNo || userInfo?.phone);
       setValue("gender", prevStep1?.gender || "" || lastConsultation?.gender || userInfo?.gender);
       setValue("dateOfBirth", prevStep1?.dob || "" || lastConsultation?.dob || userInfo?.dob);
-      setValue(
-        "breastFeeding",
-        prevStep1?.pregnancy || "" || lastConsultation?.pregnancy
-      );
-      setValue(
-        "ethnicity",
-        prevStep1?.ethnicity || "" || lastConsultation?.ethnicity
-      );
-      setValue(
-        "streetAddress",
-        prevStep1?.address?.addressone || "" || lastConsultation?.address?.addressone
-      );
-      setValue(
-        "streetAddress2",
-        prevStep1?.address?.addresstwo || "" || lastConsultation?.address?.addresstwo
-      );
+      setValue("breastFeeding", prevStep1?.pregnancy || "" || lastConsultation?.pregnancy);
+      setValue("ethnicity", prevStep1?.ethnicity || "" || lastConsultation?.ethnicity);
+      setValue("streetAddress", prevStep1?.address?.addressone || "" || lastConsultation?.address?.addressone);
+      setValue("streetAddress2", prevStep1?.address?.addresstwo || "" || lastConsultation?.address?.addresstwo);
       setValue("city", prevStep1?.address?.city || "" || lastConsultation?.address?.city);
       // setValue("country", lastConsultation.address?.country || "");
 
-      setValue(
-        "state",
-        prevStep1?.address?.state || "" || lastConsultation?.address?.state
-      );
+      setValue("state", prevStep1?.address?.state || "" || lastConsultation?.address?.state);
       trigger([
         "firstName",
         "lastName",
@@ -160,19 +117,15 @@ const Stepone = ({ setHideSidebar }) => {
     }
   }, [lastConsultation, setValue, trigger, prevStep1]);
 
-
   // 👇👇**RTK Query - Fetch addresses**👇👇
   const { data, error, isLoading } = useFetchAddressesQuery(zipCode, {
     skip: !searchClicked || !zipCode,
   });
 
-
   const handleSearch = () => {
     if (zipCode.trim() !== "") {
       setSearchClicked(true);
     } else {
-
-
       toast.error(error?.message);
     }
     // if (error) {
@@ -199,8 +152,7 @@ const Stepone = ({ setHideSidebar }) => {
     }
   }, [data]);
   const currentStep = useSelector((state) => state.step.currentStep);
-  const [postSteps, { error: isError, isLoading: loader }] =
-    usePostStepsMutation();
+  const [postSteps, { error: isError, isLoading: loader }] = usePostStepsMutation();
 
   const getPid = localStorage.getItem("pid");
 
@@ -229,14 +181,14 @@ const Stepone = ({ setHideSidebar }) => {
         patientInfo: patientInfo,
         pid: getPid,
       }).unwrap();
-      console.log(response, "response")
+      console.log(response, "response");
       if (response?.status === true) {
         dispatch(setStep1(response?.lastConsultation?.fields?.patientInfo));
 
         // toast.success(response?.message);
         dispatch(nextStep());
       } else {
-        console.log(isError, "isError")
+        console.log(isError, "isError");
         toast.error("Invalid login response");
       }
     } catch (err) {
@@ -244,9 +196,7 @@ const Stepone = ({ setHideSidebar }) => {
       if (errors && typeof errors === "object") {
         Object.keys(errors).forEach((key) => {
           const errorMessage = errors[key];
-          Array.isArray(errorMessage)
-            ? errorMessage.forEach((msg) => toast.error(msg))
-            : toast.error(errorMessage);
+          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
         });
       } else {
         toast.error("An unexpected error occurred.");
@@ -290,11 +240,11 @@ const Stepone = ({ setHideSidebar }) => {
     },
     "& .MuiInputBase-input": {
       color: "#111827", // Text color inside input
-      borderBottom: "2px solid #f2f3f5"
+      borderBottom: "2px solid #f2f3f5",
     },
     "& .MuiInputBase-input:focus": {
       color: "#111827", // Text color inside input
-      borderBottom: "2px solid #f7a564"
+      borderBottom: "2px solid #f7a564",
     },
     "& .MuiInput-underline:before": {
       display: "none", // Default underline color
@@ -340,14 +290,13 @@ const Stepone = ({ setHideSidebar }) => {
     setbtnZipCode(!zipCode?.trim()); // Disable if empty
   }, [zipCode]);
 
-
   useEffect(() => {
     if (gender === "male") {
       setWarningMessage("");
     }
   }, [gender]);
   return (
-    <div className="">
+    <div className="pb-20 sm:pb-0">
       <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
         Step 1: <span className="font-bold">Patient Information</span>
       </h1>
@@ -379,9 +328,7 @@ const Stepone = ({ setHideSidebar }) => {
           />
         </div>
         <div className="mb-3 sm:mb-0">
-          <p className="text-xs text-gray-500 font-medium">
-            Please enter your first and last name exactly as it appears on your ID.
-          </p>
+          <p className="text-xs text-gray-500 font-medium">Please enter your first and last name exactly as it appears on your ID.</p>
         </div>
 
         {/* Phone Number */}
@@ -391,19 +338,24 @@ const Stepone = ({ setHideSidebar }) => {
           control={control}
           value={watch("phoneNumber") || ""}
           rules={{ required: "Phone number is required" }}
-          render={({ field }) => (<>
-            <label htmlFor="" className="font-medium text-md text-gray-700">Phone Number</label>
-            <PhoneInput
-              country="gb"
-              placeholder="Enter your number"
-              inputStyle={{ width: "50%" }}
-              {...field}
-            />
-          </>
+          render={({ field }) => (
+            <div className="w-full sm:w-1/2">
+              <label htmlFor="" className="font-medium text-md text-gray-700 mb-1 block">
+                Phone Number
+              </label>
+              <PhoneInput
+                country="gb"
+                placeholder="Enter your number"
+                inputStyle={{ width: "100%" }} // Always 100% of wrapper
+                {...field}
+              />
+            </div>
           )}
         />
         {errors.phoneNumber && (
-          <label htmlFor="" className="text-red-500 text-sm">{errors.phoneNumber.message}</label>
+          <label htmlFor="" className="text-red-500 text-sm">
+            {errors.phoneNumber.message}
+          </label>
         )}
 
         {/* Gender Selection */}
@@ -469,41 +421,27 @@ const Stepone = ({ setHideSidebar }) => {
             <p className="font-medium text-md text-gray-700 sm:mb-6 mb-3">What is your gender?*</p>
             <div className="flex gap-4">
               <label
-                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "male"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                  : "rounded-lg shadow-md cursor-pointer bg-white"
-                  }`}
+                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
+                  gender === "male"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                    : "rounded-lg shadow-md cursor-pointer bg-white"
+                }`}
               >
-                <input
-                  type="radio"
-                  value="male"
-                  {...register("gender", { required: "Gender is required" })}
-                  className="hidden"
-                />
+                <input type="radio" value="male" {...register("gender", { required: "Gender is required" })} className="hidden" />
                 <span>Male</span>
-                <FaCheck
-                  className={`ml-2 transition-opacity duration-300 ${gender === "male" ? "opacity-100" : "opacity-0"
-                    }`}
-                />
+                <FaCheck className={`ml-2 transition-opacity duration-300 ${gender === "male" ? "opacity-100" : "opacity-0"}`} />
               </label>
 
               <label
-                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "female"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                  : "rounded-lg shadow-md cursor-pointer bg-white"
-                  }`}
+                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
+                  gender === "female"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                    : "rounded-lg shadow-md cursor-pointer bg-white"
+                }`}
               >
-                <input
-                  type="radio"
-                  value="female"
-                  {...register("gender", { required: "Gender is required" })}
-                  className="hidden"
-                />
+                <input type="radio" value="female" {...register("gender", { required: "Gender is required" })} className="hidden" />
                 <span>Female</span>
-                <FaCheck
-                  className={`ml-2 transition-opacity duration-300 ${gender === "female" ? "opacity-100" : "opacity-0"
-                    }`}
-                />
+                <FaCheck className={`ml-2 transition-opacity duration-300 ${gender === "female" ? "opacity-100" : "opacity-0"}`} />
               </label>
             </div>
             {errors.gender && <p className="text-red-500 text-sm mt-2">{errors.gender.message}</p>}
@@ -514,15 +452,14 @@ const Stepone = ({ setHideSidebar }) => {
           <div className="block sm:hidden">
             {gender === "female" && (
               <div className="mb-2">
-                <p className="med-font text-[#3E3E3E] text-base mb-2">
-                  Are you breastfeeding or trying to get pregnant?*
-                </p>
+                <p className="med-font text-[#3E3E3E] text-base mb-2">Are you breastfeeding or trying to get pregnant?*</p>
                 <div className="flex gap-4">
                   <label
-                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
-                      }`}
+                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
+                      breastFeeding === "Yes"
+                        ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                        : "bg-white"
+                    }`}
                   >
                     <input
                       type="radio"
@@ -532,7 +469,9 @@ const Stepone = ({ setHideSidebar }) => {
                         required: "This field is required",
                         validate: (value) => {
                           if (value === "Yes") {
-                            setWarningMessage(`This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`);
+                            setWarningMessage(
+                              `This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`
+                            );
                           } else {
                             setWarningMessage("");
                           }
@@ -549,10 +488,11 @@ const Stepone = ({ setHideSidebar }) => {
                   </label>
 
                   <label
-                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
-                      }`}
+                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
+                      breastFeeding === "No"
+                        ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                        : "bg-white"
+                    }`}
                   >
                     <input
                       type="radio"
@@ -572,14 +512,8 @@ const Stepone = ({ setHideSidebar }) => {
                     )}
                   </label>
                 </div>
-                <p className="text-red-500 mt-4 text-sm">
-                  {WarningMessage?.length > 0 && WarningMessage}
-                </p>
-                {errors.breastFeeding && (
-                  <p className="text-red-500 mt-2 text-sm">
-                    {errors.breastFeeding.message}
-                  </p>
-                )}
+                <p className="text-red-500 mt-4 text-sm">{WarningMessage?.length > 0 && WarningMessage}</p>
+                {errors.breastFeeding && <p className="text-red-500 mt-2 text-sm">{errors.breastFeeding.message}</p>}
               </div>
             )}
           </div>
@@ -614,15 +548,14 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="hidden sm:block">
           {gender === "female" && (
             <div className="mb-2">
-              <p className="med-font text-[#3E3E3E] text-base mb-2">
-                Are you breastfeeding or trying to get pregnant?*
-              </p>
+              <p className="med-font text-[#3E3E3E] text-base mb-2">Are you breastfeeding or trying to get pregnant?*</p>
               <div className="flex gap-4">
                 <label
-                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                    : "bg-white"
-                    }`}
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
+                    breastFeeding === "Yes"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
+                  }`}
                 >
                   <input
                     type="radio"
@@ -632,7 +565,9 @@ const Stepone = ({ setHideSidebar }) => {
 
                       validate: (value) => {
                         if (value === "Yes") {
-                          setWarningMessage(`This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`);
+                          setWarningMessage(
+                            `This treatment is not suitable if you are pregnant, trying to get pregnant or breastfeeding. We recommend you speak to your GP in person.`
+                          );
                         } else {
                           setWarningMessage("");
                         }
@@ -649,10 +584,11 @@ const Stepone = ({ setHideSidebar }) => {
                 </label>
 
                 <label
-                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                    : "bg-white"
-                    }`}
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
+                    breastFeeding === "No"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
+                  }`}
                 >
                   <input
                     type="radio"
@@ -671,18 +607,11 @@ const Stepone = ({ setHideSidebar }) => {
                   )}
                 </label>
               </div>
-              <p className="text-red-500 mt-4 text-sm">
-                {WarningMessage?.length > 0 && WarningMessage}
-              </p>
-              {errors.breastFeeding && (
-                <p className="text-red-500 mt-2 text-sm">
-                  {errors.breastFeeding.message}
-                </p>
-              )}
+              <p className="text-red-500 mt-4 text-sm">{WarningMessage?.length > 0 && WarningMessage}</p>
+              {errors.breastFeeding && <p className="text-red-500 mt-2 text-sm">{errors.breastFeeding.message}</p>}
             </div>
           )}
         </div>
-
 
         {/* Date of Birth */}
         {/* <div>
@@ -711,10 +640,8 @@ const Stepone = ({ setHideSidebar }) => {
           </LocalizationProvider>
         </div> */}
 
-
         <div className=" mt-3">
-          <h6 className="font-bold text-xl text-black">
-            Residential Address  </h6>
+          <h6 className="font-bold text-xl text-black">Residential Address </h6>
           <p class="text-sm italic text-green-600  pt-1 pb-4">(Require for age verification purpose)</p>
         </div>
 
@@ -735,7 +662,6 @@ const Stepone = ({ setHideSidebar }) => {
             InputProps={{
               endAdornment: (
                 <>
-
                   <div className="relative -top-2">
                     <button
                       type="button"
@@ -743,16 +669,10 @@ const Stepone = ({ setHideSidebar }) => {
                       disabled={btnZipCode}
                       className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
                     >
-
-                      <FaSearch
-                        className={`text-white`}
-                      />
-                      <span className="mr-2 text-sm">
-                        {isLoading ? "SEARCH..." : "SEARCH"}
-                      </span>
+                      <FaSearch className={`text-white`} />
+                      <span className="mr-2 text-sm">{isLoading ? "SEARCH..." : "SEARCH"}</span>
                     </button>
                   </div>
-
                 </>
               ),
             }}
@@ -761,15 +681,9 @@ const Stepone = ({ setHideSidebar }) => {
           <div className="mt-3 sm:mt-0">
             {!error && searchClicked && addressOptions.length > 0 && (
               <div className="">
-                <FormControl
-                  fullWidth
-                  variant="standard"
-                  error={!!errors.addressSelect}
-                  sx={selectStyles}
-                >
+                <FormControl fullWidth variant="standard" error={!!errors.addressSelect} sx={selectStyles}>
                   <InputLabel>Select Autofill</InputLabel>
                   <Select
-
                     {...register("addressSelect", {
                       required: "Please select an address",
                     })} // Validation for Select
@@ -783,9 +697,7 @@ const Stepone = ({ setHideSidebar }) => {
                     ))}
                   </Select>
                   {errors.addressSelect && (
-                    <FormHelperText>
-                      {errors.addressSelect.message}
-                    </FormHelperText> // Display error message
+                    <FormHelperText>{errors.addressSelect.message}</FormHelperText> // Display error message
                   )}
                 </FormControl>
               </div>
@@ -843,14 +755,10 @@ const Stepone = ({ setHideSidebar }) => {
         {/* Ethnicity Selection */}
 
         <div>
-          <h6 className="font-bold text-xl text-black my-6">
-            Confirm Ethnicity for BMI
-
-          </h6>
+          <h6 className="font-bold text-xl text-black my-6">Confirm Ethnicity for BMI</h6>
           <p className="font-med text-md text-gray pb-3">
-            People of certain ethnicities may be suitable for treatment at a lower BMI than others, if appropriate. Does one of the following options describe your ethnic group or background?
-
-
+            People of certain ethnicities may be suitable for treatment at a lower BMI than others, if appropriate. Does one of the following options
+            describe your ethnic group or background?
           </p>
           <ul className="list-disc ms-5 my-5">
             <li className="my-1 font-reg text-gray-800">South Asian</li>
@@ -859,12 +767,9 @@ const Stepone = ({ setHideSidebar }) => {
             <li className="my-1 font-reg text-gray-800"> Middle Eastern</li>
             <li className="my-1 font-reg text-gray-800">Black African</li>
             <li className="my-1 font-reg text-gray-800">African-Caribbean</li>
-
           </ul>
 
-
-
-          <div className="w-2/3">
+          <div className="sm:w-2/3">
             {[
               { value: "yes", label: "Yes" },
               { value: "no", label: "No" },
@@ -872,10 +777,9 @@ const Stepone = ({ setHideSidebar }) => {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value
-                  ? "bg-[#6d28d9] text-white"
-                  : "bg-[#e5e7eb] text-gray-700"
-                  }`}
+                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${
+                  selectedEthnicity === option.value ? "bg-[#6d28d9] text-white" : "bg-[#e5e7eb] text-gray-700"
+                }`}
               >
                 <input
                   type="radio"
@@ -891,10 +795,7 @@ const Stepone = ({ setHideSidebar }) => {
             ))}
           </div>
 
-
-          {errors.ethnicity && (
-            <p className="text-red-500 mt-1">{errors.ethnicity.message}</p>
-          )}
+          {errors.ethnicity && <p className="text-red-500 mt-1">{errors.ethnicity.message}</p>}
         </div>
 
         {/* <div className="flex justify-end">
@@ -917,27 +818,22 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="hidden justify-start sm:flex">
           <div className="mt-2 sm:max-w-40">
             <div className="text-center">
-              <NextButton
-                disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
-                label={"Next"}
-                loading={loader}
-              />
+              <NextButton disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage} label={"Next"} loading={loader} />
             </div>
           </div>
         </div>
 
-
         <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
           <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
-
             <div className="relative flex w-full justify-end items-center">
               <button
                 type="submit"
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
-                className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
-                  }`}
+                className={`p-3 flex flex-col items-center justify-center ${
+                  !isValid || loader || error || !selectedEthnicity || WarningMessage
+                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                    : "text-white rounded-md bg-violet-700"
+                }`}
               >
                 {loader ? (
                   // Loading Spinner with Label
@@ -946,9 +842,7 @@ const Stepone = ({ setHideSidebar }) => {
                     <span></span>
                   </div>
                 ) : (
-                  <span className="text-md font-semibold px-6">
-                    Next
-                  </span>
+                  <span className="text-md font-semibold px-6">Next</span>
                 )}
               </button>
             </div>
