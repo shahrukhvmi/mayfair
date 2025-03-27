@@ -176,8 +176,8 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
             </div>
 
             <div
-                className={`bg-white shadow-sm rounded-md border-2 p-3 sm:p-6 w-full my-3 ${ability === "yes" && purchasingYourself === "yes"
-                    ? "border-[#4DB581]"
+                className={`bg-white shadow-sm rounded-md border-2 w-full my-3 ${ability === "yes" && purchasingYourself === "yes"
+                    ? "border-white"
                     : "border-gray-400 filter blur-sm"
                     }`}
             >
@@ -194,12 +194,12 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
                                 className="hidden" // Hide the default checkbox input
                             />
                             <div
-                                className={`mt-1 w-5 h-5 border-2 rounded-full ${initVal.checked ? "bg-white border-[#4DB581] p-1" : "bg-white border-gray-400"
+                                className={`mt-1 w-5 h-5 border-2 rounded-full ${initVal.checked ? "bg-white border-violet-800 p-1" : "bg-white border-gray-400"
                                     } transition duration-300`}
                             >
                                 {initVal.checked && (
                                     <div className="w-full h-full flex items-center justify-center">
-                                        <FaCheck color="#4DB581" /> {/* Show check icon when checked */}
+                                        <FaCheck color="#6d28d9" /> {/* Show check icon when checked */}
                                     </div>
                                 )}
                             </div>

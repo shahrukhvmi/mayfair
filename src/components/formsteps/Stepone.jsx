@@ -10,20 +10,18 @@ import {
 } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { FaArrowRight, FaCheck, FaCheckCircle, FaSearch } from "react-icons/fa";
+import { FaCheck, FaSearch } from "react-icons/fa";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { nextStep } from "../../store/slice/stepper";
 import { useDispatch, useSelector } from "react-redux";
 import { setStep1 } from "../../store/slice/stepSlice";
-import dayjs from "dayjs";
-import moment from "moment";
+import dayjs from "dayjs";;
 import { useFetchAddressesQuery } from "../../store/services/addressApi/addressApi";
 import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
-import { BorderBottom, LineWeight } from "@mui/icons-material";
 const Stepone = ({ setHideSidebar }) => {
 
   setHideSidebar(false)
@@ -34,6 +32,8 @@ const Stepone = ({ setHideSidebar }) => {
     });
   }, []);
 
+
+  
   // changes done on live..??
   const dispatch = useDispatch();
   const stepPrevApiData = localStorage.getItem("stepPrevApiData");
@@ -340,6 +340,12 @@ const Stepone = ({ setHideSidebar }) => {
     setbtnZipCode(!zipCode?.trim()); // Disable if empty
   }, [zipCode]);
 
+
+  useEffect(() => {
+    if (gender === "male") {
+      setWarningMessage("");
+    }
+  }, [gender]);
   return (
     <div className="">
       <h1 className="text-2xl lg:text-3xl 2xl:text-4xl font-light">
@@ -587,13 +593,13 @@ const Stepone = ({ setHideSidebar }) => {
                 render={({ field }) => (
                   <DatePicker
                     label=" "
-                    value={field.value ? dayjs(field.value) : null} // Convert ISO string to dayjs object
+                    value={field.value ? dayjs(field.value) : null}
                     onChange={(date) => handleDateChange(date)}
                     maxDate={today}
                     sx={textFieldStyles}
                     slotProps={{
                       textField: {
-                        variant: "standard",
+                        variant: "outlined",
                         fullWidth: true,
                         error: !!dobError || !!errors.dateOfBirth,
                         helperText: dobError || errors.dateOfBirth?.message,
@@ -735,7 +741,7 @@ const Stepone = ({ setHideSidebar }) => {
                       type="button"
                       onClick={handleSearch}
                       disabled={btnZipCode}
-                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-3 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
+                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
                     >
 
                       <FaSearch

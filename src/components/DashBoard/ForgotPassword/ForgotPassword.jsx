@@ -29,71 +29,44 @@ const ForgotPassword = () => {
       toast.success(response.message || "Password reset link sent!");
       reset();
     } catch (err) {
-    
+
       toast.error(err?.data?.errors?.User);
     }
   };
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      sx={{
-        height: "90vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: 4,
-          backgroundColor: "#ffffff",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)",
-          borderRadius: 3,
-          transition: "box-shadow 0.3s ease-in-out",
-          "&:hover": {
-            boxShadow: "0 15px 40px rgba(0, 0, 0, 0.2)",
-          },
-        }}
-      >
-        <div className="bg-white sm:p-6 w-full rounded-lg mb-10">
-          <h2 className="text-2xl font-semibold text-center text-[#1C1C29] mb-4">
-            Forgot your password
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#DACFFF] px-4 pt-6">
+      <div className="">
+
+
+        <div className="bg-white sm:p-10 w-96 rounded-lg mb-10 ">
+          <h2 className="text-xl font-semibold text-center text-[#1C1C29] mb-4">
+            Forgot your password?
           </h2>
           <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
             {/* Email Field */}
-            <TextField
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Invalid email address",
-                },
-              })}
-              variant="standard"
-              margin="normal"
-              fullWidth
-              label="Email"
-              autoFocus
-              error={!!errors.email}
-              helperText={errors.email ? errors.email.message : ""}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "#ddd",
+            <div className="mb-4">
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                autoFocus
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "#4DB581",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#4DB581",
-                  },
-                },
-              }}
-            />
+                })}
+                className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-violet-600 transition ${errors.email ? "border-red-500" : "border-gray-300"
+                  }`}
+              />
+              {errors.email && (
+                <p className="text-sm text-red-500 mt-1">{errors.email.message}</p>
+              )}
+            </div>
+
 
             {/* Submit Button */}
             <div className="text-center mt-6">
@@ -106,24 +79,10 @@ const ForgotPassword = () => {
               </button>
             </div>
 
-            <Box
-              sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
-            >
-              <Typography variant="body2" className="reg-font">
-                Already have an account?{" "}
-                <Link
-                  to="/login"
-                  style={{ textDecoration: "none", color: "#4DB581" }}
-                  className="font-semibold"
-                >
-                  Login
-                </Link>
-              </Typography>
-            </Box>
           </form>
         </div>
-      </Box>
-    </Container>
+      </div>
+    </div>
   );
 };
 

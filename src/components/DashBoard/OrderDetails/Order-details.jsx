@@ -29,7 +29,11 @@ const OrderDetails = () => {
   const total = data?.data?.order?.total_price;
   const order = data?.data?.order?.consultation?.fields?.checkout?.discount;
 
+  const [isOpen, setIsOpen] = useState(false);
 
+  const toggleSidebar = () => {
+    setIsOpen((prev) => !prev);
+  };
   if (isLoading) {
     return (
       <div className="p-3 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 me-5 space-y-6">
@@ -55,12 +59,8 @@ const OrderDetails = () => {
       </div>
     );
   }
-  const [isOpen, setIsOpen] = useState(false);
 
-  const toggleSidebar = () => {
-    setIsOpen((prev) => !prev);
-  };
-  // const products = [];
+
   return (
 
     <>

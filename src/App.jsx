@@ -6,13 +6,12 @@ import { AuthProvider } from "./Auth/AuthContext";
 import PublicRoute from "./Auth/PublicRoute";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import PaymentFailed from "./components/PaymentFailed/PaymentFailed";
+import Welcome from "./Auth/Welcom/Welcom";
 
 // Lazy load components
 const MainLayout = React.lazy(() => import("./Layout/MainLayout/MainLayout"));
 const StepsLayout = React.lazy(() => import("./Layout/StepsLayout/StepsLayout"));
 const Steps = React.lazy(() => import("./components/Steps"));
-const Login = React.lazy(() => import("./Auth/Login/Login"));
-const Register = React.lazy(() => import("./Auth/Register/register"));
 const DashBoardLayout = React.lazy(() => import("./components/DashBoard/DashBoardLayout"));
 const MyAccount = React.lazy(() => import("./components/DashBoard/MyAccount/MyAccount"));
 const MyOrders = React.lazy(() => import("./components/DashBoard/MyOrders/MyOrders"));
@@ -25,19 +24,19 @@ const ThankYou = React.lazy(() => import("./components/ThankYou/ThankYou"));
 const ChangeForgotPassword = React.lazy(() => import("./Auth/ChangeForgotPassword/ChangeForgotPassword"));
 
 const App = () => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const location = useLocation();
+  // const [isLoaded, setIsLoaded] = useState(false);
+  // const location = useLocation();
 
-  // Check if the current route is /consultation-form
-  const shouldAnimate = location.pathname === "/consultation-form";
+  // // Check if the current route is /consultation-form
+  // const shouldAnimate = location.pathname === "/consultation-form";
 
-  // Pass shouldAnimate to the useGsapAnimation hook
-  useGsapAnimation(setIsLoaded, shouldAnimate);
+  // // Pass shouldAnimate to the useGsapAnimation hook
+  // useGsapAnimation(setIsLoaded, shouldAnimate);
 
   return (
     <div className="overflow-hidden h-full">
       {/* Loader Animation */}
-      {!isLoaded && shouldAnimate && (
+      {/* {!isLoaded && shouldAnimate && (
         <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-100 to-green-100">
           <div className="flex flex-col items-center justify-center space-y-4 h-full">
             <div className="loader-logo opacity-0">
@@ -55,10 +54,10 @@ const App = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Main Application Content */}
-      {isLoaded && (
+      {/* {isLoaded && ( */}
         <AuthProvider>
           <Suspense fallback={<div></div>}>
             <Routes>
@@ -69,7 +68,7 @@ const App = () => {
                   <PublicRoute
                     element={
                       <MainLayout>
-                        <Login />
+                        <Welcome />
                       </MainLayout>
                     }
                   />
@@ -81,7 +80,7 @@ const App = () => {
                   <PublicRoute
                     element={
                       <MainLayout>
-                        <Register />
+                        <Welcome />
                       </MainLayout>
                     }
                   />
@@ -205,7 +204,6 @@ const App = () => {
             <Toaster />
           </Suspense>
         </AuthProvider>
-      )}
     </div>
   );
 };

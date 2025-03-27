@@ -69,22 +69,10 @@ const ChangeForgotPassword = () => {
     const passwordConfirmation = watch('passwordConfirmation');
 
     return (
-        <Container component="main" maxWidth="xs" className="mb-20" sx={{ height: '100vh', display: 'flex', 
-            justifyContent: 'center', alignItems: 'center' }}>
-            <Box
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    padding: 4,
-                    backgroundColor: '#ffffff',
-                    boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1)',
-                    borderRadius: 3,
-                   
-                }}
-            >
-                <div className="bg-white p-6 w-full rounded-lg mb-10">
-                    <h2 className="text-2xl font-semibold text-center text-[#1C1C29] mb-4">Change Your Password</h2>
+        <div className="min-h-screen flex flex-col items-center justify-center bg-[#DACFFF] px-4 pt-6">
+            <div className="">
+                <div className="bg-white p-6 w-96 rounded-lg mb-10">
+                    <h2 className="text-xl font-semibold text-center text-[#1C1C29] mb-4">Change Your Password</h2>
                     <form onSubmit={handleSubmit(onSubmit)} style={{ width: '100%' }}>
 
                         {/* Password Field */}
@@ -152,8 +140,8 @@ const ChangeForgotPassword = () => {
                         </div>
                     </form>
                 </div>
-            </Box>
-        </Container>
+            </div>
+        </div>
     );
 };
 

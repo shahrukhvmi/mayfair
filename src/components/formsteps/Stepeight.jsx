@@ -184,6 +184,11 @@ const Stepeight = ({ setHideSidebar }) => {
   const [selectedStates, setSelectedStates] = useState([]);
   const [termCondition, setTermCondition] = useState("");
   const [patientInfo, setPatientInfo] = useState([]);
+  const [medicalInfo, setMedicalInfoData] = useState([]);
+  const [gpDetails, setGpdetails] = useState([]);
+  const [getBmi, setBmi] = useState([]);
+  const [confirmationInfo, setconfirmationInfo] = useState([]);
+
   const [user, setUser] = useState([]);
 
   const updatedAddons = addons.map(({ qty, ...rest }) => ({
@@ -199,12 +204,10 @@ const Stepeight = ({ setHideSidebar }) => {
       ...rest,
       id, // Keep id for reference
       quantity: qty, // ✅ Update quantity
-      product_concent: matchingMessage?.message || "No message available", // ✅ Save message
+      product_concent: matchingMessage?.message || null,
     };
   });
 
-  // ✅ Debugging: Check if messages are matched correctly
-  console.log("Updated Doses with product_concent:", updatedDoses);
 
 
 
@@ -216,14 +219,30 @@ const Stepeight = ({ setHideSidebar }) => {
     const storedPrev =
       JSON.parse(localStorage.getItem("stepPrevApiData")) || [];
     const step1 = JSON.parse(localStorage.getItem("step1")) || [];
+    const step2 = JSON.parse(localStorage.getItem("step2")) || [];
+    const step3 = JSON.parse(localStorage.getItem("step3")) || [];
+    const step4 = JSON.parse(localStorage.getItem("step4")) || [];
+    const step5 = JSON.parse(localStorage.getItem("step5")) || [];
     // const user = JSON.parse(localStorage.getItem("userData")) || [];
 
     if (storedAddons) setAddon(storedAddons);
     if (step1 && Object.keys(step1).length > 0) {
       setPatientInfo(step1);
+      setBmi(step2);
+      setMedicalInfoData(step3);
+      setconfirmationInfo(step4)
+      setGpdetails(step5);
     } else {
       const patientData = storedPrev?.last_consultation_data?.fields?.patientInfo;
+      const medicalInfoData = storedPrev?.last_consultation_data?.fields?.medicalInfo;
+      const gpdetailsData = storedPrev?.last_consultation_data?.fields?.gpdetails;
+      const bmiData = storedPrev?.last_consultation_data?.fields?.bmi;
+      const confirmationInfoData = storedPrev?.last_consultation_data?.fields?.confirmationInfo;
       setPatientInfo(patientData);
+      setMedicalInfoData(medicalInfoData);
+      setGpdetails(gpdetailsData);
+      setBmi(bmiData);
+      setconfirmationInfo(confirmationInfoData);
 
     }
 
@@ -526,8 +545,8 @@ const Stepeight = ({ setHideSidebar }) => {
   const onSubmit = async (data) => {
 
     const checkout = {
-      firstName: patientInfo?.firstName || userProfile?.fname,
-      lastName: patientInfo?.lastName || userProfile?.lname,
+      firstName: data?.firstName || patientInfo?.firstName || userProfile?.fname,
+      lastName: data?.lastName || patientInfo?.lastName || userProfile?.lname,
       email: userInfo?.email || email,
       phoneNo: patientInfo?.phoneNo || userProfile?.phone,
       shipping: {
@@ -577,6 +596,11 @@ const Stepeight = ({ setHideSidebar }) => {
         items: updatedDoses,
         addons: updatedAddons,
         pid: getPid,
+        medicalInfo: medicalInfo,
+        gpdetails:gpDetails,
+        bmi:getBmi,
+        confirmationInfo:confirmationInfo,
+
         // successurl: "https://weightlosspharmacy.vercel.app/thank-you",
         // failedurl: "https://weightlosspharmacy.vercel.app/payment-failed"
         // successurl: "http://localhost:5173/thank-you",
@@ -1510,7 +1534,7 @@ const Stepeight = ({ setHideSidebar }) => {
                           </span>
                         </div>
                       )} */}
-                           
+
 
 
 

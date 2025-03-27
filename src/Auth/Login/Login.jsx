@@ -1,12 +1,6 @@
 import React, { useContext, useState } from "react";
 import {
-  TextField,
-  Button,
-  Typography,
   Box,
-  Container,
-  InputAdornment,
-  IconButton,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -16,6 +10,7 @@ import { useLoginMutation } from "../../store/services/Auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../store/services/Auth/authSlice";
 import { AuthContext } from "../AuthContext";
+
 const Login = () => {
   const { islogin } = useContext(AuthContext);
 
@@ -65,40 +60,23 @@ const Login = () => {
   const handleClickShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
+  const [rememberMe, setRememberMe] = useState(false);
 
   return (
-    <Container
-      component="main"
-      maxWidth="xs"
-      sx={{
-        height: "90vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: 4,
-          backgroundColor: "#ffffff",
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.1)", // Subtle but deep shadow
-          borderRadius: 3,
-          transition: "box-shadow 0.3s ease-in-out",
-          "&:hover": {
-            boxShadow: "0 15px 40px rgba(0, 0, 0, 0.2)", // Elevated shadow on hover
-          },
-        }}
-      >
-        <div className="bg-white p-6 w-full rounded-lg mb-10">
-          <h2 className="text-2xl font-semibold text-center text-[#1C1C29] mb-4">
-            Returning Patient
-          </h2>
-          <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-            {/* Email Field */}
-            <TextField
+    <div className="w-full">
+      <div className="p-6">
+        <h2 className="text-xl font-semibold text-center text-[#1C1C29] mb-4">
+          Returning Patient
+        </h2>
+        <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+          {/* Email Field */}
+          <div className="mb-4 w-full">
+            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              Email
+            </label>
+            <input
+              type="email"
+              id="email"
               {...register("email", {
                 required: "Email is required",
                 pattern: {
@@ -106,126 +84,126 @@ const Login = () => {
                   message: "Invalid email address",
                 },
               })}
-              variant="standard"
-              margin="normal"
-              fullWidth
-              label="Email"
+              className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.email ? "border-red-500" : "border-gray-300"
+                }`}
               autoFocus
-              error={!!errors.email} // Display error for email
-              helperText={errors.email ? errors.email.message : ""}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "#ddd",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#4DB581",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#4DB581",
-                  },
-                },
-              }}
             />
+            {errors.email && (
+              <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+            )}
+          </div>
 
-            {/* Password Field */}
-            <TextField
+
+          {/* Password Field */}
+          <div className="mb-4 w-full relative">
+            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              id="password"
               {...register("password", {
                 required: "Password is required",
+                // Uncomment below if you want stricter validation:
                 // minLength: {
-                //     value: 8,
-                //     message: 'Password must be at least 8 characters',
+                //   value: 8,
+                //   message: "Password must be at least 8 characters",
                 // },
                 // pattern: {
-                //     value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*$/,
-                //     message: 'Password must contain at least one uppercase letter, one number, and one special character',
+                //   value: /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).*$/,
+                //   message: "Must contain uppercase, number & special char",
                 // },
               })}
-              variant="standard"
-              margin="normal"
-              fullWidth
-              label="Password"
-              type={showPassword ? "text" : "password"}
-              error={!!errors.password} // Display error for password
-              // helperText={errors.password ? errors.password.message : ''}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? (
-                        <FiEye size={18} />
-                      ) : (
-                        <FiEyeOff size={18} />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "#ddd",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "#4DB581",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "#4DB581",
-                  },
-                },
-              }}
+              className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.password ? "border-red-500" : "border-gray-300"
+                }`}
             />
 
-            {/* Submit Button */}
-
-            <div className="text-center my-3">
-              <button
-                disabled={!isValid || isLoading}
-                type="submit"
-                className="w-full px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-violet-700 focus:ring-offset-2 transition ease-in-out duration-150"
-              >
-                {isLoading ? "Logging in..." : "Login"}
-              </button>
-            </div>
-            <Box
-              sx={{
-                marginTop: 2,
-                display: "flex",
-                justifyContent: "space-between",
-              }}
-            ></Box>
-            {/* Register Button */}
-            <Box
-              sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
+            {/* Eye Icon */}
+            <div
+              className="absolute right-3 top-[36px] cursor-pointer text-purple-600"
+              onClick={() => setShowPassword((prev) => !prev)}
             >
-              <Typography variant="body2" className="reg-font">
-                Don't have an account?{" "}
+              {showPassword ? <FiEye size={18} /> : <FiEyeOff size={18} />}
+            </div>
+
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+            )}
+          </div>
+
+          {/* Submit Button */}
+          <div className="flex justify-between items-center mt-4">
+            {/* Remember Me */}
+            <div className="block mt-4">
+              <label className="flex items-center">
+
+
+                <input
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe('remember', e.target.checked)}
+                  type="checkbox"
+                  className=
+                  "rounded-md bg-violet-700 border-gray-300 text-violet-700 shadow-sm focus:ring-violet-700"
+                />
+                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+              </label>
+            </div>
+
+            {/* Forgot Password */}
+            <Link
+              to="/forgot-password"
+              className="text-sm text-gray-600 hover:text-violet-700"
+            >
+              Forgot your password?
+            </Link>
+          </div>
+
+
+
+          <div className="text-start my-3">
+            <button
+              disabled={!isValid || isLoading}
+              type="submit"
+              className="inline-flex items-center px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-800 disabled:cursor-not-allowed bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150"
+            >
+              {isLoading ? "Logging in..." : "Login"}
+            </button>
+          </div>
+          <Box
+            sx={{
+              marginTop: 2,
+              display: "flex",
+              justifyContent: "space-between",
+            }}
+          ></Box>
+          {/* Register Button */}
+          {/* <Box
+            sx={{ marginTop: 2, display: "flex", justifyContent: "center" }}
+          >
+            <Typography variant="body2" className="reg-font">
+              Don't have an account?{" "}
+              <Link
+                to="/register"
+                style={{ textDecoration: "none", color: "#4DB581" }}
+                className="font-semibold"
+              >
+                Register
+              </Link>
+              <div className="reg-font text-center mt-2">
                 <Link
-                  to="/register"
-                  style={{ textDecoration: "none", color: "#4DB581" }}
+                  to="/forgot-password"
+                  style={{ textDecoration: "underline", color: "#4565BF" }}
                   className="font-semibold"
                 >
-                  Register
+                  Forgot password?
                 </Link>
-                <div className="reg-font text-center mt-2">
-                  <Link
-                    to="/forgot-password"
-                    style={{ textDecoration: "underline", color: "#4565BF" }}
-                    className="font-semibold"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
-              </Typography>
-            </Box>
-          </form>
-        </div>
-      </Box>
-    </Container>
+              </div>
+            </Typography>
+          </Box> */}
+        </form>
+      </div>
+    </div>
+
   );
 };
 

@@ -181,7 +181,7 @@ const Stepthree = ({ setHideSidebar }) => {
                 )}
                 {q.has_sub_field && selectedAnswer === "yes" && (
                   <textarea
-                    className="w-full p-2 border border-gray-300 rounded mt-4"
+                    className="w-full p-2 border-2 border-violet-700 rounded-lg mt-4"
                     placeholder={q.sub_field_prompt}
                     value={responses[q.id]?.subfield_response}
                     onChange={(e) => handleChange(q.id, e.target.value, true)}
