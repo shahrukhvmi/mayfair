@@ -6,12 +6,13 @@ import { AuthProvider } from "./Auth/AuthContext";
 import PublicRoute from "./Auth/PublicRoute";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import PaymentFailed from "./components/PaymentFailed/PaymentFailed";
-import Welcome from "./Auth/Welcom/Welcom";
+
 
 // Lazy load components
 const MainLayout = React.lazy(() => import("./Layout/MainLayout/MainLayout"));
 const StepsLayout = React.lazy(() => import("./Layout/StepsLayout/StepsLayout"));
 const Steps = React.lazy(() => import("./components/Steps"));
+const Welcome = React.lazy(() => import("./Auth/Welcom/Welcom"));
 const DashBoardLayout = React.lazy(() => import("./components/DashBoard/DashBoardLayout"));
 const MyAccount = React.lazy(() => import("./components/DashBoard/MyAccount/MyAccount"));
 const MyOrders = React.lazy(() => import("./components/DashBoard/MyOrders/MyOrders"));
