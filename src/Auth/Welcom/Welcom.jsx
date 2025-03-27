@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Login from "../Login/Login";
-import Register from "../Register/Register";
+import Register from "../Register/register";
 
 const Welcome = () => {
     const [selectedTab, setSelectedTab] = useState("tab1");
