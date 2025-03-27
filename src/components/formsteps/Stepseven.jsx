@@ -861,7 +861,7 @@ const StepSeven = ({ setHideSidebar }) => {
               </div>
 
               {/* Buttons */}
-              <div className="sm:flex justify-between mt-6 hidden ">
+              <div className="sm:flex justify-normal mt-6 hidden ">
                 <PrevButton label="Back" onClick={() => dispatch(prevStep())} />
                 <NextButton label="Proceed to Checkout" disabled={!isValid || !isDoseSelected} />
               </div>

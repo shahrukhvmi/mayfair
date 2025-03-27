@@ -1274,7 +1274,7 @@ const Stepeight = ({ setHideSidebar }) => {
 
                     </Box>
 
-                    <div className="hidden sm:flex justify-between py-4">
+                    <div className="hidden sm:flex justify-normal py-4">
                       <PrevButton label="Back" onClick={() => dispatch(prevStep())} />
                       <NextButton
                         label="Proceed to Payment "
@@ -1290,7 +1290,7 @@ const Stepeight = ({ setHideSidebar }) => {
 
                       {/* <div className="bg-white p-6 rounded-lg shadow-md sm:fixed mt-10 sm:mt-[100px]"> */}
 
-                      <Box className="bg-[#F9FAFB] p-6 rounded-lg shadow-md mt-6 sm:mt-[110px]">
+                      <Box className="bg-gray-100 p-6 rounded-lg shadow-md mt-6 sm:mt-[110px]">
                         <div className="overflow-y-auto ">
                           <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">
                             Order Summary

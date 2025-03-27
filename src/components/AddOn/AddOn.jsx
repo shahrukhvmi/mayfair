@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { FaMinus, FaPlus } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { useSelector } from "react-redux";
 import ConfirmationModal from "../Modal/ConfirmationModal";
 import { HiOutlineTrash } from "react-icons/hi";
 
@@ -132,7 +134,7 @@ const AddOn = ({
         </div>
 
         {/* Remove Button (Only When Selected) */}
-        {isSelected && (
+        {/* {isSelected && (
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -142,6 +144,20 @@ const AddOn = ({
           >
            <HiOutlineTrash />
             <span className="font-semibold text-sm">Remove</span>
+          </button>
+        )} */}
+
+        {isSelected && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDeleteClick(doseData);
+            }}
+            className="mt-2 bg-red-100 hover:bg-red-200 text-red-500 rounded-md px-3 py-1 flex items-center gap-1"
+          >
+             <HiOutlineTrash />
+             <span className="font-semibold text-sm">Remove</span>
           </button>
         )}
       </div>
