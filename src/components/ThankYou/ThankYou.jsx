@@ -103,37 +103,6 @@ const ThankYou = () => {
                 legislation around prescription only medication.
               </p>
             </div>
-<<<<<<< HEAD
-
-            {/* Thank You Text */}
-            <h1
-                ref={titleRef}
-                className="text-4xl md:text-5xl font-bold text-violet-700 mb-4"
-            >
-                Thank You!
-            </h1>
-            <p className="text-gray-700 text-lg md:text-xl mb-8">
-                Your order has been received.
-            </p>
-
-            {/* Animated Button */}
-            <button
-                ref={buttonRef}
-                className="bg-[#4DB581] text-white px-6 py-3 rounded-md font-medium shadow-md hover:bg-[#3A8F6F] transform transition-transform duration-300 hover:scale-105"
-            >
-                <a href="/">
-                    Return to Home
-                </a>
-            </button>
-
-            {/* Additional Info */}
-            {/* <p className="text-gray-600 mt-10 text-sm max-w-md">
-                Your information is kept private and will be reviewed by a healthcare professional. The questions are meant to help the prescriber make an informed decision about the suitability of the treatment.
-            </p> */}
-
-            {/* Medical SVG with 3D Animation */}
-
-=======
             <div className="text-left text-gray-600 dark:text-gray-400 mb-5 xl:w-3/5 xl:mx-auto">
               <center>
                 {" "}
@@ -147,7 +116,6 @@ const ThankYou = () => {
           >
             Continue to Available Treatments
           </button>
->>>>>>> c969862c81ed5fdbda241c00e7187d9d6d99f83f
         </div>
       </div>
     </div>
