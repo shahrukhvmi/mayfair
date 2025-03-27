@@ -1,13 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Box,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@mui/material";
+import { Box, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { FaSearch } from "react-icons/fa";
 import { useFetchAddressesForBillingQuery, useFetchAddressesQuery } from "../../../store/services/addressApi/addressApi";
@@ -39,8 +31,7 @@ const MyAddress = () => {
       streetAddress2: "",
       city: "",
       state: "",
-
-    }
+    },
   });
 
   const {
@@ -72,26 +63,21 @@ const MyAddress = () => {
 
   const fetchUserData = async () => {
     try {
-      const response = await fetch(
-        "https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
 
       const data = await response.json();
       if (response.ok) {
-
         const user = data;
         localStorage.setItem("userData", JSON.stringify(user));
 
-
         // Update state
         setUserData(user);
-        setCountry(user?.profile?.billing_countries)
+        setCountry(user?.profile?.billing_countries);
         setBillingCountrys(user?.profile?.billing_countries);
         const initialStates = countries.map((_, index) => index < 3);
         setSelectedStates(initialStates);
@@ -103,13 +89,12 @@ const MyAddress = () => {
     }
   };
 
-
   useEffect(() => {
     fetchUserData();
   }, []);
   const shippingValues = watchShipping();
   const billingValues = watchBilling();
-  useEffect(() => { }, [shippingValues, billingValues]);
+  useEffect(() => {}, [shippingValues, billingValues]);
 
   const profile = user?.profile || {};
 
@@ -134,11 +119,17 @@ const MyAddress = () => {
       setValueBilling("billingCity", billing?.city || "");
       setValueBilling("billingState", billing?.state || "");
       setValueBilling("billingPostalCode", billing?.postalcode || "");
-      triggerBilling(["billingCountry", "billingStreetAddress", "billingStreetAddress2", "billingCity", "billingState", "billingCountry", "billingPostalCode"]);
+      triggerBilling([
+        "billingCountry",
+        "billingStreetAddress",
+        "billingStreetAddress2",
+        "billingCity",
+        "billingState",
+        "billingCountry",
+        "billingPostalCode",
+      ]);
     }
   }, [isDataLoaded, billing, setValueBilling, triggerBilling]);
-
-
 
   useEffect(() => {
     if (shipping) {
@@ -153,8 +144,6 @@ const MyAddress = () => {
     }
   }, [shipping, setValueShipping, triggerShipping]);
 
-
-
   useEffect(() => {
     if (activeTab == "shipping") {
       setZipCode(shipping?.postalcode);
@@ -162,7 +151,6 @@ const MyAddress = () => {
       setZipCode(billing?.postalcode);
     }
   }, [activeTab, billing, shipping]);
-
 
   // 👇👇**RTK Query - Fetch addresses**👇👇
   const { data, error, isLoading } = useFetchAddressesQuery(zipCode, {
@@ -192,17 +180,9 @@ const MyAddress = () => {
       setZipCode(billing?.postalcode ?? "");
     }
     // 👇👇 Apply GSAP Animation👇👇
-    gsap.fromTo(
-      `.tab-${tabValue}`,
-      { y: -10, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, ease: "bounce.out" }
-    );
+    gsap.fromTo(`.tab-${tabValue}`, { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, ease: "bounce.out" });
 
-    gsap.fromTo(
-      `.tab-text-${tabValue}`,
-      { scale: 0.9 },
-      { scale: 1, duration: 0.5, ease: "bounce.out" }
-    );
+    gsap.fromTo(`.tab-text-${tabValue}`, { scale: 0.9 }, { scale: 1, duration: 0.5, ease: "bounce.out" });
   };
 
   const handleSearch = () => {
@@ -252,7 +232,6 @@ const MyAddress = () => {
     }
   };
 
-
   // billing
   useEffect(() => {
     if (data?.addresses) {
@@ -273,27 +252,22 @@ const MyAddress = () => {
   const onSubmitBilling = async (data) => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        "https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            billing: true,
-            billingcountry: data?.billingCountry,
-            billingaddress_1: data?.billingStreetAddress,
-            billingaddress_2: data?.billingStreetAddress2,
-            billingcity: data?.billingCity,
-            billingstate: data?.billingState,
-            billingpostal_code: data?.billingPostalCode,
-
-
-          }),
-        }
-      );
+      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          billing: true,
+          billingcountry: data?.billingCountry,
+          billingaddress_1: data?.billingStreetAddress,
+          billingaddress_2: data?.billingStreetAddress2,
+          billingcity: data?.billingCity,
+          billingstate: data?.billingState,
+          billingpostal_code: data?.billingPostalCode,
+        }),
+      });
       const result = await response.json();
 
       if (response.ok) {
@@ -303,7 +277,6 @@ const MyAddress = () => {
         toast.error(result?.message);
       }
     } catch (error) {
-
       toast.error("An unexpected error occurred while updating the profile.");
     } finally {
       setIsLoading(false);
@@ -312,25 +285,22 @@ const MyAddress = () => {
   const onSubmitShipping = async (data) => {
     try {
       setIsLoading(true);
-      const response = await fetch(
-        "https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            shipping: true,
-            country: data?.country,
-            address_1: data?.streetAddress,
-            address_2: data?.streetAddress2,
-            city: data?.city,
-            state: data?.state,
-            postal_code: data?.postalCode,
-          }),
-        }
-      );
+      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          shipping: true,
+          country: data?.country,
+          address_1: data?.streetAddress,
+          address_2: data?.streetAddress2,
+          city: data?.city,
+          state: data?.state,
+          postal_code: data?.postalCode,
+        }),
+      });
       const result = await response.json();
 
       if (response.ok) {
@@ -340,282 +310,218 @@ const MyAddress = () => {
         toast.error(result?.message);
       }
     } catch (error) {
-
       toast.error("An unexpected error occurred while updating the profile.");
     } finally {
       setIsLoading(false);
     }
   };
-  useEffect(() => {
-
-  }, [activeTab, watchShipping, watchBilling]);
+  useEffect(() => {}, [activeTab, watchShipping, watchBilling]);
 
   // **Render Form**
   const renderForm = (register, errors, isValid, setValue, getValues) => (
     <FormControl fullWidth>
-
       {/* postal code  */}
-      {activeTab === "shipping" && (<>
-        <Box className=" sm:grid sm:grid-flow-row mt-6">
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Country</InputLabel>
-            <Select
-              variant="standard"
-              {...registerShipping("country", { required: "Shipping Country is required" })}
-              value={watchShipping("country") || getValuesShipping("country") || ""}
-              onChange={(e) => {
-                const selectedValue = e.target.value;
-                setValueShipping("country", selectedValue); // Update shipping form
-              }}
-              error={!!errorsShipping.country}
-            >
-              {countries?.length > 0 ? (
-                countries?.slice(0, 3).map((country, index) => (
-                  <MenuItem key={index} value={country?.name || country}>
-                    {country?.name || country}
+      {activeTab === "shipping" && (
+        <>
+          <Box className=" sm:grid sm:grid-flow-row mt-6">
+            <FormControl variant="standard" fullWidth>
+              <InputLabel>Country</InputLabel>
+              <Select
+                variant="standard"
+                {...registerShipping("country", { required: "Shipping Country is required" })}
+                value={watchShipping("country") || getValuesShipping("country") || ""}
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  setValueShipping("country", selectedValue); // Update shipping form
+                }}
+                error={!!errorsShipping.country}
+              >
+                {countries?.length > 0 ? (
+                  countries?.slice(0, 3).map((country, index) => (
+                    <MenuItem key={index} value={country?.name || country}>
+                      {country?.name || country}
+                    </MenuItem>
+                  ))
+                ) : (
+                  <MenuItem value="" disabled>
+                    No countries available
                   </MenuItem>
-                ))
-              ) : (
-                <MenuItem value="" disabled>
-                  No countries available
-                </MenuItem>
-              )}
-
-            </Select>
-            {errorsShipping.country && (
-              <p className="text-red-500 text-sm">{errorsShipping.country.message}</p>
-            )}
-          </FormControl>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <TextField
-              label="Postal Code"
-              variant="standard"
-              fullWidth
-              {...register("postalCode", { required: "Postal Code is required" })}
-              error={!!errors.postalCode || error}
-              helperText={errors.postalCode?.message || error?.message}
-              value={watchShipping("postalCode") || ""
-              }
-              onChange={(e) => {
-
-                setValueShipping("postalCode", e.target.value);
-                setZipCode(e.target.value); // Synchronize with zipCode state if needed
-                setSearchClicked(false);
-              }}
-              InputProps={{
-                endAdornment: (
-                  <>
-                    {(activeTab === "shipping" && watchShipping("postalCode"))
-                      ? (
+                )}
+              </Select>
+              {errorsShipping.country && <p className="text-red-500 text-sm">{errorsShipping.country.message}</p>}
+            </FormControl>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+              <TextField
+                label="Postal Code"
+                variant="standard"
+                fullWidth
+                {...register("postalCode", { required: "Postal Code is required" })}
+                error={!!errors.postalCode || error}
+                helperText={errors.postalCode?.message || error?.message}
+                value={watchShipping("postalCode") || ""}
+                onChange={(e) => {
+                  setValueShipping("postalCode", e.target.value);
+                  setZipCode(e.target.value); // Synchronize with zipCode state if needed
+                  setSearchClicked(false);
+                }}
+                InputProps={{
+                  endAdornment: (
+                    <>
+                      {activeTab === "shipping" && watchShipping("postalCode") ? (
                         <div className="relative -top-2">
                           <button
                             type="button"
                             onClick={handleSearch}
-                            disabled={
-                              !(
-                                (activeTab === "shipping" &&
-                                  watchShipping("postalCode")?.trim())
-
-                              ) ||
-                              isLoading ||
-                              error
-                            }
+                            disabled={!(activeTab === "shipping" && watchShipping("postalCode")?.trim()) || isLoading || error}
                             className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
                           >
-
-                            <FaSearch
-                              className={`text-white ${isLoading ? "animate-spin" : ""
-                                }`}
-                            />
-                            <span className="mr-2 text-sm">
-                              {isLoading ? "SEARCH..." : "SEARCH"}
-                            </span>
+                            <FaSearch className={`text-white ${isLoading ? "animate-spin" : ""}`} />
+                            <span className="mr-2 text-sm">{isLoading ? "SEARCH..." : "SEARCH"}</span>
                           </button>
                         </div>
                       ) : null}
-                  </>
-                ),
-              }}
-            />
-
-            <div className="">
-              {!error && searchClicked && addressOptions.length > 0 && (
-                <div className="">
-                  <FormControl
-                    fullWidth
-                    variant="standard"
-                    error={!!errors.addressSelect}
-                  >
-                    <InputLabel>Select Autofill</InputLabel>
-                    <Select
-                      {...register("addressSelect", {
-                        required: "Please select an address",
-                      })} // Validation for Select
-                      onChange={(e) => handleSelect(e.target.value, setValue)}
-                      defaultValue=""
-                    >
-                      {addressOptions.map((address, index) => (
-                        <MenuItem key={index} value={index}>
-                          {`${address.line_1}, ${address.town_or_city}`}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {errors.addressSelect && (
-                      <FormHelperText>
-                        {errors.addressSelect.message}
-                      </FormHelperText> // Display error message
-                    )}
-                  </FormControl>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Address Dropdown - Show only after clicking Search */}
-
-          {/* Address Fields */}
-          <div className="grid grid-cols-1  gap-4 mt-4">
-            <TextField
-              variant="outlined"
-              fullWidth
-              {...register("streetAddress", {
-                required: "Address Line 1 is required",
-              })}
-              value={
-                watchShipping("streetAddress")
-              }
-              error={!!errors.streetAddress}
-              helperText={errors.streetAddress?.message}
-            />
-            <TextField
-              variant="outlined"
-              value={
-                watchShipping("streetAddress2")
-
-              }
-              fullWidth
-              {...register("streetAddress2")}
-            />
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 mt-4">
-            <TextField
-        
-              variant="outlined"
-              fullWidth
-              value={
-                watchShipping("city")
-
-              }
-              {...register("city", { required: "City is required" })}
-              error={!!errors.city}
-              helperText={errors.city?.message}
-            />
-            <TextField
-
-              variant="outlined"
-              fullWidth
-              value={
-                watchShipping("state")
-
-              }
-              {...register("state")}
-            />
-          </div>
-        </Box></>)}
-
-
-      {activeTab === "billing" && (<>
-
-        <Box className="flex sm:grid sm:grid-flow-row mt-6">
-          <FormControl variant="standard" fullWidth>
-            <InputLabel>Country</InputLabel>
-            <Select
-              value={watchBilling("billingCountry") || ""} // Use the billingCountry value from the form state
-              onChange={(e) => {
-                const selectedValue = e.target.value;
-                setValueBilling("billingCountry", selectedValue); // Update the form state
-                const selectedIndex = BillingCountrys.findIndex(
-                  (country) => country.name === selectedValue
-                );
-                if (selectedIndex !== -1) {
-                  handleSelectChange(BillingCountrys[selectedIndex], selectedIndex);
-                }
-              }}
-            >
-              {BillingCountrys.map((country, index) => (
-                <MenuItem key={index} value={country.name}>
-                  {country.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-
-
-        <Box className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 w-full">
-          {selectedStates ? (
-            <>
-              <TextField
-                label="Postal Code"
-                // value={zipCodeBill}
-                value={watchBilling("billingPostalCode") || ""}
-                variant="standard"
-                fullWidth
-                disabled={!selectedStates}
-                {...register("billingPostalCode", {
-                  required: "Postal Code is required",
-                })}
-                error={!!errors.billingPostalCode || !!errorBill}
-                helperText={
-                  errors.billingPostalCode?.message || errorBill?.message
-                }
-                onChange={(e) => {
-
-                  setValueBilling("billingPostalCode", e.target.value);
-                  setZipCodeBill(e.target.value); // Synchronize with zipCode state if needed
-                  setSearchClickedBill(false);
-
-                }}
-
-                InputProps={{
-                  className: `${!selectedStates ? "cursor-not-allowed" : ""}`,
-                  endAdornment: (
-                    <>
-                      {zipCodeBill && (
-                        <div className="relative -top-2">
-                          <button
-                            type="button"
-                            onClick={handleSearchBilling}
-                            disabled={
-                              !zipCodeBill.trim() ||
-                              load ||
-                              errorBill ||
-                              !selectedStates
-                            }
-                            className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
-                          >
-
-                            <FaSearch
-                              className={`${`text-white ${load ? "animate-spin" : ""
-                                }`}`}
-                            />
-                            <span className="mr-2 text-sm">
-                              {load ? "SEARCH..." : "SEARCH"}
-                            </span>
-                          </button>
-                        </div>
-                      )}
                     </>
                   ),
                 }}
               />
 
-              {searchClickedBill && (
-                <>
-                  {!error &&
-                    searchClickedBill &&
-                    addressOptionsBilling.length > 0 && (
+              <div className="">
+                {!error && searchClicked && addressOptions.length > 0 && (
+                  <div className="">
+                    <FormControl fullWidth variant="standard" error={!!errors.addressSelect}>
+                      <InputLabel>Select Autofill</InputLabel>
+                      <Select
+                        {...register("addressSelect", {
+                          required: "Please select an address",
+                        })} // Validation for Select
+                        onChange={(e) => handleSelect(e.target.value, setValue)}
+                        defaultValue=""
+                      >
+                        {addressOptions.map((address, index) => (
+                          <MenuItem key={index} value={index}>
+                            {`${address.line_1}, ${address.town_or_city}`}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {errors.addressSelect && (
+                        <FormHelperText>{errors.addressSelect.message}</FormHelperText> // Display error message
+                      )}
+                    </FormControl>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Address Dropdown - Show only after clicking Search */}
+
+            {/* Address Fields */}
+            <div className="grid grid-cols-1  gap-4 mt-4">
+              <TextField
+                label="Street Address 1"
+                variant="outlined"
+                fullWidth
+                {...register("streetAddress", {
+                  required: "Address Line 1 is required",
+                })}
+                value={watchShipping("streetAddress")}
+                error={!!errors.streetAddress}
+                helperText={errors.streetAddress?.message}
+              />
+              <TextField
+                variant="outlined"
+                label="Street Address 2"
+                value={watchShipping("streetAddress2")}
+                fullWidth
+                {...register("streetAddress2")}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 mt-4">
+              <TextField
+                label="City"
+                variant="outlined"
+                fullWidth
+                value={watchShipping("city")}
+                {...register("city", { required: "City is required" })}
+                error={!!errors.city}
+                helperText={errors.city?.message}
+              />
+              <TextField variant="outlined" label="State" fullWidth value={watchShipping("state")} {...register("state")} />
+            </div>
+          </Box>
+        </>
+      )}
+
+      {activeTab === "billing" && (
+        <>
+          <Box className="flex sm:grid sm:grid-flow-row mt-6">
+            <FormControl variant="standard" fullWidth>
+              <InputLabel>Country</InputLabel>
+              <Select
+                value={watchBilling("billingCountry") || ""} // Use the billingCountry value from the form state
+                onChange={(e) => {
+                  const selectedValue = e.target.value;
+                  setValueBilling("billingCountry", selectedValue); // Update the form state
+                  const selectedIndex = BillingCountrys.findIndex((country) => country.name === selectedValue);
+                  if (selectedIndex !== -1) {
+                    handleSelectChange(BillingCountrys[selectedIndex], selectedIndex);
+                  }
+                }}
+              >
+                {BillingCountrys.map((country, index) => (
+                  <MenuItem key={index} value={country.name}>
+                    {country.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 w-full">
+            {selectedStates ? (
+              <>
+                <TextField
+                  label="Postal Code"
+                  // value={zipCodeBill}
+                  value={watchBilling("billingPostalCode") || ""}
+                  variant="standard"
+                  fullWidth
+                  disabled={!selectedStates}
+                  {...register("billingPostalCode", {
+                    required: "Postal Code is required",
+                  })}
+                  error={!!errors.billingPostalCode || !!errorBill}
+                  helperText={errors.billingPostalCode?.message || errorBill?.message}
+                  onChange={(e) => {
+                    setValueBilling("billingPostalCode", e.target.value);
+                    setZipCodeBill(e.target.value); // Synchronize with zipCode state if needed
+                    setSearchClickedBill(false);
+                  }}
+                  InputProps={{
+                    className: `${!selectedStates ? "cursor-not-allowed" : ""}`,
+                    endAdornment: (
+                      <>
+                        {zipCodeBill && (
+                          <div className="relative -top-2">
+                            <button
+                              type="button"
+                              onClick={handleSearchBilling}
+                              disabled={!zipCodeBill.trim() || load || errorBill || !selectedStates}
+                              className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                            >
+                              <FaSearch className={`${`text-white ${load ? "animate-spin" : ""}`}`} />
+                              <span className="mr-2 text-sm">{load ? "SEARCH..." : "SEARCH"}</span>
+                            </button>
+                          </div>
+                        )}
+                      </>
+                    ),
+                  }}
+                />
+
+                {searchClickedBill && (
+                  <>
+                    {!error && searchClickedBill && addressOptionsBilling.length > 0 && (
                       <div className="w-full">
                         <FormControl
                           fullWidth
@@ -629,9 +535,7 @@ const MyAddress = () => {
                             {...register("addressSelect", {
                               required: "Please select an address",
                             })}
-                            onChange={(e) =>
-                              handleSelectBilling(e.target.value, setValue)
-                            }
+                            onChange={(e) => handleSelectBilling(e.target.value, setValue)}
                             defaultValue=""
                           >
                             {addressOptionsBilling.map((address, index) => (
@@ -640,50 +544,45 @@ const MyAddress = () => {
                               </MenuItem>
                             ))}
                           </Select>
-                          {errors.addressSelect && (
-                            <FormHelperText>
-                              {errors.addressSelect.message}
-                            </FormHelperText>
-                          )}
+                          {errors.addressSelect && <FormHelperText>{errors.addressSelect.message}</FormHelperText>}
                         </FormControl>
                       </div>
                     )}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <TextField
-                  label="Postal Code"
-                  value={watchBilling("billingPostalCode") || ""}
-                  variant="standard"
-                  fullWidth
-                  error={!!errorBill || !!errors.billingPostalCode}
-                  helperText={
-                    errorBill?.message || errors.billingPostalCode?.message
-                  }
-                  {...register("billingPostalCode", {
-                    required: "Postal Code is required",
-                  })}
-                />
-              </div>
-            </>
-          )}
-        </Box>
+                  </>
+                )}
+              </>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <TextField
+                    label="Postal Code"
+                    value={watchBilling("billingPostalCode") || ""}
+                    variant="standard"
+                    fullWidth
+                    error={!!errorBill || !!errors.billingPostalCode}
+                    helperText={errorBill?.message || errors.billingPostalCode?.message}
+                    {...register("billingPostalCode", {
+                      required: "Postal Code is required",
+                    })}
+                  />
+                </div>
+              </>
+            )}
+          </Box>
 
-        <div className="grid grid-cols-1  gap-4 mt-6">
-          <TextField
-            variant="outlined"
-            value={watchBilling("billingStreetAddress") || ""}
-            fullWidth
-            {...register("billingStreetAddress", {
-              required: "Address Line 1 is required",
-            })}
-            error={!!errors.billingStreetAddress}
-            helperText={errors.billingStreetAddress?.message || ""}
-          />
-          {/* <TextField
+          <div className="grid grid-cols-1  gap-4 mt-6">
+            <TextField
+              label="Street Address 1"
+              variant="outlined"
+              value={watchBilling("billingStreetAddress") || ""}
+              fullWidth
+              {...register("billingStreetAddress", {
+                required: "Address Line 1 is required",
+              })}
+              error={!!errors.billingStreetAddress}
+              helperText={errors.billingStreetAddress?.message || ""}
+            />
+            {/* <TextField
             label="Address Line 2"
             variant="standard"
             fullWidth
@@ -692,47 +591,43 @@ const MyAddress = () => {
           // No need for error state if no validation
           /> */}
 
-          <TextField
+            <TextField
+              variant="outlined"
+              label="Street Address 2"
+              value={watchBilling("billingStreetAddress2")}
+              fullWidth
+              {...register("billingStreetAddress2")}
+            />
+          </div>
 
-            variant="outlined"
-            value={
-              watchBilling("billingStreetAddress2")
-
-            }
-            fullWidth
-            {...register("billingStreetAddress2")}
-          />
-
-        </div>
-
-        <div className="grid grid-cols-1  gap-4 mt-4">
-          <TextField
-
-            variant="outlined"
-            value={watchBilling("billingCity") || ""}
-            fullWidth
-            {...register("billingCity", {
-              required: "City is required",
-            })}
-            error={!!errors.billingCity}
-            helperText={errors.billingCity?.message || ""}
-          />
-          <TextField
-            variant="outlined"
-            fullWidth
-            value={watchBilling("billingState") || ""}
-            {...register("billingState", {
-              required: "State is required",
-            })}
-            error={!!errors.billingState}
-            helperText={errors.billingState?.message || ""}
-          />
-        </div>
-
-      </>)}
+          <div className="grid grid-cols-1  gap-4 mt-4">
+            <TextField
+              label="City"
+              variant="outlined"
+              value={watchBilling("billingCity") || ""}
+              fullWidth
+              {...register("billingCity", {
+                required: "City is required",
+              })}
+              error={!!errors.billingCity}
+              helperText={errors.billingCity?.message || ""}
+            />
+            <TextField
+              label="State"
+              variant="outlined"
+              fullWidth
+              value={watchBilling("billingState") || ""}
+              {...register("billingState", {
+                required: "State is required",
+              })}
+              error={!!errors.billingState}
+              helperText={errors.billingState?.message || ""}
+            />
+          </div>
+        </>
+      )}
 
       {/* Postal Code Search */}
-
 
       {/* Save Button */}
       <div className="mt-4 sm:max-w-20">
@@ -746,8 +641,7 @@ const MyAddress = () => {
             {loading ? (
               <div className="relative">
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-t-transparent border-[#ffffff] rounded-full animate-spin"></div>{" "}
-                  {/* Spinner */}
+                  <div className="w-5 h-5 border-2 border-t-transparent border-[#ffffff] rounded-full animate-spin"></div> {/* Spinner */}
                 </div>
                 <span className="opacity-0">Saving...</span>
               </div>
@@ -767,75 +661,42 @@ const MyAddress = () => {
         {/* Shipping Tab */}
         <button
           onClick={() => tabActive("shipping")}
-          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "shipping" && "text-violet-700"
-            } tab-text-shipping`}
+          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "shipping" && "text-violet-700"} tab-text-shipping`}
         >
           Shipping Address
-          {activeTab === "shipping" && (
-            <span
-              className={`tab-shipping absolute left-0 bottom-0 h-[4px] bg-violet-700 w-full`}
-            />
-          )}
+          {activeTab === "shipping" && <span className={`tab-shipping absolute left-0 bottom-0 h-[4px] bg-violet-700 w-full`} />}
         </button>
 
         {/* Billing Tab */}
         <button
           onClick={() => tabActive("billing")}
-          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "billing" && "text-violet-700"
-            } tab-text-billing`}
+          className={`sm:font-bold reg-font sm:px-4 py-2 relative ${activeTab === "billing" && "text-violet-700"} tab-text-billing`}
         >
           Billing Address
-          {activeTab === "billing" && (
-            <span
-              className={`tab-billing absolute left-0 bottom-0 h-[4px] bg-violet-700 w-full`}
-            />
-          )}
+          {activeTab === "billing" && <span className={`tab-billing absolute left-0 bottom-0 h-[4px] bg-violet-700 w-full`} />}
         </button>
       </div>
 
       {/* Forms */}
       <div className="bg-white p-4 rounded-md">
-
-
-
         {activeTab === "shipping" ? (
           <>
             <div className=" my-4 w-full">
-              <h1 className="md:text-2xl text-2xl mb-2 font-semibold">
-                Shipping Information
-              </h1>
-              <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
-                Update your shipping information
-              </p>
+              <h1 className="md:text-2xl text-2xl mb-2 font-semibold">Shipping Information</h1>
+              <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">Update your shipping information</p>
             </div>
             <form onSubmit={handleSubmitShipping(onSubmitShipping)}>
-              {renderForm(
-                registerShipping,
-                errorsShipping,
-                isValidShipping,
-                setValueShipping,
-                getValuesShipping
-              )}
+              {renderForm(registerShipping, errorsShipping, isValidShipping, setValueShipping, getValuesShipping)}
             </form>
           </>
         ) : (
           <>
             <div className=" my-4  w-full">
-              <h1 className="md:text-2xl text-2xl mb-2 font-semibold">
-                Billing Information
-              </h1>
-              <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
-                Update your billing information
-              </p>
+              <h1 className="md:text-2xl text-2xl mb-2 font-semibold">Billing Information</h1>
+              <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">Update your billing information</p>
             </div>
             <form onSubmit={handleSubmitBilling(onSubmitBilling)}>
-              {renderForm(
-                registerBilling,
-                errorsBilling,
-                isValidBilling,
-                setValueBilling,
-                getValuesBilling
-              )}
+              {renderForm(registerBilling, errorsBilling, isValidBilling, setValueBilling, getValuesBilling)}
             </form>
           </>
         )}

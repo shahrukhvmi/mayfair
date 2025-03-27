@@ -70,14 +70,14 @@ const ChangePassword = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-row w-full flex-wrap items-center justify-start">
             <div className="md:w-1/2 relative w-full">
-              <div className="">
+              <div className="relative">
                 <TextField
                   type={showCurrentPassword ? "text" : "password"}
                   id="currentPassword"
                   label="Current Password"
                   variant="outlined"
                   sx={{ width: "90%", position: "relative" }}
-                  className="u-update-password"
+                  className={`u-update-password ${errors.currentPassword?.message ? "u-update-password-error" : ""}`}
                   name="currentPassword"
                   {...register("currentPassword", {
                     required: "Current password is required",
@@ -85,25 +85,25 @@ const ChangePassword = () => {
                   error={!!errors.currentPassword}
                   helperText={errors.currentPassword?.message}
                 />
-              </div>
-              <div
-                className="u-upade-password-icon"
-                onClick={() => {
-                  togglePasswordVisible("currentPassword");
-                }}
-              >
-                {showCurrentPassword ? <VscEye /> : <VscEyeClosed />}
+                <div
+                  className="u-upade-password-icon"
+                  onClick={() => {
+                    togglePasswordVisible("currentPassword");
+                  }}
+                >
+                  {showCurrentPassword ? <VscEye /> : <VscEyeClosed />}
+                </div>
               </div>
             </div>
             <div className="md:w-1/2 relative w-full mt-8">
-              <div>
+              <div className="relative">
                 <TextField
                   type={showNewPassword ? "text" : "password"}
                   id="newPassword"
                   name="newPassword"
                   label="New Password"
                   variant="outlined"
-                  className="u-update-password"
+                  className={`u-update-password ${errors.newPassword?.message ? "u-update-password-error" : ""}`}
                   sx={{ width: "90%", position: "relative" }}
                   {...register("newPassword", {
                     required: "New password is required",
@@ -121,26 +121,27 @@ const ChangePassword = () => {
                   error={!!errors.newPassword}
                   helperText={errors.newPassword?.message}
                 />
+                <div
+                  className="u-upade-password-icon"
+                  onClick={() => {
+                    togglePasswordVisible("newPassword");
+                  }}
+                >
+                  {showNewPassword ? <VscEye /> : <VscEyeClosed />}
+                </div>
               </div>
-              <div
-                className="u-upade-password-icon2"
-                onClick={() => {
-                  togglePasswordVisible("newPassword");
-                }}
-              >
-                {showNewPassword ? <VscEye /> : <VscEyeClosed />}
-              </div>
+
               <PasswordStrengthBar password={watch("newPassword")} className="w-[90%] mt-2 rounded-2xl absolute" />
             </div>
             <div className="md:w-1/2 relative w-full">
-              <div>
+              <div className="relative">
                 <TextField
                   type={showConfirmPassword ? "text" : "password"}
                   id="confirmPassword"
                   name="confirmPassword"
                   label="Confirm Password"
                   variant="outlined"
-                  className="u-update-password"
+                  className={`u-update-password ${errors.confirmPassword?.message ? "u-update-password-error" : ""}`}
                   sx={{ width: "90%", position: "relative" }}
                   {...register("confirmPassword", {
                     required: "Please confirm your password",
@@ -149,14 +150,14 @@ const ChangePassword = () => {
                   error={!!errors.confirmPassword}
                   helperText={errors.confirmPassword?.message}
                 />
-              </div>
-              <div
-                className="u-upade-password-icon"
-                onClick={() => {
-                  togglePasswordVisible("confirmPassword");
-                }}
-              >
-                {showConfirmPassword ? <VscEye /> : <VscEyeClosed />}
+                <div
+                  className="u-upade-password-icon"
+                  onClick={() => {
+                    togglePasswordVisible("confirmPassword");
+                  }}
+                >
+                  {showConfirmPassword ? <VscEye /> : <VscEyeClosed />}
+                </div>
               </div>
             </div>
             <div className="mt-4 sm:max-w-20">
