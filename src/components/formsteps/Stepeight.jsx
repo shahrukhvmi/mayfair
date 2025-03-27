@@ -215,54 +215,50 @@ const Stepeight = ({ setHideSidebar }) => {
     const storedDoses = JSON.parse(localStorage.getItem("cart"));
     const storedAddons = JSON.parse(localStorage.getItem("addonCart"));
     const storedDoseMessage = JSON.parse(localStorage.getItem("selectedMessages"));
-
-    const storedPrev =
-      JSON.parse(localStorage.getItem("stepPrevApiData")) || [];
-    const step1 = JSON.parse(localStorage.getItem("step1")) || [];
-    const step2 = JSON.parse(localStorage.getItem("step2")) || [];
-    const step3 = JSON.parse(localStorage.getItem("step3")) || [];
-    const step4 = JSON.parse(localStorage.getItem("step4")) || [];
-    const step5 = JSON.parse(localStorage.getItem("step5")) || [];
-    // const user = JSON.parse(localStorage.getItem("userData")) || [];
-
+    const storedPrev = JSON.parse(localStorage.getItem("stepPrevApiData")) || {};
+  
+    const step1 = JSON.parse(localStorage.getItem("step1") || "null");
+    const step2 = JSON.parse(localStorage.getItem("step2") || "null");
+    const step3 = JSON.parse(localStorage.getItem("step3") || "null");
+    const step4 = JSON.parse(localStorage.getItem("step4") || "null");
+    const step5 = JSON.parse(localStorage.getItem("step5") || "null");
+  
+    // Set addon
     if (storedAddons) setAddon(storedAddons);
-    if (step1 && Object.keys(step1).length > 0) {
-      setPatientInfo(step1);
-      setBmi(step2);
-      setMedicalInfoData(step3);
-      setconfirmationInfo(step4)
-      setGpdetails(step5);
-    } else {
-      const patientData = storedPrev?.last_consultation_data?.fields?.patientInfo;
-      const medicalInfoData = storedPrev?.last_consultation_data?.fields?.medicalInfo;
-      const gpdetailsData = storedPrev?.last_consultation_data?.fields?.gpdetails;
-      const bmiData = storedPrev?.last_consultation_data?.fields?.bmi;
-      const confirmationInfoData = storedPrev?.last_consultation_data?.fields?.confirmationInfo;
-      setPatientInfo(patientData);
-      setMedicalInfoData(medicalInfoData);
-      setGpdetails(gpdetailsData);
-      setBmi(bmiData);
-      setconfirmationInfo(confirmationInfoData);
-
-    }
-
-    // if (user) setUser(user);
+  
+    // Fallback fields from storedPrev
+    const fallbackFields = storedPrev?.last_consultation_data?.fields || {};
+    const patientData = fallbackFields?.patientInfo || {};
+    const bmiData = fallbackFields?.bmi || {};
+    const medicalInfoData = fallbackFields?.medicalInfo || {};
+    const confirmationInfoData = fallbackFields?.confirmationInfo || {};
+    const gpdetailsData = fallbackFields?.gpdetails || {};
+  
+    // Step values with fallback to storedPrev
+    setPatientInfo(step1 && Object.keys(step1).length > 0 ? step1 : patientData);
+    setBmi(step2 && Object.keys(step2).length > 0 ? step2 : bmiData);
+    setMedicalInfoData(step3 && Object.keys(step3).length > 0 ? step3 : medicalInfoData);
+    setconfirmationInfo(step4 && Object.keys(step4).length > 0 ? step4 : confirmationInfoData);
+    setGpdetails(step5 && Object.keys(step5).length > 0 ? step5 : gpdetailsData);
+  
+    // Dose info
     if (storedDoses) setDose(storedDoses);
-    if (storedDoseMessage) setDoseMessage(storedDoseMessage)
-    if (storedPrev)
-      setShipmentCountry(storedPrev?.selected_product?.shippments);
+    if (storedDoseMessage) setDoseMessage(storedDoseMessage);
+  
+    // Shipment and countries
     if (storedPrev) {
+      setShipmentCountry(storedPrev?.selected_product?.shippments || []);
+  
       const countries = storedPrev?.billing_countries || [];
-      const termConditions =
-        storedPrev?.selected_product?.terms_and_conditon || [];
+      const termConditions = storedPrev?.selected_product?.terms_and_conditon || [];
       setBillingCountrys(countries);
       setTermCondition(termConditions);
-
-      // Initialize state: first 3 indices true, rest false
+  
       const initialStates = countries.map((_, index) => index < 3);
       setSelectedStates(initialStates);
     }
   }, []);
+  
 
   const handleSelectChange = (value, index) => {
     setBillingAddres({ ...billingAddres, country: value }); // Update selected country
@@ -597,9 +593,9 @@ const Stepeight = ({ setHideSidebar }) => {
         addons: updatedAddons,
         pid: getPid,
         medicalInfo: medicalInfo,
-        gpdetails:gpDetails,
-        bmi:getBmi,
-        confirmationInfo:confirmationInfo,
+        gpdetails: gpDetails,
+        bmi: getBmi,
+        confirmationInfo: confirmationInfo,
 
         // successurl: "https://weightlosspharmacy.vercel.app/thank-you",
         // failedurl: "https://weightlosspharmacy.vercel.app/payment-failed"
