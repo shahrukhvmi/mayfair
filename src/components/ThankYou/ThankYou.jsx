@@ -1,103 +1,109 @@
 import React, { useEffect, useRef } from "react";
 import { gsap } from "gsap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { HiBadgeCheck } from "react-icons/hi";
 
 const ThankYou = () => {
-    // Refs for GSAP animations
-    const checkmarkRef = useRef(null);
-    const titleRef = useRef(null);
-    const buttonRef = useRef(null);
-    const backgroundRef = useRef(null);
+  // Refs for GSAP animations
+  const checkmarkRef = useRef(null);
+  const titleRef = useRef(null);
+  const buttonRef = useRef(null);
+  const backgroundRef = useRef(null);
 
-    // useEffect(() => {
-    //     // Checkmark animation (popping in with rotation)
-    //     gsap.fromTo(
-    //         checkmarkRef.current,
-    //         {
-    //             scale: 0,
-    //             rotation: 180,
-    //         },
-    //         {
-    //             scale: 1,
-    //             rotation: 0,
-    //             duration: 1.5,
-    //             ease: "back.out(1.7)",
-    //         }
-    //     );
+  const Navigate = useNavigate();
 
-    //     // Title text animation (sliding in)
-    //     gsap.fromTo(
-    //         titleRef.current,
-    //         {
-    //             y: -100,
-    //             opacity: 0,
-    //         },
-    //         {
-    //             y: 0,
-    //             opacity: 1,
-    //             duration: 1,
-    //             ease: "power3.out",
-    //         }
-    //     );
+  const handleGoBack = () => {
+    Navigate("/");
+  };
 
-    //     // Button animation (bouncing in)
-    //     gsap.fromTo(
-    //         buttonRef.current,
-    //         {
-    //             scale: 0.8,
-    //             opacity: 0,
-    //         },
-    //         {
-    //             scale: 1,
-    //             opacity: 1,
-    //             duration: 1,
-    //             delay: 1.5,
-    //             ease: "bounce.out",
-    //         }
-    //     );
+  // useEffect(() => {
+  //     // Checkmark animation (popping in with rotation)
+  //     gsap.fromTo(
+  //         checkmarkRef.current,
+  //         {
+  //             scale: 0,
+  //             rotation: 180,
+  //         },
+  //         {
+  //             scale: 1,
+  //             rotation: 0,
+  //             duration: 1.5,
+  //             ease: "back.out(1.7)",
+  //         }
+  //     );
 
+  //     // Title text animation (sliding in)
+  //     gsap.fromTo(
+  //         titleRef.current,
+  //         {
+  //             y: -100,
+  //             opacity: 0,
+  //         },
+  //         {
+  //             y: 0,
+  //             opacity: 1,
+  //             duration: 1,
+  //             ease: "power3.out",
+  //         }
+  //     );
 
-    //     // Background Parallax effect (moving slower than content)
-    //     gsap.to(backgroundRef.current, {
-    //         backgroundPosition: "center center",
-    //         scrollTrigger: {
-    //             trigger: backgroundRef.current,
-    //             start: "top bottom",
-    //             end: "bottom top",
-    //             scrub: true,
-    //         },
-    //     });
-    // }, []);
+  //     // Button animation (bouncing in)
+  //     gsap.fromTo(
+  //         buttonRef.current,
+  //         {
+  //             scale: 0.8,
+  //             opacity: 0,
+  //         },
+  //         {
+  //             scale: 1,
+  //             opacity: 1,
+  //             duration: 1,
+  //             delay: 1.5,
+  //             ease: "bounce.out",
+  //         }
+  //     );
 
-    return (
-        <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#e0f2f1] to-[#cfe7f6] text-center px-4 relative overflow-hidden">
-            {/* Parallax Background */}
-            <div
-                // ref={backgroundRef}
-                className="absolute inset-0 bg-gradient-to-r from-[#4DB581] to-[#3A8F6F] z-[-1]"
-                style={{ backgroundSize: "200% 200%" }}
-            ></div>
+  //     // Background Parallax effect (moving slower than content)
+  //     gsap.to(backgroundRef.current, {
+  //         backgroundPosition: "center center",
+  //         scrollTrigger: {
+  //             trigger: backgroundRef.current,
+  //             start: "top bottom",
+  //             end: "bottom top",
+  //             scrub: true,
+  //         },
+  //     });
+  // }, []);
 
-            {/* Animated Checkmark Icon */}
-            <div
-                ref={checkmarkRef}
-                className="bg-[#4DB581] text-white rounded-full p-6 shadow-lg mb-6"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-12 w-12"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                >
-                    <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                    />
-                </svg>
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-[#dacfff] dark:bg-gray-900 px-6">
+      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center w-full">
+        <div className="text-center">
+          <div role="status" className="mb-8">
+            <HiBadgeCheck className="inline w-16 h-16 text-gray-200 dark:text-gray-600 fill-purple-600 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-300 mb-4">Thank you for your order</h2>
+            <div className="text-left text-gray-600 dark:text-gray-400 mb-5 xl:w-3/5 xl:mx-auto">
+              <p>
+                We have received your medical consultation form which is now being reviewed by our prescribers. You may be contacted by a member of
+                our medical team for more information prior to your medication being dispensed. Details of your order have been emailed to you and is
+                also available to view on the ‘my orders’ section of your account.
+              </p>
+              <p className="mt-2">
+                <span className="font-semibold underline text-black">Delivery:</span> All orders, once approved, are shipped by courier from Monday to
+                Thursday by next-day tracked delivery. Please note that if your order is not approved by Thursday afternoon it will not be dispatched
+                until the following Monday. This is due to cold-chain requirements.
+              </p>
+              <p className="mt-2">
+                <span className="font-semibold underline text-black">Changes or cancellation:</span> If there are any changes you would like to make
+                to your order or to cancel it, please contact us immediately by email on{" "}
+                <a href="mailto:contact@mayfairweightlossclinic.co.uk." className="text-violet-700 font-semibold">
+                  contact@mayfairweightlossclinic.co.uk.
+                </a>{" "}
+                Please note that as once your medication has been dispensed you will not be able to cancel or return your order. This is due to
+                legislation around prescription only medication.
+              </p>
             </div>
+<<<<<<< HEAD
 
             {/* Thank You Text */}
             <h1
@@ -127,8 +133,25 @@ const ThankYou = () => {
 
             {/* Medical SVG with 3D Animation */}
 
+=======
+            <div className="text-left text-gray-600 dark:text-gray-400 mb-5 xl:w-3/5 xl:mx-auto">
+              <center>
+                {" "}
+                <p>Your Payment has Failed!.</p>
+              </center>
+            </div>
+          </div>
+          <button
+            onClick={handleGoBack}
+            className="bg-violet-700 hover:bg-violet-600 text-white px-2 sm:px-8 py-2 rounded-md font-medium transition-all duration-150 ease-in"
+          >
+            Continue to Available Treatments
+          </button>
+>>>>>>> c969862c81ed5fdbda241c00e7187d9d6d99f83f
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default ThankYou;

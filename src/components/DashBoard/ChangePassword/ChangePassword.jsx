@@ -8,8 +8,6 @@ import toast, { Toaster } from "react-hot-toast";
 import { useChangePasswordMutation } from "../../../store/services/Dashboard/dashboardApi";
 
 const ChangePassword = () => {
-
-
   const {
     register,
     handleSubmit,
@@ -23,8 +21,6 @@ const ChangePassword = () => {
   const currentPassword = watch("currentPassword");
   const newPassword = watch("newPassword");
   const confirmPassword = watch("confirmPassword");
-
-
 
   const [changePasswordMutation, { isLoading }] = useChangePasswordMutation();
 
@@ -69,15 +65,11 @@ const ChangePassword = () => {
   return (
     <div className="p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 sm:me-5">
       <div className="">
-        <h1 className="md:text-2xl text-2xl mb-2 font-semibold">
-          Update Password
-        </h1>
-        <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
-          Ensure your account is using a long, random password to stay secure.
-        </p>
+        <h1 className="md:text-2xl text-2xl mb-2 font-semibold">Update Password</h1>
+        <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">Ensure your account is using a long, random password to stay secure.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-row w-full flex-wrap items-center justify-start">
-            <div className="md:w-1/2 py-5 relative w-full">
+            <div className="md:w-1/2 relative w-full">
               <div className="">
                 <TextField
                   type={showCurrentPassword ? "text" : "password"}
@@ -85,6 +77,7 @@ const ChangePassword = () => {
                   label="Current Password"
                   variant="outlined"
                   sx={{ width: "90%", position: "relative" }}
+                  className="u-update-password"
                   name="currentPassword"
                   {...register("currentPassword", {
                     required: "Current password is required",
@@ -94,7 +87,7 @@ const ChangePassword = () => {
                 />
               </div>
               <div
-                className="absolute text-xl md:top-8 md:right-20 cursor-pointer right-10 top-10"
+                className="u-upade-password-icon"
                 onClick={() => {
                   togglePasswordVisible("currentPassword");
                 }}
@@ -102,7 +95,7 @@ const ChangePassword = () => {
                 {showCurrentPassword ? <VscEye /> : <VscEyeClosed />}
               </div>
             </div>
-            <div className="md:w-1/2 py-5 relative w-full mt-8">
+            <div className="md:w-1/2 relative w-full mt-8">
               <div>
                 <TextField
                   type={showNewPassword ? "text" : "password"}
@@ -110,6 +103,7 @@ const ChangePassword = () => {
                   name="newPassword"
                   label="New Password"
                   variant="outlined"
+                  className="u-update-password"
                   sx={{ width: "90%", position: "relative" }}
                   {...register("newPassword", {
                     required: "New password is required",
@@ -118,18 +112,10 @@ const ChangePassword = () => {
                       message: "Password must be at least 8 characters long",
                     },
                     validate: {
-                      hasUpperCase: (value) =>
-                        /[A-Z]/.test(value) ||
-                        "Password must include at least one uppercase letter",
-                      hasLowerCase: (value) =>
-                        /[a-z]/.test(value) ||
-                        "Password must include at least one lowercase letter",
-                      hasNumber: (value) =>
-                        /[0-9]/.test(value) ||
-                        "Password must include at least one number",
-                      hasSpecialChar: (value) =>
-                        /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
-                        "Password must include at least one special character",
+                      hasUpperCase: (value) => /[A-Z]/.test(value) || "Password must include at least one uppercase letter",
+                      hasLowerCase: (value) => /[a-z]/.test(value) || "Password must include at least one lowercase letter",
+                      hasNumber: (value) => /[0-9]/.test(value) || "Password must include at least one number",
+                      hasSpecialChar: (value) => /[!@#$%^&*(),.?":{}|<>]/.test(value) || "Password must include at least one special character",
                     },
                   })}
                   error={!!errors.newPassword}
@@ -137,19 +123,16 @@ const ChangePassword = () => {
                 />
               </div>
               <div
-                className="absolute text-xl md:top-8 md:right-20 cursor-pointer right-10 top-10"
+                className="u-upade-password-icon2"
                 onClick={() => {
                   togglePasswordVisible("newPassword");
                 }}
               >
                 {showNewPassword ? <VscEye /> : <VscEyeClosed />}
               </div>
-              <PasswordStrengthBar
-                password={watch("newPassword")}
-                className="w-[90%] mt-2 rounded-2xl absolute"
-              />
+              <PasswordStrengthBar password={watch("newPassword")} className="w-[90%] mt-2 rounded-2xl absolute" />
             </div>
-            <div className="md:w-1/2 py-5 relative w-full">
+            <div className="md:w-1/2 relative w-full">
               <div>
                 <TextField
                   type={showConfirmPassword ? "text" : "password"}
@@ -157,19 +140,18 @@ const ChangePassword = () => {
                   name="confirmPassword"
                   label="Confirm Password"
                   variant="outlined"
+                  className="u-update-password"
                   sx={{ width: "90%", position: "relative" }}
                   {...register("confirmPassword", {
                     required: "Please confirm your password",
-                    validate: (value) =>
-                      value === watch("newPassword") ||
-                      "Passwords do not match",
+                    validate: (value) => value === watch("newPassword") || "Passwords do not match",
                   })}
                   error={!!errors.confirmPassword}
                   helperText={errors.confirmPassword?.message}
                 />
               </div>
               <div
-                className="absolute text-xl md:top-8 md:right-20 cursor-pointer right-10 top-10"
+                className="u-upade-password-icon"
                 onClick={() => {
                   togglePasswordVisible("confirmPassword");
                 }}
