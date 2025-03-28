@@ -428,10 +428,10 @@ const Stepeight = ({ setHideSidebar }) => {
     const discountValue = calculateDiscountValue(calculatedSubtotal);
 
     const calculatedTotal =
-    (shippingPrice || discountValue)
-      ? calculatedSubtotal + (shippingPrice || 0) - (discountValue || 0)
-      : calculatedSubtotal;
-  
+      (shippingPrice || discountValue)
+        ? calculatedSubtotal - (discountValue || 0) + (shippingPrice || 0)
+        : calculatedSubtotal;
+
 
     setSubtotal(calculatedSubtotal);
     setTotal(calculatedTotal);
@@ -1355,8 +1355,10 @@ const Stepeight = ({ setHideSidebar }) => {
                                   <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow  w-full overflow-hidden">
                                     <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.product} {item.name}</span>
 
-                                    <span class="text-[13px]">(x1)</span>
-                                    <span class="text-[13px]">£{item.price}
+                                    <span class="text-[13px]">(x{item.qty})</span>
+                                    <span class="text-[13px]">£
+                                      £{(item.qty * parseFloat(item.price)).toFixed(2)}
+
                                     </span>
                                   </div>
                                   <button
@@ -1427,8 +1429,8 @@ const Stepeight = ({ setHideSidebar }) => {
                                 <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow   w-full overflow-hidden">
                                   <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.name}</span>
 
-                                  <span class="text-[13px]">(x1)</span>
-                                  <span class="text-[13px]">£{item.price}
+                                  <span class="text-[13px]">(x{item.qty})</span>
+                                  <span class="text-[13px]">£{(item.qty * parseFloat(item.price)).toFixed(2)}
                                   </span>
                                 </div>
                                 <button

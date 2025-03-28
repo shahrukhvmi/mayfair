@@ -314,7 +314,7 @@ const StepSeven = ({ setHideSidebar }) => {
                 allowed: dose.allowed,
                 item_id: dose?.id,
                 product: product.name,
-                product_concent: productConcent, // ✅ Correctly assigned message
+                product_concent: productConcent,
                 label: `${product.name} , ${dose?.name}`,
                 isSelected: true,
               })
