@@ -50,17 +50,17 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
     };
 
     const termsData = [
-        "You consent for your medical information to be assessed by the clinical team at Weight Loss Pharmacy and its pharmacy and to be prescribed medication.",
+        "You consent for your medical information to be assessed by the clinical team at Mayfair Weight Loss Clinic and its pharmacy and to be prescribed medication.",
         "You consent to an age and ID check when placing your first order.",
         "You will answer all questions honestly and accurately, and understand that it is an offence to provide false information.",
         "You have capacity to understand all about the condition and medication information we have provided and that you give fully informed consent to the treatment option provided.",
         "You understand that the treatment or medical advice provided is based on the information you have provided.",
     ];
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="figtree-reg">
             {/* Purchasing Yourself Section */}
             <div className="field border rounded-md p-3 mb-3 flex flex-col lg:flex-row justify-between items-center sm:items-start gap-5 lg:gap-10">
-                <p className="text-sm leading-5 text-[#1C1C29] my-auto text-left">
+                <p className="text-sm leading-5 text-black my-auto text-left">
                     Are you purchasing this medication for yourself, of your own free will and the medicine is for your personal use only?
                 </p>
 
@@ -117,7 +117,7 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
 
             {/* Ability Section */}
             <div className="field border rounded-md p-3 mb-3 flex flex-col lg:flex-row justify-between items-start sm:items-start gap-5 lg:gap-10">
-                <p className="text-sm leading-5 text-[#1C1C29] my-auto text-start">
+                <p className="text-sm leading-5 text-black my-auto text-start">
                     Do you believe you have the ability to make healthcare decisions for yourself?
                 </p>
 
@@ -204,7 +204,7 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
                                 )}
                             </div>
                         </div>
-                        <span className="reg-font text-sm text-[#1C1C29] mt-1">
+                        <span className="figtree-reg text-sm text-black mt-1">
                             Do you confirm that:
                         </span>
                     </label>
@@ -226,7 +226,7 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
                             {termsData.map((term, index) => (
                                 <li
                                     key={index}
-                                    className={`text-[#585858] reg-font font-sm ${ability !== "yes" || purchasingYourself !== "yes"
+                                    className={`text-black font-sm  figtree-reg ${ability !== "yes" || purchasingYourself !== "yes"
                                         ? "text-gray-400 filter blur-sm"
                                         : ""
                                         }`}

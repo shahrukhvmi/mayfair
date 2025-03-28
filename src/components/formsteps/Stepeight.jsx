@@ -1220,11 +1220,11 @@ const Stepeight = ({ setHideSidebar }) => {
               <a href="https://www.medicines.org.uk/emc/files/pil.2313.pdf" target="_blank">Saxenda</a>.
             </li>
             <li>
-              I will contact Weight Loss Pharmacy immediately by email (and before the medication is dispensed) if I require the medication to be delivered on a particular day or if I need to cancel or amend the order. Once dispensed, the order cannot be amended or returned.
+              I will contact Mayfair Weight Loss Clinic immediately by email (and before the medication is dispensed) if I require the medication to be delivered on a particular day or if I need to cancel or amend the order. Once dispensed, the order cannot be amended or returned.
             </li>
             <li>I am over the age of 18, and all treatments requested through my account are for my use only.</li>
             <li>
-              I will read the Patient Information Leaflet provided with my medication before using the medication prescribed through Weight Loss Pharmacy website.
+              I will read the Patient Information Leaflet provided with my medication before using the medication prescribed through Mayfair Weight Loss Clinic website.
             </li>
             <li>
               I accept to be contacted by the clinical team via phone, email, or my account's messaging service if additional information is required.

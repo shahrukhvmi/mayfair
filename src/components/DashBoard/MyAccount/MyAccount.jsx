@@ -83,19 +83,7 @@ const MyAccount = () => {
               Available Treatments
             </h1>
             <p className="text-gray-600 text-left text-sm leading-relaxed xl:w-3/4 mt-2 ">
-              We offer the following weight loss
-              injections treatment options to help
-              you in your weight loss journey. You
-              can request weight loss injections
-              online at Mayfair Weight Loss
-              Clinic. All treatment options are
-              subject to approval by our
-              UK-registered prescribers following
-              the completion and assessment of the
-              medical consultation form. View the
-              weight loss treatment options below
-              for more information.
-            </p>
+            We offer the following weight loss injections treatment options to help you in your weight loss journey. You can request weight loss injections online at Mayfair Weight Loss Clinic. All treatment options are subject to approval by our UK-registered prescribers following the completion and assessment of the medical consultation form. View the weight loss treatment options below for more information. </p>
           </header>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
