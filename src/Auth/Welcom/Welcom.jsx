@@ -82,7 +82,7 @@ const Welcome = () => {
 
         <footer className="my-3">
           <p className="reg-font mt-10 p-0 pb-4 text-center text-[#6E7E96] text-sm px-2">
-            © {new Date().getFullYear()}  2025 Mayfair Weight loss Clinic. All Rights Reserved.
+            © {new Date().getFullYear()}  Mayfair Weight loss Clinic. All Rights Reserved.
           </p>
         </footer>
 
