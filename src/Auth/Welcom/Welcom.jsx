@@ -79,7 +79,7 @@ const Welcome = () => {
         </div>
 
         <div class="my-3">
-          <p class="mt-0 p-0 pb-4 text-center text-gray-600 text-xs px-2">© 2025 Mayfair Weight loss Clinic. All Rights Reserved.</p>
+          <p class="mt-0 p-0 pb-4 text-center text-gray-600 text-xs px-2">© 2025 Mayfair Mayfair loss Clinic. All Rights Reserved.</p>
         </div>
       </div>
     </>
