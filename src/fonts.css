@@ -90,7 +90,7 @@
   --med-font: "Inter_28pt-Medium";
   --semibold-font: "Inter_28pt-SemiBold";
   --light-font: "Inter_28pt-Light";
-  --tin-font: "Graphik-Thin-Trial";
+  --figtree-reg: "Figtree-Regular";
 }
 
 /* Global class */
@@ -110,8 +110,8 @@
   font-family: var(--light-font) !important;
 }
 
-.tin-font {
-  font-family: var(--tin-font) !important;
+.figtree-reg {
+  font-family: var(--figtree-reg) !important;
 }
 
 body {

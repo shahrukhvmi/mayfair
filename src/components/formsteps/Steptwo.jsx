@@ -995,7 +995,7 @@ const Steptwo = ({ setHideSidebar }) => {
           <div className="right | w-full lg:w-[350px]">
             <div className="hidden sm:block">
               <div
-                className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${
+                className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${
                   lastConsultation?.isReturning
                     ? bmi == 0
                       ? "bg-gray-100"
