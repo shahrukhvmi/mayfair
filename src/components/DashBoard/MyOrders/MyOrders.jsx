@@ -145,10 +145,20 @@ const MyOrders = () => {
       </div>
 
 
-      <div class="my-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-6"><div class="flex items-start"><div class="flex"><span><svg class="w-6 h-6 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 4v1m-1-1h1a1 1 0 001-1v-1h-1v1m-1-1v-4h1a1 1 0 011 1v1h1v-1a1 1 0 00-1-1h-1V9m0-1a1 1 0 10-2 0v1H9m4-1V7H9v1h1v1h1v-1h1V8z"></path></svg></span><span class="font-bold">Note</span><span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span></div></div></div>
+      <div class="my-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-6">
+        <div class="flex items-start">
+          <div class="flex">
+            <span>
+              <svg class="w-6 h-6 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 4v1m-1-1h1a1 1 0 001-1v-1h-1v1m-1-1v-4h1a1 1 0 011 1v1h1v-1a1 1 0 00-1-1h-1V9m0-1a1 1 0 10-2 0v1H9m4-1V7H9v1h1v1h1v-1h1V8z"></path></svg></span>
+              <span class="font-bold">Note</span><span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones
+
+            </span>
+          </div>
+        </div>
+      </div>
       {/* Orders Table */}
-      <div className="relative overflow-x-auto lg:overflow-x-visible">
-        <table className="w-full text-sm text-left text-gray-500 table-auto mt-4">
+      <div className="relative w-full overflow-x-auto">
+        <table className="w-full text-sm text-left text-gray-500 table-auto mt-4 min-w-[800px] sm:min-w-full">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr className="[&>th]:px-3 [&>th]:py-3 [&>th]:whitespace-nowrap">
               {/* <th scope="col">#</th> */}
@@ -197,7 +207,7 @@ const MyOrders = () => {
                       }
                     </td>
                     <td>
-                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full dark:bg-blue-900 dark:text-blue-300">
+                      <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">
                         {
                           order.created_at
                         }

@@ -901,7 +901,7 @@ const Stepeight = ({ setHideSidebar }) => {
                             {!isBillingSameAsShipping && (
                               <div className="p-8">
                                 <Box>
-                                  <Box className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
+                                  {/* <Box className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
                                     <TextField
                                       label="First Name"
                                       variant="standard"
@@ -928,7 +928,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       error={!!errors.billingLastName}
                                       helperText={errors.billingLastName?.message}
                                     />
-                                  </Box>
+                                  </Box> */}
                                   <Box className="flex sm:grid sm:grid-flow-row mt-6">
                                     <FormControl variant="standard" fullWidth>
                                       <InputLabel>Country Billing</InputLabel>
@@ -1239,7 +1239,7 @@ const Stepeight = ({ setHideSidebar }) => {
                           )}
 
                           {/* Checkbox with Agreement */}
-                          <div className="space-x-4 text-sm p-6 bg-gray-50">
+                          <div className="space-x-4 text-sm p-3 sm:p-6 bg-gray-50">
                             <FormControlLabel
                               className=""
                               control={
@@ -1318,14 +1318,14 @@ const Stepeight = ({ setHideSidebar }) => {
                           </h6>
 
                           {/* Scrollable Content */}
-                          <Box className="space-y-4 overflow-y-auto max-h-[250px] pr-4 pb-4 my-6">
+                          <Box className="space-y-4 overflow-y-auto max-h-[250px] pr-1 pb-4 my-2">
                             {/* Doses */}
                             {doses?.map((item, index) => (
                               <>
 
                                 {/* <Box
                                   key={index}
-                                  className="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden"
+                                  className="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500  w-full overflow-hidden"
                                 >
                                   <Box className="flex items-center space-x-2">
                                     <span className="font-medium text-sm">
@@ -1344,7 +1344,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                   </Box>
                                 </Box> */}
                                 <li class="flex" key={index}>
-                                  <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                  <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow  w-full overflow-hidden">
                                     <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.product} {item.name}</span>
 
                                     <span class="text-[13px]">(x1)</span>
@@ -1353,7 +1353,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                   </div>
                                   <button
                                     onClick={() => handleEdit(item.id)}
-                                    class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded dark:bg-gray-700 dark:text-gray-400">
+                                    class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 ">
                                     <HiOutlinePencilAlt />
                                   </button>
                                 </li>
@@ -1379,7 +1379,7 @@ const Stepeight = ({ setHideSidebar }) => {
 
 
                                     <li class="flex" key={index}>
-                                      <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                      <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow   w-full overflow-hidden">
 
 
                                         <span class="text-[13px]">  Pack of 5 Needle, {item.qty}x</span>
@@ -1416,7 +1416,7 @@ const Stepeight = ({ setHideSidebar }) => {
                               // </Box>
 
                               <li class="flex" key={item.id}>
-                                <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow   w-full overflow-hidden">
                                   <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.name}</span>
 
                                   <span class="text-[13px]">(x1)</span>
@@ -1425,7 +1425,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                 </div>
                                 <button
                                   onClick={() => handleEdit(item.id)}
-                                  class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded dark:bg-gray-700 dark:text-gray-400">
+                                  class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded ">
                                   <HiOutlinePencilAlt />
                                 </button>
                               </li>
@@ -1447,7 +1447,7 @@ const Stepeight = ({ setHideSidebar }) => {
                               </div> */}
 
                               <li class="flex" >
-                                <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500 dark:text-white w-full overflow-hidden">
+                                <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow  w-full overflow-hidden">
                                   <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden">Shipping</span>
 
                                   <span class="text-[13px]"> £{countryShippingPrice !== null && countryShippingPrice !== undefined
@@ -1463,13 +1463,13 @@ const Stepeight = ({ setHideSidebar }) => {
                             <span className="font-medium text-lg text-gray-800">£{subtotal.toFixed(2)}</span>
                           </div> */}
 
-                          <div class="flex items-center justify-between mt-6 md:mt-8"><p class="text-sm text-gray-900 dark:text-white">Sub Total</p><p class="text-sm text-gray-900 dark:text-white">£{subtotal.toFixed(2)}</p></div>
+                          <div class="flex items-center justify-between mt-6 md:mt-8"><p class="text-sm text-gray-900 ">Sub Total</p><p class="text-sm text-gray-900 ">£{subtotal.toFixed(2)}</p></div>
 
                           <hr className="my-2 md:my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mt-4" />
 
 
 
-                          <div class="flex items-center justify-between"><p class="text-base font-bold text-gray-900 dark:text-white">Total</p><p class="text-base font-bold text-gray-900 dark:text-white">£{total.toFixed(2)}</p></div>
+                          <div class="flex items-center justify-between"><p class="text-base font-bold text-gray-900 ">Total</p><p class="text-base font-bold text-gray-900 ">£{total.toFixed(2)}</p></div>
 
                           <hr className="my-2 md:my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mt-4" />
 
@@ -1490,7 +1490,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                     type="button"
                                     onClick={handleApplyCoupon}
                                     disabled={discountCode.trim() === ""}
-                                    className={`ml-3 px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition-all duration-200 ${discountCode.trim() === ""
+                                    className={`ml-3 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold shadow-md transition-all duration-200 ${discountCode.trim() === ""
                                       ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                                       : "bg-gradient-to-r from-violet-700 to-violet-500 text-white hover:from-violet-700 hover:to-violet-600"
                                       }`}

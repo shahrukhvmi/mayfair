@@ -690,8 +690,8 @@ const StepSeven = ({ setHideSidebar }) => {
                   alt=""
                 />
                 <div className="flex flex-col justify-between p-4 leading-normal md:w-[65%]">
-                  <h5 className="mb-2 md:text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{product.name}</h5>
-                  <p className="mb-3 font-normal text-gray-700 dark:text-gray-400 text-sm">From £{product.price}</p>
+                  <h5 className="mb-2 md:text-2xl font-bold tracking-tight text-gray-900 ">{product.name}</h5>
+                  <p className="mb-3 font-normal text-gray-700  text-sm">From £{product.price}</p>
                 </div>
               </div>
 
@@ -808,7 +808,7 @@ const StepSeven = ({ setHideSidebar }) => {
               <div className="relative lg:sticky lg:top-[7rem]">
                 <div
                   className="mx-auto md:mr-auto md:ml-0 w-full max-w-sm p-2 bg-gray-100 border border-gray-200 rounded-lg
-        shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700"
+        shadow sm:p-6 "
                 >
                   <h2 className="text-lg font-semibold mb-4 p-4">Order Summary</h2>
 

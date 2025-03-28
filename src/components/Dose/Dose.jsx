@@ -194,7 +194,7 @@ const Dose = ({
               className="mt-2 px-2 py-2"
             >
               <span
-                className="inline-flex items-center justify-center px-2 py-0.5 ms-2 text-md text-red-600 cursor-pointer  shadow-sm bg-red-100 hover:bg-red-200 rounded dark:bg-gray-700 dark:text-gray-400"
+                className="inline-flex items-center justify-center px-2 py-0.5 ms-2 text-md text-red-600 cursor-pointer  shadow-sm bg-red-100 hover:bg-red-200 rounded "
               >
                 <HiOutlineTrash />{" "}
                 <span className="font-semibold text-sm px-1">
