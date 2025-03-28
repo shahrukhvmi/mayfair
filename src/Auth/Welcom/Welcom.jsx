@@ -80,12 +80,18 @@ const Welcome = () => {
           {selectedTab === "tab2" && <Login />}
         </div>
 
+<<<<<<< HEAD
         <footer className="my-3">
           <p className="reg-font mt-10 p-0 pb-4 text-center text-[#6E7E96] text-sm px-2">
             © {new Date().getFullYear()}  2025 Mayfair Weight loss Clinic. All Rights Reserved.
           </p>
         </footer>
 
+=======
+        <div class="my-3 absolute bottom-0">
+          <p class="mt-0 p-0 pb-4 text-center text-gray-600 text-xs px-2">© 2025 Mayfair Weight loss Clinic. All Rights Reserved.</p>
+        </div>
+>>>>>>> 0f625be286c2d522111c9199f18b8449014cc117
       </div>
     </>
   );
