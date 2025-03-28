@@ -80,3 +80,26 @@ body {
 }
 
 
+
+.footer {
+  -premailer-cellpadding: 0;
+  -premailer-cellspacing: 0;
+  -premailer-width: 570px;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  width: 570px;
+  background-color: transparent;
+}
+
+.footer p {
+  color: #807f8f;
+  font-size: 15px;
+  text-align: center;
+  font-family: var(--reg-font);
+}
+
+.footer a {
+  color: #b0adc5;
+  text-decoration: underline;
+}

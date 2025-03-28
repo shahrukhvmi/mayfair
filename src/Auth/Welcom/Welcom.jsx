@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Login from "../Login/Login";
 import Register from "../Register/register";
+import Footer from "../../components/Footer";
 
 const Welcome = () => {
   const [selectedTab, setSelectedTab] = useState("tab1");
@@ -80,13 +81,11 @@ const Welcome = () => {
           {selectedTab === "tab2" && <Login />}
         </div>
 
-        <footer className="my-3">
-          <p className="reg-font mt-10 p-0 pb-4 text-center text-[#6E7E96] text-sm px-2">
-            © {new Date().getFullYear()}  Mayfair Weight loss Clinic. All Rights Reserved.
-          </p>
-        </footer>
+
 
       </div>
+      <Footer />
+
     </>
   );
 };
