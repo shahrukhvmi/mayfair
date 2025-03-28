@@ -159,7 +159,7 @@ const Stepthree = ({ setHideSidebar }) => {
           return (
             <div
               key={q.id}
-              className={`mb-8 flex justify-between field | border rounded-md p-3  flex-col lg:flex-row  items-start gap-5 lg:gap-10 ${
+              className={`mb-8 flex justify-between field | border rounded-md p-3 flex-col lg:flex-row items-start gap-5 lg:gap-10 ${
                 errorMessages[q.id] ? "border-red-300" : "border-gray-300"
               }`}
             >

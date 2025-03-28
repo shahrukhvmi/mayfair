@@ -415,10 +415,10 @@ const Stepone = ({ setHideSidebar }) => {
             <p className="text-red-500">{errors.gender.message}</p>
           )}
         </div> */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-3 items-start">
+        <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-2 items-start">
           {/* Gender Selection */}
           <div className="my-4 sm:m-0">
-            <p className="font-medium text-md text-gray-700 sm:mb-6 mb-3">What is your gender?*</p>
+            <p className="font-medium text-md text-gray-700 sm:mb-6">What is your gender?*</p>
             <div className="flex gap-4">
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
@@ -451,7 +451,7 @@ const Stepone = ({ setHideSidebar }) => {
           {/* Date of Birth */}
           <div className="block sm:hidden">
             {gender === "female" && (
-              <div className="mb-2">
+              <div className="mb-0 sm:mb-0">
                 <p className="med-font text-[#3E3E3E] text-base mb-2">Are you breastfeeding or trying to get pregnant?*</p>
                 <div className="flex gap-4">
                   <label

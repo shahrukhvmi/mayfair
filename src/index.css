@@ -34,7 +34,7 @@ body {
     margin-bottom: 0.5rem; /* Add spacing between items */
   }
   .field:first-child{
-    align-items: center !important;
+    align-items: center;
   }
   .profile-input:before{
     display: none;
@@ -72,6 +72,11 @@ body {
 }
 .u-update-password-error + .u-upade-password-icon2  {
   top: 36%;
+}
+@media only screen and (max-width: 992px) {
+  .field:first-child{
+    align-items: flex-start;
+  }
 }
 
 
