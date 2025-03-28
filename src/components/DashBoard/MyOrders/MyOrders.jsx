@@ -157,8 +157,8 @@ const MyOrders = () => {
         </div>
       </div>
       {/* Orders Table */}
-      <div className="relative w-full overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-500 table-auto mt-4 min-w-[800px] sm:min-w-full">
+      <div className="relative overflow-x-scroll lg:overflow-x-auto sm:w-full w-96 mt-6 overflow-hidden px-3">
+      <table className="w-full text-sm text-left text-gray-500 table-auto">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr className="[&>th]:px-3 [&>th]:py-3 [&>th]:whitespace-nowrap">
               {/* <th scope="col">#</th> */}
