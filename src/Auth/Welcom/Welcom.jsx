@@ -78,7 +78,7 @@ const Welcome = () => {
           {selectedTab === "tab2" && <Login />}
         </div>
 
-        <div class="my-3">
+        <div class="my-3 absolute bottom-0">
           <p class="mt-0 p-0 pb-4 text-center text-gray-600 text-xs px-2">© 2025 Mayfair Weight loss Clinic. All Rights Reserved.</p>
         </div>
       </div>

@@ -241,6 +241,7 @@ const Stepone = ({ setHideSidebar }) => {
     "& .MuiInputBase-input": {
       color: "#111827", // Text color inside input
       borderBottom: "2px solid #f2f3f5",
+      paddingTop: "10px",
     },
     "& .MuiInputBase-input:focus": {
       color: "#111827", // Text color inside input
@@ -303,7 +304,7 @@ const Stepone = ({ setHideSidebar }) => {
 
       <p className="text-2xl text-gray-800 mb-3 pb-2 font pt-5 lg:pt-5">Personal Information</p>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:gap-6 gap-3 pe-0 md:pe-40">
         {/* First Name & Last Name */}
         <div className="flex gap-4">
           <TextField
@@ -315,6 +316,18 @@ const Stepone = ({ setHideSidebar }) => {
             {...register("firstName", { required: "First name is required" })}
             error={!!errors.firstName}
             helperText={errors.firstName?.message}
+            InputLabelProps={{
+              shrink: true,
+              sx: {
+                fontSize: "20px", // same size always
+                transform: "translate(0, 1.5px) scale(1)", // prevent shrink scaling
+              },
+            }}
+            InputProps={{
+              sx: {
+                fontSize: "16px", // input text size to match label
+              },
+            }}
           />
           <TextField
             label="Last Name"
@@ -325,6 +338,18 @@ const Stepone = ({ setHideSidebar }) => {
             {...register("lastName", { required: "Last name is required" })}
             error={!!errors.lastName}
             helperText={errors.lastName?.message}
+            InputLabelProps={{
+              shrink: true,
+              sx: {
+                fontSize: "20px", // same size always
+                transform: "translate(0, 1.5px) scale(1)", // prevent shrink scaling
+              },
+            }}
+            InputProps={{
+              sx: {
+                fontSize: "16px", // input text size to match label
+              },
+            }}
           />
         </div>
         <div className="mb-3 sm:mb-0">
@@ -769,7 +794,7 @@ const Stepone = ({ setHideSidebar }) => {
             <li className="my-1 font-reg text-gray-800">African-Caribbean</li>
           </ul>
 
-          <div className="sm:w-2/3">
+          <div className="sm:w-3/3">
             {[
               { value: "yes", label: "Yes" },
               { value: "no", label: "No" },

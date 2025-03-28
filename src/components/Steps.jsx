@@ -63,7 +63,7 @@ const Steps = () => {
               <img src="/logo.svg" className="w-36 sm:w-36" alt="Logo" />
             </div>
             <div className="text-wrapper | text-white">
-              <h1 className="font-bold text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl pt-6 leading-tight">
+              <h1 className="font-bold text-4xl lg:text-3xl xl:text-4xl 2xl:text-5xl pt-6 leading-tight lg:pe-10">
                 Consultation <br className="hidden lg:block xl:hidden" />
                 <span className="font-light">Form</span>
               </h1>
