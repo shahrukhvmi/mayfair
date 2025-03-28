@@ -202,8 +202,8 @@ const Stepeight = ({ setHideSidebar }) => {
 
     return {
       ...rest,
-      id, 
-      quantity: qty, 
+      id,
+      quantity: qty,
       product_concent: matchingMessage?.message || null,
     };
   });
@@ -427,7 +427,11 @@ const Stepeight = ({ setHideSidebar }) => {
     const shippingPrice = parseFloat(countryShippingPrice || coutryPrice);
     const discountValue = calculateDiscountValue(calculatedSubtotal);
 
-    const calculatedTotal = calculatedSubtotal + shippingPrice - discountValue;
+    const calculatedTotal =
+    (shippingPrice || discountValue)
+      ? calculatedSubtotal + (shippingPrice || 0) - (discountValue || 0)
+      : calculatedSubtotal;
+  
 
     setSubtotal(calculatedSubtotal);
     setTotal(calculatedTotal);
@@ -1138,13 +1142,16 @@ const Stepeight = ({ setHideSidebar }) => {
                         <Box className="">
 
 
-                          <div class="bg-[#f3f4f6] flex py-2 px-5 items-center gap-2">
-                            <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">
-                              {isBillingSameAsShipping ? "02" : "03"}</div>
-                            <h2 class="text-left font-medium text-gray-900 py-3">
-                              Please review the important information below regarding your
-                              treatment</h2>
+                          <div className="bg-[#f3f4f6] flex items-start gap-3 py-3 px-4 rounded-md">
+                            <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs shrink-0">
+                              {isBillingSameAsShipping ? "02" : "03"}
+                            </div>
+                            <h2 className="font-medium text-gray-900 text-sm leading-snug">
+                              Please review the important information below regarding your treatment
+                            </h2>
                           </div>
+
+
                           {typeof termCondition === "string" && termCondition.trim() ? (
                             <>
                               <div
@@ -1264,7 +1271,8 @@ const Stepeight = ({ setHideSidebar }) => {
                                 />
                               }
                               label={
-                                <p className="font-sans font-bold text-md italic">
+                                <p className="font-sans font-bold text-xs sm:text-base italic">
+
                                   I agree that I have read, understood and agree to the above
                                 </p>
                               }
@@ -1311,7 +1319,7 @@ const Stepeight = ({ setHideSidebar }) => {
 
                       {/* <div className="bg-white p-6 rounded-lg shadow-md sm:fixed mt-10 sm:mt-[100px]"> */}
 
-                      <Box className="bg-gray-100 p-6 rounded-lg shadow-md mt-6 sm:mt-[110px]">
+                      <Box className="bg-gray-100 sm:p-6 p-2 rounded-lg shadow-md mt-6 sm:mt-[110px]">
                         <div className="overflow-y-auto ">
                           <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">
                             Order Summary

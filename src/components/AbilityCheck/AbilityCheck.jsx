@@ -116,8 +116,8 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
             </div>
 
             {/* Ability Section */}
-            <div className="field border rounded-md p-3 mb-3 flex flex-col lg:flex-row justify-between items-center sm:items-start gap-5 lg:gap-10">
-                <p className="text-sm leading-5 text-[#1C1C29] my-auto">
+            <div className="field border rounded-md p-3 mb-3 flex flex-col lg:flex-row justify-between items-start sm:items-start gap-5 lg:gap-10">
+                <p className="text-sm leading-5 text-[#1C1C29] my-auto text-start">
                     Do you believe you have the ability to make healthcare decisions for yourself?
                 </p>
 
@@ -176,7 +176,7 @@ const AbilityCheck = ({ onAbilityChange, handleCheckboxChange, onPurchasingYours
             </div>
 
             <div
-                className={`bg-white shadow-sm rounded-md border-2 w-full my-3 ${ability === "yes" && purchasingYourself === "yes"
+                className={`bg-white shadow-sm rounded-md  w-full my-3 ${ability === "yes" && purchasingYourself === "yes"
                     ? "border-white"
                     : "border-gray-400 filter blur-sm"
                     }`}
