@@ -76,13 +76,13 @@ const ThankYou = () => {
   // }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#dacfff] dark:bg-gray-900 px-6">
-      <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 text-center w-full">
+    <div className="flex items-center justify-center min-h-screen bg-[#dacfff]  px-6">
+      <div className="bg-white  rounded-lg shadow-lg p-8 text-center w-full">
         <div className="text-center">
           <div role="status" className="mb-8">
-            <HiBadgeCheck className="inline w-16 h-16 text-gray-200 dark:text-gray-600 fill-purple-600 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-gray-800 dark:text-gray-300 mb-4">Thank you for your order</h2>
-            <div className="text-left text-gray-600 dark:text-gray-400 mb-5 xl:w-3/5 xl:mx-auto">
+            <HiBadgeCheck className="inline w-16 h-16 text-gray-200 fill-purple-600 mx-auto mb-4" />
+            <h2 className="text-3xl font-bold text-gray-800  mb-4">Thank you for your order</h2>
+            <div className="text-left text-gray-600  mb-5 xl:w-3/5 xl:mx-auto">
               <p>
                 We have received your medical consultation form which is now being reviewed by our prescribers. You may be contacted by a member of
                 our medical team for more information prior to your medication being dispensed. Details of your order have been emailed to you and is
@@ -103,7 +103,7 @@ const ThankYou = () => {
                 legislation around prescription only medication.
               </p>
             </div>
-            <div className="text-left text-gray-600 dark:text-gray-400 mb-5 xl:w-3/5 xl:mx-auto">
+            <div className="text-left text-gray-600  mb-5 xl:w-3/5 xl:mx-auto">
               <center>
                 {" "}
                 <p>Your Payment has Failed!.</p>
