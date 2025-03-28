@@ -575,7 +575,7 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="hidden sm:block">
           {gender === "female" && (
             <div className="mb-2">
-              <p className="med-font text-[#3E3E3E] text-base md:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
+              <p className="font-medium text-md text-gray-700 sm:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
               <div className="flex gap-4">
                 <label
                   className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
