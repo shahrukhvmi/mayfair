@@ -234,6 +234,7 @@ const Stepone = ({ setHideSidebar }) => {
       color: "#6b7280", // Default label color
       fontSize: 16,
       top: "-2px",
+      fontFamily: "Inter_28pt-Regular",
     },
     "& label.Mui-focused": {
       color: "#6c757d", // Label color when focused
@@ -242,6 +243,7 @@ const Stepone = ({ setHideSidebar }) => {
       color: "#111827", // Text color inside input
       borderBottom: "2px solid #f2f3f5",
       paddingTop: "10px",
+      fontFamily: "Inter_28pt-Regular",
     },
     "& .MuiInputBase-input:focus": {
       color: "#111827", // Text color inside input
@@ -443,7 +445,7 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-2 items-start">
           {/* Gender Selection */}
           <div className="my-4 sm:m-0">
-            <p className="font-medium text-md text-gray-700 sm:mb-6">What is your gender?*</p>
+            <p className="font-medium text-md text-gray-700 sm:mb-2">What is your gender?*</p>
             <div className="flex gap-4">
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
@@ -477,7 +479,7 @@ const Stepone = ({ setHideSidebar }) => {
           <div className="block sm:hidden">
             {gender === "female" && (
               <div className="mb-0 sm:mb-0">
-                <p className="med-font text-[#3E3E3E] text-base mb-2">Are you breastfeeding or trying to get pregnant?*</p>
+                <p className="font-medium text-md text-gray-700 sm:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
                 <div className="flex gap-4">
                   <label
                     className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
@@ -543,7 +545,7 @@ const Stepone = ({ setHideSidebar }) => {
             )}
           </div>
           <div>
-            <p className="font-medium text-md text-gray-700 sm:mb-6 mb-0">What is your date of birth?*</p>
+            <p className="font-medium text-md text-gray-700 sm:mb-2">What is your date of birth?*</p>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Controller
                 name="dateOfBirth"
@@ -573,7 +575,7 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="hidden sm:block">
           {gender === "female" && (
             <div className="mb-2">
-              <p className="med-font text-[#3E3E3E] text-base mb-2">Are you breastfeeding or trying to get pregnant?*</p>
+              <p className="med-font text-[#3E3E3E] text-base md:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
               <div className="flex gap-4">
                 <label
                   className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
@@ -676,6 +678,7 @@ const Stepone = ({ setHideSidebar }) => {
             variant="standard"
             value={zipCode}
             sx={textFieldStyles}
+            className="reg-font"
             {...register("postCode", { required: "Postal Code is required" })}
             error={!!errors.postCode || error} // Displays error state
             helperText={errors.postCode?.message} // Shows error message
@@ -781,7 +784,7 @@ const Stepone = ({ setHideSidebar }) => {
 
         <div>
           <h6 className="font-bold text-xl text-black my-6">Confirm Ethnicity for BMI</h6>
-          <p className="font-med text-md text-gray pb-3">
+          <p className="font-med text-md text-gray pb-3 font-bold">
             People of certain ethnicities may be suitable for treatment at a lower BMI than others, if appropriate. Does one of the following options
             describe your ethnic group or background?
           </p>
