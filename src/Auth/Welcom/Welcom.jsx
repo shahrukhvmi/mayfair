@@ -21,7 +21,7 @@ const Welcome = () => {
           </h1>
 
           <p className="reg-font md:text-lg sm:text-base text-lg text-[#595959] mx-auto 2xl:w-[1200px] 2xl:px-[280px] lg:px-[160px] md:px-[50px] sm:px-[40px] px-[16px]">
-            In order for our doctors to assess your suitability for treatment, you will be asked to complete a short medical <br /> questionnaire at the next
+            In order for our doctors to assess your suitability for treatment, you will be asked to complete a short medical  questionnaire at the next
             step.
           </p>
         </div>
