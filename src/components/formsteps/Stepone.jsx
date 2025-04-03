@@ -557,7 +557,7 @@ const Stepone = ({ setHideSidebar }) => {
                     value={field.value ? dayjs(field.value) : null}
                     onChange={(date) => handleDateChange(date)}
                     maxDate={today}
-                    sx={textFieldStyles}
+                    sx={{ textFieldStyles, marginTop: "0px" }}
                     slotProps={{
                       textField: {
                         variant: "outlined",
