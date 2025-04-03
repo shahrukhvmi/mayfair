@@ -187,12 +187,10 @@ const StepSeven = ({ setHideSidebar }) => {
 
     messages[selectedDose] = `
 
-      If you are taking ${name} for the first time, you will need to start the treatment on the ${
-      lowestDose.mgValue
-    } mg dose. If you start on the higher doses, the risk of side effects (e.g., nausea) will be very high.
+      If you are taking ${name} for the first time, you will need to start the treatment on the ${lowestDose.mgValue
+      } mg dose. If you start on the higher doses, the risk of side effects (e.g., nausea) will be very high.
 
-      Please confirm that you are currently taking either the ${
-        prevDose ? prevDose.mgValue + "mg" : ""
+      Please confirm that you are currently taking either the ${prevDose ? prevDose.mgValue + "mg" : ""
       } or ${selectedDose}mg dose from a different provider.
       `;
 
@@ -203,49 +201,49 @@ const StepSeven = ({ setHideSidebar }) => {
   const handleVariationClick = (name, index) => {
     const clickedMgValue = extractMgValue(name);
     const dynamicMessages = generateMessages(variations, clickedMgValue);
-  
+
     const sortedVariations = variations
       .map((item) => ({ ...item, mgValue: extractMgValue(item?.name) }))
       .sort((a, b) => a.mgValue - b.mgValue);
-  
+
     const lowestVariations = sortedVariations.slice(0, 2);
     const lowestMgValues = lowestVariations.map((item) => item.mgValue);
-  
+
     const shouldOpenModal =
       !stepProps.isReturning &&
       !openedVariationIndex.includes(index) &&
       !lowestMgValues.includes(clickedMgValue);
-  
+
     if (shouldOpenModal) {
       const message =
         dynamicMessages[clickedMgValue] ||
         `You have selected ${clickedMgValue}mg.`;
-  
+
       setModalMessage(message);
       setOpenedVariationIndex((prevState) => [...prevState, index]);
-  
+
       const matchedVariation = variations?.find(
         (variation) =>
           variation.name.trim().toLowerCase() === name.trim().toLowerCase()
       );
       const id = matchedVariation?.id || null;
-  
+
       SetAllSelectedMessage((prevState) => {
         const previousMessages = Array.isArray(prevState)
           ? prevState
           : prevState?.messages || [];
-  
+
         const newMessages = [...previousMessages, { id, name, message }];
         localStorage.setItem("selectedMessages", JSON.stringify(newMessages));
-  
+
         return newMessages;
       });
-  
+
       // ✅ Open modal only when needed
       setModalOpen(true);
     }
   };
-  
+
 
   const onHandleConfirmation = () => {
     setModalOpen(false);
@@ -695,7 +693,7 @@ const StepSeven = ({ setHideSidebar }) => {
                 </div>
               </div>
 
-              <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4">
+              <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4 pt-3">
                 Select
                 <span className="font-bold"> Dosage</span>
               </h2>
@@ -764,8 +762,11 @@ const StepSeven = ({ setHideSidebar }) => {
               <div className="flex flex-col mt-4">
                 {addons?.length > 0 && (
                   <>
+                 
+
                     <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4">
-                      Select <span className="font-bold text-2xl">Addons</span>
+                      Select
+                      <span className="font-bold"> Addons</span>
                     </h2>
 
                     {/* FLEX ROW TO SHOW IN ONE LINE */}
@@ -864,11 +865,10 @@ const StepSeven = ({ setHideSidebar }) => {
               type="submit"
               onClick={() => dispatch(nextStep())}
               disabled={!isValid || !isDoseSelected}
-              className={`p-3 flex flex-col items-center justify-center ${
-                !isValid || !isDoseSelected
+              className={`p-3 flex flex-col items-center justify-center ${!isValid || !isDoseSelected
                   ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                   : "text-white rounded-md bg-violet-700"
-              }`}
+                }`}
             >
               <span className="text-md font-semibold">Proceed to Checkout</span>
             </button>
