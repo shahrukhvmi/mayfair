@@ -1,17 +1,12 @@
 import React, { useState } from "react";
 import { IoEye } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import {
-  useGetOrdersDataQuery,
-  useGetViewOrderQuery,
-} from "../../../store/services/Dashboard/dashboardApi";
+import { useGetOrdersDataQuery, useGetViewOrderQuery } from "../../../store/services/Dashboard/dashboardApi";
 import Skeleton from "@mui/material/Skeleton";
 import Pagination from "../../Pagination/Pagination";
 
 const MyOrders = () => {
   const { data, isLoading } = useGetOrdersDataQuery();
-
-
 
   // const [orderData] = useState(data?.myorders.allorders);
   const [searchValue, setSearchValue] = useState("");
@@ -36,12 +31,10 @@ const MyOrders = () => {
       // order.items.some((item) => item.name.toLowerCase().includes(searchValue));
       order.items.some((item) => item.product.toLowerCase().includes(searchValue));
 
-    const matchesStatus =
-      status === "all" || order.status.toLowerCase() === status.toLowerCase();
+    const matchesStatus = status === "all" || order.status.toLowerCase() === status.toLowerCase();
 
     return matchesSearch && matchesStatus;
   });
-
 
   const getStatusClasses = (status) => {
     switch (status.toLowerCase()) {
@@ -62,27 +55,17 @@ const MyOrders = () => {
       {/* Search and Filter Section */}
       <header className="p-4">
         <h1 className="md:text-3xl text-lg mb-2 font-semibold">My Orders</h1>
-        <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">
-          View your order history
-        </p>
+        <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">View your order history</p>
       </header>
       <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 px-3">
         <div className="w-full md:w-1/2">
-          <form
-            className="flex items-center"
-            onSubmit={(e) => e.preventDefault()}
-          >
+          <form className="flex items-center" onSubmit={(e) => e.preventDefault()}>
             <label htmlFor="simple-search" className="sr-only">
               Search
             </label>
             <div className="relative w-full">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5 text-gray-500"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
+                <svg aria-hidden="true" className="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
                   <path
                     fillRule="evenodd"
                     d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
@@ -103,10 +86,7 @@ const MyOrders = () => {
         </div>
 
         <div className="w-full md:w-auto flex items-center justify-between">
-          <label
-            htmlFor="status"
-            className="text-sm reg-font text-gray-700 mr-2"
-          >
+          <label htmlFor="status" className="text-sm reg-font text-gray-700 mr-2">
             Sort by status
           </label>
           <div className="relative">
@@ -125,42 +105,36 @@ const MyOrders = () => {
             </select>
             {/* Custom Arrow Icon */}
             <div className="absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="w-4 h-4 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
+              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
               </svg>
             </div>
           </div>
         </div>
       </div>
 
-
       <div class="my-3 bg-blue-50 border-l-4 border-blue-500 text-blue-700 p-4 mb-6">
         <div class="flex items-start">
           <div class="flex">
             <span>
-              <svg class="w-6 h-6 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1 4v1m-1-1h1a1 1 0 001-1v-1h-1v1m-1-1v-4h1a1 1 0 011 1v1h1v-1a1 1 0 00-1-1h-1V9m0-1a1 1 0 10-2 0v1H9m4-1V7H9v1h1v1h1v-1h1V8z"></path></svg></span>
-            <span class="font-bold">Note</span><span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones
-
+              <svg class="w-6 h-6 text-blue-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 16h-1v-4h-1m1 4v1m-1-1h1a1 1 0 001-1v-1h-1v1m-1-1v-4h1a1 1 0 011 1v1h1v-1a1 1 0 00-1-1h-1V9m0-1a1 1 0 10-2 0v1H9m4-1V7H9v1h1v1h1v-1h1V8z"
+                ></path>
+              </svg>
             </span>
+            <span class="font-bold">Note</span>
+            <span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span>
+            <span class="font-bold">Note</span>
+            <span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span>
           </div>
         </div>
       </div>
       {/* Orders Table */}
       <div className="relative overflow-x-scroll lg:overflow-x-auto sm:w-full w-96 mt-6 overflow-hidden px-3">
-
-
-
         <table className="w-full text-sm text-left text-gray-500 table-auto">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr className="[&>th]:px-3 [&>th]:py-3 [&>th]:whitespace-nowrap">
@@ -214,9 +188,7 @@ const MyOrders = () => {
                 <tr key={order.order_id} className="border-b [&>td]:px-3 [&>td]:py-3 [&>td]:whitespace-nowrap">
                   <td>{order.order_id}</td>
                   <td>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
-                      {order.created_at}
-                    </span>
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{order.created_at}</span>
                   </td>
                   <td>
                     {Array.from(new Set(order.items.map((item) => item.product))).map((uniqueProduct, index) => (
@@ -244,16 +216,17 @@ const MyOrders = () => {
                   </td>
                   <td>
                     <span
-                      className={`${order.status === "Processing"
-                        ? "bg-yellow-100 border-yellow-500 text-yellow-800"
-                        : order.status === "Incomplete"
+                      className={`${
+                        order.status === "Processing"
+                          ? "bg-yellow-100 border-yellow-500 text-yellow-800"
+                          : order.status === "Incomplete"
                           ? "bg-orange-100 border-orange-500 text-orange-800"
                           : order.status === "Cancelled"
-                            ? "bg-red-100 text-red-800"
-                            : order.status === "Approved"
-                              ? "bg-green-100 border-green-500 text-green-800"
-                              : "bg-gray-100 text-gray-800"
-                        } text-xs font-medium px-2.5 py-0.5 rounded-full`}
+                          ? "bg-red-100 text-red-800"
+                          : order.status === "Approved"
+                          ? "bg-green-100 border-green-500 text-green-800"
+                          : "bg-gray-100 text-gray-800"
+                      } text-xs font-medium px-2.5 py-0.5 rounded-full`}
                     >
                       {order.status}
                     </span>
@@ -276,12 +249,10 @@ const MyOrders = () => {
             )}
           </tbody>
         </table>
-
       </div>
 
       <Pagination pagination={data?.myorders} />
-
-    </div >
+    </div>
   );
 };
 

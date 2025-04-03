@@ -1,4 +1,4 @@
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useEffect } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import useGsapAnimation from "./Hook/useGsapAnimation/useGsapAnimation";
 import { Toaster } from "react-hot-toast";
@@ -6,7 +6,6 @@ import { AuthProvider } from "./Auth/AuthContext";
 import PublicRoute from "./Auth/PublicRoute";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import PaymentFailed from "./components/PaymentFailed/PaymentFailed";
-
 
 // Lazy load components
 const MainLayout = React.lazy(() => import("./Layout/MainLayout/MainLayout"));
@@ -27,6 +26,14 @@ const ChangeForgotPassword = React.lazy(() => import("./Auth/ChangeForgotPasswor
 const App = () => {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const location = useLocation();
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  useEffect(() => {
+    if (localStorage.getItem("paymentLoader") == true) {
+      setPaymentLoading(true);
+    } else {
+      setPaymentLoading(false);
+    }
+  }, [paymentLoading]);
 
   // // Check if the current route is /consultation-form
   // const shouldAnimate = location.pathname === "/consultation-form";
@@ -35,7 +42,7 @@ const App = () => {
   // useGsapAnimation(setIsLoaded, shouldAnimate);
 
   return (
-    <div className="overflow-hidden h-full">
+    <div className={`overflow-hidden h-full ${paymentLoading ? "h-[100vh]" : ""}`}>
       {/* Loader Animation */}
       {/* {!isLoaded && shouldAnimate && (
         <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-100 to-green-100">
@@ -59,58 +66,58 @@ const App = () => {
 
       {/* Main Application Content */}
       {/* {isLoaded && ( */}
-        <AuthProvider>
-          <Suspense fallback={<div></div>}>
-            <Routes>
-              {/* Auth Routes */}
-              <Route
-                path="/login"
-                element={
-                  <PublicRoute
-                    element={
-                      <MainLayout>
-                        <Welcome />
-                      </MainLayout>
-                    }
-                  />
-                }
-              />
-              <Route
-                path="/register"
-                element={
-                  <PublicRoute
-                    element={
-                      <MainLayout>
-                        <Welcome />
-                      </MainLayout>
-                    }
-                  />
-                }
-              />
-              <Route
-                path="/forgot-password"
-                element={
-                  <PublicRoute
-                    element={
-                      <MainLayout>
-                        <ForgotPassword />
-                      </MainLayout>
-                    }
-                  />
-                }
-              />
-              <Route
-                path="/change-forgot-password"
-                element={
-                  <PublicRoute
-                    element={
-                      <MainLayout>
-                        <ChangeForgotPassword />
-                      </MainLayout>
-                    }
-                  />
-                }
-              />
+      <AuthProvider>
+        <Suspense fallback={<div></div>}>
+          <Routes>
+            {/* Auth Routes */}
+            <Route
+              path="/login"
+              element={
+                <PublicRoute
+                  element={
+                    <MainLayout>
+                      <Welcome />
+                    </MainLayout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <PublicRoute
+                  element={
+                    <MainLayout>
+                      <Welcome />
+                    </MainLayout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/forgot-password"
+              element={
+                <PublicRoute
+                  element={
+                    <MainLayout>
+                      <ForgotPassword />
+                    </MainLayout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/change-forgot-password"
+              element={
+                <PublicRoute
+                  element={
+                    <MainLayout>
+                      <ChangeForgotPassword />
+                    </MainLayout>
+                  }
+                />
+              }
+            />
 
               {/* Dashboard Routes */}
               <Route
@@ -134,43 +141,22 @@ const App = () => {
                element={<OrderDetails />}
               />
 
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute
-                    element={<DashBoardLayout element={<MyProfile />} />}
-                  />
-                }
-              />
-              <Route
-                path="/address"
-                element={
-                  <ProtectedRoute
-                    element={<DashBoardLayout element={<MyAddress />} />}
-                  />
-                }
-              />
-              <Route
-                path="/change-password"
-                element={
-                  <ProtectedRoute
-                    element={<DashBoardLayout element={<ChangePassword />} />}
-                  />
-                }
-              />
-              <Route
-                path="/consultation-form"
-                element={
-                  <ProtectedRoute
-                    element={
-                      <StepsLayout>
-                        <Steps />
-                      </StepsLayout>
-                    }
-                  />
-                }
-              />
-              {/* <Route
+            <Route path="/profile" element={<ProtectedRoute element={<DashBoardLayout element={<MyProfile />} />} />} />
+            <Route path="/address" element={<ProtectedRoute element={<DashBoardLayout element={<MyAddress />} />} />} />
+            <Route path="/change-password" element={<ProtectedRoute element={<DashBoardLayout element={<ChangePassword />} />} />} />
+            <Route
+              path="/consultation-form"
+              element={
+                <ProtectedRoute
+                  element={
+                    <StepsLayout>
+                      <Steps />
+                    </StepsLayout>
+                  }
+                />
+              }
+            />
+            {/* <Route
                 path="/thank-you"
                 element={
                   <PublicRoute
@@ -196,8 +182,8 @@ const App = () => {
                 }
               /> */}
 
-              <Route path="/thank-you" element={<ThankYou />} />
-              <Route path="/payment-failed" element={<PaymentFailed />} />
+            <Route path="/thank-you" element={<ThankYou />} />
+            <Route path="/payment-failed" element={<PaymentFailed />} />
 
               {/* Fallback Route */}
               <Route path="*" element={<Navigate to="/dashboard" />} />

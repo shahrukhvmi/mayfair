@@ -12,7 +12,7 @@ const Welcome = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col items-center bg-[#DACFFF] px-4 pt-6">
+      <div className="flex flex-col items-center bg-[#DACFFF] px-4 pt-6" style={{ minHeight: "calc(100vh - 66px)" }}>
         {/* Page Heading */}
         <div className="flex flex-col items-center pb-7 text-center ">
 
@@ -27,7 +27,7 @@ const Welcome = () => {
         </div>
 
         {/* Desktop View: Side-by-Side */}
-        <div className="hidden lg:grid bg-white p-6 rounded-lg shadow-lg grid-cols-2 gap-6 lg:w-[950px] xl:w-[1100px]">
+        <div className="hidden lg:grid bg-white p-6 rounded-lg shadow-lg grid-cols-2 gap-6 lg:w-[950px] xl:w-[1100px] mb-5">
           <div className="border-r border-gray-500 pr-4">
             <Register />
           </div>
@@ -43,8 +43,9 @@ const Welcome = () => {
             <div className="bg-gray-200 rounded-lg flex overflow-hidden">
               <label
                 htmlFor="tab1"
-                className={`py-2 px-4 cursor-pointer text-sm font-semibold transition-all duration-200 ${selectedTab === "tab1" ? "bg-purple-600 text-white" : "text-gray-700"
-                  }`}
+                className={`py-2 px-4 cursor-pointer text-sm font-semibold transition-all duration-200 ${
+                  selectedTab === "tab1" ? "bg-purple-600 text-white" : "text-gray-700"
+                }`}
               >
                 <input
                   type="radio"
@@ -59,8 +60,9 @@ const Welcome = () => {
               </label>
               <label
                 htmlFor="tab2"
-                className={`py-2 px-4 cursor-pointer text-sm font-semibold transition-all duration-200 ${selectedTab === "tab2" ? "bg-purple-600 text-white" : "text-gray-700"
-                  }`}
+                className={`py-2 px-4 cursor-pointer text-sm font-semibold transition-all duration-200 ${
+                  selectedTab === "tab2" ? "bg-purple-600 text-white" : "text-gray-700"
+                }`}
               >
                 <input
                   type="radio"
@@ -80,12 +82,8 @@ const Welcome = () => {
           {selectedTab === "tab1" && <Register />}
           {selectedTab === "tab2" && <Login />}
         </div>
-
-
-
+        <Footer />
       </div>
-      <Footer />
-
     </>
   );
 };

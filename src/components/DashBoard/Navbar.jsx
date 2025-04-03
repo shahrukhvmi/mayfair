@@ -10,30 +10,23 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
 
-
-
-
   const [name, setUserData] = useState("");
 
   // Fetch user profile data
   const fetchUserData = async () => {
     try {
-      const response = await fetch(
-        "https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       const data = await response.json();
       if (response.ok) {
         const userName = data?.profile?.user;
         setUserData(userName == null ? "" : userName);
       }
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     // Fetch data immediately on mount
@@ -81,16 +74,12 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
     setIsOpenDrop(false); // Close the dropdown
     logout();
     navigate("/login");
-
   };
 
   return (
-    <div className="bg-white shadow-md px-4 sm:px-6 lg:px-6 flex items-center justify-between relative">
+    <div className="bg-white px-4 sm:px-6 lg:px-6 flex items-center justify-between relative">
       {/* Hamburger Button (only visible on mobile) */}
-      <button
-        onClick={toggleSidebar}
-        className="text-2xl text-violet-700 sm:hidden"
-      >
+      <button onClick={toggleSidebar} className="text-2xl text-violet-700 sm:hidden">
         {isOpen ? <FiX /> : <FiMenu />}
       </button>
 
@@ -104,23 +93,10 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
       {/* User Info */}
       <div className="relative">
         {/* Dropdown Trigger */}
-        <div
-          className="flex items-center space-x-2 cursor-pointer"
-          onClick={toggleDropdown}
-        >
+        <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDropdown}>
+          <img src="/images/user.png" alt="User Avatar" className="w-10 h-10 rounded-full" />
 
-
-          <img
-            src="/images/user.png"
-            alt="User Avatar"
-            className="w-10 h-10 rounded-full"
-          />
-
-          <span className="reg-font text-[#1C1C29] truncate">
-            {name && name.fname && name.lname
-              ? `${name.fname} ${name.lname}`
-              : ""}
-          </span>
+          <span className="reg-font text-[#1C1C29] truncate">{name && name.fname && name.lname ? `${name.fname} ${name.lname}` : ""}</span>
         </div>
 
         {/* Dropdown Menu */}
@@ -131,12 +107,11 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
                 <Link to="/dashboard" onClick={toggleDropdown}>My Account</Link>
               </li>
               <li className="ligt-font px-4 py-2 text-[#1C1C29] hover:bg-gray-100 cursor-pointer">
-                <Link to="/profile" onClick={toggleDropdown}>My Profile</Link>
+                <Link to="/profile" onClick={toggleDropdown}>
+                  My Profile
+                </Link>
               </li>
-              <li
-                className="reg-font px-4 py-2 hover:bg-gray-100 cursor-pointer"
-                onClick={handleLogout}
-              >
+              <li className="reg-font px-4 py-2 hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>
                 Logout
               </li>
             </ul>

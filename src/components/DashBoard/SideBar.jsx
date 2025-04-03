@@ -7,7 +7,7 @@ import "./sidebar.css";
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
-      className={`sm:m-5 sm:rounded-lg fixed top-0 left-0 lg:relative h-full w-100 md:w-100 bg-[#F9FAFB] p-5 flex flex-col shadow-md transform ${
+      className={`sm:m-5 sm:rounded-lg fixed top-0 left-0 lg:relative h-full w-100 md:w-100 bg-[#F9FAFB] py-4 px-3 flex flex-col shadow-md transform ${
         isOpen ? "translate-x-0" : "-translate-x-full"
       } transition-transform duration-300 ease-in-out z-50 sm:relative sm:translate-x-0 sm:w-100 md:w-100`}
     >
@@ -21,7 +21,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </div>
       </div>
 
-      <nav className="space-y-4">
+      <nav className="space-y-2">
         <NavLink
           to="/dashboard"
           className={({ isActive }) =>
@@ -29,8 +29,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           }
           onClick={toggleSidebar}
         >
-          <GiMedicines className="text-2xl" />
-          <span className="ml-2 sm:inline tab-text-home">My Account</span>
+          {({ isActive }) => (
+            <>
+              <GiMedicines className={`text-2xl ${isActive ? "text-white" : "text-[#6b7280]"}`} />
+              <span className="ml-3 sm:inline tab-text-home">My Account</span>
+            </>
+          )}
         </NavLink>
 
         <NavLink
@@ -40,8 +44,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           }
           onClick={toggleSidebar}
         >
-          <HiShoppingBag className="text-2xl" />
-          <span className="ml-2 sm:inline tab-text-orders">My Orders</span>
+          {({ isActive }) => (
+            <>
+              <HiShoppingBag className={`text-2xl ${isActive ? "text-white" : "text-[#6b7280]"}`} />
+              <span className="ml-3 sm:inline tab-text-home">My Orders</span>
+            </>
+          )}
         </NavLink>
 
         <NavLink
@@ -51,8 +59,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           }
           onClick={toggleSidebar}
         >
-          <HiUser className="text-2xl" />
-          <span className="ml-2 sm:inline tab-text-profile">My Profile</span>
+          {({ isActive }) => (
+            <>
+              <HiUser className={`text-2xl ${isActive ? "text-white" : "text-[#6b7280]"}`} />
+              <span className="ml-3 sm:inline tab-text-home">My Profile</span>
+            </>
+          )}
         </NavLink>
 
         <NavLink
@@ -62,8 +74,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           }
           onClick={toggleSidebar}
         >
-          <HiLocationMarker className="text-2xl" />
-          <span className="ml-2 sm:inline tab-text-address">My Address Book</span>
+          {({ isActive }) => (
+            <>
+              <HiLocationMarker className={`text-2xl ${isActive ? "text-white" : "text-[#6b7280]"}`} />
+              <span className="ml-3 sm:inline tab-text-home">My Address Book</span>
+            </>
+          )}
         </NavLink>
 
         <NavLink
@@ -73,8 +89,12 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           }
           onClick={toggleSidebar}
         >
-          <HiOutlineLockClosed className="text-2xl" />
-          <span className="ml-2 sm:inline tab-text-password">Change Password</span>
+          {({ isActive }) => (
+            <>
+              <HiOutlineLockClosed className={`text-2xl ${isActive ? "text-white" : "text-[#6b7280]"}`} />
+              <span className="ml-3 sm:inline tab-text-home">Change Password</span>
+            </>
+          )}
         </NavLink>
       </nav>
     </div>

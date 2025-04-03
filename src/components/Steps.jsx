@@ -15,7 +15,7 @@ import Stepten from "./formsteps/Stepten";
 import Stepeleven from "./formsteps/Stepeleven";
 import Steptwelve from "./formsteps/Steptwelve";
 import Stepper from "./Stepper";
-
+import Footer from "./Footer";
 const Steps = () => {
   const [hideSidebar, setHideSidebar] = useState(false);
   const [searchParams] = useSearchParams();
@@ -69,6 +69,7 @@ const Steps = () => {
   }
 
   return (
+    <>
     <div className="py-7 bg-[#dacfff]">
       <div className="consultation-form mx-auto w-full lg:mx-5 lg:w-auto xl:mx-6 xl:w-auto 2xl:mx-auto 2xl:w-[1366px] flex flex-col lg:flex-row font-inter overflow-hidden">
         {/* Left Sidebar */}
@@ -116,7 +117,11 @@ const Steps = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+      <Footer />
+      
+    </>
+    
   );
 };
 
