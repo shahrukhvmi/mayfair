@@ -101,7 +101,7 @@ const Dose = ({
         > 
           {/* Out of Stock Overlay */}
           {doseStatus === 0 && (
-            <div className="h-full w-full top-0 left-0 absolute bg-[rgba(119,136,153,0.4)] cursor-not-allowed z-10 thin-font"></div>
+            <div className="h-full w-full top-0 left-0 absolute cursor-not-allowed z-10 thin-font"></div>
           )}
 
           {/* Out of Stock Ribbon */}
