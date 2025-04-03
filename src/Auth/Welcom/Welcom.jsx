@@ -12,16 +12,15 @@ const Welcome = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center bg-[#DACFFF] px-4 pt-6" style={{ minHeight: "calc(100vh - 66px)" }}>
+      <div className="flex flex-col items-center bg-[#DACFFF] px-4 pt-6 justify-evenly" style={{ minHeight: "calc(100vh - 66px)" }}>
         {/* Page Heading */}
         <div className="flex flex-col items-center pb-7 text-center ">
-
           <h1 className="xl:text-4xl sm:text-4xl bold-font pb-3 sm:pb-3 text-3xl w-3/4 sm:w-full 2xl:text-4xl 2xl:pb-4 sm:px-0 2xl:px-2 2xl:font-semibold">
             Welcome to your online consultation
           </h1>
 
           <p className="reg-font md:text-lg sm:text-base text-lg text-[#595959] mx-auto 2xl:w-[1200px] 2xl:px-[280px] lg:px-[160px] md:px-[50px] sm:px-[40px] px-[16px]">
-            In order for our doctors to assess your suitability for treatment, you will be asked to complete a short medical  questionnaire at the next
+            In order for our doctors to assess your suitability for treatment, you will be asked to complete a short medical questionnaire at the next
             step.
           </p>
         </div>
