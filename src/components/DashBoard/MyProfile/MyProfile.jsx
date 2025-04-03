@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { TextField, FormControl, InputLabel, Select, MenuItem, FormHelperText } from "@mui/material";
+import { FormControl, MenuItem, FormHelperText, Select } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -8,7 +8,9 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { useProfileUserDataQuery } from "../../../store/services/Dashboard/dashboardApi";
+import { useUserUpdateMutation } from "../../../store/services/Dashboard/ProfileUpdate";
+
 
 const MyProfile = () => {
   const {
@@ -31,41 +33,28 @@ const MyProfile = () => {
   });
 
   const [user, setUserData] = useState(null);
-  const fetchUserData = async () => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      return;
-    }
 
-    try {
-      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        const user = data?.profile?.user;
-        if (user) {
-          localStorage.setItem("userData", JSON.stringify(data));
-          setUserData(user);
-        } else {
-          console.warn("User data not found in response.");
-        }
-      } else {
-        console.error("Error:", data.message || "Failed to fetch user data.");
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  const { data, error, isLoading: isLoad, refetch } = useProfileUserDataQuery();
+  const [updateUserProfile, { isLoading: isPostLoding }] = useUserUpdateMutation();
 
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    if (!isLoad && data) {
+      const userData = data?.profile?.user;
+
+      if (userData) {
+        localStorage.setItem("userData", JSON.stringify(userData));
+        setUserData(userData);
+      } else {
+        console.warn("User data not found in response.");
+      }
+    }
+
+    if (error) {
+      console.error("Error:", error?.data?.message || "Failed to fetch user data.");
+    }
+  }, [data, isLoad, error]);
+
+  console.log(data, "datadata")
 
   const [dobError, setDobError] = useState("");
   const today = dayjs();
@@ -97,46 +86,42 @@ const MyProfile = () => {
       setValue("gender", user.gender || "");
       setValue("dateOfBirth", user.dob || null);
 
-      if (user.fname && user.lname && user.phone && user.gender && user.dob) {
-        trigger();
-      }
+      (async () => {
+        await trigger(); // ✅ Trigger full validation after values are set
+      })();
     }
   }, [user, setValue, trigger]);
 
-  const [isLoading, setIsLoading] = useState(false);
   const onSubmit = async (data) => {
     try {
-      setIsLoading(true);
 
-      const response = await axios.post(
-        "https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData",
-        {
-          dob: data.dateOfBirth,
-          firstname: data.firstName,
-          lastname: data.lastName,
-          phone: data.phoneNumber,
-          gender: data.gender,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+
+      const response = await updateUserProfile({
+        dob: data.dateOfBirth,
+        firstname: data.firstName,
+        lastname: data.lastName,
+        phone: data.phoneNumber,
+        gender: data.gender,
+      }).unwrap();
 
       // ✅ Handle Success
-      toast.success(response.data.message || "Profile updated successfully");
-      fetchUserData();
+      toast.success(response?.message || "Profile updated successfully");
+
+      refetch(); // 🔄 Refetch user data after update
     } catch (error) {
       // ✅ Handle Errors Properly
-      const errorMessage = error.response?.data?.message || "Failed to update profile";
+      const errorMessage =
+        error?.data?.message || error?.message || "Failed to update profile";
       toast.error(errorMessage);
-    } finally {
-      setIsLoading(false);
     }
   };
-
+  if (isLoad || !user) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
+  }
   return (
     <div className="p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 me-5">
       <div className="mb-8">
@@ -181,20 +166,29 @@ const MyProfile = () => {
         <div className="grid sm:grid-cols-2 gap-4">
           {/* Gender Selection */}
           <FormControl fullWidth variant="standard" error={!!errors.gender}>
-            <label htmlFor="name" value="Gender" className="block font-medium text-sm text-gray-700">
-              Gender
-            </label>
-            <Select
-              value={watch("gender") || ""}
-              onChange={(e) => setValue("gender", e.target.value)}
-              {...register("gender", { required: "Gender is required" })}
-              className="profile-input border-gray-300 border bg-white focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm w-full 2xl:mt-1 2xl:block 2xl:w-full px-2.5 py-1 focus-within:outline-violet-500"
-            >
-              <MenuItem value="male">Male</MenuItem>
-              <MenuItem value="female">Female</MenuItem>
-            </Select>
+            <label className="block font-medium text-sm text-gray-700">Gender</label>
+
+            <Controller
+              name="gender"
+              control={control}
+              rules={{ required: "Gender is required" }}
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  value={field.value || ""}
+                  onChange={(e) => field.onChange(e.target.value)}
+                  className="profile-input border-gray-300 border bg-white focus:border-violet-500 focus:ring-violet-500 rounded-md shadow-sm w-full 2xl:mt-1 2xl:block 2xl:w-full px-2.5 py-1 focus-within:outline-violet-500"
+                >
+                  <MenuItem value="">Select gender</MenuItem>
+                  <MenuItem value="male">Male</MenuItem>
+                  <MenuItem value="female">Female</MenuItem>
+                </Select>
+              )}
+            />
+
             {errors.gender && <FormHelperText>{errors.gender.message}</FormHelperText>}
           </FormControl>
+
 
           {/* Date of Birth */}
           <div>
@@ -268,12 +262,12 @@ const MyProfile = () => {
         <div className="mt-4 sm:max-w-20">
           <div className="text-center my-3">
             <button
-              disabled={!isValid || isLoading}
+              disabled={!isValid || isPostLoding}
               type="submit"
               className="w-full px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 border border-transparent rounded-md med-font text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-viobg-violet-700 focus:ring-offset-2 transition ease-in-out duration-150"
             >
               {/* Show a progress bar if loading is true */}
-              {isLoading ? (
+              {isPostLoding ? (
                 <div className="relative">
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-5 h-5 border-2 border-t-transparent border-[#ffffff] rounded-full animate-spin"></div> {/* Spinner */}

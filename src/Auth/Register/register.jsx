@@ -38,7 +38,7 @@ const Register = () => {
       // navigate("/login");
       islogin(response?.data?.token);
 
-      navigate("/");
+      navigate("/dashboard");
       window.location.reload();
     } catch (err) {
       toast.error(err?.data?.errors?.email);

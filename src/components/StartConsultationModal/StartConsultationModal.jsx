@@ -48,9 +48,14 @@ const StartConsultationModal = ({ text, loading, closeModel, onHandleConfirm }) 
                     {/* Added border classes */}
                     <button
                         type="button"
-                        onClick={closeModel}
-                        className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                        onClick={() => {
+                            closeModel();
+                            localStorage.removeItem("modalOpened");
+                        }}
                         data-modal-hide="popup-modal"
+
+                        className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  
                     >
                         <svg
                             className="w-3 h-3"

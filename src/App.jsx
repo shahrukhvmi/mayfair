@@ -114,7 +114,7 @@ const App = () => {
 
               {/* Dashboard Routes */}
               <Route
-                path="/"
+                path="/dashboard"
                 element={
                   <ProtectedRoute
                     element={<DashBoardLayout element={<MyAccount />} />}
@@ -200,7 +200,7 @@ const App = () => {
               <Route path="/payment-failed" element={<PaymentFailed />} />
 
               {/* Fallback Route */}
-              <Route path="*" element={<Navigate to="/" />} />
+              <Route path="*" element={<Navigate to="/dashboard" />} />
             </Routes>
             <Toaster />
           </Suspense>

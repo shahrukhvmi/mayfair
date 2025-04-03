@@ -24,7 +24,7 @@ const AddonList = () => {
     useEffect(() => {
         const fetchData = async () => {
             const pid = localStorage.getItem("pid");
-            localStorage.setItem("pid", pid);
+            // localStorage.setItem("pid", pid);
             localStorage.setItem("comingFromStart", 0);
             localStorage.setItem("start_concent", true);
 

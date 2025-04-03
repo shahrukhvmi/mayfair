@@ -42,7 +42,7 @@ const Login = () => {
         );
         toast.success("Login successful!");
         islogin(response?.data?.token);
-        navigate("/");
+        navigate("/dashboard");
         window.location.reload();
       } else {
         toast.error("Invalid login response");

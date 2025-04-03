@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import StartConsultationModal from "../StartConsultationModal/StartConsultationModal";
 import ReOrderModel from "../ReOrderModel/ReOrderModel";
@@ -14,33 +14,46 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   const [isModalOpen, setModalOpen] = useState(false);
   const [isReorderOpen, setReorderOpen] = useState(false);
   const dispatch = useDispatch();
+  const modalOpenedRef = useRef(false);
+  // useEffect(() => {
+  //   const params = new URLSearchParams(window.location.search);
+  //   const productId = params.get("product_id");
+  //   console.log(productId, "productIdproductId")
+  //   if (productId) {
+  //     localStorage.setItem("pid", productId);
+  //     setModalOpen(true);
+  //   } else {
+  //     localStorage.removeItem("pid");
+  //   }
+  // }, []);
+
+
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const productId = params.get("product_id");
-
-    if (productId) {
-      localStorage.setItem("pid", productId);
-      setModalOpen(true);
-    } else {
-      // localStorage.removeItem("pid");
+    if (!modalOpenedRef.current) {
+      const params = new URLSearchParams(location.search);
+      const productId = params.get("product_id");
+      const previousId = localStorage.getItem("previous_id");
+  
+      if (previousId !== productId) {
+        localStorage.removeItem("modalOpened");
+      }
+  
+      if (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) {
+        localStorage.setItem("previous_id", productId);
+        localStorage.setItem("pid", productId);
+        localStorage.setItem("modalOpened", "true");
+  
+        reorder ? setReorderOpen(true) : setModalOpen(true);
+  
+        modalOpenedRef.current = true;
+      } else if (!productId) {
+        // ✅ only remove pid if no productId in URL
+        localStorage.removeItem("pid");
+      }
     }
-  }, []);
+  }, [location.search, reorder, id]);
+  
 
-  const handleMouseEnter = (event) => {
-    const card = event.currentTarget;
-    const img = card.querySelector(".product-image");
-
-    gsap.to(card, { y: -10, boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)", duration: 0.3, ease: "power1.out" });
-    gsap.to(img, { scale: 1.05, duration: 0.3, ease: "power1.out" });
-  };
-
-  const handleMouseLeave = (event) => {
-    const card = event.currentTarget;
-    const img = card.querySelector(".product-image");
-
-    gsap.to(card, { y: 0, boxShadow: "0px 5px 10px rgba(0, 0, 0, 0.1)", duration: 0.3, ease: "power1.inOut" });
-    gsap.to(img, { scale: 1, duration: 0.3, ease: "power1.inOut" });
-  };
   const navigate = useNavigate()
 
   const handleClick = () => {
@@ -76,97 +89,57 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   const url = import.meta.env.VITE_BASE_URL;
 
   const handleConfirm = async () => {
-    const pid = parseInt(localStorage.getItem("pid"));
+    const pid = Number(localStorage.getItem("pid")) || id;
     const currentStep = Number(localStorage.getItem("currentStep")) || 1;
     const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
 
-    // 👇👇 Check is re Ordr or New Order Logic here //👇👇
+    const ability = sessionStorage.getItem("ability");
+    const isChecked = sessionStorage.getItem("ischecked");
 
+    localStorage.setItem("pid", pid);
+    localStorage.setItem("comingFromStart", 0);
+    localStorage.setItem("start_concent", true);
+    localStorage.removeItem("modalOpened");
+
+    // Navigate using React Router
+    navigate(`/consultation-form?product_id=${pid}`);
+
+    // Handle reordering or normal start...
     if (reorder) {
       if (reorderStatus) {
-
-        localStorage.setItem("pid", id);
-        localStorage.setItem("comingFromStart", 0);
-        localStorage.setItem("start_concent", true);
         localStorage.setItem("currentStep", 1);
         dispatch(triggerStep(1));
-        localStorage.removeItem("addonCart");
-        localStorage.removeItem("cart");
-        localStorage.removeItem("selectedVariations");
-        localStorage.removeItem("selectedMessages");
-        dispatch(clearCart());
-        dispatch(clearCartAddon());
-
       } else {
-
-        // localStorage.setItem("reorder", false);
-        localStorage.setItem("pid", id);
-        localStorage.setItem("comingFromStart", 0);
-        localStorage.setItem("start_concent", true);
         localStorage.setItem("currentStep", 2);
         dispatch(triggerStep(2));
-        dispatch(clearCart());
-        dispatch(clearCartAddon());
-        localStorage.removeItem("addonCart");
-        localStorage.removeItem("cart");
-        localStorage.removeItem("selectedVariations");
-        localStorage.removeItem("selectedMessages");
       }
     } else {
-
-      if (!pid) {
-        // Case 1: `pid` does not exist in localStorage
-        localStorage.setItem("pid", id);
-        localStorage.setItem("comingFromStart", 0);
-        localStorage.setItem("start_concent", true);
-        localStorage.setItem("currentStep", 1);
-
-        dispatch(triggerStep(1)); // Trigger Step 1 in Redux
-        dispatch(clearCart())
-        dispatch(clearCartAddon())
-        localStorage.removeItem("addonCart");
-        localStorage.removeItem("cart");
-      } else if (pid !== id) {
-        // Case 2: `pid` exists but does not match the current `id`
-
-        localStorage.setItem("pid", id);
-        localStorage.setItem("comingFromStart", 0);
-        localStorage.setItem("start_concent", true);
-        localStorage.setItem("currentStep", 1);
-        dispatch(triggerStep(1));
-        localStorage.removeItem("addonCart");
-        localStorage.removeItem("cart");
-        dispatch(clearCart())
-        dispatch(clearCartAddon())
-      } else {
-        // Case 3: `pid` matches the current `id`
-        localStorage.setItem("comingFromStart", 0);
-        localStorage.setItem("start_concent", true);
-        localStorage.setItem("currentStep", currentStep);
-        dispatch(triggerStep(currentStep));
-        localStorage.removeItem("addonCart");
-        localStorage.removeItem("cart");
-        dispatch(clearCart())
-        dispatch(clearCartAddon())
-      }
+      localStorage.setItem("currentStep", currentStep);
+      dispatch(triggerStep(currentStep));
     }
 
+    localStorage.removeItem("addonCart");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("selectedVariations");
+    localStorage.removeItem("selectedMessages");
+    dispatch(clearCart());
+    dispatch(clearCartAddon());
 
-
+    // Optional: Fetch previous step data
     try {
       const response = await getPrev({ url, clinic_id, product_id: id }).unwrap();
-
-
       const res = response?.data;
       if (res !== null) {
         dispatch(setStepPrevApiData(res));
-        navigate("/consultation-form");
-
       }
     } catch (err) {
-      console.error('Failed to fetch previous steps:', err);
+      console.error("Failed to fetch previous steps:", err);
     }
+
+    setModalOpen(false);
+    setReorderOpen(false);
   };
+
 
   const handleClose = () => {
     setReorderOpen(false);

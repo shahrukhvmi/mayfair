@@ -93,7 +93,7 @@ const Header = () => {
       )}
 
       <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
-        <Link to="/">
+        <Link to="/dashboard">
           <img src="/logo.svg" className="w-36 sm:w-36" alt="Logo" />
         </Link>
       </div>
@@ -112,7 +112,7 @@ const Header = () => {
           {isOpenDrop && (
             <div className="dropdown-menu absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
               <ul className="py-1 list-none">
-                <Link to="/" onClick={toggleDropdown}>
+                <Link to="/dashboard" onClick={toggleDropdown}>
                   <li className="ligt-font px-4 py-2 text-[#1C1C29] hover:bg-gray-100 cursor-pointer">My Account</li>
                 </Link>
                 <Link to="/profile" onClick={toggleDropdown}>
@@ -133,7 +133,7 @@ const Header = () => {
             <p class="hidden md:block">Already have an account?</p>
             <a
               class="inline-flex items-center px-6 py-2 bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150 false ml-4 "
-              href="/"
+              href="/dashboard"
             >
               Login
             </a>
