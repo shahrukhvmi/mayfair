@@ -145,6 +145,12 @@ const Dose = ({
             </div>
           </div>
 
+          <h5 className="font-normal xl:text-[15px] md:text-[12px] mt-3 text-red-600">
+              {doseData?.expiry
+                  ? `Expiry: ${moment(doseData?.expiry).format("DD/MM/YYYY")}`
+                  : ""}
+          </h5>
+
           {/* Price */}
           <span className="font-bold text-md mt-2 block ">
             £{parseFloat(doseData.price).toFixed(2)}
