@@ -13,6 +13,7 @@ import Stepeleven from "./formsteps/Stepeleven";
 import Steptwelve from "./formsteps/Steptwelve";
 import { useDispatch, useSelector } from "react-redux";
 import Stepper from "./Stepper";
+import Footer from "./Footer";
 const Steps = () => {
   const [hideSidebar, setHideSidebar] = useState(false);
 
@@ -89,6 +90,8 @@ const Steps = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </>
   );
 };
