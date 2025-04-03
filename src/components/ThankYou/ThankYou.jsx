@@ -13,7 +13,7 @@ const ThankYou = () => {
   const Navigate = useNavigate();
 
   const handleGoBack = () => {
-    Navigate("/");
+    Navigate("/dashboard");
   };
 
   // useEffect(() => {

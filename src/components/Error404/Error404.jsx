@@ -95,7 +95,7 @@ const Error404 = () => {
         ref={buttonRef}
         className="bg-[#4DB581] text-white px-6 py-3 rounded-md font-medium shadow-xl hover:bg-[#3A8F6F] transform transition-transform duration-300 hover:scale-110 hover:shadow-2xl"
       >
-        <Link to="/">Return to Home</Link>
+        <Link to="/dashboard">Return to Home</Link>
       </button>
     </div>
   );

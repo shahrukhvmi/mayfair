@@ -128,6 +128,8 @@ const MyOrders = () => {
             </span>
             <span class="font-bold">Note</span>
             <span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span>
+            <span class="font-bold">Note</span>
+            <span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span>
           </div>
         </div>
       </div>
@@ -136,34 +138,57 @@ const MyOrders = () => {
         <table className="w-full text-sm text-left text-gray-500 table-auto">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50">
             <tr className="[&>th]:px-3 [&>th]:py-3 [&>th]:whitespace-nowrap">
-              {/* <th scope="col">#</th> */}
               <th scope="col">Order ID</th>
               <th scope="col">Order Date</th>
               <th scope="col">Treatment</th>
               <th scope="col">Variation</th>
-
               <th scope="col">Status</th>
               <th scope="col">Total</th>
-
               <th scope="col">
                 <span className="sr-only">Actions</span>
               </th>
             </tr>
           </thead>
           <tbody>
-            {filteredData?.length === 0 ? (
+            {isLoading ? (
+              // Skeleton Loader
+              [...Array(5)].map((_, index) => (
+                <tr key={index} className="border-b animate-pulse">
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-20"></div>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-24"></div>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-32"></div>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-28"></div>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-20"></div>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-16"></div>
+                  </td>
+                  <td className="px-3 py-3">
+                    <div className="h-4 bg-gray-300 rounded w-10"></div>
+                  </td>
+                </tr>
+              ))
+            ) : filteredData?.length === 0 ? (
               <tr>
                 <td colSpan="7" className="text-center py-4">
                   Orders are not available
                 </td>
               </tr>
             ) : (
-              filteredData?.map((order, index) => (
-                <tr className="border-b dark:border-gray-700 [&>td]:px-3 [&>td]:py-3 [&>td]:whitespace-nowrap">
-                  {/* <th scope="row" className="font-medium text-gray-900 whitespace-nowrap dark:text-white">{index+1}</th> */}
+              filteredData?.map((order) => (
+                <tr key={order.order_id} className="border-b [&>td]:px-3 [&>td]:py-3 [&>td]:whitespace-nowrap">
                   <td>{order.order_id}</td>
                   <td>
-                    <span className="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">{order.created_at}</span>
+                    <span className="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{order.created_at}</span>
                   </td>
                   <td>
                     {Array.from(new Set(order.items.map((item) => item.product))).map((uniqueProduct, index) => (
@@ -172,18 +197,15 @@ const MyOrders = () => {
                       </li>
                     ))}
                   </td>
-
                   <td>
                     {Object.values(
                       order.items.reduce((acc, item) => {
                         const key = item.name;
                         acc[key] = acc[key] || {
-                          name: item.name == "" && item.label == "Pack of 5 Needles" ? "Pack of 5 Needles" : item.name,
+                          name: item.name === "" && item.label === "Pack of 5 Needles" ? "Pack of 5 Needles" : item.name,
                           quantity: 0,
-                          count: 0,
                         };
                         acc[key].quantity += item.quantity;
-                        acc[key].count += 1;
                         return acc;
                       }, {})
                     ).map((groupedItem, index) => (
@@ -192,7 +214,6 @@ const MyOrders = () => {
                       </li>
                     ))}
                   </td>
-
                   <td>
                     <span
                       className={`${
@@ -201,25 +222,23 @@ const MyOrders = () => {
                           : order.status === "Incomplete"
                           ? "bg-orange-100 border-orange-500 text-orange-800"
                           : order.status === "Cancelled"
-                          ? "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300"
+                          ? "bg-red-100 text-red-800"
                           : order.status === "Approved"
                           ? "bg-green-100 border-green-500 text-green-800"
-                          : "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
-                      } text-xs font-medium me-2 px-2.5 py-0.5 rounded-full`}
+                          : "bg-gray-100 text-gray-800"
+                      } text-xs font-medium px-2.5 py-0.5 rounded-full`}
                     >
                       {order.status}
                     </span>
                   </td>
-
                   <td>£{order.total_price}</td>
                   <td>
                     <div className="flex items-center gap-6 justify-around">
-                      {/* View Link */}
                       <div className="group relative">
-                        <Link to={`/orders/${order?.id}`}>
+                        <Link to={`/orders/${order.id}`}>
                           <IoEye size={20} color="indigo" className="group-hover:opacity-75" />
                         </Link>
-                        <div className="hidden whitespace-nowrap group-hover:block absolute bg-gray-800 text-white p-2 rounded shadow-lg text-xs left-[calc(50%-20px)] transform">
+                        <div className="hidden group-hover:block absolute bg-gray-800 text-white p-2 rounded shadow-lg text-xs left-1/2 transform -translate-x-1/2">
                           View
                         </div>
                       </div>

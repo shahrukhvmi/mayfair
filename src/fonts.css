@@ -32,8 +32,8 @@
 }
 
 @font-face {
-  font-family: "Figtree-SemiBold";
-  src: url("../public/font/Figtree/Figtree-SemiBold.ttf") format("opentype");
+  font-family: "Figtree-Bold";
+  src: url("../public/font/Figtree/Figtree-Bold.ttf") format("opentype");
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -89,8 +89,11 @@
   --reg-font: "Inter_28pt-Regular";
   --med-font: "Inter_28pt-Medium";
   --semibold-font: "Inter_28pt-SemiBold";
+  --bold-font: "Inter_28pt-Bold";
   --light-font: "Inter_28pt-Light";
   --figtree-reg: "Figtree-Regular";
+  --figtree-med: "Figtree-Medium";
+  --figtree-bold: "Figtree-Bold";
 }
 
 /* Global class */
@@ -100,6 +103,9 @@
 
 .med-font {
   font-family: var(--med-font) !important;
+}
+.bold-font {
+  font-family: var(--semibold-font) !important;
 }
 
 .semibold-font {
@@ -112,6 +118,13 @@
 
 .figtree-reg {
   font-family: var(--figtree-reg) !important;
+}
+
+.figtree-med {
+  font-family: var(--figtree-med) !important;
+}
+.figtree-bold {
+  font-family: var(--figtree-bold) !important;
 }
 
 body {

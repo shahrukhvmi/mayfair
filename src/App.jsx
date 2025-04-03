@@ -119,10 +119,27 @@ const App = () => {
               }
             />
 
-            {/* Dashboard Routes */}
-            <Route path="/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAccount />} />} />} />
-            <Route path="/orders" element={<ProtectedRoute element={<DashBoardLayout element={<MyOrders />} />} />} />
-            <Route path="/orders/:id" element={<OrderDetails />} />
+              {/* Dashboard Routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute
+                    element={<DashBoardLayout element={<MyAccount />} />}
+                  />
+                }
+              />
+              <Route
+                path="/orders"
+                element={
+                  <ProtectedRoute
+                    element={<DashBoardLayout element={<MyOrders />} />}
+                  />
+                }
+              />
+              <Route
+                path="/orders/:id"
+               element={<OrderDetails />}
+              />
 
             <Route path="/profile" element={<ProtectedRoute element={<DashBoardLayout element={<MyProfile />} />} />} />
             <Route path="/address" element={<ProtectedRoute element={<DashBoardLayout element={<MyAddress />} />} />} />
@@ -168,12 +185,12 @@ const App = () => {
             <Route path="/thank-you" element={<ThankYou />} />
             <Route path="/payment-failed" element={<PaymentFailed />} />
 
-            {/* Fallback Route */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-          <Toaster />
-        </Suspense>
-      </AuthProvider>
+              {/* Fallback Route */}
+              <Route path="*" element={<Navigate to="/dashboard" />} />
+            </Routes>
+            <Toaster />
+          </Suspense>
+        </AuthProvider>
     </div>
   );
 };
