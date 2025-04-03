@@ -65,9 +65,9 @@ const Login = () => {
 
   return (
     <div className="w-full">
-      <div className="p-6">
-        <h2 className="text-xl font-semibold text-center mb-5 lg:mb-10 2xl:text-2xl">
-          Returning Patient
+      <div className="p-4">
+      <h2 className="bold-font text-center mb-5 lg:mb-10 text-xl 2xl:text-2xl">
+          Returning patient
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
           {/* Email Field */}

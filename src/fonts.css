@@ -89,6 +89,7 @@
   --reg-font: "Inter_28pt-Regular";
   --med-font: "Inter_28pt-Medium";
   --semibold-font: "Inter_28pt-SemiBold";
+  --bold-font: "Inter_28pt-Bold";
   --light-font: "Inter_28pt-Light";
   --figtree-reg: "Figtree-Regular";
   --figtree-med: "Figtree-Medium";
@@ -102,6 +103,9 @@
 
 .med-font {
   font-family: var(--med-font) !important;
+}
+.bold-font {
+  font-family: var(--semibold-font) !important;
 }
 
 .semibold-font {
