@@ -7,9 +7,9 @@ import "./sidebar.css";
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
-      className={`sm:m-5 sm:rounded-lg fixed top-0 left-0 lg:relative h-full w-80 bg-[#F9FAFB] p-5 flex flex-col shadow-md transform ${
+      className={`sm:m-5 sm:rounded-lg fixed top-0 left-0 lg:relative h-full w-100 md:w-100 bg-[#F9FAFB] p-5 flex flex-col shadow-md transform ${
         isOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-300 ease-in-out z-50 sm:relative sm:translate-x-0 sm:w-80`}
+      } transition-transform duration-300 ease-in-out z-50 sm:relative sm:translate-x-0 sm:w-100 md:w-100`}
     >
       <div className="flex justify-between p-1 mb-3 md:hidden">
         <div>

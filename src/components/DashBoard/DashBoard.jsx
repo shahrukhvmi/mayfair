@@ -15,7 +15,7 @@ const Dashboard = ({ children }) => {
       <Navbar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
       {/* Main Content Area */}
-      <div className="grid sm:grid-cols-[auto_1fr] h-full">
+      <div className="grid sm:grid-cols-[auto_1fr] lg:grid-cols-[25rem_1fr] 2xl:grid-cols-[31rem_1fr] h-full">
         {/* Sidebar */}
         <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
 
