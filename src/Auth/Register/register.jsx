@@ -62,7 +62,7 @@ const Register = () => {
   return (
     <div className="w-full">
       <div className="p-6">
-        <h2 className="text-xl font-semibold text-center text-[#1C1C29] mb-4">
+        <h2 className="text-xl font-semibold text-center mb-5 lg:mb-10 2xl:text-2xl">
           Register as a new patient
         </h2>
 
