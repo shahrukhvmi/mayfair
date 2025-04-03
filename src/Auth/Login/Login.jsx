@@ -10,6 +10,7 @@ import { useLoginMutation } from "../../store/services/Auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../store/services/Auth/authSlice";
 import { AuthContext } from "../AuthContext";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 const Login = () => {
   const { islogin } = useContext(AuthContext);
@@ -136,18 +137,16 @@ const Login = () => {
             {/* Remember Me */}
             <div className="block mt-4">
               <label className="flex items-center">
-
-
                 <input
                   checked={rememberMe}
                   onChange={(e) => setRememberMe('remember', e.target.checked)}
                   type="checkbox"
-                  className=
-                  "rounded-md bg-violet-700 border-gray-300 text-violet-700 shadow-sm focus:ring-violet-700"
+                  className="rounded-md bg-violet-700 border-gray-300 text-white shadow-sm focus:ring-violet-700"
                 />
-                <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                <span className="ml-2 text-sm text-gray-700">Remember me</span>
               </label>
             </div>
+
 
             {/* Forgot Password */}
             <Link
@@ -164,10 +163,33 @@ const Login = () => {
             <button
               disabled={!isValid || isLoading}
               type="submit"
-              className="inline-flex items-center px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-800 disabled:cursor-not-allowed bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-800 disabled:cursor-not-allowed bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
-              {isLoading ? "Logging in..." : "Login"}
+              {isLoading && (
+                <svg
+                  className="animate-spin h-4 w-4 text-white"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  />
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8v4l3-3-3-3v4a8 8 0 00-8 8z"
+                  />
+                </svg>
+              )}
+              {isLoading ? "" : "Login"}
             </button>
+
           </div>
           <Box
             sx={{
