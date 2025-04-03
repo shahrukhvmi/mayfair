@@ -347,7 +347,7 @@ const Stepsix = ({ setHideSidebar }) => {
         </div>
 
         {/* Navigation */}
-        <div className="mt-10  mb-10 p-5 hidden sm:flex">
+        <div className="mt-10  mb-10 hidden sm:flex">
           <PrevButton label={"Back"} onClick={() => dispatch(prevStep())} />
           <NextButton label={"Next"} onClick={() => dispatch(nextStep())} />
         </div>

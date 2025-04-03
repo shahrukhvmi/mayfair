@@ -7,9 +7,9 @@ const PrevButton = ({ label, onClick }) => {
             <button
                 onClick={onClick}
                 type="button" // Set type to "button" for navigation
-                className="text-gray-600 px-8 py-2 rounded-md font-medium transition-all duration-150 ease-in"
+                className="border border-violet-700 text-violet-700 px-8 py-2 rounded-md font-medium transition-all duration-150 ease-in"
             >
-                <span className="flex items-center">
+                <span className="flex items-center ">
                     {label} {/* Button Label */}
                 </span>
             </button>
