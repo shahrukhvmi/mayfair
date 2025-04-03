@@ -128,8 +128,7 @@ const MyOrders = () => {
             </span>
             <span class="font-bold">Note</span>
             <span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span>
-            <span class="font-bold">Note</span>
-            <span class="mx-2">Changes to your shipping address will only apply to future orders and will not affect previous ones</span>
+            
           </div>
         </div>
       </div>
