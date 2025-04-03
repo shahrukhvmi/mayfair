@@ -25,7 +25,7 @@ const Dose = ({
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [itemToRemove, setItemToRemove] = useState(null);
-
+  const doseStatus = doseData?.stock?.status ?? 1;
   const handleDeleteClick = (dose) => {
     setItemToRemove(dose);
     setShowModal(true);
@@ -89,27 +89,45 @@ const Dose = ({
         {/* Main Card */}
         <div
           onClick={(e) => {
+            if (doseStatus === 0) return;
             onClick(e);
             handleSelected(e);
           }}
           
-          className={`w-full sm:w-48 overflow-hidden variations pt-8 pb-3 px-2 relative bg-white text-center cursor-pointer rounded-tl-md rounded-tr-md duration-300 border-2
-          ${isSelected ? "border-violet-700" : "border-gray-300 hover:border-violet-700"}`}
-        >
+          className={`w-full sm:w-48 overflow-hidden variations pt-8 pb-3 px-2 relative bg-white text-center rounded-tl-md rounded-tr-md duration-300 border-2
+            ${doseStatus === 0 ? "border-gray-300 opacity-50 cursor-not-allowed" :
+              isSelected ? "border-violet-700 cursor-pointer" : "border-gray-300 hover:border-violet-700 cursor-pointer"
+            }`}
+        > 
+          {/* Out of Stock Overlay */}
+          {doseStatus === 0 && (
+            <div className="h-full w-full top-0 left-0 absolute bg-[rgba(119,136,153,0.4)] cursor-not-allowed z-10 thin-font"></div>
+          )}
+
+          {/* Out of Stock Ribbon */}
+          {doseStatus === 0 && (
+            <div className="absolute -right-8 top-5 bg-red-500 text-white px-[30px] text-xs py-1 rounded-tr rotate-45 z-20 thin-font">
+              Out of stock
+            </div>
+          )}
+
           {/* Radio Button in Top Left */}
           <div className="absolute top-3 left-3">
             <input
               type="radio"
               checked={isSelected}
               onChange={handleSelected}
-              className="appearance-none w-5 h-5 border-2 border-gray-400 rounded-full checked:border-violet-700 checked:bg-violet-700 transition-all duration-300 cursor-pointer"
+              disabled={doseStatus === 0}
+              className="appearance-none w-5 h-5 border-2 border-gray-400 rounded-full checked:border-violet-700 checked:bg-violet-700 transition-all duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             />
           </div>
           <div className="absolute top-3 left-3">
             <div
               onClick={handleSelected}
               className={`w-5 h-5 border-2 border-gray-400 rounded-full cursor-pointer flex items-center justify-center transition-all duration-300
-      ${isSelected ? "border-violet-700 bg-violet-700" : "bg-white"}`}
+                ${isSelected ? "border-violet-700 bg-violet-700" : "bg-white"}
+                ${doseStatus === 0 ? "opacity-50 cursor-not-allowed" : ""}
+              `}
             >
               {isSelected && (
                 <FaCheck size={10} color="white" />
@@ -131,8 +149,6 @@ const Dose = ({
           <span className="font-bold text-md mt-2 block ">
             £{parseFloat(doseData.price).toFixed(2)}
           </span>
-
-          {/* Quantity Adjuster */}
 
         </div>
         {isSelected && (
@@ -203,7 +219,8 @@ const Dose = ({
               </span>
             </button>
           )}
-        </div> </div>
+        </div> 
+      </div>
 
       <ConfirmationModal
         showModal={showModal}
