@@ -35,7 +35,7 @@ const ChangeForgotPassword = () => {
             setEmail(emailParam);
         } else {
             toast.error('Invalid or missing token and email.');
-            navigate('/forgot-password');
+            navigate('/forgot-password/');
         }
     }, [location, navigate]);
 
@@ -49,7 +49,7 @@ const ChangeForgotPassword = () => {
             }).unwrap();
 
             toast.success(response.message || 'Password changed successfully!');
-            navigate('/login');
+            navigate('/login/');
         } catch (err) {
             toast.error(err?.data?.errors?.reset_password);
         }

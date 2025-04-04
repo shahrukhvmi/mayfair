@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("stepPrevApiData");
    
     setIsAuthenticated(false);
-    navigate("/login");
+    navigate("/login/");
   };
 
   useEffect(() => {

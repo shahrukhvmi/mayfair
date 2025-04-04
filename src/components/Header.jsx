@@ -60,15 +60,15 @@ const Header = () => {
 
   // Check if the current route is login or register
   const isAuth =
-    location.pathname === "/login" ||
-    location.pathname === "/register" ||
-    location.pathname === "/forgot-password" ||
-    location.pathname === "/change-forgot-password";
+    location.pathname === "/login/" ||
+    location.pathname === "/register/" ||
+    location.pathname === "/forgot-password/" ||
+    location.pathname === "/change-forgot-password/";
 
   const handleLogout = () => {
     setIsOpenDrop(false);
     logout();
-    navigate("/login");
+    navigate("/login/");
   };
 
   return (
