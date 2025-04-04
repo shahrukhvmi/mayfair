@@ -43,7 +43,7 @@ const Login = () => {
         );
         toast.success("Login successful!");
         islogin(response?.data?.token);
-        navigate("/dashboard");
+        navigate("/dashboard/");
         window.location.reload();
       } else {
         toast.error("Invalid login response");
@@ -150,7 +150,7 @@ const Login = () => {
 
             {/* Forgot Password */}
             <Link
-              to="/forgot-password"
+              to="/forgot-password/"
               className="text-sm text-gray-600 hover:text-violet-700"
             >
               Forgot your password?

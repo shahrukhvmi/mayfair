@@ -498,7 +498,7 @@ const OrderDetails = () => {
 
         {/* Back Button */}
         <div className="flex justify-start">
-          <Link to="/orders">
+          <Link to="/orders/">
             <button className="px-6 py-2 bg-violet-700 text-white rounded-md hover:bg-violet-700 transition">
               Back
             </button>

@@ -23,7 +23,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
 
       <nav className="space-y-2">
         <NavLink
-          to="/dashboard"
+          to="/dashboard/"
           className={({ isActive }) =>
             `flex items-center p-2 rounded-md tab-home ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
@@ -38,7 +38,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </NavLink>
 
         <NavLink
-          to="/orders"
+          to="/orders/"
           className={({ isActive }) =>
             `flex items-center p-2 rounded-md tab-orders ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
           }
@@ -53,7 +53,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </NavLink>
 
         <NavLink
-          to="/profile"
+          to="/profile/"
           className={({ isActive }) =>
             `flex items-center p-2 rounded-md  tab-profile ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827]"}`
           }
@@ -68,7 +68,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </NavLink>
 
         <NavLink
-          to="/address"
+          to="/address/"
           className={({ isActive }) =>
             `flex items-center p-2 rounded-md  tab-address ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
@@ -83,7 +83,7 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
         </NavLink>
 
         <NavLink
-          to="/change-password"
+          to="/change-password/"
           className={({ isActive }) =>
             `flex items-center p-2 rounded-md  tab-password ${isActive ? "bg-[#7c3aed] text-white active-tab" : "hover:bg-gray-200 text-[#111827] "}`
           }
