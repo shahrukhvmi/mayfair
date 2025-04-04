@@ -367,7 +367,7 @@ const Stepone = ({ setHideSidebar }) => {
           rules={{ required: "Phone number is required" }}
           render={({ field }) => (
             <div className="w-full sm:w-1/2">
-              <label htmlFor="" className="font-medium text-md text-gray-700 mb-1 block">
+              <label htmlFor="" className="font-medium text-md text-gray-700 mb-2 block">
                 Phone Number
               </label>
               <PhoneInput
@@ -445,7 +445,7 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="grid grid-cols-1 sm:grid-cols-2 sm:gap-6 gap-2 items-start">
           {/* Gender Selection */}
           <div className="my-4 sm:m-0">
-            <p className="font-medium text-md text-gray-700 sm:mb-2">What is your gender?*</p>
+            <p className="font-medium text-md text-gray-700 mb-2">What is your gender?*</p>
             <div className="flex gap-4">
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
@@ -545,7 +545,7 @@ const Stepone = ({ setHideSidebar }) => {
             )}
           </div>
           <div>
-            <p className="font-medium text-md text-gray-700 sm:mb-2">What is your date of birth?*</p>
+            <p className="font-medium text-md text-gray-700 mb-2">What is your date of birth?*</p>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <Controller
                 name="dateOfBirth"

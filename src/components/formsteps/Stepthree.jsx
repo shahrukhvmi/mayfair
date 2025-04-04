@@ -159,9 +159,8 @@ const Stepthree = ({ setHideSidebar }) => {
           return (
             <div
               key={q.id}
-              className={`mb-8 flex justify-between field | border rounded-md p-3 flex-col lg:flex-row items-start gap-5 lg:gap-10 ${
-                errorMessages[q.id] ? "border-red-300" : "border-gray-300"
-              }`}
+              className={`mb-8 flex justify-between field | border rounded-md p-3 flex-col lg:flex-row items-start gap-5 lg:gap-10 ${errorMessages[q.id] ? "border-red-300" : "border-gray-300"
+                }`}
             >
               <div className="font-reg md:text-sm text-[#1C1C29]">
                 {/ul|li/.test(q.content) ? (
@@ -192,9 +191,8 @@ const Stepthree = ({ setHideSidebar }) => {
                   <div>
                     <label
                       key={option}
-                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${
-                        selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"
-                      }`}
+                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"
+                        }`}
                     >
                       <Controller
                         name={`responses[${q.id}].answer`}
@@ -242,13 +240,20 @@ const Stepthree = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 disabled={!isNextEnabled || isLoading}
-                className={`p-3 flex flex-col items-center justify-center ${
-                  !isNextEnabled || isLoading
+                className={`p-3 flex flex-col items-center justify-center ${!isNextEnabled || isLoading
                     ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                     : "text-white rounded-md bg-violet-700"
-                }`}
+                  }`}
               >
-                <span className="text-md font-semibold px-6">Next</span>
+                {isLoading ? (
+                  // Loading Spinner with Label
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span></span>
+                  </div>
+                ) : (
+                  <span className="text-md font-semibold px-6">Next</span>
+                )}
               </button>
             </div>
           </div>

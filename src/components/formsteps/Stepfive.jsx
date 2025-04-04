@@ -293,11 +293,10 @@ const Stepfive = ({ setHideSidebar }) => {
               <div className="flex gap-4 flex-col sm:flex-row">
                 <label
                   htmlFor="gepTreatMentYes"
-                  className={`${
-                    gepTreatMent === "yes"
-                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                  }`}
+                  className={`${gepTreatMent === "yes"
+                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                    }`}
                 >
                   Yes - Please inform my GP {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
                   <input
@@ -313,11 +312,10 @@ const Stepfive = ({ setHideSidebar }) => {
 
                 <label
                   htmlFor="gepTreatMentNo"
-                  className={`${
-                    gepTreatMent === "no"
-                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                  }`}
+                  className={`${gepTreatMent === "no"
+                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                    }`}
                 >
                   No – I will inform my GP prior to starting treatment{" "}
                   {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
@@ -519,13 +517,20 @@ const Stepfive = ({ setHideSidebar }) => {
               {/* Proceed Button */}
               <button
                 type="submit"
-                className={`p-3 flex flex-col items-center justify-center ${
-                  !isValid || isLoading
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
-                }`}
+                className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
+                  }`}
               >
-                <span className="text-md font-semibold px-6">Next</span>
+                {isLoading ? (
+                  // Loading Spinner with Label
+                  <div className="flex items-center space-x-2">
+                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <span></span>
+                  </div>
+                ) : (
+                  <span className="text-md font-semibold px-6">Next</span>
+                )}
               </button>
             </div>
           </div>
