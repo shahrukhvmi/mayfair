@@ -35,7 +35,7 @@ const ChangeForgotPassword = () => {
             setEmail(emailParam);
         } else {
             toast.error('Invalid or missing token and email.');
-            navigate('/forgot-password');
+            navigate('/forgot-password/');
         }
     }, [location, navigate]);
 
