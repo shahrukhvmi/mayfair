@@ -610,15 +610,15 @@ const Stepeight = ({ setHideSidebar }) => {
 
       if (response?.status === true) {
         dispatch(setStep6(response?.lastConsultation?.fields.checkout));
-        localStorage.removeItem("step2");
-        localStorage.removeItem("cart");
-        localStorage.removeItem("addonCart");
-        localStorage.removeItem("progress");
-        localStorage.removeItem("currentStep");
-        localStorage.removeItem("discountCode");
-        localStorage.removeItem("isCouponApplied");
-        localStorage.removeItem("discountType");
-        localStorage.removeItem("discountAmount");
+        // localStorage.removeItem("step2");
+        // localStorage.removeItem("cart");
+        // localStorage.removeItem("addonCart");
+        // localStorage.removeItem("progress");
+        // localStorage.removeItem("currentStep");
+        // localStorage.removeItem("discountCode");
+        // localStorage.removeItem("isCouponApplied");
+        // localStorage.removeItem("discountType");
+        // localStorage.removeItem("discountAmount");
         // <PaymentPage paymentData={response?.paymentData} />
         setPaymentData(response?.paymentData);
         console.log(response?.paymentData, "response?.paymentData")
