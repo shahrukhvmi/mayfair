@@ -368,7 +368,7 @@ const Steptwo = ({ setHideSidebar }) => {
   const getPid = localStorage.getItem("pid");
 
   const onSubmit = async (data) => {
-    const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
+    const reorderStatus = JSON.parse(localStorage.getItem("reorder"));
 
     const BMI = {
       unit: unit,
