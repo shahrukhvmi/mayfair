@@ -26,7 +26,7 @@ const Steps = () => {
   useEffect(() => {
     if (!productId) {
       // Redirect to home or product list if product_id is missing
-      navigate("/dashboard", { replace: true });
+      navigate("/dashboard/", { replace: true });
     }
   }, [productId, navigate]);
 

@@ -368,7 +368,7 @@ const Steptwo = ({ setHideSidebar }) => {
   const getPid = localStorage.getItem("pid");
 
   const onSubmit = async (data) => {
-    const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
+    const reorderStatus = JSON.parse(localStorage.getItem("reorder"));
 
     const BMI = {
       unit: unit,
@@ -779,7 +779,7 @@ const Steptwo = ({ setHideSidebar }) => {
                   </div>
 
                   {/* Checkbox 1 */}
-                  <Box mb={3} className>
+                  <Box mb={3} className="mx-1">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -787,12 +787,12 @@ const Steptwo = ({ setHideSidebar }) => {
                           onChange={handleCheckboxChange}
                           name="checkbox1"
                           icon={
-                            <span className=" w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center ">
+                            <span className=" w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center ">
                               <span className="hidden"></span> {/* Hidden by default */}
                             </span>
                           }
                           checkedIcon={
-                            <span className="w-5 h-5 rounded-full bg-green-500 border-2 border-green-500 flex items-center justify-center">
+                            <span className="w-4 h-4 rounded-full bg-violet-700 border-2 border-violet-700 flex items-center justify-center">
                               <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
@@ -807,7 +807,7 @@ const Steptwo = ({ setHideSidebar }) => {
                   </Box>
 
                   {/* Checkbox 2 */}
-                  <Box mb={3}>
+                  <Box mb={3} className="mx-1">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -815,12 +815,12 @@ const Steptwo = ({ setHideSidebar }) => {
                           onChange={handleCheckboxChange}
                           name="checkbox2"
                           icon={
-                            <span className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                            <span className="w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center">
                               <span className="hidden"></span>
                             </span>
                           }
                           checkedIcon={
-                            <span className="w-5 h-5 rounded-full bg-green-500 border-2 border-green-500 flex items-center justify-center">
+                            <span className="w-4 h-4 rounded-full bg-violet-700 border-2 border-violet-700 flex items-center justify-center">
                               <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
@@ -835,7 +835,7 @@ const Steptwo = ({ setHideSidebar }) => {
 
                   {/* Explanation TextArea for Checkbox 2 */}
                   {checkboxState.checkbox2 && (
-                    <Box mb={3}>
+                    <Box mb={3} className="mx-1">
                       <Controller
                         name="weight_related_comorbidity_explanation"
                         control={control}
@@ -860,7 +860,7 @@ const Steptwo = ({ setHideSidebar }) => {
                     </Box>
                   )}
 
-                  <Box mb={3}>
+                  <Box mb={3} className="mx-1">
                     <FormControlLabel
                       control={
                         <Checkbox
@@ -868,12 +868,12 @@ const Steptwo = ({ setHideSidebar }) => {
                           onChange={handleNonOfTheAbove}
                           name="checkbox1"
                           icon={
-                            <span className="w-5 h-5 border-2 border-gray-300 rounded-full flex items-center justify-center">
+                            <span className="w-4 h-4 border-2 border-gray-300 rounded-full flex items-center justify-center">
                               <span className="hidden"></span> {/* Hidden by default */}
                             </span>
                           }
                           checkedIcon={
-                            <span className="w-5 h-5 rounded-full bg-green-500 border-2 border-green-500 flex items-center justify-center">
+                            <span className="w-4 h-4 rounded-full bg-violet-700 border-2 border-violet-700 flex items-center justify-center">
                               <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5 13l4 4L19 7" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                               </svg>
@@ -885,7 +885,7 @@ const Steptwo = ({ setHideSidebar }) => {
                       label={"Non of the above"}
                       classes={{ label: "ml-2 font-medium text-gray-800" }}
                     />
-                    <p className="text-red-600 font-normal  text-md">
+                    <p className="text-red-600 font-normal  text-sm">
                       {nonOfTheAbove
                         ? "Your BMI in this range, weight loss treatment can only be prescribed if you have either previously taken weight loss medication, or your have at least one weight-related medical condition."
                         : false}
@@ -1028,7 +1028,7 @@ const Steptwo = ({ setHideSidebar }) => {
               {errorMessage && lastConsultation?.isReturning === false && (
                 <div
                   id="alert-border-4"
-                  className="flex items-center p-4 sm:mb-4 text-red-600 border-t-4  bg-red-50  border-red-600 rounded-md mb-30"
+                  className="flex items-center p-4 sm:mb-4 text-red-600 border-t-4  bg-red-50  border-red-600 rounded-md mb-30 sm:ml-8 w-full"
                   role="alert"
                 >
                   <svg

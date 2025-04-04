@@ -85,7 +85,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
 
       {/* Logo */}
       <div className="w-32 sm:w-40">
-        <Link to="/dashboard">
+        <Link to="/dashboard/">
           <img src="/logo.svg" className="w-32 sm:w-40" alt="Logo" />
         </Link>
       </div>
@@ -104,10 +104,10 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
           <div className="dropdown-menu absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-50">
             <ul className="py-1">
               <li className="ligt-font px-4 py-2 text-[#1C1C29] hover:bg-gray-100 cursor-pointer">
-                <Link to="/dashboard" onClick={toggleDropdown}>My Account</Link>
+                <Link to="/dashboard/" onClick={toggleDropdown}>My Account</Link>
               </li>
               <li className="ligt-font px-4 py-2 text-[#1C1C29] hover:bg-gray-100 cursor-pointer">
-                <Link to="/profile" onClick={toggleDropdown}>
+                <Link to="/profile/" onClick={toggleDropdown}>
                   My Profile
                 </Link>
               </li>

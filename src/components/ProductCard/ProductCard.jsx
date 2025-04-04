@@ -102,7 +102,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     localStorage.removeItem("modalOpened");
 
     // Navigate using React Router
-    navigate(`/consultation-form?product_id=${pid}`);
+    navigate(`/consultation-form/?product_id=${pid}`);
 
     // Handle reordering or normal start...
     if (reorder) {

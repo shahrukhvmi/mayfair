@@ -71,7 +71,7 @@ const App = () => {
           <Routes>
             {/* Auth Routes */}
             <Route
-              path="/login"
+              path="/login/"
               element={
                 <PublicRoute
                   element={
@@ -83,7 +83,7 @@ const App = () => {
               }
             />
             <Route
-              path="/register"
+              path="/register/"
               element={
                 <PublicRoute
                   element={
@@ -95,7 +95,7 @@ const App = () => {
               }
             />
             <Route
-              path="/forgot-password"
+              path="/forgot-password/"
               element={
                 <PublicRoute
                   element={
@@ -107,7 +107,7 @@ const App = () => {
               }
             />
             <Route
-              path="/change-forgot-password"
+              path="/change-forgot-password/"
               element={
                 <PublicRoute
                   element={
@@ -121,7 +121,7 @@ const App = () => {
 
               {/* Dashboard Routes */}
               <Route
-                path="/dashboard"
+                path="/dashboard/"
                 element={
                   <ProtectedRoute
                     element={<DashBoardLayout element={<MyAccount />} />}
@@ -129,7 +129,7 @@ const App = () => {
                 }
               />
               <Route
-                path="/orders"
+                path="/orders/"
                 element={
                   <ProtectedRoute
                     element={<DashBoardLayout element={<MyOrders />} />}
@@ -137,15 +137,15 @@ const App = () => {
                 }
               />
               <Route
-                path="/orders/:id"
+                path="/orders/:id/"
                element={<OrderDetails />}
               />
 
-            <Route path="/profile" element={<ProtectedRoute element={<DashBoardLayout element={<MyProfile />} />} />} />
-            <Route path="/address" element={<ProtectedRoute element={<DashBoardLayout element={<MyAddress />} />} />} />
-            <Route path="/change-password" element={<ProtectedRoute element={<DashBoardLayout element={<ChangePassword />} />} />} />
+            <Route path="/profile/" element={<ProtectedRoute element={<DashBoardLayout element={<MyProfile />} />} />} />
+            <Route path="/address/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAddress />} />} />} />
+            <Route path="/change-password/" element={<ProtectedRoute element={<DashBoardLayout element={<ChangePassword />} />} />} />
             <Route
-              path="/consultation-form"
+              path="/consultation-form/"
               element={
                 <ProtectedRoute
                   element={
@@ -182,11 +182,11 @@ const App = () => {
                 }
               /> */}
 
-            <Route path="/thank-you" element={<ThankYou />} />
-            <Route path="/payment-failed" element={<PaymentFailed />} />
+            <Route path="/thank-you/" element={<ThankYou />} />
+            <Route path="/payment-failed/" element={<PaymentFailed />} />
 
               {/* Fallback Route */}
-              <Route path="*" element={<Navigate to="/dashboard" />} />
+              <Route path="*" element={<Navigate to="/dashboard/" />} />
             </Routes>
             <Toaster />
           </Suspense>

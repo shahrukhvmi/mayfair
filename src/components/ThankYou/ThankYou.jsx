@@ -13,7 +13,7 @@ const ThankYou = () => {
   const Navigate = useNavigate();
 
   const handleGoBack = () => {
-    Navigate("/dashboard");
+    Navigate("/dashboard/");
     localStorage.removeItem("step2");
     localStorage.removeItem("cart");
     localStorage.removeItem("addonCart");
