@@ -33,6 +33,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("discountAmount");
     localStorage.removeItem("selectedMessages");
     localStorage.removeItem("selectedVariations");
+    localStorage.removeItem("step1");
+    localStorage.removeItem("step1");
+    localStorage.removeItem("step2");
+    localStorage.removeItem("step3");
+    localStorage.removeItem("step4");
+    localStorage.removeItem("step5");
+    localStorage.removeItem("step6");
+    localStorage.removeItem("stepPrevApiData");
+   
     setIsAuthenticated(false);
     navigate("/login");
   };
