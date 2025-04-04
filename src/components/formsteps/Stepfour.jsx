@@ -161,13 +161,20 @@ const Stepfour = ({ setHideSidebar }) => {
                   type="submit"
                   // onClick={() => dispatch(nextStep())}
                   disabled={!isValid || loader}
-                  className={`p-3 flex flex-col items-center justify-center ${
-                    !isValid || loader
+                  className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
                       ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                       : "text-white rounded-md bg-violet-700"
-                  }`}
+                    }`}
                 >
-                  <span className="text-md font-semibold px-6">Next</span>
+                  {loader ? (
+                    // Loading Spinner with Label
+                    <div className="flex items-center space-x-2">
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span></span>
+                    </div>
+                  ) : (
+                    <span className="text-md font-semibold px-6">Next</span>
+                  )}
                 </button>
               </div>
             </div>

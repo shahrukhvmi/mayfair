@@ -22,7 +22,7 @@ const MyAccount = () => {
   const { data, error, isLoading } = useGetProductsQuery();
 
   return (
-    <div className="p-10 sm:bg-gray-50 sm:min-h-screen sm:rounded-lg sm:shadow-md my-5">
+    <div className="p-5 sm:p-10 sm:bg-gray-50 sm:min-h-screen sm:rounded-lg sm:shadow-md my-5">
       {/* ✅ Reorder Treatment Section */}
       {isLoading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -66,7 +66,7 @@ const ChangePassword = () => {
     <div className="p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 sm:me-5">
       <div className="">
         <h1 className="md:text-2xl text-2xl mb-2 font-semibold">Update Password</h1>
-        <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">Ensure your account is using a long, random password to stay secure.</p>
+        <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mb-4 sm:mb-0 sm:mt-2">Ensure your account is using a long, random password to stay secure.</p>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-row w-full flex-wrap items-center justify-start">
             <div className="md:w-1/2 relative w-full">
