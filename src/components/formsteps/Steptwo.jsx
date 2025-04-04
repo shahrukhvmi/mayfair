@@ -404,11 +404,11 @@ const Steptwo = ({ setHideSidebar }) => {
       if (response?.status === true) {
         dispatch(setStep2(response?.lastConsultation?.fields?.bmi));
 
-        if (reorderStatus === false) {
+        if (reorderStatus === true) {
           dispatch(triggerStep(7));
           return;
         }
-        if (reorderStatus === true) {
+        if (reorderStatus === false) {
           dispatch(nextStep());
         } else {
           dispatch(nextStep());
