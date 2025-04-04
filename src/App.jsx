@@ -182,6 +182,11 @@ const App = () => {
                 }
               /> */}
 
+
+
+              
+
+
             <Route path="/thank-you/" element={<ThankYou />} />
             <Route path="/payment-failed/" element={<PaymentFailed />} />
 
