@@ -49,7 +49,7 @@ const ChangeForgotPassword = () => {
             }).unwrap();
 
             toast.success(response.message || 'Password changed successfully!');
-            navigate('/login');
+            navigate('/login/');
         } catch (err) {
             toast.error(err?.data?.errors?.reset_password);
         }

@@ -68,7 +68,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsOpenDrop(false);
     logout();
-    navigate("/login");
+    navigate("/login/");
   };
 
   return (

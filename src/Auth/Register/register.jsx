@@ -35,7 +35,7 @@ const Register = () => {
         company_id,
       }).unwrap();
       toast.success(response?.message);
-      // navigate("/login");
+      // navigate("/login/");
       islogin(response?.data?.token);
 
       navigate("/dashboard/");
