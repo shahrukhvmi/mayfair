@@ -123,7 +123,7 @@ const MyProfile = () => {
     );
   }
   return (
-    <div className="p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 me-5">
+    <div className="p-6 sm:bg-[#F9FAFB] sm:min-h-screen sm:rounded-md sm:shadow-md my-5 sm:me-5">
       <div className="mb-8">
         <h2 className="md:text-xl text-lg mb-2 font-semibold">Profile Information</h2>
         <p className="reg-font text-gray-600 text-left text-sm xl:w-3/4 mt-2">Update your account's profile information and email address.</p>
