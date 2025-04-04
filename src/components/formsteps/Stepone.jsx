@@ -15,6 +15,8 @@ import { useFetchAddressesQuery } from "../../store/services/addressApi/addressA
 import toast from "react-hot-toast";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import NextButton from "../NextBtn/NextButton";
+import { useLocation } from "react-router-dom";
+
 const Stepone = ({ setHideSidebar }) => {
   setHideSidebar(false);
   useEffect(() => {
@@ -23,6 +25,17 @@ const Stepone = ({ setHideSidebar }) => {
       behavior: "smooth", // You can change to "auto" for instant scrolling
     });
   }, []);
+
+  const location = useLocation();
+
+  // Parse the query string
+  const searchParams = new URLSearchParams(location.search);
+  const productId = searchParams.get("product_id");
+
+  useEffect(() => {
+    console.log("Product ID from query:", productId);
+    // you can now use productId to fetch data or set state
+  }, [productId]);
 
   // changes done on live..??
   const dispatch = useDispatch();
@@ -54,6 +67,7 @@ const Stepone = ({ setHideSidebar }) => {
     watch,
     setValue,
     trigger,
+    getValues,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange", // Validation mode
@@ -97,6 +111,18 @@ const Stepone = ({ setHideSidebar }) => {
       setValue("streetAddress2", prevStep1?.address?.addresstwo || "" || lastConsultation?.address?.addresstwo);
       setValue("city", prevStep1?.address?.city || "" || lastConsultation?.address?.city);
       // setValue("country", lastConsultation.address?.country || "");
+
+      const dob = getValues("dateOfBirth");
+      if (!dob) {
+        setDobError("Date of birth is required");
+      } else {
+        const age = today.diff(dob, "year");
+        if (age < 18) {
+          setDobError("You must be at least 18 years old");
+        } else {
+          setDobError("");
+        }
+      }
 
       setValue("state", prevStep1?.address?.state || "" || lastConsultation?.address?.state);
       trigger([
@@ -219,12 +245,32 @@ const Stepone = ({ setHideSidebar }) => {
 
     const age = today.diff(date, "year");
 
-    if (age < 18) {
-      setDobError("You must be at least 18 years old");
-      setValue("dateOfBirth", date);
+    console.log(age, "Aaaggeeeeee");
+
+    if (productId == 1) {
+      if (age < 18) {
+        setDobError("You must be at least 18 years old");
+        setValue("dateOfBirth", date); // ❗️clear the form value to make button disabled
+      } else if (age > 75) {
+        setDobError("Wegovy (Semaglutude) is not recommended for individuals above 75 years of age");
+        setValue("dateOfBirth", date); // ❗️clear the form value to make button disabled
+      } else {
+        setDobError("");
+        setValue("dateOfBirth", date);
+      }
+    } else if (productId == 4) {
+      if (age < 18) {
+        setDobError("You must be at least 18 years old");
+        setValue("dateOfBirth", date); // ❗️clear the form value to make button disabled
+      } else if (age > 85) {
+        setDobError("Mounjaro (Tirzepatide) is not recommended for individuals above 85 years of age");
+        setValue("dateOfBirth", date); // ❗️clear the form value to make button disabled
+      } else {
+        setDobError("");
+        setValue("dateOfBirth", date);
+      }
     } else {
       setDobError("");
-      // const formattedDate = moment(date).format("DD-MM-YYYY");
       setValue("dateOfBirth", date);
     }
   };
@@ -555,9 +601,12 @@ const Stepone = ({ setHideSidebar }) => {
                   <DatePicker
                     label=" "
                     value={field.value ? dayjs(field.value) : null}
-                    onChange={(date) => handleDateChange(date)}
+                    onChange={(date) => {
+                      handleDateChange(date);
+                      field.onChange(date);
+                    }}
                     maxDate={today}
-                    sx={textFieldStyles}
+                    sx={{ textFieldStyles, marginTop: "0px" }}
                     slotProps={{
                       textField: {
                         variant: "outlined",
@@ -846,7 +895,11 @@ const Stepone = ({ setHideSidebar }) => {
         <div className="hidden justify-start sm:flex">
           <div className="mt-2 sm:max-w-40">
             <div className="text-center">
-              <NextButton disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage} label={"Next"} loading={loader} />
+              <NextButton
+                disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError}
+                label={"Next"}
+                loading={loader}
+              />
             </div>
           </div>
         </div>
@@ -856,9 +909,9 @@ const Stepone = ({ setHideSidebar }) => {
             <div className="relative flex w-full justify-end items-center">
               <button
                 type="submit"
-                disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage}
+                disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError}
                 className={`p-3 flex flex-col items-center justify-center ${
-                  !isValid || loader || error || !selectedEthnicity || WarningMessage
+                  !isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError
                     ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                     : "text-white rounded-md bg-violet-700"
                 }`}
