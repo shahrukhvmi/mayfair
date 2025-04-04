@@ -368,7 +368,7 @@ const Steptwo = ({ setHideSidebar }) => {
   const getPid = localStorage.getItem("pid");
 
   const onSubmit = async (data) => {
-    const reorderStatus = JSON.parse(localStorage.getItem("reorder"));
+    const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
 
     const BMI = {
       unit: unit,
@@ -404,11 +404,11 @@ const Steptwo = ({ setHideSidebar }) => {
       if (response?.status === true) {
         dispatch(setStep2(response?.lastConsultation?.fields?.bmi));
 
-        if (reorderStatus === true) {
+        if (reorderStatus === false) {
           dispatch(triggerStep(7));
           return;
         }
-        if (reorderStatus === false) {
+        if (reorderStatus === true) {
           dispatch(nextStep());
         } else {
           dispatch(nextStep());
@@ -1050,7 +1050,7 @@ const Steptwo = ({ setHideSidebar }) => {
               <>
                 <div
                   id="alert-border-4"
-                  class="flex items-center p-4 mb-4 text-red-600 border-t-4 bg-red-50  border-red-600 rounded-md mb-30"
+                  class="flex items-center p-4 mb-4 text-red-600 border-t-4 bg-red-50  border-red-600 rounded-md mb-30 w-full ml-8"
                   role="alert"
                 >
                   <div class="ms-3 text-sm font-medium">
