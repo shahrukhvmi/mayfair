@@ -14,6 +14,15 @@ const ThankYou = () => {
 
   const handleGoBack = () => {
     Navigate("/dashboard");
+    localStorage.removeItem("step2");
+    localStorage.removeItem("cart");
+    localStorage.removeItem("addonCart");
+    localStorage.removeItem("progress");
+    localStorage.removeItem("currentStep");
+    localStorage.removeItem("discountCode");
+    localStorage.removeItem("isCouponApplied");
+    localStorage.removeItem("discountType");
+    localStorage.removeItem("discountAmount");
   };
 
   // useEffect(() => {
