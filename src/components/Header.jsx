@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { MdEmail } from "react-icons/md";
 import { logout } from "../store/services/Auth/authSlice";
 import { AuthContext } from "../Auth/AuthContext";
+import ApplicationLogo from "../config/ApplicationLogo";
+import ApplicationUser from "../config/ApplicationUser";
 
 const Header = () => {
   const [isOpenDrop, setIsOpenDrop] = useState(false);
@@ -28,7 +30,7 @@ const Header = () => {
         const userName = data?.profile?.user;
         setUserData(userName == null ? "" : userName);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     fetchUserData();
@@ -94,7 +96,7 @@ const Header = () => {
 
       <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
         <Link to="/dashboard/">
-          <img src="/logo.svg" className="w-36 sm:w-36" alt="Logo" />
+          <ApplicationLogo className="w-36 sm:w-36" />
         </Link>
       </div>
 
@@ -103,8 +105,8 @@ const Header = () => {
         <div className="relative ml-auto">
           {/* Dropdown Trigger */}
           <div className="flex items-center space-x-2 cursor-pointer" onClick={toggleDropdown}>
-            <img src="/images/user.png" alt="User Avatar" className="w-10 h-10 rounded-full" />
-
+            {/* <img src="/images/user.png" alt="User Avatar" className="w-10 h-10 rounded-full" /> */}
+            <ApplicationUser className="w-10 h-10 rounded-full" />
             <span className="reg-font text-[#1C1C29] truncate">{name && name.fname && name.lname ? `${name.fname} ${name.lname}` : ""}</span>
           </div>
 

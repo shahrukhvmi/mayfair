@@ -4,6 +4,7 @@ import { FiX } from "react-icons/fi";
 import { HiLocationMarker, HiOutlineLockClosed, HiShoppingBag, HiUser } from "react-icons/hi";
 import { GiMedicines } from "react-icons/gi";
 import "./sidebar.css";
+import ApplicationLogo from "../../config/ApplicationLogo";
 const Sidebar = ({ isOpen, toggleSidebar }) => {
   return (
     <div
@@ -13,7 +14,10 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
     >
       <div className="flex justify-between p-1 mb-3 md:hidden">
         <div>
-          <img src="/logo.svg" alt="logo" width={150} />
+          {/* <img src="/logo.svg" alt="logo" width={150} /> */}
+          <ApplicationLogo className="w-32 sm:w-40"  />
+
+          
         </div>
 
         <div className="align-middle ms-2 pt-2 text-2xl text-[#7c3aed]" onClick={toggleSidebar}>
