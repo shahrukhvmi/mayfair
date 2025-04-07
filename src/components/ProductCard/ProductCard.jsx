@@ -29,60 +29,73 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
 
 
   useEffect(() => {
-    if (modalOpenedRef.current) return;
+    if (!modalOpenedRef.current) {
+      const params = new URLSearchParams(location.search);
+      const productId = params.get("product_id");
+      const previousId = localStorage.getItem("previous_id");
   
-    const params = new URLSearchParams(location.search);
-    const productId = params.get("product_id");
-    const previousId = localStorage.getItem("previous_id");
-    const pid = localStorage.getItem("pid");
-  
-    const isMatchingId = String(productId) === String(id);
-    const shouldOpenFromURL = productId && isMatchingId && !localStorage.getItem("modalOpened");
-    const shouldOpenFromPID = !productId && String(pid) === String(id) && !localStorage.getItem("modalOpened");
-  
-    if (previousId !== productId) {
-      localStorage.removeItem("modalOpened");
-    }
-  
-    if (shouldOpenFromURL || shouldOpenFromPID) {
-      if (productId) {
-        localStorage.setItem("previous_id", productId);
-        localStorage.setItem("pid", productId);
+      // Clear modalOpened if different product
+      if (previousId && previousId !== productId) {
+        localStorage.removeItem("modalOpened");
       }
   
-      localStorage.setItem("modalOpened", "true");
+      const shouldOpenModal =
+        (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) ||
+        (previousId && String(previousId) === String(id));
   
-      reorder ? setReorderOpen(true) : setModalOpen(true);
-      modalOpenedRef.current = true;
+      if (shouldOpenModal) {
+        const pidToSet = productId || previousId;
+  
+        localStorage.setItem("previous_id", pidToSet);
+        localStorage.setItem("pid", pidToSet);
+        localStorage.setItem("modalOpened", "true");
+  
+        reorder ? setReorderOpen(true) : setModalOpen(true);
+        modalOpenedRef.current = true;
+      } else if (!productId) {
+        // ✅ only remove pid if no productId in URL
+        localStorage.removeItem("pid");
+      }
     }
-  
-    // Optional: clean up pid if nothing matches
-    // if (!productId && !shouldOpenFromPID) {
-    //   localStorage.removeItem("pid");
-    // }
   }, [location.search, reorder, id]);
   
 
-
   const navigate = useNavigate()
+
   const handleClick = () => {
-    localStorage.setItem("pid", id); 
-  
+    // localStorage.removeItem("previous_id")
     if (reorder) {
       localStorage.setItem("reorder", true);
       setReorderOpen(true);
+      // localStorage.setItem("pid", id);
+      // localStorage.setItem("comingFromStart", 0);
+      // localStorage.setItem("start_concent", true);
+      // localStorage.setItem("currentStep", 1);
+      // dispatch(triggerStep(1));
+      // dispatch(clearCart())
+      // dispatch(clearCartAddon())
+      // localStorage.removeItem("addonCart");
+      // localStorage.removeItem("cart");
     } else {
       localStorage.setItem("reorder", false);
       setModalOpen(true);
+      // localStorage.setItem("comingFromStart", 0);
+      // localStorage.setItem("start_concent", true);
+      // localStorage.setItem("currentStep", currentStep);
+      // dispatch(triggerStep(currentStep));
+      // localStorage.removeItem("addonCart");
+      // localStorage.removeItem("cart");
+      // dispatch(clearCart())
+      // dispatch(clearCartAddon())
     }
   };
-  
   // post pid or save preApiData 
   const [getPrev, { data, error, isLoading }] = useGetPrevsMutation();
   const clinic_id = 1;
   const url = import.meta.env.VITE_BASE_URL;
 
   const handleConfirm = async () => {
+    localStorage.removeItem("previous_id");
     const pid = Number(localStorage.getItem("pid")) || id;
     const currentStep = Number(localStorage.getItem("currentStep")) || 1;
     const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
@@ -102,14 +115,17 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     if (reorder) {
       if (reorderStatus) {
         localStorage.setItem("currentStep", 1);
+        localStorage.removeItem("previous_id")
         dispatch(triggerStep(1));
       } else {
         localStorage.setItem("currentStep", 2);
+        localStorage.removeItem("previous_id")
         dispatch(triggerStep(2));
       }
     } else {
       localStorage.setItem("currentStep", currentStep);
       dispatch(triggerStep(currentStep));
+      localStorage.removeItem("previous_id")
     }
 
     localStorage.removeItem("addonCart");
@@ -138,6 +154,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   const handleClose = () => {
     setReorderOpen(false);
     setModalOpen(false);
+    localStorage.removeItem("previous_id")
   };
 
   return (

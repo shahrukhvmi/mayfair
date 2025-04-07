@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
   const productId = params.get("product_id");
 
   if (productId) {
-    localStorage.setItem("pid", productId);
+    localStorage.setItem("previous_id", productId);
   }
   const checkAuthStatus = () => {
     const token = localStorage.getItem("token");

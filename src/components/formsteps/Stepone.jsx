@@ -213,6 +213,7 @@ const Stepone = ({ setHideSidebar }) => {
 
         // toast.success(response?.message);
         dispatch(nextStep());
+        localStorage.removeItem("previous_id");
       } else {
         console.log(isError, "isError");
         toast.error("Invalid login response");

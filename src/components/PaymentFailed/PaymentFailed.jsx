@@ -17,6 +17,7 @@ const PaymentFailed = () => {
     localStorage.removeItem("isCouponApplied");
     localStorage.removeItem("discountType");
     localStorage.removeItem("discountAmount");
+    localStorage.removeItem("previous_id");
   };
 
   return (
