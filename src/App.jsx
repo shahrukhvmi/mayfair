@@ -75,7 +75,7 @@ const App = () => {
           <Routes>
             {/* Auth Routes */}
             <Route
-              path="/"
+              path="/start-consultation/"
               element={
                 <PublicRoute
                   element={

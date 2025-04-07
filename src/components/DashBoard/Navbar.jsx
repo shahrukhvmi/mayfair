@@ -75,7 +75,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
   const handleLogout = () => {
     setIsOpenDrop(false); // Close the dropdown
     logout();
-    navigate("/");
+    navigate("/start-consultation/");
   };
   const handleRemovePid = () => {
     localStorage.removeItem("previous_id")
