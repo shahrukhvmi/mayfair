@@ -72,7 +72,9 @@ const Header = () => {
     logout();
     navigate("/");
   };
-
+  const handleRemovePid = () => {
+    localStorage.removeItem("previous_id")
+  }
   return (
     <div
       className={`md:mx-auto px-4 flex justify-center w-full items-center 2xl:w-[calc(1366px+16px)] 
@@ -95,8 +97,9 @@ const Header = () => {
       )}
 
       <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
-        <Link to="/dashboard/">
+        <Link to="/dashboard/" onClick={handleRemovePid}>
           <ApplicationLogo className="w-36 sm:w-36" />
+
         </Link>
       </div>
 
@@ -135,7 +138,7 @@ const Header = () => {
             <p class="hidden md:block">Already have an account?</p>
             <a
               class="inline-flex items-center px-6 py-2 bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150 false ml-4 "
-              href="/"
+              href="/start-consultation/"
             >
               Login
             </a>

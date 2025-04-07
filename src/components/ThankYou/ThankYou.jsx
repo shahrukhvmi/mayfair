@@ -86,7 +86,7 @@ const ThankYou = () => {
   // }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#dacfff]  px-6">
+    <div className="flex items-center justify-center min-h-screen bg-[#dacfff] px-6 sm:px-44">
       <div className="bg-white  rounded-lg shadow-lg p-8 text-center w-full">
         <div className="text-center">
           <div role="status" className="mb-8">
@@ -113,18 +113,12 @@ const ThankYou = () => {
                 legislation around prescription only medication.
               </p>
             </div>
-            <div className="text-left text-gray-600  mb-5 xl:w-3/5 xl:mx-auto">
-              <center>
-                {" "}
-                <p>Your Payment has Failed!.</p>
-              </center>
-            </div>
           </div>
           <button
             onClick={handleGoBack}
             className="bg-violet-700 hover:bg-violet-600 text-white px-2 sm:px-8 py-2 rounded-md font-medium transition-all duration-150 ease-in"
           >
-            Continue to Available Treatments
+            Continue to View Order Details
           </button>
         </div>
       </div>

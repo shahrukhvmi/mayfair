@@ -77,7 +77,9 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
     logout();
     navigate("/");
   };
-
+  const handleRemovePid = () => {
+    localStorage.removeItem("previous_id")
+  }
   return (
     <div className="bg-white px-4 sm:px-6 lg:px-6 flex items-center justify-between relative">
       {/* Hamburger Button (only visible on mobile) */}
@@ -87,7 +89,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
 
       {/* Logo */}
       <div className="w-32 sm:w-40">
-        <Link to="/dashboard/">
+        <Link to="/dashboard/"  onClick={handleRemovePid}>
           {/* <img src="/logo.svg" className="w-32 sm:w-40" alt="Logo" /> */}
           <ApplicationLogo className="w-32 sm:w-40" />
         </Link>

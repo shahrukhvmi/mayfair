@@ -541,6 +541,7 @@ const Stepeight = ({ setHideSidebar }) => {
 
   const [postSteps, { isLoading: loader }] = usePostStepsMutation();
   const [paymentData, setPaymentData] = useState(null);
+  const reorder_concent = localStorage.getItem("reorder_concent");
 
   const getPid = localStorage.getItem("pid");
   const onSubmit = async (data) => {
@@ -601,6 +602,7 @@ const Stepeight = ({ setHideSidebar }) => {
         gpdetails: gpDetails,
         bmi: getBmi,
         confirmationInfo: confirmationInfo,
+        reorder_concent: reorder_concent.toString()
 
         // successurl: "https://weightlosspharmacy.vercel.app/thank-you",
         // failedurl: "https://weightlosspharmacy.vercel.app/payment-failed"

@@ -66,7 +66,7 @@ const Login = () => {
   return (
     <div className="w-full">
       <div className="p-4">
-      <h2 className="bold-font text-center mb-5 lg:mb-10 text-xl 2xl:text-2xl">
+        <h2 className="bold-font text-center mb-5 lg:mb-10 text-xl 2xl:text-2xl">
           Returning patient
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
@@ -134,14 +134,13 @@ const Login = () => {
 
           {/* Submit Button */}
           <div className="flex justify-between items-center mt-4">
-            {/* Remember Me */}
             <div className="block mt-4">
               <label className="flex items-center">
                 <input
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe('remember', e.target.checked)}
                   type="checkbox"
-                  className="rounded-md bg-violet-700 border-gray-300 text-white shadow-sm focus:ring-violet-700"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="rounded-lg accent-purple-700 border-gray-300 text-white shadow-sm focus:ring-purple-500"
                 />
                 <span className="ml-2 text-sm text-gray-700">Remember me</span>
               </label>

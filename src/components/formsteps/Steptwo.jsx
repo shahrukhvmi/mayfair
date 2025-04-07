@@ -405,6 +405,7 @@ const Steptwo = ({ setHideSidebar }) => {
       const response = await postSteps({
         bmi: BMI,
         pid: getPid,
+        reorder_concent: reorderStatus.toString()
       }).unwrap();
 
       if (response?.status === true) {
