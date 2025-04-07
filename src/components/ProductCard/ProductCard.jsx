@@ -33,23 +33,23 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       const params = new URLSearchParams(location.search);
       const productId = params.get("product_id");
       const previousId = localStorage.getItem("previous_id");
-  
+
       // Clear modalOpened if different product
       if (previousId && previousId !== productId) {
         localStorage.removeItem("modalOpened");
       }
-  
+
       const shouldOpenModal =
         (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) ||
         (previousId && String(previousId) === String(id));
-  
+
       if (shouldOpenModal) {
         const pidToSet = productId || previousId;
-  
+
         localStorage.setItem("previous_id", pidToSet);
         localStorage.setItem("pid", pidToSet);
         localStorage.setItem("modalOpened", "true");
-  
+
         reorder ? setReorderOpen(true) : setModalOpen(true);
         modalOpenedRef.current = true;
       } else if (!productId) {
@@ -58,7 +58,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       }
     }
   }, [location.search, reorder, id]);
-  
+
 
   const navigate = useNavigate()
 
@@ -136,8 +136,9 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     dispatch(clearCartAddon());
 
     // Optional: Fetch previous step data
+    console.log(typeof reorder?.toString(), "reorder")
     try {
-      const response = await getPrev({ url, clinic_id, product_id: id }).unwrap();
+      const response = await getPrev({ url, clinic_id, product_id: id, reorder: reorder }).unwrap();
       const res = response?.data;
       if (res !== null) {
         dispatch(setStepPrevApiData(res));
