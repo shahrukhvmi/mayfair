@@ -142,7 +142,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
         url, 
         clinic_id, 
         product_id: id, 
-        reorder: reorder ? reorder.toString() : null
+        reorder: reorder ? reorder : null
       }).unwrap();
       const res = response?.data;
       if (res !== null) {
