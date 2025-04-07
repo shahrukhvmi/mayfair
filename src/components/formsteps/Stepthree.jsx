@@ -108,7 +108,7 @@ const Stepthree = ({ setHideSidebar }) => {
   // Submit API Call
   const [postSteps, { isLoading }] = usePostStepsMutation();
   const getPid = localStorage.getItem("pid");
-
+  const reorder_concent = localStorage.getItem("reorder_concent");
   const onSubmit = async () => {
     const medicalInfo = questions.map((q) => ({
       question: q.content,
@@ -117,10 +117,11 @@ const Stepthree = ({ setHideSidebar }) => {
       subfield_response: responses[q.id]?.subfield_response || "",
       sub_field_prompt: responses[q.id]?.sub_field_prompt || "",
       has_sub_field: responses[q.id]?.has_sub_field || false,
+
     }));
 
     try {
-      const response = await postSteps({ medicalInfo, pid: getPid }).unwrap();
+      const response = await postSteps({ medicalInfo, pid: getPid, reorder_concent: reorder_concent.toString() }).unwrap();
       if (response?.status === true) {
         dispatch(setStep3(response?.lastConsultation?.fields?.medicalInfo));
         dispatch(nextStep());
@@ -241,8 +242,8 @@ const Stepthree = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isNextEnabled || isLoading}
                 className={`p-3 flex flex-col items-center justify-center ${!isNextEnabled || isLoading
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
                   }`}
               >
                 {isLoading ? (

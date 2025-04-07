@@ -177,6 +177,9 @@ const Stepone = ({ setHideSidebar }) => {
       setAddressOptions([]);
     }
   }, [data]);
+
+  const reorder_concent = localStorage.getItem("reorder_concent");
+  console.log(reorder_concent, "reorder_concent")
   const currentStep = useSelector((state) => state.step.currentStep);
   const [postSteps, { error: isError, isLoading: loader }] = usePostStepsMutation();
 
@@ -206,6 +209,7 @@ const Stepone = ({ setHideSidebar }) => {
       const response = await postSteps({
         patientInfo: patientInfo,
         pid: getPid,
+        reorder_concent: reorder_concent.toString()
       }).unwrap();
       console.log(response, "response");
       if (response?.status === true) {
@@ -495,11 +499,10 @@ const Stepone = ({ setHideSidebar }) => {
             <p className="font-medium text-md text-gray-700 mb-2">What is your gender?*</p>
             <div className="flex gap-4">
               <label
-                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
-                  gender === "male"
+                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "male"
                     ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
                     : "rounded-lg shadow-md cursor-pointer bg-white"
-                }`}
+                  }`}
               >
                 <input type="radio" value="male" {...register("gender", { required: "Gender is required" })} className="hidden" />
                 <span>Male</span>
@@ -507,11 +510,10 @@ const Stepone = ({ setHideSidebar }) => {
               </label>
 
               <label
-                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${
-                  gender === "female"
+                className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "female"
                     ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
                     : "rounded-lg shadow-md cursor-pointer bg-white"
-                }`}
+                  }`}
               >
                 <input type="radio" value="female" {...register("gender", { required: "Gender is required" })} className="hidden" />
                 <span>Female</span>
@@ -529,11 +531,10 @@ const Stepone = ({ setHideSidebar }) => {
                 <p className="font-medium text-md text-gray-700 sm:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
                 <div className="flex gap-4">
                   <label
-                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
-                      breastFeeding === "Yes"
+                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
                         ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
                         : "bg-white"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -562,11 +563,10 @@ const Stepone = ({ setHideSidebar }) => {
                   </label>
 
                   <label
-                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
-                      breastFeeding === "No"
+                    className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
                         ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
                         : "bg-white"
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -628,11 +628,10 @@ const Stepone = ({ setHideSidebar }) => {
               <p className="font-medium text-md text-gray-700 sm:mb-2">Are you breastfeeding or trying to get pregnant?*</p>
               <div className="flex gap-4">
                 <label
-                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
-                    breastFeeding === "Yes"
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
                       ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
                       : "bg-white"
-                  }`}
+                    }`}
                 >
                   <input
                     type="radio"
@@ -661,11 +660,10 @@ const Stepone = ({ setHideSidebar }) => {
                 </label>
 
                 <label
-                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${
-                    breastFeeding === "No"
+                  className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
                       ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
                       : "bg-white"
-                  }`}
+                    }`}
                 >
                   <input
                     type="radio"
@@ -855,9 +853,8 @@ const Stepone = ({ setHideSidebar }) => {
             ].map((option) => (
               <label
                 key={option.value}
-                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${
-                  selectedEthnicity === option.value ? "bg-[#6d28d9] text-white" : "bg-[#e5e7eb] text-gray-700"
-                }`}
+                className={`flex justify-center items-center mt-2 px-6 py-2 border-2 rounded-lg cursor-pointer transition-all duration-300 min-w-[150px] ${selectedEthnicity === option.value ? "bg-[#6d28d9] text-white" : "bg-[#e5e7eb] text-gray-700"
+                  }`}
               >
                 <input
                   type="radio"
@@ -911,11 +908,10 @@ const Stepone = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError}
-                className={`p-3 flex flex-col items-center justify-center ${
-                  !isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError
+                className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError
                     ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                     : "text-white rounded-md bg-violet-700"
-                }`}
+                  }`}
               >
                 {loader ? (
                   // Loading Spinner with Label

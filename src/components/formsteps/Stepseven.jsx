@@ -435,6 +435,7 @@ const StepSeven = ({ setHideSidebar }) => {
 
   const onSubmit = (data) => {
     dispatch(nextStep());
+    
   };
   const handleSelect = (e, index) => {
     e.stopPropagation();

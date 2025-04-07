@@ -57,6 +57,7 @@ const Stepfive = ({ setHideSidebar }) => {
   const searchClicked = watch("searchClicked", false);
   const addressOptions = watch("addressOptions", []);
   const selectedAddress = watch("selectedAddress", null);
+  const reorder_concent = localStorage.getItem("reorder_concent");
 
   const getPid = localStorage.getItem("pid");
   const onSubmit = async (data, e) => {
@@ -70,11 +71,14 @@ const Stepfive = ({ setHideSidebar }) => {
       addressLine2: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.addressLine2 : "",
       state: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.state : "",
       city: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.city : "",
+
     };
     try {
       const response = await postSteps({
         gpdetails: gpDetails,
         pid: getPid,
+        reorder_concent: reorder_concent.toString()
+
       }).unwrap();
       if (response.status === true) {
         dispatch(nextStep());
