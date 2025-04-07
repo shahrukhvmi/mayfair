@@ -1,26 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  TextField,
-  Select,
-  MenuItem,
-  InputLabel,
-  FormControl,
-  Checkbox,
-  FormControlLabel,
-  Box,
-  Typography,
-  IconButton,
-} from "@mui/material";
+import { TextField, Select, MenuItem, InputLabel, FormControl, Checkbox, FormControlLabel, Box, Typography, IconButton } from "@mui/material";
 import "../../../src/fonts.css";
 import { FaSearch, FaEdit, FaCheck } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { nextStep, prevStep, triggerStep } from "../../store/slice/stepper";
 import { useNavigate } from "react-router-dom";
-import {
-  useFetchAddressesForBillingQuery,
-  useFetchAddressesQuery,
-} from "../../store/services/addressApi/addressApi";
+import { useFetchAddressesForBillingQuery, useFetchAddressesQuery } from "../../store/services/addressApi/addressApi";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import { setStep6 } from "../../store/slice/stepSlice";
 import toast from "react-hot-toast";
@@ -31,7 +17,6 @@ import { gsap } from "gsap";
 import PaymentPage from "../PaymentSection/PaymentPage";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 const Stepeight = ({ setHideSidebar }) => {
-
   setHideSidebar(true);
 
   const dispatch = useDispatch();
@@ -73,24 +58,23 @@ const Stepeight = ({ setHideSidebar }) => {
   // const [billing, setBilling] = useState(null);
   // const [shipping, setShipping] = useState(null);
   // const [userInfo, setUserInfo] = useState(null);
-  const [email, setEmail] = useState(null)
-  const [userProfile, setUserProfile] = useState(null)
+  const [email, setEmail] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
   const [countryShippingPrice, setCountryShippingPrice] = useState(null);
-  const [coutryPrice, setCountryPrice] = useState(null)
+  const [coutryPrice, setCountryPrice] = useState(null);
 
   useEffect(() => {
     const cart = JSON.parse(localStorage.getItem("cart"));
     const user = JSON.parse(localStorage.getItem("user"));
     setEmail(user?.email);
-    setUserProfile(user)
-    console.log(user, "sdssd")
+    setUserProfile(user);
+    console.log(user, "sdssd");
     if (!cart || cart.length === 0) {
       localStorage.setItem("currentStep", 7);
-      localStorage.removeItem("addonCart")
+      localStorage.removeItem("addonCart");
       dispatch(triggerStep(7));
     }
   }, [dispatch]);
-
 
   const handleCountryChange = (selectedCountry) => {
     setValue("country", selectedCountry.name);
@@ -98,9 +82,9 @@ const Stepeight = ({ setHideSidebar }) => {
     setCountryShippingPrice(selectedCountry.price);
   };
 
-  const [shipping, setShippingApi] = useState("")
+  const [shipping, setShippingApi] = useState("");
   const [billing, setBillingApi] = useState("");
-  const [userInfo, setUserApi] = useState("")
+  const [userInfo, setUserApi] = useState("");
 
   const fetchUserData = async () => {
     try {
@@ -118,12 +102,11 @@ const Stepeight = ({ setHideSidebar }) => {
       const data = await response.json();
       if (response.ok) {
         const user = data;
-        const userLocalGet = localStorage.getItem("user")
+        const userLocalGet = localStorage.getItem("user");
         // Update state
         setShippingApi(user?.profile?.shipping);
         setBillingApi(user?.profile?.billing);
         setUserApi(user?.profile?.user || userLocalGet?.emai);
-
       } else {
         console.log(data.message);
       }
@@ -132,14 +115,12 @@ const Stepeight = ({ setHideSidebar }) => {
     }
   };
 
-
   useEffect(() => {
     fetchUserData();
   }, []);
   // set prefilled data here 😊😊✔✔
   useEffect(() => {
     if (billing || shipping || userInfo) {
-
       // Shipping-related fields
       setValue("firstName", userInfo?.fname || "");
       setValue("lastName", userInfo?.lname || "");
@@ -151,9 +132,7 @@ const Stepeight = ({ setHideSidebar }) => {
       setZipCode(shipping?.postalcode || "");
       setValue("country", shipping?.country || "");
 
-      const matchingCountry = ShipmentCountry?.find(
-        (country) => country.name === shipping?.country
-      );
+      const matchingCountry = ShipmentCountry?.find((country) => country.name === shipping?.country);
 
       if (matchingCountry) {
         setCountryPrice(Number(matchingCountry.price) || 0);
@@ -172,7 +151,6 @@ const Stepeight = ({ setHideSidebar }) => {
     }
   }, [setValue, userInfo, billing, shipping, trigger, coutryPrice]);
 
-
   const [addons, setAddon] = useState([]);
   const [doses, setDose] = useState([]);
   const [doseMessage, setDoseMessage] = useState([]);
@@ -188,7 +166,6 @@ const Stepeight = ({ setHideSidebar }) => {
   const [gpDetails, setGpdetails] = useState(null);
   const [getBmi, setBmi] = useState(null);
   const [confirmationInfo, setconfirmationInfo] = useState(null);
-
 
   const [user, setUser] = useState([]);
 
@@ -208,9 +185,7 @@ const Stepeight = ({ setHideSidebar }) => {
     };
   });
 
-
   const isValidObj = (obj) => obj && typeof obj === "object" && Object.keys(obj).length > 0;
-
 
   useEffect(() => {
     const storedDoses = JSON.parse(localStorage.getItem("cart"));
@@ -228,7 +203,7 @@ const Stepeight = ({ setHideSidebar }) => {
     if (storedAddons) setAddon(storedAddons);
 
     const fallbackFields = storedPrev?.last_consultation_data || {};
-    console.log(step1, fallbackFields, "sdjsdhusd")
+    console.log(step1, fallbackFields, "sdjsdhusd");
     const patientData = fallbackFields?.patientInfo || {};
     const bmiData = fallbackFields?.bmi || {};
     const medicalInfoData = fallbackFields?.medicalInfo || {};
@@ -259,7 +234,6 @@ const Stepeight = ({ setHideSidebar }) => {
       setSelectedStates(initialStates);
     }
   }, []);
-
 
   const handleSelectChange = (value, index) => {
     setBillingAddres({ ...billingAddres, country: value }); // Update selected country
@@ -333,7 +307,6 @@ const Stepeight = ({ setHideSidebar }) => {
       setValue("billingCountry", "", { shouldValidate: true });
     }
   };
-
 
   // 👇👇**RTK Query - Fetch addresses**👇👇
   const { data, error, isLoading } = useFetchAddressesQuery(zipCode, {
@@ -427,15 +400,11 @@ const Stepeight = ({ setHideSidebar }) => {
     const shippingPrice = parseFloat(countryShippingPrice || coutryPrice);
     const discountValue = calculateDiscountValue(calculatedSubtotal);
 
-    const calculatedTotal =
-      (shippingPrice || discountValue)
-        ? calculatedSubtotal - (discountValue || 0) + (shippingPrice || 0)
-        : calculatedSubtotal;
-
+    const calculatedTotal = shippingPrice || discountValue ? calculatedSubtotal - (discountValue || 0) + (shippingPrice || 0) : calculatedSubtotal;
 
     setSubtotal(calculatedSubtotal);
     setTotal(calculatedTotal);
-    setFinalDiscount(discountValue)
+    setFinalDiscount(discountValue);
   }, [coutryPrice, addons, doses, countryShippingPrice, discountAmount, discountType, isCouponApplied]);
 
   const calculateDiscountValue = (calculatedSubtotal) => {
@@ -449,24 +418,15 @@ const Stepeight = ({ setHideSidebar }) => {
 
   useEffect(() => {
     if (isCouponApplied) {
-      gsap.fromTo(
-        ".success-message",
-        { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }
-      );
+      gsap.fromTo(".success-message", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" });
     }
   }, [isCouponApplied]);
 
   useEffect(() => {
     if (error) {
-      gsap.fromTo(
-        ".error-message",
-        { x: -10 },
-        { x: 10, duration: 0.1, yoyo: true, repeat: 5, ease: "power2.inOut" }
-      );
+      gsap.fromTo(".error-message", { x: -10 }, { x: 10, duration: 0.1, yoyo: true, repeat: 5, ease: "power2.inOut" });
     }
   }, [error]);
-
 
   const handleApplyCoupon = async () => {
     if (!discountCode.trim()) {
@@ -477,17 +437,14 @@ const Stepeight = ({ setHideSidebar }) => {
     try {
       const token = localStorage.getItem("token");
 
-      const response = await fetch(
-        "https://app.mayfairweightlossclinic.co.uk/api/getCoupon",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            ...(token && { Authorization: `Bearer ${token}` }),
-          },
-          body: JSON.stringify({ coupon_code: discountCode.trim() }),
-        }
-      );
+      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/getCoupon", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: JSON.stringify({ coupon_code: discountCode.trim() }),
+      });
 
       const data = await response.json();
       const couponType = data?.Data?.type;
@@ -497,7 +454,7 @@ const Stepeight = ({ setHideSidebar }) => {
         const errorMessage = data?.errors?.coupon_code || data?.errors?.Coupon;
         toast.error(errorMessage);
         setIsCouponApplied(false);
-        setError(errorMessage)
+        setError(errorMessage);
         return;
       }
 
@@ -538,14 +495,12 @@ const Stepeight = ({ setHideSidebar }) => {
     return "";
   };
 
-
   const [postSteps, { isLoading: loader }] = usePostStepsMutation();
   const [paymentData, setPaymentData] = useState(null);
   const reorder_concent = localStorage.getItem("reorder_concent") || null;
 
   const getPid = localStorage.getItem("pid");
   const onSubmit = async (data) => {
-
     const checkout = {
       firstName: data?.firstName || patientInfo?.firstName || userProfile?.fname,
       lastName: data?.lastName || patientInfo?.lastName || userProfile?.lname,
@@ -574,7 +529,6 @@ const Stepeight = ({ setHideSidebar }) => {
         discount: discountAmount,
         type: discountType,
         discount_value: finalDicount,
-
       },
       subTotal: parseFloat(subtotal),
       total: parseFloat(total),
@@ -586,9 +540,6 @@ const Stepeight = ({ setHideSidebar }) => {
         taggable_type: "App\\Models\\Product",
         taggable_id: getPid,
       },
-
-
-
     };
 
     try {
@@ -602,8 +553,7 @@ const Stepeight = ({ setHideSidebar }) => {
         gpdetails: gpDetails,
         bmi: getBmi,
         confirmationInfo: confirmationInfo,
-        reorder_concent: reorder_concent ? reorder_concent.toString() : null 
-
+        reorder_concent: reorder_concent ? reorder_concent.toString() : null,
 
         // successurl: "https://weightlosspharmacy.vercel.app/thank-you",
         // failedurl: "https://weightlosspharmacy.vercel.app/payment-failed"
@@ -624,27 +574,21 @@ const Stepeight = ({ setHideSidebar }) => {
         // localStorage.removeItem("discountAmount");
         // <PaymentPage paymentData={response?.paymentData} />
         setPaymentData(response?.paymentData);
-        console.log(response?.paymentData, "response?.paymentData")
+        console.log(response?.paymentData, "response?.paymentData");
         // navigate("/thank-you");
         localStorage.removeItem("previous_id");
 
-
         // window.location.href = response?.payment_Link;
-
 
         // dispatch(nextStep());
       } else {
         toast.error("Invalid login response");
       }
     } catch (err) {
-
-
       if (errors && typeof errors === "object") {
         Object.keys(errors).forEach((key) => {
           const errorMessage = errors[key];
-          Array.isArray(errorMessage)
-            ? errorMessage.forEach((msg) => toast.error(msg))
-            : toast.error(errorMessage);
+          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
         });
       } else {
         toast.error("An unexpected error occurred.");
@@ -654,14 +598,12 @@ const Stepeight = ({ setHideSidebar }) => {
 
   return (
     <>
-
-      {paymentData ? (<PaymentPage paymentData={paymentData} />)
-
-        : (<>
-
+      {paymentData ? (
+        <PaymentPage paymentData={paymentData} />
+      ) : (
+        <>
           <section className="">
             <div className="bg-white rounded-lg">
-
               <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-screen-2xl mx-auto">
                 <div className="grid grid-cols-12 gap-4">
                   {/* Left Side: Main Form */}
@@ -669,15 +611,14 @@ const Stepeight = ({ setHideSidebar }) => {
                   <div className="col-span-12 sm:col-span-8  py-5">
                     <Box className="lg:col-span-2">
                       {/* Heading */}
-                      <h1 className="font-bold text-3xl md:text-4xl sm:mb-8 my-4 flex sm:justify-start justify-center">
-                        Checkout
-                      </h1>
+                      <h1 className="font-bold text-3xl md:text-4xl sm:mb-8 my-4 flex sm:justify-start justify-center">Checkout</h1>
 
                       {/* Shipping Information */}
                       <Box className="bg-[#F9FAFB] rounded-lg border mb-8">
                         <div class="bg-gray-100 flex py-2 px-5 items-center gap-2">
                           <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">01</div>
-                          <h2 class="text-left font-medium text-gray-900 py-3">Shipping Address</h2></div>
+                          <h2 class="text-left font-medium text-gray-900 py-3">Shipping Address</h2>
+                        </div>
 
                         <div className="p-6">
                           <Box className="grid grid-cols-1 md:grid-cols-2 gap-6 ">
@@ -713,14 +654,12 @@ const Stepeight = ({ setHideSidebar }) => {
                                 })}
                                 value={watch("country")} // Bind the current country value
                                 onChange={(e) => {
-                                  const selectedCountry = ShipmentCountry.find(
-                                    (country) => country.name === e.target.value
-                                  );
+                                  const selectedCountry = ShipmentCountry.find((country) => country.name === e.target.value);
                                   handleCountryChange(selectedCountry);
                                 }}
                               >
                                 {ShipmentCountry?.map((country, index) => (
-                                  <MenuItem key={index} value={country?.name} >
+                                  <MenuItem key={index} value={country?.name}>
                                     {country?.name}
                                   </MenuItem>
                                 ))}
@@ -764,16 +703,8 @@ const Stepeight = ({ setHideSidebar }) => {
                                           className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
                                         >
                                           {/* Search Text */}
-                                          <FaSearch
-                                            className={`text-white ${isLoading ? "animate-spin" : ""
-                                              }`}
-                                          />
-                                          <span className="mr-2 text-sm ">
-                                            {" "}
-
-                                            {isLoading ? "SEARCH..." : "SEARCH"}{" "}
-                                          </span>
-
+                                          <FaSearch className={`text-white ${isLoading ? "animate-spin" : ""}`} />
+                                          <span className="mr-2 text-sm "> {isLoading ? "SEARCH..." : "SEARCH"} </span>
                                         </button>
                                       </div>
                                     )}
@@ -785,19 +716,13 @@ const Stepeight = ({ setHideSidebar }) => {
                             <div className="">
                               {!error && searchClicked && addressOptions.length > 0 && (
                                 <div className="">
-                                  <FormControl
-                                    fullWidth
-                                    variant="standard"
-                                    error={!!errors.addressSelect}
-                                  >
+                                  <FormControl fullWidth variant="standard" error={!!errors.addressSelect}>
                                     <InputLabel>Select Autofill</InputLabel>
                                     <Select
                                       {...register("addressSelect", {
                                         required: "Please select an address",
                                       })} // Validation for Select
-                                      onChange={(e) =>
-                                        handleSelect(e.target.value, setValue)
-                                      } // Use selected index for `handleSelect`
+                                      onChange={(e) => handleSelect(e.target.value, setValue)} // Use selected index for `handleSelect`
                                       defaultValue=""
                                     >
                                       {addressOptions.map((address, index) => (
@@ -807,9 +732,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       ))}
                                     </Select>
                                     {errors.addressSelect && (
-                                      <FormHelperText>
-                                        {errors.addressSelect.message}
-                                      </FormHelperText> // Display error message
+                                      <FormHelperText>{errors.addressSelect.message}</FormHelperText> // Display error message
                                     )}
                                   </FormControl>
                                 </div>
@@ -864,9 +787,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                 <Checkbox
                                   checked={isBillingSameAsShipping}
                                   onChange={handleBillingCheckbox}
-                                  icon={
-                                    <span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />
-                                  }
+                                  icon={<span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />}
                                   checkedIcon={
                                     <span className="w-5 h-5 border-2 border-[#6D28D9] bg-[#6D28D9] rounded-full flex items-center justify-center">
                                       <FaCheck size={10} className="text-white text-xs" /> {/* Check Icon */}
@@ -879,31 +800,19 @@ const Stepeight = ({ setHideSidebar }) => {
                                   }}
                                 />
                               }
-
-
-                              label={
-                                <p className="font-sans font-reg text-gray-600 text-sm  capitalize ">
-                                  Make billing address same as shipping
-                                </p>
-                              }
+                              label={<p className="font-sans font-reg text-gray-600 text-sm  capitalize ">Make billing address same as shipping</p>}
                             />
-
                           </div>
                         </div>
-
                       </Box>
 
                       {/* Billing Information */}
                       {!isBillingSameAsShipping && (
                         <Box className="bg-[#f9fafb] pb-12 rounded-lg border mb-8">
                           <>
-
-
                             <div class="bg-gray-100 flex py-2 px-5 items-center gap-2">
-                              <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">
-                                02</div>
-                              <h2 class="text-left font-medium text-gray-900 py-3">
-                                Billing Information</h2>
+                              <div class="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs">02</div>
+                              <h2 class="text-left font-medium text-gray-900 py-3">Billing Information</h2>
                             </div>
 
                             {!isBillingSameAsShipping && (
@@ -945,9 +854,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                         onChange={(e) => {
                                           const selectedValue = e.target.value;
                                           setValue("billingCountry", selectedValue); // Update the form state
-                                          const selectedIndex = BillingCountrys.findIndex(
-                                            (country) => country.name === selectedValue
-                                          );
+                                          const selectedIndex = BillingCountrys.findIndex((country) => country.name === selectedValue);
                                           if (selectedIndex !== -1) {
                                             handleSelectChange(BillingCountrys[selectedIndex], selectedIndex);
                                           }
@@ -962,7 +869,6 @@ const Stepeight = ({ setHideSidebar }) => {
                                     </FormControl>
                                   </Box>
 
-
                                   <Box className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 w-full">
                                     {selectedStates ? (
                                       <>
@@ -976,9 +882,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                             required: "Postal Code is required",
                                           })}
                                           error={!!errors.billingPostalCode || !!errorBill}
-                                          helperText={
-                                            errors.billingPostalCode?.message || errorBill?.message
-                                          }
+                                          helperText={errors.billingPostalCode?.message || errorBill?.message}
                                           onChange={(e) => {
                                             setZipCodeBill(e.target.value);
                                             setSearchClickedBill(false);
@@ -992,22 +896,11 @@ const Stepeight = ({ setHideSidebar }) => {
                                                     <button
                                                       type="button"
                                                       onClick={handleSearchBilling}
-                                                      disabled={
-                                                        !zipCodeBill.trim() ||
-                                                        load ||
-                                                        errorBill ||
-                                                        !selectedStates
-                                                      }
+                                                      disabled={!zipCodeBill.trim() || load || errorBill || !selectedStates}
                                                       className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
                                                     >
-                                                      <FaSearch
-                                                        className={`${`text-white ${load ? "animate-spin" : ""
-                                                          }`}`}
-                                                      />
-                                                      <span className="mr-2 text-sm">
-                                                        {load ? "SEARCH..." : "SEARCH"}
-                                                      </span>
-
+                                                      <FaSearch className={`${`text-white ${load ? "animate-spin" : ""}`}`} />
+                                                      <span className="mr-2 text-sm">{load ? "SEARCH..." : "SEARCH"}</span>
                                                     </button>
                                                   </div>
                                                 )}
@@ -1018,41 +911,33 @@ const Stepeight = ({ setHideSidebar }) => {
 
                                         {searchClickedBill && (
                                           <>
-                                            {!error &&
-                                              searchClickedBill &&
-                                              addressOptionsBilling.length > 0 && (
-                                                <div className="w-full">
-                                                  <FormControl
-                                                    fullWidth
-                                                    className={`${!selectedStates ? "cursor-not-allowed" : ""}`}
-                                                    disabled={!selectedStates}
-                                                    variant="standard"
-                                                    error={!!errors.addressSelect}
+                                            {!error && searchClickedBill && addressOptionsBilling.length > 0 && (
+                                              <div className="w-full">
+                                                <FormControl
+                                                  fullWidth
+                                                  className={`${!selectedStates ? "cursor-not-allowed" : ""}`}
+                                                  disabled={!selectedStates}
+                                                  variant="standard"
+                                                  error={!!errors.addressSelect}
+                                                >
+                                                  <InputLabel>Select Autofill</InputLabel>
+                                                  <Select
+                                                    {...register("addressSelect", {
+                                                      required: "Please select an address",
+                                                    })}
+                                                    onChange={(e) => handleSelectBilling(e.target.value, setValue)}
+                                                    defaultValue=""
                                                   >
-                                                    <InputLabel>Select Autofill</InputLabel>
-                                                    <Select
-                                                      {...register("addressSelect", {
-                                                        required: "Please select an address",
-                                                      })}
-                                                      onChange={(e) =>
-                                                        handleSelectBilling(e.target.value, setValue)
-                                                      }
-                                                      defaultValue=""
-                                                    >
-                                                      {addressOptionsBilling.map((address, index) => (
-                                                        <MenuItem key={index} value={index}>
-                                                          {`${address.line_1}, ${address.town_or_city}`}
-                                                        </MenuItem>
-                                                      ))}
-                                                    </Select>
-                                                    {errors.addressSelect && (
-                                                      <FormHelperText>
-                                                        {errors.addressSelect.message}
-                                                      </FormHelperText>
-                                                    )}
-                                                  </FormControl>
-                                                </div>
-                                              )}
+                                                    {addressOptionsBilling.map((address, index) => (
+                                                      <MenuItem key={index} value={index}>
+                                                        {`${address.line_1}, ${address.town_or_city}`}
+                                                      </MenuItem>
+                                                    ))}
+                                                  </Select>
+                                                  {errors.addressSelect && <FormHelperText>{errors.addressSelect.message}</FormHelperText>}
+                                                </FormControl>
+                                              </div>
+                                            )}
                                           </>
                                         )}
                                       </>
@@ -1065,9 +950,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                             variant="standard"
                                             fullWidth
                                             error={!!errorBill || !!errors.billingPostalCode}
-                                            helperText={
-                                              errorBill?.message || errors.billingPostalCode?.message
-                                            }
+                                            helperText={errorBill?.message || errors.billingPostalCode?.message}
                                             {...register("billingPostalCode", {
                                               required: "Postal Code is required",
                                             })}
@@ -1077,8 +960,6 @@ const Stepeight = ({ setHideSidebar }) => {
                                     )}
                                   </Box>
 
-
-
                                   {/* Address Fields */}
                                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
                                     <TextField
@@ -1087,9 +968,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       value={watch("billingStreetAddress") || ""}
                                       fullWidth
                                       {...register("billingStreetAddress", {
-                                        required:
-                                          !isBillingSameAsShipping &&
-                                          "Address Line 1 is required",
+                                        required: !isBillingSameAsShipping && "Address Line 1 is required",
                                       })}
                                       error={!!errors.billingStreetAddress}
                                       helperText={errors.billingStreetAddress?.message}
@@ -1101,9 +980,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       value={watch("billingStreetAddress2") || ""}
                                       // {...register("billingStreetAddress2")}
                                       {...register("billingStreetAddress2", {
-                                        required:
-                                          !isBillingSameAsShipping &&
-                                          "Address Line 2 is required",
+                                        required: !isBillingSameAsShipping && "Address Line 2 is required",
                                       })}
                                     />
                                   </div>
@@ -1115,8 +992,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       value={watch("billingCity") || ""}
                                       fullWidth
                                       {...register("billingCity", {
-                                        required:
-                                          !isBillingSameAsShipping && "City is required",
+                                        required: !isBillingSameAsShipping && "City is required",
                                       })}
                                       error={!!errors.billingCity}
                                       helperText={errors.billingCity?.message}
@@ -1128,8 +1004,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       value={watch("billingState") || ""}
                                       // {...register("billingState")}
                                       {...register("billingState", {
-                                        required:
-                                          !isBillingSameAsShipping && "State is required",
+                                        required: !isBillingSameAsShipping && "State is required",
                                       })}
                                     />
                                   </div>
@@ -1144,8 +1019,6 @@ const Stepeight = ({ setHideSidebar }) => {
                       <Box className="bg-white rounded-lg border sm:mb-0">
                         {/* Terms and Conditions */}
                         <Box className="">
-
-
                           <div className="bg-[#f3f4f6] flex items-start gap-3 py-3 px-4 rounded-md">
                             <div className="w-8 h-8 rounded-full bg-gray-700 text-white flex items-center justify-center text-xs shrink-0">
                               {isBillingSameAsShipping ? "02" : "03"}
@@ -1154,7 +1027,6 @@ const Stepeight = ({ setHideSidebar }) => {
                               Please review the important information below regarding your treatment
                             </h2>
                           </div>
-
 
                           {typeof termCondition === "string" && termCondition.trim() ? (
                             <>
@@ -1256,12 +1128,9 @@ const Stepeight = ({ setHideSidebar }) => {
                               control={
                                 <Checkbox
                                   {...register("terms", {
-                                    required:
-                                      "Please agree to the terms and conditions",
+                                    required: "Please agree to the terms and conditions",
                                   })}
-                                  icon={
-                                    <span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />
-                                  }
+                                  icon={<span className=" w-5 h-5 border-2 border-gray-400 rounded-full flex items-center justify-center" />}
                                   checkedIcon={
                                     <span className="w-5 h-5 border-2 border-violet-700 rounded-full flex items-center justify-center">
                                       <span className="w-2.5 h-2.5 bg-violet-700 rounded-full" />
@@ -1276,65 +1145,43 @@ const Stepeight = ({ setHideSidebar }) => {
                               }
                               label={
                                 <p className="font-sans font-bold text-xs sm:text-base italic">
-
                                   I agree that I have read, understood and agree to the above
                                 </p>
                               }
                             />
 
-
                             {errors.terms && (
-                              <Typography
-                                variant="body2"
-                                color="error"
-                                className="mt-2 text-red-500"
-                              >
+                              <Typography variant="body2" color="error" className="mt-2 text-red-500">
                                 {errors.terms.message}
                               </Typography>
                             )}
                           </div>
-
-
-
-
-
                         </Box>
-
-
                       </Box>
 
                       {/* Navigation Buttons */}
-
                     </Box>
 
                     <div className="hidden sm:flex justify-normal py-4">
                       <PrevButton label="Back" onClick={() => dispatch(prevStep())} />
-                      <NextButton
-                        label="Proceed to Payment "
-                        disabled={!isValid || loader}
-                        loading={loader}
-                      />
+                      <NextButton label="Proceed to Payment " disabled={!isValid || loader} loading={loader} />
                     </div>
                   </div>
 
                   {/* Right Side: Order Summary */}
                   <div className="col-span-12 sm:col-span-4">
                     <div className="mb-24 sm:mb-0">
-
                       {/* <div className="bg-white p-6 rounded-lg shadow-md sm:fixed mt-10 sm:mt-[100px]"> */}
 
                       <Box className="bg-gray-100 sm:p-6 p-2 rounded-lg shadow-md mt-6 sm:mt-[110px]">
                         <div className="overflow-y-auto ">
-                          <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">
-                            Order Summary
-                          </h6>
+                          <h6 className="text-2xl font-bold mb-6 text-[#1C1C29]">Order Summary</h6>
 
                           {/* Scrollable Content */}
                           <Box className="space-y-4 overflow-y-auto max-h-[250px] pr-1 pb-4 my-2">
                             {/* Doses */}
                             {doses?.map((item, index) => (
                               <>
-
                                 {/* <Box
                                   key={index}
                                   className="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow dark:bg-red-500 dark:hover:bg-gray-500  w-full overflow-hidden"
@@ -1357,54 +1204,47 @@ const Stepeight = ({ setHideSidebar }) => {
                                 </Box> */}
                                 <li class="flex" key={index}>
                                   <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow  w-full overflow-hidden">
-                                    <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.product} {item.name}</span>
+                                    <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden">
+                                      {" "}
+                                      {item.product} {item.name}
+                                    </span>
 
                                     <span class="text-[13px]">(x{item.qty})</span>
-                                    <span class="text-[13px]">£
-                                      £{(item.qty * parseFloat(item.price)).toFixed(2)}
-
-                                    </span>
+                                    <span class="text-[13px]">£ £{(item.qty * parseFloat(item.price)).toFixed(2)}</span>
                                   </div>
                                   <button
                                     onClick={() => handleEdit(item.id)}
-                                    class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 ">
+                                    class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 "
+                                  >
                                     <HiOutlinePencilAlt />
                                   </button>
                                 </li>
 
-                                {
-                                  item.product === "Mounjaro (Tirzepatide)" && (
+                                {item.product === "Mounjaro (Tirzepatide)" && (
+                                  // <Box
+                                  //   key={`${item.id}-needle`}
+                                  //   className="flex justify-between  border border-green-400 rounded-md p-3"
+                                  // >
+                                  //   <Box className="flex items-center space-x-2">
+                                  //     <span className="font-medium text-sm">
+                                  //       Pack of 5 Needle, {item.qty}x
+                                  //     </span>
+                                  //     <span className="font-bold text-md">£0.00</span>
+                                  //   </Box>
+                                  //   <Box>
 
-                                    // <Box
-                                    //   key={`${item.id}-needle`}
-                                    //   className="flex justify-between  border border-green-400 rounded-md p-3"
-                                    // >
-                                    //   <Box className="flex items-center space-x-2">
-                                    //     <span className="font-medium text-sm">
-                                    //       Pack of 5 Needle, {item.qty}x
-                                    //     </span>
-                                    //     <span className="font-bold text-md">£0.00</span>
-                                    //   </Box>
-                                    //   <Box>
+                                  //   </Box>
+                                  // </Box>
 
-                                    //   </Box>
-                                    // </Box>
-
-
-
-                                    <li class="flex" key={index}>
-                                      <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow   w-full overflow-hidden">
-
-
-                                        <span class="text-[13px]">  Pack of 5 Needle, {item.qty}x</span>
-                                        <span class="text-[13px]">£0.00
-                                        </span>
-                                      </div>
-
-                                    </li>
-                                  )
-                                }
-                              </>))}
+                                  <li class="flex" key={index}>
+                                    <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow   w-full overflow-hidden">
+                                      <span class="text-[13px]"> Pack of 5 Needle, {item.qty}x</span>
+                                      <span class="text-[13px]">£0.00</span>
+                                    </div>
+                                  </li>
+                                )}
+                              </>
+                            ))}
 
                             {/* Addons */}
                             {addons?.map((item) => (
@@ -1434,23 +1274,21 @@ const Stepeight = ({ setHideSidebar }) => {
                                   <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden"> {item.name}</span>
 
                                   <span class="text-[13px]">(x{item.qty})</span>
-                                  <span class="text-[13px]">£{(item.qty * parseFloat(item.price)).toFixed(2)}
-                                  </span>
+                                  <span class="text-[13px]">£{(item.qty * parseFloat(item.price)).toFixed(2)}</span>
                                 </div>
                                 <button
                                   onClick={() => handleEdit(item.id)}
-                                  class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded ">
+                                  class="inline-flex items-center justify-center px-2 py-0.5 ms-1 text-md text-indigo-600 cursor-pointer  shadow-sm bg-indigo-100 hover:bg-indigo-200 rounded "
+                                >
                                   <HiOutlinePencilAlt />
                                 </button>
                               </li>
                             ))}
                           </Box>
 
-
                           {(countryShippingPrice !== null && countryShippingPrice !== undefined) ||
-                            (coutryPrice !== null && coutryPrice !== undefined) ? (<>
-
-
+                          (coutryPrice !== null && coutryPrice !== undefined) ? (
+                            <>
                               {/* <div className="flex justify-between items-center">
                                 <Typography variant="body1" className="text-gray-600">Shipping</Typography>
                                 <span className="font-medium text-lg text-gray-800">
@@ -1460,57 +1298,68 @@ const Stepeight = ({ setHideSidebar }) => {
                                 </span>
                               </div> */}
 
-                              <li class="flex" >
+                              <li class="flex">
                                 <div class="flex items-center p-2 lg:p-3 text-sm lg:text-base font-medium text-gray-900 rounded-lg bg-[#E8E1FC] group shadow  w-full overflow-hidden">
                                   <span class="flex-1 whitespace-nowrap text-[13px] overflow-ellipsis overflow-hidden">Shipping</span>
 
-                                  <span class="text-[13px]"> £{countryShippingPrice !== null && countryShippingPrice !== undefined
-                                    ? Number(countryShippingPrice).toFixed(2)
-                                    : Number(coutryPrice || 0).toFixed(2)}
+                                  <span class="text-[13px]">
+                                    {" "}
+                                    £
+                                    {countryShippingPrice !== null && countryShippingPrice !== undefined
+                                      ? Number(countryShippingPrice).toFixed(2)
+                                      : Number(coutryPrice || 0).toFixed(2)}
                                   </span>
                                 </div>
-
                               </li>
-                            </>) : null}
+                            </>
+                          ) : null}
                           {/* <div className="flex justify-between items-center">
                             <Typography variant="body1" className="text-gray-600">Subtotal</Typography>
                             <span className="font-medium text-lg text-gray-800">£{subtotal.toFixed(2)}</span>
                           </div> */}
 
-                          <div class="flex items-center justify-between mt-6 md:mt-8"><p class="text-sm text-gray-900 ">Sub Total</p><p class="text-sm text-gray-900 ">£{subtotal.toFixed(2)}</p></div>
+                          <div class="flex items-center justify-between mt-6 md:mt-8">
+                            <p class="text-sm text-gray-900 ">Sub Total</p>
+                            <p class="text-sm text-gray-900 ">£{subtotal.toFixed(2)}</p>
+                          </div>
 
                           <hr className="my-2 md:my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mt-4" />
 
-
-
-                          <div class="flex items-center justify-between"><p class="text-base font-bold text-gray-900 ">Total</p><p class="text-base font-bold text-gray-900 ">£{total.toFixed(2)}</p></div>
+                          <div class="flex items-center justify-between">
+                            <p class="text-base font-bold text-gray-900 ">Total</p>
+                            <p class="text-base font-bold text-gray-900 ">£{total.toFixed(2)}</p>
+                          </div>
 
                           <hr className="my-2 md:my-4 border-gray-200 sm:mx-auto dark:border-gray-700 lg:mt-4" />
-
 
                           <div className="pt-6 flex flex-col space-y-6">
                             {/* Coupon Input Section */}
                             <div>
                               {!isCouponApplied && (
-                                <div className={`flex items-center py-3 shadow-sm  `}>
-                                  <input
-                                    type="text"
-                                    value={discountCode}
-                                    onChange={(e) => setDiscountCode(e.target.value)}
-                                    placeholder="Discount code"
-                                    className="flex-1 text-sm text-gray-800 placeholder-gray-400 focus:outline-none rounded-md p-2 hover:border-blue-600 focus:outline-blue transition-shadow duration-200"
-                                  />
-                                  <button
-                                    type="button"
-                                    onClick={handleApplyCoupon}
-                                    disabled={discountCode.trim() === ""}
-                                    className={`ml-3 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold shadow-md transition-all duration-200 ${discountCode.trim() === ""
-                                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                                      : "bg-gradient-to-r from-violet-700 to-violet-500 text-white hover:from-violet-700 hover:to-violet-600"
+                                <div className={`flex items-center py-3 shadow-sm w:100  `}>
+                                  <div className="w-1/2">
+                                    <input
+                                      type="text"
+                                      value={discountCode}
+                                      onChange={(e) => setDiscountCode(e.target.value)}
+                                      placeholder="Discount code"
+                                      className="w-full flex-1 text-sm text-gray-800 placeholder-gray-400 focus:outline-none rounded-md p-2 hover:border-blue-600 focus:outline-blue transition-shadow duration-200"
+                                    />
+                                  </div>
+                                  <div className="w-1/2">
+                                    <button
+                                      type="button"
+                                      onClick={handleApplyCoupon}
+                                      disabled={discountCode.trim() === ""}
+                                      className={`w-50 ml-3 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold shadow-md transition-all duration-200 ${
+                                        discountCode.trim() === ""
+                                          ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                                          : "bg-gradient-to-r from-violet-700 to-violet-500 text-white hover:from-violet-700 hover:to-violet-600"
                                       }`}
-                                  >
-                                    Apply Code
-                                  </button>
+                                    >
+                                      Apply Code
+                                    </button>
+                                  </div>
                                 </div>
                               )}
 
@@ -1535,7 +1384,6 @@ const Stepeight = ({ setHideSidebar }) => {
 
                             {/* Subtotal */}
 
-
                             {/* Shipping */}
                             {/* {(countryShippingPrice !== null || coutryPrice) && (
                         <div className="flex justify-between items-center">
@@ -1545,10 +1393,6 @@ const Stepeight = ({ setHideSidebar }) => {
                           </span>
                         </div>
                       )} */}
-
-
-
-
 
                             {/* Discount */}
                             {isCouponApplied && (
@@ -1563,9 +1407,7 @@ const Stepeight = ({ setHideSidebar }) => {
                             )}
 
                             {/* Total */}
-
                           </div>
-
                         </div>
                       </Box>
                     </div>
@@ -1573,7 +1415,6 @@ const Stepeight = ({ setHideSidebar }) => {
                 </div>
                 <div className="fixed bottom-2 w-[95%] mx-auto left-0 right-0 z-50 block sm:hidden">
                   <div className="relative flex justify-between items-center bg-white/30 backdrop-blur-lg rounded-lg py-3 px-6 shadow-lg border border-white/40">
-
                     {/* Content Layer (to prevent blur on buttons) */}
                     <div className="relative flex w-full justify-between items-center">
                       {/* Back Button */}
@@ -1586,10 +1427,11 @@ const Stepeight = ({ setHideSidebar }) => {
                       <button
                         type="submit"
                         disabled={!isValid || loader}
-                        className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
-                          ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                          : "text-white rounded-md bg-violet-700"
-                          }`}
+                        className={`p-3 flex flex-col items-center justify-center ${
+                          !isValid || loader
+                            ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                            : "text-white rounded-md bg-violet-700"
+                        }`}
                       >
                         {loader ? (
                           // Loading Spinner with Label
@@ -1599,23 +1441,17 @@ const Stepeight = ({ setHideSidebar }) => {
                           </div>
                         ) : (
                           // Label with Icon
-                          <span className="text-sm font-semibold">
-                            Proceed to Payment
-                          </span>
+                          <span className="text-sm font-semibold">Proceed to Payment</span>
                         )}
                       </button>
                     </div>
                   </div>
                 </div>
-              </form >
-            </div >
-
-
-          </section >
-        </>)
-
-      }
-
+              </form>
+            </div>
+          </section>
+        </>
+      )}
     </>
   );
 };

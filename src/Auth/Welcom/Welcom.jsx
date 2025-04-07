@@ -38,7 +38,7 @@ const Welcome = () => {
         {/* Mobile View: Tab Switcher */}
         <div className="bg-white lg:hidden mx-auto py-8 shadow-lg rounded-xl w-full max-w-md mt-6">
           {/* Tab Switcher */}
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-6 px-3">
             <div className="bg-gray-200 rounded-lg flex overflow-hidden">
               <label
                 htmlFor="tab1"
