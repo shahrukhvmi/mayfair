@@ -9,14 +9,16 @@ import stepsSlice from "./slice/stepSlice";
 import { stepApi } from "./services/Steps/Steps";
 import cartSlice from "./slice/cartSlice"; // Fixed path
 import addonCartSlice from "./slice/addonCartSlice"; // Fixed path
+import paymentLoaderReducer from "./slice/paymentLoaderSlice"; // import the slice
 
 const store = configureStore({
   reducer: {
     step: stepReducer,
     stepsSlice,
     cart: cartSlice, // Fixed cartSlice reducer setup
-    addonCart:addonCartSlice,
+    addonCart: addonCartSlice,
     auth: authReducer,
+    paymentLoader: paymentLoaderReducer,
     [authApi.reducerPath]: authApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [addressApi.reducerPath]: addressApi.reducer,
@@ -31,7 +33,7 @@ const store = configureStore({
       .concat(gpAddressApi.middleware)
       .concat(stepApi.middleware)
       .concat(addressApi.middleware),
-      devTools: process.env.NODE_ENV !== "production",
+  devTools: process.env.NODE_ENV !== "production",
 });
 
 export default store;

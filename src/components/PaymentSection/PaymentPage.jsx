@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import "../PaymentSection/paymentpage.css";
+import { useDispatch } from "react-redux";
+import { setPaymentLoading } from "../../store/slice/paymentLoaderSlice"; // adjust path as needed
 const PaymentPage = ({ paymentData }) => {
   const [countdown, setCountdown] = useState(3);
+
+  const dispatch = useDispatch();
+
   //   useEffect(() => {
 
   //     const updateCountdown = () => {
@@ -51,14 +56,16 @@ const PaymentPage = ({ paymentData }) => {
     }
 
     // Set loader true when countdown starts
-    localStorage.setItem("paymentLoader", "true");
+    dispatch(setPaymentLoading(true));
 
     const updateCountdown = () => {
       setCountdown((prevCountdown) => {
         if (prevCountdown <= 1) {
           document.getElementById("process-payment-form").submit();
           // Set loader false when countdown ends
-          localStorage.setItem("paymentLoader", "false");
+          setTimeout(() => {
+            dispatch(setPaymentLoading(false));
+          }, 4000); // 4 sec delay
           return 0;
         }
         setTimeout(updateCountdown, 1000); // Recursive call
