@@ -75,7 +75,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
   const handleLogout = () => {
     setIsOpenDrop(false); // Close the dropdown
     logout();
-    navigate("/login/");
+    navigate("/");
   };
 
   return (

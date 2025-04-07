@@ -8,7 +8,12 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const params = new URLSearchParams(location.search);
+  const productId = params.get("product_id");
 
+  if (productId) {
+    localStorage.setItem("previous_id", productId);
+  }
   const checkAuthStatus = () => {
     const token = localStorage.getItem("token");
     setIsAuthenticated(!!token);
@@ -41,9 +46,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("step5");
     localStorage.removeItem("step6");
     localStorage.removeItem("stepPrevApiData");
-   
+
     setIsAuthenticated(false);
-    navigate("/login/");
+
+
+    navigate("/");
   };
 
   useEffect(() => {

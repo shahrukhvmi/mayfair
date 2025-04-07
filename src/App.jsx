@@ -71,7 +71,7 @@ const App = () => {
           <Routes>
             {/* Auth Routes */}
             <Route
-              path="/login/"
+              path="/"
               element={
                 <PublicRoute
                   element={

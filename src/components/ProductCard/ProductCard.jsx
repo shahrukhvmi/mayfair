@@ -34,17 +34,23 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       const productId = params.get("product_id");
       const previousId = localStorage.getItem("previous_id");
   
-      if (previousId !== productId) {
+      // Clear modalOpened if different product
+      if (previousId && previousId !== productId) {
         localStorage.removeItem("modalOpened");
       }
   
-      if (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) {
-        localStorage.setItem("previous_id", productId);
-        localStorage.setItem("pid", productId);
+      const shouldOpenModal =
+        (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) ||
+        (previousId && String(previousId) === String(id));
+  
+      if (shouldOpenModal) {
+        const pidToSet = productId || previousId;
+  
+        localStorage.setItem("previous_id", pidToSet);
+        localStorage.setItem("pid", pidToSet);
         localStorage.setItem("modalOpened", "true");
   
         reorder ? setReorderOpen(true) : setModalOpen(true);
-  
         modalOpenedRef.current = true;
       } else if (!productId) {
         // ✅ only remove pid if no productId in URL
@@ -57,7 +63,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   const navigate = useNavigate()
 
   const handleClick = () => {
-
+    // localStorage.removeItem("previous_id")
     if (reorder) {
       localStorage.setItem("reorder", true);
       setReorderOpen(true);
@@ -89,6 +95,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   const url = import.meta.env.VITE_BASE_URL;
 
   const handleConfirm = async () => {
+    localStorage.removeItem("previous_id");
     const pid = Number(localStorage.getItem("pid")) || id;
     const currentStep = Number(localStorage.getItem("currentStep")) || 1;
     const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
@@ -108,14 +115,17 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     if (reorder) {
       if (reorderStatus) {
         localStorage.setItem("currentStep", 1);
+        localStorage.removeItem("previous_id")
         dispatch(triggerStep(1));
       } else {
         localStorage.setItem("currentStep", 2);
+        localStorage.removeItem("previous_id")
         dispatch(triggerStep(2));
       }
     } else {
       localStorage.setItem("currentStep", currentStep);
       dispatch(triggerStep(currentStep));
+      localStorage.removeItem("previous_id")
     }
 
     localStorage.removeItem("addonCart");
@@ -144,12 +154,13 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   const handleClose = () => {
     setReorderOpen(false);
     setModalOpen(false);
+    localStorage.removeItem("previous_id")
   };
 
   return (
     <>
       <div
-        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden cursor-pointer transition-transform shadow-md"
+        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden  transition-transform shadow-md"
       // onMouseEnter={handleMouseEnter}
       // onMouseLeave={handleMouseLeave}
       >
