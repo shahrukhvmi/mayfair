@@ -50,7 +50,7 @@ export const AuthProvider = ({ children }) => {
     setIsAuthenticated(false);
 
 
-    navigate("/start-consultation/");
+    navigate("/");
   };
 
   useEffect(() => {

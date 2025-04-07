@@ -62,7 +62,7 @@ const Header = () => {
 
   // Check if the current route is login or register
   const isAuth =
-    location.pathname === "/start-consultation/" ||
+    location.pathname === "/" ||
     location.pathname === "/register/" ||
     location.pathname === "/forgot-password/" ||
     location.pathname === "/change-forgot-password/";
@@ -70,7 +70,7 @@ const Header = () => {
   const handleLogout = () => {
     setIsOpenDrop(false);
     logout();
-    navigate("/start-consultation/");
+    navigate("/");
   };
   const handleRemovePid = () => {
     localStorage.removeItem("previous_id")
