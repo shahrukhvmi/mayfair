@@ -20,9 +20,11 @@ const Steptwo = ({ setHideSidebar }) => {
     handleSubmit,
     trigger,
     getValues,
+    clearErrors,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
+    shouldUnregister: true,
     defaultValues: {
       heightFt: "",
       heightIn: "",
@@ -111,12 +113,18 @@ const Steptwo = ({ setHideSidebar }) => {
         checked ? ["You have previously taken weight loss medication your starting (baseline) BMI was above 30"] : ""
       );
     } else if (name === "checkbox2") {
+      if (!checked) {
+        setComorbidityExplanation("");
+        setValue("weight_related_comorbidity_explanation", "");
+        clearErrors("weight_related_comorbidity_explanation");
+        trigger(); // ✅ Force RHF to re-evaluate form validity
+      }
       setValue(
         "weight_related_comorbidity",
         checked
           ? [
-            "You have at least one weight-related comorbidity (e.g. PCOS, diabetes, pre-diabetes, high cholesterol, hypertension, sleep apnoea, osteoarthritis etc.)",
-          ]
+              "You have at least one weight-related comorbidity (e.g. PCOS, diabetes, pre-diabetes, high cholesterol, hypertension, sleep apnoea, osteoarthritis etc.)",
+            ]
           : ""
       );
     }
@@ -139,17 +147,15 @@ const Steptwo = ({ setHideSidebar }) => {
   };
 
   const isAtLeastOneCheckboxValid = () => {
-    // If both checkboxes are selected but explanation is empty, return false
-    if (checkboxState.checkbox1 && checkboxState.checkbox2 && comorbidityExplanation?.trim() === "") {
+    // If checkbox2 is selected but explanation is empty, validation fails
+    if (checkboxState.checkbox2 && comorbidityExplanation.trim() === "") {
       return false;
     }
-
-    // If at least one checkbox is selected, return true
+    // If at least one checkbox is selected (and above condition passed), validation passes
     if (checkboxState.checkbox1 || checkboxState.checkbox2) {
       return true;
     }
-
-    // Otherwise, return false
+    // If none selected, validation fails
     return false;
   };
 
@@ -164,7 +170,7 @@ const Steptwo = ({ setHideSidebar }) => {
   }, [watch]);
 
   const handleExplanationChange = (event) => {
-    const explanationValue = event.target.value.trim();
+    const explanationValue = event.target.value;
 
     setComorbidityExplanation(explanationValue);
     setValue("weight_related_comorbidity_explanation", explanationValue);
@@ -452,10 +458,11 @@ const Steptwo = ({ setHideSidebar }) => {
               {/* Imperial Button */}
               <Box
                 onClick={() => handleUnitChange("imperial")}
-                className={`sm:w-3/4   w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "imperial"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                  : "border border-gray-100 bg-white text-gray-800 hover:shadow"
-                  }`}
+                className={`sm:w-3/4   w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${
+                  unit === "imperial"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                    : "border border-gray-100 bg-white text-gray-800 hover:shadow"
+                }`}
               >
                 <span className="text-sm font-bold">IMPERIAL</span>
                 {unit === "imperial" && (
@@ -470,10 +477,11 @@ const Steptwo = ({ setHideSidebar }) => {
               {/* Metric Button */}
               <Box
                 onClick={() => handleUnitChange("metrics")}
-                className={`sm:w-3/4 w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "metrics"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                  : "border border-gray-300 bg-white text-gray-800 hover:shadow"
-                  }`}
+                className={`sm:w-3/4 w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${
+                  unit === "metrics"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                    : "border border-gray-300 bg-white text-gray-800 hover:shadow"
+                }`}
               >
                 <span className="text-sm font-bold">METRICS</span>
                 {unit === "metrics" && (
@@ -925,26 +933,27 @@ const Steptwo = ({ setHideSidebar }) => {
 
             <div className="block sm:hidden">
               <div
-                className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                  ? bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 18.5
+                className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${
+                  lastConsultation?.isReturning
+                    ? bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 18.5
                       ? "bg-red-300"
                       : bmi > 18.5 && bmi <= 26.9
-                        ? "bg-yellow-100"
-                        : bmi > 26.9 && bmi <= 30
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  : bmi == 0
+                      ? "bg-yellow-100"
+                      : bmi > 26.9 && bmi <= 30
+                      ? "bg-green-300"
+                      : "bg-[#4DB581]"
+                    : bmi == 0
                     ? "bg-gray-100"
                     : bmi < 30
-                      ? "bg-red-300"
-                      : bmi >= 30
-                        ? "bg-yellow-100"
-                        : bmi > 27 && bmi <= 29.9
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  }`}
+                    ? "bg-red-300"
+                    : bmi >= 30
+                    ? "bg-yellow-100"
+                    : bmi > 27 && bmi <= 29.9
+                    ? "bg-green-300"
+                    : "bg-[#4DB581]"
+                }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
                 <p className="text-4xl text-black font-semibold">{parseFloat(bmi).toFixed(1)}</p>
@@ -975,10 +984,11 @@ const Steptwo = ({ setHideSidebar }) => {
                   <button
                     type="submit"
                     disabled={errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())}
-                    className={`p-3 flex flex-col items-center justify-center ${errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())
-                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                      : "text-white rounded-md bg-violet-700"
-                      }`}
+                    className={`p-3 flex flex-col items-center justify-center ${
+                      errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())
+                        ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                        : "text-white rounded-md bg-violet-700"
+                    }`}
                   >
                     {isLoading ? (
                       // Loading Spinner with Label
@@ -999,26 +1009,27 @@ const Steptwo = ({ setHideSidebar }) => {
           <div className="right | w-full lg:w-[350px]">
             <div className="hidden sm:block">
               <div
-                className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                  ? bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 18.5
+                className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${
+                  lastConsultation?.isReturning
+                    ? bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 18.5
                       ? "bg-red-300"
                       : bmi > 18.5 && bmi <= 26.9
-                        ? "bg-yellow-100"
-                        : bmi > 26.9 && bmi <= 30
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  : bmi == 0
+                      ? "bg-yellow-100"
+                      : bmi > 26.9 && bmi <= 30
+                      ? "bg-green-300"
+                      : "bg-[#4DB581]"
+                    : bmi == 0
                     ? "bg-gray-100"
                     : bmi < 30
-                      ? "bg-red-300"
-                      : bmi >= 30
-                        ? "bg-yellow-100"
-                        : bmi > 27 && bmi <= 29.9
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  }`}
+                    ? "bg-red-300"
+                    : bmi >= 30
+                    ? "bg-yellow-100"
+                    : bmi > 27 && bmi <= 29.9
+                    ? "bg-green-300"
+                    : "bg-[#4DB581]"
+                }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
                 <p className="text-4xl text-black font-semibold">{parseFloat(bmi).toFixed(1)}</p>
