@@ -29,60 +29,54 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
 
 
   useEffect(() => {
-    if (!modalOpenedRef.current) {
-      const params = new URLSearchParams(location.search);
-      const productId = params.get("product_id");
-      const previousId = localStorage.getItem("previous_id");
+    if (modalOpenedRef.current) return;
   
-      if (previousId !== productId) {
-        localStorage.removeItem("modalOpened");
-      }
+    const params = new URLSearchParams(location.search);
+    const productId = params.get("product_id");
+    const previousId = localStorage.getItem("previous_id");
+    const pid = localStorage.getItem("pid");
   
-      if (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) {
+    const isMatchingId = String(productId) === String(id);
+    const shouldOpenFromURL = productId && isMatchingId && !localStorage.getItem("modalOpened");
+    const shouldOpenFromPID = !productId && String(pid) === String(id) && !localStorage.getItem("modalOpened");
+  
+    if (previousId !== productId) {
+      localStorage.removeItem("modalOpened");
+    }
+  
+    if (shouldOpenFromURL || shouldOpenFromPID) {
+      if (productId) {
         localStorage.setItem("previous_id", productId);
         localStorage.setItem("pid", productId);
-        localStorage.setItem("modalOpened", "true");
-  
-        reorder ? setReorderOpen(true) : setModalOpen(true);
-  
-        modalOpenedRef.current = true;
-      } else if (!productId) {
-        // ✅ only remove pid if no productId in URL
-        localStorage.removeItem("pid");
       }
+  
+      localStorage.setItem("modalOpened", "true");
+  
+      reorder ? setReorderOpen(true) : setModalOpen(true);
+      modalOpenedRef.current = true;
     }
+  
+    // Optional: clean up pid if nothing matches
+    // if (!productId && !shouldOpenFromPID) {
+    //   localStorage.removeItem("pid");
+    // }
   }, [location.search, reorder, id]);
   
 
+
   const navigate = useNavigate()
-
   const handleClick = () => {
-
+    localStorage.setItem("pid", id); 
+  
     if (reorder) {
       localStorage.setItem("reorder", true);
       setReorderOpen(true);
-      // localStorage.setItem("pid", id);
-      // localStorage.setItem("comingFromStart", 0);
-      // localStorage.setItem("start_concent", true);
-      // localStorage.setItem("currentStep", 1);
-      // dispatch(triggerStep(1));
-      // dispatch(clearCart())
-      // dispatch(clearCartAddon())
-      // localStorage.removeItem("addonCart");
-      // localStorage.removeItem("cart");
     } else {
       localStorage.setItem("reorder", false);
       setModalOpen(true);
-      // localStorage.setItem("comingFromStart", 0);
-      // localStorage.setItem("start_concent", true);
-      // localStorage.setItem("currentStep", currentStep);
-      // dispatch(triggerStep(currentStep));
-      // localStorage.removeItem("addonCart");
-      // localStorage.removeItem("cart");
-      // dispatch(clearCart())
-      // dispatch(clearCartAddon())
     }
   };
+  
   // post pid or save preApiData 
   const [getPrev, { data, error, isLoading }] = useGetPrevsMutation();
   const clinic_id = 1;
