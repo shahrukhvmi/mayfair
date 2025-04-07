@@ -460,8 +460,8 @@ const Steptwo = ({ setHideSidebar }) => {
               <Box
                 onClick={() => handleUnitChange("imperial")}
                 className={`sm:w-3/4   w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "imperial"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                  : "border border-gray-100 bg-white text-gray-800 hover:shadow"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                    : "border border-gray-100 bg-white text-gray-800 hover:shadow"
                   }`}
               >
                 <span className="text-sm font-bold">IMPERIAL</span>
@@ -478,8 +478,8 @@ const Steptwo = ({ setHideSidebar }) => {
               <Box
                 onClick={() => handleUnitChange("metrics")}
                 className={`sm:w-3/4 w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "metrics"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                  : "border border-gray-300 bg-white text-gray-800 hover:shadow"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                    : "border border-gray-300 bg-white text-gray-800 hover:shadow"
                   }`}
               >
                 <span className="text-sm font-bold">METRICS</span>
@@ -500,40 +500,33 @@ const Steptwo = ({ setHideSidebar }) => {
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
-                  
-
                     <TextField
-                      type="text" // We use text to control input completely
-                      inputMode="numeric" // Shows numeric keypad on mobile
+                      type="numeric"
                       variant="standard"
                       label="ft"
                       value={watch("heightFt") || ""}
-                      onChange={(e) => {
-                        // Remove anything that's not a digit
-                        const raw = e.target.value.replace(/[^0-9]/g, "");
-
-                        // Block if it's empty or out of range
-                        if (raw === "") {
-                          setValue("heightFt", "", { shouldValidate: true });
-                          return;
+                      onInput={(e) => {
+                        if (e.target.value > 10) {
+                          e.target.value = 10;
                         }
-
-                        // Convert to number and clamp it between 1 and 10
-                        let num = parseInt(raw);
-                        if (num > 10) num = 10;
-                        if (num < 1) num = 1;
-
-                        setValue("heightFt", String(num), { shouldValidate: true });
-                      }}
-                      onPaste={(e) => {
-                        // Prevent pasting anything that’s not a number
-                        const paste = e.clipboardData.getData("text");
-                        if (!/^\d+$/.test(paste)) {
-                          e.preventDefault();
+                        if (e.target.value < 0) {
+                          e.target.value = 0;
                         }
                       }}
                       {...register("heightFt", {
                         required: true,
+                        pattern: {
+                          value: /^[1-9][0-9]*$/,
+                          message: "Only valid numbers are allowed",
+                        },
+                        minLength: {
+                          value: 1,
+                          message: "ft must have at least 1 digit",
+                        },
+                        maxLength: {
+                          value: 2,
+                          message: "ft must have a maximum of 2 digits",
+                        },
                         min: {
                           value: 1,
                           message: "ft must be greater than 0",
@@ -544,10 +537,8 @@ const Steptwo = ({ setHideSidebar }) => {
                         },
                       })}
                       error={!!errors.heightFt}
-                      helperText={errors.heightFt?.message}
+                      helperText={errors.heightFt ? errors.heightFt.message : ""} // Dynamically display the actual error message
                     />
-
-
                   </div>
                   <div className="col-span-6">
                     <TextField
@@ -942,24 +933,24 @@ const Steptwo = ({ setHideSidebar }) => {
             <div className="block sm:hidden">
               <div
                 className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                  ? bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 18.5
-                      ? "bg-red-300"
-                      : bmi > 18.5 && bmi <= 26.9
-                        ? "bg-yellow-100"
-                        : bmi > 26.9 && bmi <= 30
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  : bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 30
-                      ? "bg-red-300"
-                      : bmi >= 30
-                        ? "bg-yellow-100"
-                        : bmi > 27 && bmi <= 29.9
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
+                    ? bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 18.5
+                        ? "bg-red-300"
+                        : bmi > 18.5 && bmi <= 26.9
+                          ? "bg-yellow-100"
+                          : bmi > 26.9 && bmi <= 30
+                            ? "bg-green-300"
+                            : "bg-[#4DB581]"
+                    : bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 30
+                        ? "bg-red-300"
+                        : bmi >= 30
+                          ? "bg-yellow-100"
+                          : bmi > 27 && bmi <= 29.9
+                            ? "bg-green-300"
+                            : "bg-[#4DB581]"
                   }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
@@ -992,8 +983,8 @@ const Steptwo = ({ setHideSidebar }) => {
                     type="submit"
                     disabled={errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())}
                     className={`p-3 flex flex-col items-center justify-center ${errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())
-                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                      : "text-white rounded-md bg-violet-700"
+                        ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                        : "text-white rounded-md bg-violet-700"
                       }`}
                   >
                     {isLoading ? (
@@ -1016,24 +1007,24 @@ const Steptwo = ({ setHideSidebar }) => {
             <div className="hidden sm:block">
               <div
                 className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                  ? bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 18.5
-                      ? "bg-red-300"
-                      : bmi > 18.5 && bmi <= 26.9
-                        ? "bg-yellow-100"
-                        : bmi > 26.9 && bmi <= 30
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  : bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 30
-                      ? "bg-red-300"
-                      : bmi >= 30
-                        ? "bg-yellow-100"
-                        : bmi > 27 && bmi <= 29.9
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
+                    ? bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 18.5
+                        ? "bg-red-300"
+                        : bmi > 18.5 && bmi <= 26.9
+                          ? "bg-yellow-100"
+                          : bmi > 26.9 && bmi <= 30
+                            ? "bg-green-300"
+                            : "bg-[#4DB581]"
+                    : bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 30
+                        ? "bg-red-300"
+                        : bmi >= 30
+                          ? "bg-yellow-100"
+                          : bmi > 27 && bmi <= 29.9
+                            ? "bg-green-300"
+                            : "bg-[#4DB581]"
                   }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
