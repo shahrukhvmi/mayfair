@@ -10,10 +10,6 @@ import Stepfive from "./formsteps/Stepfive";
 import Stepsix from "./formsteps/Stepsix";
 import Stepseven from "./formsteps/Stepseven";
 import Stepeight from "./formsteps/Stepeight";
-import Stepnine from "./formsteps/Stepnine";
-import Stepten from "./formsteps/Stepten";
-import Stepeleven from "./formsteps/Stepeleven";
-import Steptwelve from "./formsteps/Steptwelve";
 import Stepper from "./Stepper";
 import Footer from "./Footer";
 const Steps = () => {
@@ -50,14 +46,6 @@ const Steps = () => {
         return <Stepseven setHideSidebar={setHideSidebar} />;
       case 8:
         return <Stepeight setHideSidebar={setHideSidebar} />;
-      case 9:
-        return <Stepnine />;
-      case 10:
-        return <Stepten />;
-      case 11:
-        return <Stepeleven />;
-      case 12:
-        return <Steptwelve />;
       default:
         return <Stepone setHideSidebar={setHideSidebar} />;
     }
