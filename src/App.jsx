@@ -6,6 +6,7 @@ import { AuthProvider } from "./Auth/AuthContext";
 import PublicRoute from "./Auth/PublicRoute";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import PaymentFailed from "./components/PaymentFailed/PaymentFailed";
+import { useSelector } from "react-redux";
 
 // Lazy load components
 const MainLayout = React.lazy(() => import("./Layout/MainLayout/MainLayout"));
@@ -26,14 +27,17 @@ const ChangeForgotPassword = React.lazy(() => import("./Auth/ChangeForgotPasswor
 const App = () => {
   // const [isLoaded, setIsLoaded] = useState(false);
   // const location = useLocation();
-  const [paymentLoading, setPaymentLoading] = useState(false);
-  useEffect(() => {
-    if (localStorage.getItem("paymentLoader") == true) {
-      setPaymentLoading(true);
-    } else {
-      setPaymentLoading(false);
-    }
-  }, [paymentLoading]);
+  const paymentLoading = useSelector((state) => state.paymentLoader.loading);
+  // const [paymentLoading, setPaymentLoading] = useState(false);
+  // useEffect(() => {
+  //   if (localStorage.getItem("paymentLoader") == "true") {
+  //     setPaymentLoading(true);
+  //   } else {
+  //     setPaymentLoading(false);
+  //   }
+  // }, [paymentLoading]);
+
+  // console.log(paymentLoading, "paymentLoading");
 
   // // Check if the current route is /consultation-form
   // const shouldAnimate = location.pathname === "/consultation-form";
@@ -42,7 +46,7 @@ const App = () => {
   // useGsapAnimation(setIsLoaded, shouldAnimate);
 
   return (
-    <div className={`overflow-hidden h-full ${paymentLoading ? "h-[100vh]" : ""}`}>
+    <div className={`overflow-hidden ${paymentLoading ? "h-[100vh]" : "h-full"}`}>
       {/* Loader Animation */}
       {/* {!isLoaded && shouldAnimate && (
         <div className="flex items-center justify-center h-screen bg-gradient-to-r from-blue-100 to-green-100">
@@ -119,27 +123,10 @@ const App = () => {
               }
             />
 
-              {/* Dashboard Routes */}
-              <Route
-                path="/dashboard/"
-                element={
-                  <ProtectedRoute
-                    element={<DashBoardLayout element={<MyAccount />} />}
-                  />
-                }
-              />
-              <Route
-                path="/orders/"
-                element={
-                  <ProtectedRoute
-                    element={<DashBoardLayout element={<MyOrders />} />}
-                  />
-                }
-              />
-              <Route
-                path="/orders/:id/"
-               element={<OrderDetails />}
-              />
+            {/* Dashboard Routes */}
+            <Route path="/dashboard/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAccount />} />} />} />
+            <Route path="/orders/" element={<ProtectedRoute element={<DashBoardLayout element={<MyOrders />} />} />} />
+            <Route path="/orders/:id/" element={<OrderDetails />} />
 
             <Route path="/profile/" element={<ProtectedRoute element={<DashBoardLayout element={<MyProfile />} />} />} />
             <Route path="/address/" element={<ProtectedRoute element={<DashBoardLayout element={<MyAddress />} />} />} />
@@ -182,20 +169,15 @@ const App = () => {
                 }
               /> */}
 
-
-
-              
-
-
             <Route path="/thank-you/" element={<ThankYou />} />
             <Route path="/payment-failed/" element={<PaymentFailed />} />
 
-              {/* Fallback Route */}
-              <Route path="*" element={<Navigate to="/dashboard/" />} />
-            </Routes>
-            <Toaster />
-          </Suspense>
-        </AuthProvider>
+            {/* Fallback Route */}
+            <Route path="*" element={<Navigate to="/dashboard/" />} />
+          </Routes>
+          <Toaster />
+        </Suspense>
+      </AuthProvider>
     </div>
   );
 };
