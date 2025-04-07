@@ -1,4 +1,3 @@
-import { Backdrop, Button, CircularProgress } from "@mui/material";
 import React, { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -46,6 +45,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("step5");
     localStorage.removeItem("step6");
     localStorage.removeItem("stepPrevApiData");
+    localStorage.removeItem("previous_id");
 
     setIsAuthenticated(false);
 

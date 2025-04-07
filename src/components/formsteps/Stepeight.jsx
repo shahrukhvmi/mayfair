@@ -623,6 +623,7 @@ const Stepeight = ({ setHideSidebar }) => {
         setPaymentData(response?.paymentData);
         console.log(response?.paymentData, "response?.paymentData")
         // navigate("/thank-you");
+        localStorage.removeItem("previous_id");
 
 
         // window.location.href = response?.payment_Link;
