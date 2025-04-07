@@ -86,7 +86,7 @@ const ThankYou = () => {
   // }, []);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-[#dacfff]  px-6">
+    <div className="flex items-center justify-center min-h-screen bg-[#dacfff] px-6 sm:px-44">
       <div className="bg-white  rounded-lg shadow-lg p-8 text-center w-full">
         <div className="text-center">
           <div role="status" className="mb-8">
