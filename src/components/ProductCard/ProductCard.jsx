@@ -138,7 +138,12 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     // Optional: Fetch previous step data
     console.log(typeof reorder?.toString(), "reorder")
     try {
-      const response = await getPrev({ url, clinic_id, product_id: id, reorder: reorder }).unwrap();
+      const response = await getPrev({
+        url, 
+        clinic_id, 
+        product_id: id, 
+        reorder: reorder ? reorder.toString() : null
+      }).unwrap();
       const res = response?.data;
       if (res !== null) {
         dispatch(setStepPrevApiData(res));

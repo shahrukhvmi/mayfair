@@ -59,7 +59,7 @@ const Stepfour = ({ setHideSidebar }) => {
       }
     }
   }, []);
-  const reorder_concent = localStorage.getItem("reorder_concent");
+  const reorder_concent = localStorage.getItem("reorder_concent") || null;
 
   useEffect(() => {
     const updatedConfirmation = [
@@ -79,7 +79,7 @@ const Stepfour = ({ setHideSidebar }) => {
   // Form submission handler
   const onSubmit = async (data) => {
     try {
-      const response = await postSteps({ pid, confirmationInfo, reorder_concent: reorder_concent.toString() }).unwrap();
+      const response = await postSteps({ pid, confirmationInfo, reorder_concent: reorder_concent ? reorder_concent.toString() : null }).unwrap();
       dispatch(setStep4(confirmationInfo)); // Dispatch action to update step 4
       dispatch(nextStep());
     } catch (error) {
