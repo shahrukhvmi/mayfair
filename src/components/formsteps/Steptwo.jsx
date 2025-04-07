@@ -460,8 +460,8 @@ const Steptwo = ({ setHideSidebar }) => {
               <Box
                 onClick={() => handleUnitChange("imperial")}
                 className={`sm:w-3/4   w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "imperial"
-                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                    : "border border-gray-100 bg-white text-gray-800 hover:shadow"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                  : "border border-gray-100 bg-white text-gray-800 hover:shadow"
                   }`}
               >
                 <span className="text-sm font-bold">IMPERIAL</span>
@@ -478,8 +478,8 @@ const Steptwo = ({ setHideSidebar }) => {
               <Box
                 onClick={() => handleUnitChange("metrics")}
                 className={`sm:w-3/4 w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "metrics"
-                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                    : "border border-gray-300 bg-white text-gray-800 hover:shadow"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                  : "border border-gray-300 bg-white text-gray-800 hover:shadow"
                   }`}
               >
                 <span className="text-sm font-bold">METRICS</span>
@@ -501,32 +501,27 @@ const Steptwo = ({ setHideSidebar }) => {
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
                     <TextField
-                      type="number"
+                      type="text" // Allows custom control
+                      inputMode="numeric" // Brings up numeric keyboard on mobile
                       variant="standard"
                       label="ft"
                       value={watch("heightFt") || ""}
-                      onInput={(e) => {
-                        if (e.target.value > 10) {
-                          e.target.value = 10;
-                        }
-                        if (e.target.value < 0) {
-                          e.target.value = 0;
-                        }
+                      onChange={(e) => {
+                        // Allow only digits 0-9
+                        const onlyNumbers = e.target.value.replace(/[^0-9]/g, "");
+
+                        // Clamp value between 1 and 10
+                        let finalValue = onlyNumbers;
+                        if (+onlyNumbers > 10) finalValue = "10";
+                        if (+onlyNumbers < 1 && onlyNumbers !== "") finalValue = "1";
+
+                        e.target.value = finalValue;
+
+                        // Manually set the value using setValue from react-hook-form
+                        setValue("heightFt", finalValue, { shouldValidate: true });
                       }}
                       {...register("heightFt", {
                         required: true,
-                        pattern: {
-                          value: /^[1-9][0-9]*$/,
-                          message: "Only valid numbers are allowed",
-                        },
-                        minLength: {
-                          value: 1,
-                          message: "ft must have at least 1 digit",
-                        },
-                        maxLength: {
-                          value: 2,
-                          message: "ft must have a maximum of 2 digits",
-                        },
                         min: {
                           value: 1,
                           message: "ft must be greater than 0",
@@ -537,8 +532,9 @@ const Steptwo = ({ setHideSidebar }) => {
                         },
                       })}
                       error={!!errors.heightFt}
-                      helperText={errors.heightFt ? errors.heightFt.message : ""} // Dynamically display the actual error message
+                      helperText={errors.heightFt ? errors.heightFt.message : ""}
                     />
+
                   </div>
                   <div className="col-span-6">
                     <TextField
@@ -933,24 +929,24 @@ const Steptwo = ({ setHideSidebar }) => {
             <div className="block sm:hidden">
               <div
                 className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                    ? bmi == 0
-                      ? "bg-gray-100"
-                      : bmi < 18.5
-                        ? "bg-red-300"
-                        : bmi > 18.5 && bmi <= 26.9
-                          ? "bg-yellow-100"
-                          : bmi > 26.9 && bmi <= 30
-                            ? "bg-green-300"
-                            : "bg-[#4DB581]"
-                    : bmi == 0
-                      ? "bg-gray-100"
-                      : bmi < 30
-                        ? "bg-red-300"
-                        : bmi >= 30
-                          ? "bg-yellow-100"
-                          : bmi > 27 && bmi <= 29.9
-                            ? "bg-green-300"
-                            : "bg-[#4DB581]"
+                  ? bmi == 0
+                    ? "bg-gray-100"
+                    : bmi < 18.5
+                      ? "bg-red-300"
+                      : bmi > 18.5 && bmi <= 26.9
+                        ? "bg-yellow-100"
+                        : bmi > 26.9 && bmi <= 30
+                          ? "bg-green-300"
+                          : "bg-[#4DB581]"
+                  : bmi == 0
+                    ? "bg-gray-100"
+                    : bmi < 30
+                      ? "bg-red-300"
+                      : bmi >= 30
+                        ? "bg-yellow-100"
+                        : bmi > 27 && bmi <= 29.9
+                          ? "bg-green-300"
+                          : "bg-[#4DB581]"
                   }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
@@ -983,8 +979,8 @@ const Steptwo = ({ setHideSidebar }) => {
                     type="submit"
                     disabled={errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())}
                     className={`p-3 flex flex-col items-center justify-center ${errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())
-                        ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                        : "text-white rounded-md bg-violet-700"
+                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                      : "text-white rounded-md bg-violet-700"
                       }`}
                   >
                     {isLoading ? (
@@ -1007,24 +1003,24 @@ const Steptwo = ({ setHideSidebar }) => {
             <div className="hidden sm:block">
               <div
                 className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                    ? bmi == 0
-                      ? "bg-gray-100"
-                      : bmi < 18.5
-                        ? "bg-red-300"
-                        : bmi > 18.5 && bmi <= 26.9
-                          ? "bg-yellow-100"
-                          : bmi > 26.9 && bmi <= 30
-                            ? "bg-green-300"
-                            : "bg-[#4DB581]"
-                    : bmi == 0
-                      ? "bg-gray-100"
-                      : bmi < 30
-                        ? "bg-red-300"
-                        : bmi >= 30
-                          ? "bg-yellow-100"
-                          : bmi > 27 && bmi <= 29.9
-                            ? "bg-green-300"
-                            : "bg-[#4DB581]"
+                  ? bmi == 0
+                    ? "bg-gray-100"
+                    : bmi < 18.5
+                      ? "bg-red-300"
+                      : bmi > 18.5 && bmi <= 26.9
+                        ? "bg-yellow-100"
+                        : bmi > 26.9 && bmi <= 30
+                          ? "bg-green-300"
+                          : "bg-[#4DB581]"
+                  : bmi == 0
+                    ? "bg-gray-100"
+                    : bmi < 30
+                      ? "bg-red-300"
+                      : bmi >= 30
+                        ? "bg-yellow-100"
+                        : bmi > 27 && bmi <= 29.9
+                          ? "bg-green-300"
+                          : "bg-[#4DB581]"
                   }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
