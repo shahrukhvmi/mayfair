@@ -160,7 +160,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   return (
     <>
       <div
-        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden cursor-pointer transition-transform shadow-md"
+        className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden  transition-transform shadow-md"
       // onMouseEnter={handleMouseEnter}
       // onMouseLeave={handleMouseLeave}
       >
