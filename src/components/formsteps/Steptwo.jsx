@@ -500,25 +500,37 @@ const Steptwo = ({ setHideSidebar }) => {
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
+                  
+
                     <TextField
-                      type="text" // Allows custom control
-                      inputMode="numeric" // Brings up numeric keyboard on mobile
+                      type="text" // We use text to control input completely
+                      inputMode="numeric" // Shows numeric keypad on mobile
                       variant="standard"
                       label="ft"
                       value={watch("heightFt") || ""}
                       onChange={(e) => {
-                        // Allow only digits 0-9
-                        const onlyNumbers = e.target.value.replace(/[^0-9]/g, "");
+                        // Remove anything that's not a digit
+                        const raw = e.target.value.replace(/[^0-9]/g, "");
 
-                        // Clamp value between 1 and 10
-                        let finalValue = onlyNumbers;
-                        if (+onlyNumbers > 10) finalValue = "10";
-                        if (+onlyNumbers < 1 && onlyNumbers !== "") finalValue = "1";
+                        // Block if it's empty or out of range
+                        if (raw === "") {
+                          setValue("heightFt", "", { shouldValidate: true });
+                          return;
+                        }
 
-                        e.target.value = finalValue;
+                        // Convert to number and clamp it between 1 and 10
+                        let num = parseInt(raw);
+                        if (num > 10) num = 10;
+                        if (num < 1) num = 1;
 
-                        // Manually set the value using setValue from react-hook-form
-                        setValue("heightFt", finalValue, { shouldValidate: true });
+                        setValue("heightFt", String(num), { shouldValidate: true });
+                      }}
+                      onPaste={(e) => {
+                        // Prevent pasting anything that’s not a number
+                        const paste = e.clipboardData.getData("text");
+                        if (!/^\d+$/.test(paste)) {
+                          e.preventDefault();
+                        }
                       }}
                       {...register("heightFt", {
                         required: true,
@@ -532,8 +544,9 @@ const Steptwo = ({ setHideSidebar }) => {
                         },
                       })}
                       error={!!errors.heightFt}
-                      helperText={errors.heightFt ? errors.heightFt.message : ""}
+                      helperText={errors.heightFt?.message}
                     />
+
 
                   </div>
                   <div className="col-span-6">
