@@ -108,7 +108,7 @@ const Stepthree = ({ setHideSidebar }) => {
   // Submit API Call
   const [postSteps, { isLoading }] = usePostStepsMutation();
   const getPid = localStorage.getItem("pid");
-  const reorder_concent = localStorage.getItem("reorder_concent");
+  const reorder_concent = localStorage.getItem("reorder_concent") || null;
   const onSubmit = async () => {
     const medicalInfo = questions.map((q) => ({
       question: q.content,
@@ -121,7 +121,9 @@ const Stepthree = ({ setHideSidebar }) => {
     }));
 
     try {
-      const response = await postSteps({ medicalInfo, pid: getPid, reorder_concent: reorder_concent.toString() }).unwrap();
+      const response = await postSteps({ medicalInfo, pid: getPid, 
+        reorder_concent: reorder_concent ? reorder_concent.toString() : null
+      }).unwrap();
       if (response?.status === true) {
         dispatch(setStep3(response?.lastConsultation?.fields?.medicalInfo));
         dispatch(nextStep());

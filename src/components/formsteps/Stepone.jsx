@@ -178,8 +178,7 @@ const Stepone = ({ setHideSidebar }) => {
     }
   }, [data]);
 
-  const reorder_concent = localStorage.getItem("reorder_concent");
-  console.log(reorder_concent, "reorder_concent")
+  const reorder_concent = localStorage.getItem("reorder_concent") || null;
   const currentStep = useSelector((state) => state.step.currentStep);
   const [postSteps, { error: isError, isLoading: loader }] = usePostStepsMutation();
 
@@ -209,7 +208,7 @@ const Stepone = ({ setHideSidebar }) => {
       const response = await postSteps({
         patientInfo: patientInfo,
         pid: getPid,
-        reorder_concent: reorder_concent.toString()
+        reorder_concent: reorder_concent ? reorder_concent.toString() : null
       }).unwrap();
       console.log(response, "response");
       if (response?.status === true) {
@@ -500,8 +499,8 @@ const Stepone = ({ setHideSidebar }) => {
             <div className="flex gap-4">
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "male"
-                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                    : "rounded-lg shadow-md cursor-pointer bg-white"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                  : "rounded-lg shadow-md cursor-pointer bg-white"
                   }`}
               >
                 <input type="radio" value="male" {...register("gender", { required: "Gender is required" })} className="hidden" />
@@ -511,8 +510,8 @@ const Stepone = ({ setHideSidebar }) => {
 
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "female"
-                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                    : "rounded-lg shadow-md cursor-pointer bg-white"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                  : "rounded-lg shadow-md cursor-pointer bg-white"
                   }`}
               >
                 <input type="radio" value="female" {...register("gender", { required: "Gender is required" })} className="hidden" />
@@ -532,8 +531,8 @@ const Stepone = ({ setHideSidebar }) => {
                 <div className="flex gap-4">
                   <label
                     className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                        ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                        : "bg-white"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
                       }`}
                   >
                     <input
@@ -564,8 +563,8 @@ const Stepone = ({ setHideSidebar }) => {
 
                   <label
                     className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                        ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                        : "bg-white"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
                       }`}
                   >
                     <input
@@ -629,8 +628,8 @@ const Stepone = ({ setHideSidebar }) => {
               <div className="flex gap-4">
                 <label
                   className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
+                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                    : "bg-white"
                     }`}
                 >
                   <input
@@ -661,8 +660,8 @@ const Stepone = ({ setHideSidebar }) => {
 
                 <label
                   className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
+                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                    : "bg-white"
                     }`}
                 >
                   <input
@@ -909,8 +908,8 @@ const Stepone = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError}
                 className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
                   }`}
               >
                 {loader ? (
