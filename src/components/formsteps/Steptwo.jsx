@@ -612,11 +612,10 @@ const Steptwo = ({ setHideSidebar }) => {
                       label="stones"
                       value={watch("weightStones") || ""}
                       onInput={(e) => {
-                        // Allow only digits while typing
+                        // Remove all non-numeric characters
                         e.target.value = e.target.value.replace(/[^0-9]/g, "");
-                      }}
-                      onBlur={(e) => {
-                        // Optional: clamp after typing is done
+
+                        // Clamp value between 4 and 80
                         const value = parseInt(e.target.value, 10);
                         if (!isNaN(value)) {
                           if (value > 80) e.target.value = "80";
@@ -626,14 +625,13 @@ const Steptwo = ({ setHideSidebar }) => {
                       {...register("weightStones", {
                         required: true,
                         pattern: {
-                          value: /^(?:[4-9]|[1-7][0-9]|80)$/, // Validates 4–80 only
+                          value: /^(?:[4-9]|[1-7][0-9]|80)$/, // allows only 4 to 80
                           message: "Only valid numbers (4–80) are allowed",
                         },
                       })}
                       error={!!errors.weightStones}
                       helperText={errors.weightStones?.message || ""}
                     />
-
 
                     {/* <TextField
                       type="number"
