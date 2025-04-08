@@ -501,58 +501,88 @@ const Steptwo = ({ setHideSidebar }) => {
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
                     <TextField
-                      type="text"
-                      inputMode="numeric"
+                      type="number"
                       variant="standard"
                       label="ft"
+
                       value={watch("heightFt") || ""}
                       onInput={(e) => {
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-
-                        const val = parseInt(e.target.value, 10);
-                        if (val > 10) e.target.value = "10";
-                        if (val < 1 && e.target.value !== "") e.target.value = "1";
+                        if (e.target.value > 10) {
+                          e.target.value = 10;
+                        }
+                        if (e.target.value < 0) {
+                          e.target.value = 0;
+                        }
                       }}
                       {...register("heightFt", {
                         required: true,
                         pattern: {
-                          value: /^(?:[1-9]|10)$/, // allows only numbers 1 to 10
-                          message: "Only numbers from 1 to 10 are allowed",
+                          value: /^[1-9][0-9]*$/,
+                          message: "Only valid numbers are allowed",
+                        },
+                        minLength: {
+                          value: 1,
+                          message: "ft must have at least 1 digit",
+                        },
+                        maxLength: {
+                          value: 2,
+                          message: "ft must have a maximum of 2 digits",
+                        },
+                        min: {
+                          value: 1,
+                          message: "ft must be greater than 0",
+                        },
+                        max: {
+                          value: 10,
+                          message: "ft must be less than or equal to 10",
                         },
                       })}
                       error={!!errors.heightFt}
-                      helperText={errors.heightFt?.message || ""}
+                      helperText={errors.heightFt ? errors.heightFt.message : ""} // Dynamically display the actual error message
                     />
 
                   </div>
                   <div className="col-span-6">
 
                     <TextField
-                      type="text"
-                      inputMode="numeric"
+                      type="number"
                       variant="standard"
                       label="inches"
                       value={watch("heightIn") || ""}
                       onInput={(e) => {
-                        // Strip all non-numeric characters
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-
-                        // Clamp value between 0 and 11
-                        const value = parseInt(e.target.value, 10);
-                        if (!isNaN(value)) {
-                          if (value > 11) e.target.value = "11";
-                          if (value < 0) e.target.value = "0";
+                        let value = Number(e.target.value);
+                        if (value > 11) {
+                          e.target.value = 11;
+                        }
+                        if (value < 0) {
+                          e.target.value = 0;
                         }
                       }}
                       {...register("heightIn", {
                         required: "Height is required",
                         pattern: {
-                          value: /^(?:[0-9]|10|11)$/, // allows 0 to 11 only
-                          message: "Only valid numbers (0–11) are allowed",
+                          value: /^[0-9]+$/, // Allows 0-9
+                          message: "Only valid numbers are allowed",
+                        },
+                        minLength: {
+                          value: 1,
+                          message: "Inch must have at least 1 digit",
+                        },
+                        maxLength: {
+                          value: 2,
+                          message: "Inch must have a maximum of 2 digits",
+                        },
+                        min: {
+                          value: 0, // Now accepts 0
+                          message: "Inch must be greater than or equal to 0",
+                        },
+                        max: {
+                          value: 11,
+                          message: "Inch must be less than or equal to 11",
                         },
                       })}
                       error={!!errors.heightIn}
-                      helperText={errors.heightIn?.message || ""}
+                      helperText={errors.heightIn ? errors.heightIn.message : ""}
                     />
 
 
@@ -604,36 +634,36 @@ const Steptwo = ({ setHideSidebar }) => {
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
-                  <TextField
-                      id="weightStones"
+                    <TextField
+                      type="number"
                       variant="standard"
                       label="stones"
-                      type="text"
-                      fullWidth
-                      inputMode="numeric"
                       value={watch("weightStones") || ""}
                       onInput={(e) => {
-                        // Strip non-digits
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-
-                        // Prevent typing above 500
-                        if (e.target.value.length > 0) {
-                          const value = parseInt(e.target.value, 10);
-                          if (!isNaN(value) && value > 80) {
-                            e.target.value = "80";
-                          }
+                        if (e.target.value > 80) {
+                          e.target.value = 80;
+                        }
+                        if (e.target.value < 0) {
+                          e.target.value = 0;
                         }
                       }}
                       {...register("weightStones", {
-                        required: "Weight is required",
+                        required: true,
                         pattern: {
-                          value: /^(?:[4-9]|[1-7][0-9]|80)$/,
-                          message: "Only whole numbers from 4 to 80 are allowed",
+                          value: /^[1-9][0-9]*$/,
+                          message: "Only valid numbers are allowed",
                         },
-                        
+                        min: {
+                          value: 4,
+                          message: "Stones must be greater than or equal to 4",
+                        },
+                        max: {
+                          value: 80,
+                          message: "Stones must be less than or equal to 80",
+                        },
                       })}
                       error={!!errors.weightStones}
-                      helperText={errors.weightStones?.message || ""}
+                      helperText={errors.weightStones ? errors.weightStones.message : ""}
                     />
                     {/* <TextField
                       type="text" // Use text to manually restrict input
@@ -699,29 +729,44 @@ const Steptwo = ({ setHideSidebar }) => {
                   <div className="col-span-6">
 
                     <TextField
-                      type="text" // Full control over input
-                      inputMode="numeric" // Triggers numeric keypad on mobile
+                      type="number"
                       variant="standard"
                       label="lbs"
                       value={watch("weightLbs") || ""}
                       onInput={(e) => {
-                        // Remove non-numeric characters
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-
-                        const value = parseInt(e.target.value, 10);
-                        if (!isNaN(value)) {
-                          if (value > 20) e.target.value = "20";
+                        const value = Number(e.target.value);
+                        if (value > 20) {
+                          e.target.value = 20;
+                        }
+                        if (value < 0) {
+                          e.target.value = 0;
                         }
                       }}
                       {...register("weightLbs", {
                         required: true,
                         pattern: {
-                          value: /^(0|[1-9]|1[0-9]|20)$/, // ✅ Allows 0–20 only
-                          message: "Only valid numbers (0–20) are allowed",
+                          value: /^(0|[1-9][0-9]*)$/, // ✅ Allows 0 and positive numbers
+                          message: "Only valid numbers are allowed",
+                        },
+                        minLength: {
+                          value: 1,
+                          message: "pound must have at least 1 digit",
+                        },
+                        maxLength: {
+                          value: 2,
+                          message: "pound must have a maximum of 2 digits",
+                        },
+                        min: {
+                          value: 0, // ✅ Updated to allow 0
+                          message: "pound must be greater than or equal to 0",
+                        },
+                        max: {
+                          value: 20,
+                          message: "pound must be less than or equal to 20",
                         },
                       })}
                       error={!!errors.weightLbs}
-                      helperText={errors.weightLbs?.message || ""}
+                      helperText={errors.weightLbs ? errors.weightLbs.message : ""}
                     />
 
                     {/* <TextField
@@ -818,26 +863,36 @@ const Steptwo = ({ setHideSidebar }) => {
                       id="heightCm"
                       variant="standard"
                       label="cm"
-                      type="text" // use text for full control
+                      type="number"
                       fullWidth
-                      inputMode="numeric" // triggers number pad on mobile
+                      inputProps={{
+                        inputMode: "numeric",
+                        min: "1",
+                        max: "300",
+                        pattern: "[0-9]*",
+                      }}
                       value={watch("heightCm") || ""}
-                      onInput={(e) => {
-                        // Remove anything that's not a digit
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
 
-                        const val = parseInt(e.target.value, 10);
-                        if (!isNaN(val)) {
-                          if (val > 300) e.target.value = "300";
-                          if (val < 1) e.target.value = "1";
+                      onInput={(e) => {
+                        if (e.target.value > 300) {
+                          e.target.value = 300;
+                        }
+                        if (e.target.value < 0) {
+                          e.target.value = 0;
                         }
                       }}
                       {...register("heightCm", {
                         required: "Height is required",
-                        pattern: {
-                          value: /^(?:[1-9]|[1-9][0-9]|[1-2][0-9]{2}|300)$/, // Matches 1–300
-                          message: "Only whole numbers from 1 to 300 are allowed",
+                        min: {
+                          value: 1,
+                          message: "Height must be at least 1 cm",
                         },
+                        max: {
+                          value: 300,
+                          message: "Height cannot exceed 300 cm",
+                        },
+                        validate: (value) =>
+                          /^[1-9][0-9]{0,2}$/.test(value) || "Only whole numbers are allowed",
                       })}
                       error={!!errors.heightCm}
                       helperText={errors.heightCm?.message || ""}
@@ -852,35 +907,42 @@ const Steptwo = ({ setHideSidebar }) => {
                     </label>
 
                     <TextField
-                      id="weightKg"
-                      variant="standard"
-                      label="kg"
-                      type="text"
-                      fullWidth
-                      inputMode="numeric"
-                      value={watch("weightKg") || ""}
-                      onInput={(e) => {
-                        // Strip non-digits
-                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-
-                        // Prevent typing above 500
-                        if (e.target.value.length > 0) {
-                          const value = parseInt(e.target.value, 10);
-                          if (!isNaN(value) && value > 500) {
-                            e.target.value = "500";
+                        id="weightKg"
+                        variant="standard"
+                        label="kg"
+                        type="number"
+                        fullWidth
+                        inputProps={{
+                          inputMode: "numeric",
+                          min: "40",
+                          max: "500",
+                          pattern: "[0-9]*",
+                        }}
+                        value={watch("weightKg") || ""}
+                        onInput={(e) => {
+                          if (e.target.value > 500) {
+                            e.target.value = 500;
                           }
-                        }
-                      }}
-                      {...register("weightKg", {
-                        required: "Weight is required",
-                        pattern: {
-                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|500)$/, // 40–500 only
-                          message: "Only whole numbers from 40 to 500 are allowed",
-                        },
-                      })}
-                      error={!!errors.weightKg}
-                      helperText={errors.weightKg?.message || ""}
-                    />
+                          if (e.target.value < 0) {
+                            e.target.value = 0;
+                          }
+                        }}
+                        {...register("weightKg", {
+                          required: "Weight is required",
+                          min: {
+                            value: 40,
+                            message: "Weight must be at least 40 kg",
+                          },
+                          max: {
+                            value: 500,
+                            message: "Weight cannot exceed 500 kg",
+                          },
+                          validate: (value) =>
+                            /^[1-9][0-9]{0,2}$/.test(value) || "Only whole numbers are allowed",
+                        })}
+                        error={!!errors.weightKg}
+                        helperText={errors.weightKg?.message || ""}
+                      />
 
 
 
