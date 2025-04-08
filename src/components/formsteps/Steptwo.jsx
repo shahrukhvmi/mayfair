@@ -627,9 +627,10 @@ const Steptwo = ({ setHideSidebar }) => {
                       {...register("weightStones", {
                         required: "Weight is required",
                         pattern: {
-                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|80)$/, // 40–500 only
+                          value: /^(?:[4-9]|[1-7][0-9]|80)$/,
                           message: "Only whole numbers from 4 to 80 are allowed",
                         },
+                        
                       })}
                       error={!!errors.weightStones}
                       helperText={errors.weightStones?.message || ""}
