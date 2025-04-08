@@ -830,12 +830,21 @@ const Steptwo = ({ setHideSidebar }) => {
                       inputMode="numeric"
                       value={watch("weightKg") || ""}
                       onInput={(e) => {
+                        // Strip non-digits
                         e.target.value = e.target.value.replace(/[^0-9]/g, "");
+
+                        // Prevent typing above 500
+                        if (e.target.value.length > 0) {
+                          const value = parseInt(e.target.value, 10);
+                          if (!isNaN(value) && value > 500) {
+                            e.target.value = "500";
+                          }
+                        }
                       }}
                       {...register("weightKg", {
                         required: "Weight is required",
                         pattern: {
-                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|500)$/, // Accepts 40–500 only
+                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|500)$/, // 40–500 only
                           message: "Only whole numbers from 40 to 500 are allowed",
                         },
                       })}
