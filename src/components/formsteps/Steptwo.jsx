@@ -825,30 +825,25 @@ const Steptwo = ({ setHideSidebar }) => {
                       id="weightKg"
                       variant="standard"
                       label="kg"
-                      type="text" // Use text for full input control
+                      type="text"
                       fullWidth
-                      inputMode="numeric" // Mobile-friendly number keyboard
+                      inputMode="numeric"
                       value={watch("weightKg") || ""}
                       onInput={(e) => {
-                        // Remove all non-numeric characters
                         e.target.value = e.target.value.replace(/[^0-9]/g, "");
-
-                        const value = parseInt(e.target.value, 10);
-                        if (!isNaN(value)) {
-                          if (value > 500) e.target.value = "500";
-                          if (value < 40) e.target.value = "40";
-                        }
                       }}
                       {...register("weightKg", {
                         required: "Weight is required",
                         pattern: {
-                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|500)$/, // ✅ Allows only 40–500
+                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|500)$/, // Accepts 40–500 only
                           message: "Only whole numbers from 40 to 500 are allowed",
                         },
                       })}
                       error={!!errors.weightKg}
                       helperText={errors.weightKg?.message || ""}
                     />
+
+
 
                     {/* <TextField
                       id="weightKg"

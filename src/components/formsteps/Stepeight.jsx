@@ -122,8 +122,8 @@ const Stepeight = ({ setHideSidebar }) => {
   useEffect(() => {
     if (billing || shipping || userInfo) {
       // Shipping-related fields
-      setValue("firstName", userInfo?.fname || "");
-      setValue("lastName", userInfo?.lname || "");
+      setValue("firstName", shipping?.first_name || "");
+      setValue("lastName", shipping?.last_name || "");
       setValue("streetAddress", shipping?.addressone || "");
       setValue("streetAddress2", shipping?.addresstwo || "");
       setValue("city", shipping?.city || "");
@@ -704,7 +704,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                         >
                                           {/* Search Text */}
                                           <FaSearch className={`text-white ${isLoading ? "animate-spin" : ""}`} />
-                                          <span className="mr-2 text-sm "> {isLoading ? "SEARCH..." : "SEARCH"} </span>
+                                          <span className="mx-2 text-sm "> {isLoading ? "SEARCH..." : "SEARCH"} </span>
                                         </button>
                                       </div>
                                     )}
@@ -1337,7 +1337,7 @@ const Stepeight = ({ setHideSidebar }) => {
                             <div>
                               {!isCouponApplied && (
                                 <div className={`flex items-center py-3 shadow-sm w:100  `}>
-                                  <div className="w-1/2">
+                                  <div className="sm:w-full w-1/2">
                                     <input
                                       type="text"
                                       value={discountCode}

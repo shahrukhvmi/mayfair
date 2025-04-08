@@ -71,19 +71,19 @@ const Stepone = ({ setHideSidebar }) => {
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange", // Validation mode
-    defaultValues: {
-      firstName: prevStep1?.firstName || userInfo?.fname || lastConsultation?.firstName || "",
-      lastName: prevStep1?.lastName || userInfo?.lname || lastConsultation?.lastName || "",
-      phoneNumber: prevStep1?.phoneNo || userInfo?.phone || lastConsultation?.phoneNo || "",
-      gender: prevStep1?.gender || userInfo?.gender || lastConsultation?.gender || "",
-      dateOfBirth: prevStep1?.dob || userInfo?.dob || lastConsultation?.dob || null,
-      breastFeeding: prevStep1?.pregnancy || lastConsultation?.pregnancy || "",
-      streetAddress: prevStep1?.addressone || lastConsultation?.address?.addressone || "",
-      postCode: prevStep1?.postalcode || lastConsultation?.address?.postalcode || "",
-      state: prevStep1?.state || lastConsultation?.address?.state || "",
-      city: prevStep1?.city || lastConsultation?.address?.city || "",
-      ethnicity: prevStep1?.ethnicity || lastConsultation?.ethnicity || "",
-    },
+    // defaultValues: {
+    //   firstName: prevStep1?.firstName || lastConsultation?.firstName || userInfo?.fname || "",
+    //   lastName: prevStep1?.lastName || userInfo?.lname || lastConsultation?.lastName || "",
+    //   phoneNumber: prevStep1?.phoneNo || userInfo?.phone || lastConsultation?.phoneNo || "",
+    //   gender: prevStep1?.gender || userInfo?.gender || lastConsultation?.gender || "",
+    //   dateOfBirth: prevStep1?.dob || userInfo?.dob || lastConsultation?.dob || null,
+    //   breastFeeding: prevStep1?.pregnancy || lastConsultation?.pregnancy || "",
+    //   streetAddress: prevStep1?.addressone || lastConsultation?.address?.addressone || "",
+    //   postCode: prevStep1?.postalcode || lastConsultation?.address?.postalcode || "",
+    //   state: prevStep1?.state || lastConsultation?.address?.state || "",
+    //   city: prevStep1?.city || lastConsultation?.address?.city || "",
+    //   ethnicity: prevStep1?.ethnicity || lastConsultation?.ethnicity || "",
+    // },
   });
 
   // Watch the values of gender and breastFeeding
