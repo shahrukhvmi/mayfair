@@ -604,8 +604,37 @@ const Steptwo = ({ setHideSidebar }) => {
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
+                  <TextField
+                      id="weightStones"
+                      variant="standard"
+                      label="stones"
+                      type="text"
+                      fullWidth
+                      inputMode="numeric"
+                      value={watch("weightStones") || ""}
+                      onInput={(e) => {
+                        // Strip non-digits
+                        e.target.value = e.target.value.replace(/[^0-9]/g, "");
 
-                    <TextField
+                        // Prevent typing above 500
+                        if (e.target.value.length > 0) {
+                          const value = parseInt(e.target.value, 10);
+                          if (!isNaN(value) && value > 80) {
+                            e.target.value = "80";
+                          }
+                        }
+                      }}
+                      {...register("weightStones", {
+                        required: "Weight is required",
+                        pattern: {
+                          value: /^(4[0-9]|[5-9][0-9]|[1-4][0-9]{2}|80)$/, // 40–500 only
+                          message: "Only whole numbers from 4 to 80 are allowed",
+                        },
+                      })}
+                      error={!!errors.weightStones}
+                      helperText={errors.weightStones?.message || ""}
+                    />
+                    {/* <TextField
                       type="text" // Use text to manually restrict input
                       inputMode="numeric" // Shows number pad on mobile
                       variant="standard"
@@ -631,7 +660,7 @@ const Steptwo = ({ setHideSidebar }) => {
                       })}
                       error={!!errors.weightStones}
                       helperText={errors.weightStones?.message || ""}
-                    />
+                    /> */}
 
                     {/* <TextField
                       type="number"
