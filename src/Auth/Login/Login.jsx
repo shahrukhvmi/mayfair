@@ -104,9 +104,11 @@ const Login = ({ setIsImpersonateLoading }) => {
   };
   const [rememberMe, setRememberMe] = useState(false);
 
+  const impersonateFromLocal = localStorage.getItem("impersonate_email");
+
   return (
     <>
-      {impersonateEmail ? (
+      {impersonateEmail || impersonateFromLocal ? (
         ""
       ) : (
         <div className="w-full">
