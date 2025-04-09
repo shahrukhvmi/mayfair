@@ -61,40 +61,51 @@ const MyAddress = () => {
   const [billingAddres, setBillingAddres] = useState({ country: "" });
   const [zipCode, setZipCode] = useState("");
 
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+  // const fetchUserData = async () => {
+  //   try {
+  //     const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //     });
 
-      const data = await response.json();
-      if (response.ok) {
-        const user = data;
-        localStorage.setItem("userData", JSON.stringify(user));
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       const user = data;
+  //       localStorage.setItem("userData", JSON.stringify(user));
 
-        // Update state
-        setUserData(user);
-        setCountry(user?.profile?.billing_countries);
-        setBillingCountrys(user?.profile?.billing_countries);
-        const initialStates = countries.map((_, index) => index < 3);
-        setSelectedStates(initialStates);
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  //       // Update state
+  //       setUserData(user);
+  //       setCountry(user?.profile?.billing_countries);
+  //       setBillingCountrys(user?.profile?.billing_countries);
+  //       const initialStates = countries.map((_, index) => index < 3);
+  //       setSelectedStates(initialStates);
+  //     } else {
+  //       console.log(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
+  const { data: getData } = useProfileUserDataQuery();
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    if (getData) {
+      const user = getData;
+      localStorage.setItem("userData", JSON.stringify(user));
+
+      // Update state
+      setUserData(user);
+      setCountry(user?.profile?.billing_countries);
+      setBillingCountrys(user?.profile?.billing_countries);
+      const initialStates = countries.map((_, index) => index < 3);
+      setSelectedStates(initialStates);
+    }
+  }, [getData]);
   const shippingValues = watchShipping();
   const billingValues = watchBilling();
-  useEffect(() => {}, [shippingValues, billingValues]);
+  useEffect(() => { }, [shippingValues, billingValues]);
 
   const profile = user?.profile || {};
 
@@ -315,7 +326,7 @@ const MyAddress = () => {
       setIsLoading(false);
     }
   };
-  useEffect(() => {}, [activeTab, watchShipping, watchBilling]);
+  useEffect(() => { }, [activeTab, watchShipping, watchBilling]);
 
   // **Render Form**
   const renderForm = (register, errors, isValid, setValue, getValues) => (

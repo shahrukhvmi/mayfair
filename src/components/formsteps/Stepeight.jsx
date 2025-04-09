@@ -10,7 +10,8 @@ import { useFetchAddressesForBillingQuery, useFetchAddressesQuery } from "../../
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import { setStep6 } from "../../store/slice/stepSlice";
 import toast from "react-hot-toast";
-// import gsap from "gsap";
+import { useProfileUserDataQuery } from "../../store/services/Dashboard/dashboardApi";
+
 import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
 import { gsap } from "gsap";
@@ -86,38 +87,51 @@ const Stepeight = ({ setHideSidebar }) => {
   const [billing, setBillingApi] = useState("");
   const [userInfo, setUserApi] = useState("");
 
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch(
-        "https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData",
-        // "=http://192.168.1.64:8000/api/profile/GetUserData",
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      );
+  // const fetchUserData = async () => {
+  //   try {
+  //     const response = await fetch(
+  //       "https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData",
+  //       // "=http://192.168.1.64:8000/api/profile/GetUserData",
+  //       {
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         },
+  //       }
+  //     );
 
-      const data = await response.json();
-      if (response.ok) {
-        const user = data;
-        const userLocalGet = localStorage.getItem("user");
-        // Update state
-        setShippingApi(user?.profile?.shipping);
-        setBillingApi(user?.profile?.billing);
-        setUserApi(user?.profile?.user || userLocalGet?.emai);
-      } else {
-        console.log(data.message);
-      }
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-    }
-  };
+  //     const data = await response.json();
+  //     if (response.ok) {
+  //       const user = data;
+  //       const userLocalGet = localStorage.getItem("user");
+  //       // Update state
+  //       setShippingApi(user?.profile?.shipping);
+  //       setBillingApi(user?.profile?.billing);
+  //       setUserApi(user?.profile?.user || userLocalGet?.emai);
+  //     } else {
+  //       console.log(data.message);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user data:", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchUserData();
-  }, []);
+  // useEffect(() => {
+  //   fetchUserData();
+  // }, []);
+
+   // RTk Query Fetch user /GetUserData 🔥🔥
+   const { data:getData } = useProfileUserDataQuery();
+   useEffect(() => {
+     if (getData) {
+       const user = getData;
+       const userLocalGet = localStorage.getItem("user");
+       // Update state
+       setShippingApi(user?.profile?.shipping);
+       setBillingApi(user?.profile?.billing);
+       setUserApi(user?.profile?.user || userLocalGet?.emai);
+     }
+   }, [getData]);
   // set prefilled data here 😊😊✔✔
   useEffect(() => {
     if (billing || shipping || userInfo) {
@@ -554,6 +568,7 @@ const Stepeight = ({ setHideSidebar }) => {
         bmi: getBmi,
         confirmationInfo: confirmationInfo,
         reorder_concent: reorder_concent ? reorder_concent.toString() : null,
+        product_id:getPid
 
         // successurl: "https://weightlosspharmacy.vercel.app/thank-you",
         // failedurl: "https://weightlosspharmacy.vercel.app/payment-failed"

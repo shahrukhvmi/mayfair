@@ -1,40 +1,26 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { Link,  useLocation } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
-import { logout } from "../store/services/Auth/authSlice";
 import { AuthContext } from "../Auth/AuthContext";
 import ApplicationLogo from "../config/ApplicationLogo";
 import ApplicationUser from "../config/ApplicationUser";
+import { useProfileUserDataQuery } from "../store/services/Dashboard/dashboardApi";
 
 const Header = () => {
   const [isOpenDrop, setIsOpenDrop] = useState(false);
   const { logout } = useContext(AuthContext);
-  const navigate = useNavigate();
   const location = useLocation();
 
-  // Fetch user profile data
   const [name, setUserData] = useState("");
+  // RTk Query Fetch user /GetUserData 🔥🔥
+  const { data } = useProfileUserDataQuery();
 
-  // Call fetchUserData on mount
-  const fetchUserData = async () => {
-    try {
-      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
-      const data = await response.json();
-      if (response.ok) {
-        const userName = data?.profile?.user;
-        setUserData(userName == null ? "" : userName);
-      }
-    } catch (error) {}
-  };
   useEffect(() => {
-    fetchUserData();
-  }, []);
+    if (data) {
+      const userName = data.profile?.user ?? "";
+      setUserData(userName);
+    }
+  }, [data]);
 
   const toggleDropdown = () => {
     setIsOpenDrop((prev) => !prev);
