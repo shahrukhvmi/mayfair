@@ -15,6 +15,10 @@ const Welcome = () => {
   const impersonateEmail = params.get("impersonate_email");
 
   console.log(isImpersonateLoading, "isImpersonateLoading");
+
+  const impersonateFromLocal = localStorage.getItem("impersonate_email");
+  console.log(impersonateFromLocal);
+
   return (
     <>
       {isImpersonateLoading ? (
@@ -24,7 +28,7 @@ const Welcome = () => {
       ) : (
         <div className="flex flex-col items-center bg-[#DACFFF] px-4 pt-6 justify-evenly" style={{ minHeight: "calc(100vh - 66px)" }}>
           {/* Page Heading */}
-          {impersonateEmail ? (
+          {impersonateEmail || impersonateFromLocal ? (
             <>
               <Register />
               <Login setIsImpersonateLoading={setIsImpersonateLoading} />
@@ -56,7 +60,7 @@ const Welcome = () => {
           )}
 
           {/* Mobile View: Tab Switcher */}
-          {impersonateEmail ? (
+          {impersonateEmail || impersonateFromLocal ? (
             <>
               <Register />
               <Login setIsImpersonateLoading={setIsImpersonateLoading} />
