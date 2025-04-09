@@ -62,7 +62,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
   const handleLogout = () => {
     setIsOpenDrop(false); // Close the dropdown
     logout();
-   
+
   };
   const handleRemovePid = () => {
     localStorage.removeItem("previous_id")
@@ -76,7 +76,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
 
   const handleRemovedImpersonate = () => {
     // window.location.href = "https://app.mayfairweightlossclinic.co.uk/admin";
-    
+
     setImpersonat(null);
     logout();
 
@@ -84,20 +84,49 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
   return (
 
     <>
-      {impersonat &&
-        <div class="bg-gray-100">
-          <div class="bg-red-500 text-white text-center p-2 flex justify-center items-center gap-2">
-            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="text-xl" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H8v-1.5c0-1.99 4-3 6-3s6 1.01 6 3V16z"></path></svg>
-            You are impersonating another user.
-            <button class="ml-2 underline flex items-center gap-2" onClick={handleRemovedImpersonate}>
-              <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" class="text-lg" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H8v-1.5c0-1.99 4-3 6-3s6 1.01 6 3V16z"></path></svg>
+      {impersonat && (
+        <div className="bg-gray-100">
+          <div className="bg-red-500 text-white text-center p-2 flex flex-col sm:flex-row justify-center items-center gap-2 text-sm sm:text-base">
+            <div className="flex items-center gap-2">
+              <svg
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="0"
+                viewBox="0 0 24 24"
+                className="text-xl"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H8v-1.5c0-1.99 4-3 6-3s6 1.01 6 3V16z"></path>
+              </svg>
+              <span>You are impersonating another user.</span>
+            </div>
 
-              Stop Impersonation
-
+            <button
+              className="ml-0 sm:ml-2 underline flex items-center gap-1 text-xs sm:text-sm"
+              onClick={handleRemovedImpersonate}
+            >
+             <svg
+                stroke="currentColor"
+                fill="currentColor"
+                strokeWidth="0"
+                viewBox="0 0 24 24"
+                className="text-xl"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path fill="none" d="M0 0h24v24H0z"></path>
+                <path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-6 2c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm6 12H8v-1.5c0-1.99 4-3 6-3s6 1.01 6 3V16z"></path>
+              </svg>
+              <span>Stop Impersonation</span>
             </button>
           </div>
         </div>
-      }
+      )}
+
 
       <div className="bg-white px-4 sm:px-6 lg:px-6 flex items-center justify-between relative">
         {/* Hamburger Button (only visible on mobile) */}
