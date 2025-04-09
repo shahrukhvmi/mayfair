@@ -117,10 +117,31 @@ const Stepone = ({ setHideSidebar }) => {
         setDobError("Date of birth is required");
       } else {
         const age = today.diff(dob, "year");
-        if (age < 18) {
-          setDobError("You must be at least 18 years old");
+        if (productId == 1) {
+          if (age < 18) {
+            setDobError("You must be at least 18 years old");
+            setValue("dateOfBirth", dob); // ❗️clear the form value to make button disabled
+          } else if (age > 75) {
+            setDobError("Wegovy (Semaglutude) is not recommended for individuals above 75 years of age");
+            setValue("dateOfBirth", dob); // ❗️clear the form value to make button disabled
+          } else {
+            setDobError("");
+            setValue("dateOfBirth", dob);
+          }
+        } else if (productId == 4) {
+          if (age < 18) {
+            setDobError("You must be at least 18 years old");
+            setValue("dateOfBirth", dob); // ❗️clear the form value to make button disabled
+          } else if (age > 85) {
+            setDobError("Mounjaro (Tirzepatide) is not recommended for individuals above 85 years of age");
+            setValue("dateOfBirth", dob); // ❗️clear the form value to make button disabled
+          } else {
+            setDobError("");
+            setValue("dateOfBirth", dob);
+          }
         } else {
           setDobError("");
+          setValue("dateOfBirth", dob);
         }
       }
 

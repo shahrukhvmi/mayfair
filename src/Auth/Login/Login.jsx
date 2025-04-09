@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
 } from "@mui/material";
@@ -6,20 +6,67 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import toast from "react-hot-toast";
-import { useLoginMutation } from "../../store/services/Auth/authApi";
+import { useLoginImpersonationMutation, useLoginMutation } from "../../store/services/Auth/authApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setCredentials } from "../../store/services/Auth/authSlice";
 import { AuthContext } from "../AuthContext";
 import { Checkbox, FormControlLabel } from "@mui/material";
 
-const Login = () => {
+const Login = ({ setIsImpersonateLoading }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { islogin } = useContext(AuthContext);
+
+// 🔥🔥🔥🔥🔥🔥🔥🔥login in url  direct Impersonation mode 🔥🔥🔥🔥🔥🔥🔥🔥
+const [loginImpersonation, { isLoading: isImpersonateLoading, error: errorr }] = useLoginImpersonationMutation();
+
+  useEffect(() => {
+    setIsImpersonateLoading(isImpersonateLoading);
+  }, [isImpersonateLoading, setIsImpersonateLoading]);
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const impersonateEmail = params.get("impersonate_email");
+
+    if (impersonateEmail) {
+      localStorage.setItem("impersonate_email", impersonateEmail);
+
+      const loginNow = async () => {
+        try {
+          setIsImpersonateLoading(true); 
+
+          const response = await loginImpersonation({
+            impersonate_email: impersonateEmail,
+          }).unwrap();
+
+          if (response?.data?.token) {
+            dispatch(setCredentials({ token: response.data.token, user: response.data }));
+        //    toast.success("Login successful!");
+            localStorage.setItem("token", response.data.token);
+            navigate("/dashboard/");
+            window.location.reload();
+          } else {
+            toast.error("Invalid login response");
+          }
+        } catch (err) {
+          const errors = err?.data?.errors?.login;
+          const user = err?.data?.errors?.user;
+          toast.error(errors || user || "Login failed");
+        }
+        finally {
+          setIsImpersonateLoading(false); // ✅ Stop loading
+        }
+      };
+
+      loginNow();
+    }
+  }, [location.search, loginImpersonation, dispatch, navigate]);
+
+// 🔥🔥🔥🔥🔥🔥🔥🔥login in url  direct Impersonation mode END 🔥🔥🔥🔥🔥🔥🔥🔥
 
   const company_id = 1;
   const [showPassword, setShowPassword] = useState(false);
-  const dispatch = useDispatch();
   const [login, { isLoading, error }] = useLoginMutation();
-  const navigate = useNavigate();
+
 
   const {
     register,
@@ -160,11 +207,11 @@ const Login = () => {
 
           <div className="text-start my-3">
             <button
-              disabled={!isValid || isLoading}
+              disabled={!isValid || isLoading || isImpersonateLoading}
               type="submit"
               className="inline-flex items-center justify-center gap-2 px-6 py-2 disabled:opacity-50 disabled:hover:bg-violet-800 disabled:cursor-not-allowed bg-violet-800 border border-transparent rounded-full font-semibold text-xs text-white uppercase tracking-widest hover:bg-violet-700 focus:bg-bg-violet-700 active:bg-violet-900 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 transition ease-in-out duration-150"
             >
-              {isLoading && (
+              {(isLoading || isImpersonateLoading) && (
                 <svg
                   className="animate-spin h-4 w-4 text-white"
                   xmlns="http://www.w3.org/2000/svg"

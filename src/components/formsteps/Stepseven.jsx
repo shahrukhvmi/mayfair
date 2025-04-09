@@ -302,7 +302,6 @@ const StepSeven = ({ setHideSidebar }) => {
               isSelected: true,
             });
 
-            // ✅ Dispatch with message instantly included
             dispatch(
               addToCart({
                 id: dose?.id,
@@ -314,6 +313,7 @@ const StepSeven = ({ setHideSidebar }) => {
                 product: product.name,
                 product_concent: productConcent,
                 label: `${product.name} , ${dose?.name}`,
+                expiry: dose.expiry,
                 isSelected: true,
               })
             );
@@ -435,7 +435,7 @@ const StepSeven = ({ setHideSidebar }) => {
 
   const onSubmit = (data) => {
     dispatch(nextStep());
-    
+
   };
   const handleSelect = (e, index) => {
     e.stopPropagation();
@@ -763,7 +763,7 @@ const StepSeven = ({ setHideSidebar }) => {
               <div className="flex flex-col mt-4">
                 {addons?.length > 0 && (
                   <>
-                 
+
 
                     <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4">
                       Select
@@ -867,8 +867,8 @@ const StepSeven = ({ setHideSidebar }) => {
               onClick={() => dispatch(nextStep())}
               disabled={!isValid || !isDoseSelected}
               className={`p-3 flex flex-col items-center justify-center ${!isValid || !isDoseSelected
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
+                ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                : "text-white rounded-md bg-violet-700"
                 }`}
             >
               <span className="text-md font-semibold">Proceed to Checkout</span>

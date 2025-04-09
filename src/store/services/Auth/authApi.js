@@ -32,16 +32,24 @@ export const authApi = createApi({
     }),
     forgotPassword: builder.mutation({
       query: ({ email, passwordlink }) => ({
-        url: 'api/password/ForgotPasswordLink', 
+        url: 'api/password/ForgotPasswordLink',
         method: 'POST',
         body: { email, passwordlink },
       }),
     }),
     changePassword: builder.mutation({
-      query: ({email, password, password_confirmation, token }) => ({
+      query: ({ email, password, password_confirmation, token }) => ({
         url: "api/password/ForgotPassword",
         method: "POST",
         body: { email, password, password_confirmation, token },
+      }),
+    }),
+
+    loginImpersonation: builder.mutation({
+      query: ({ impersonate_email }) => ({
+        url: 'api/impersonation',
+        method: 'POST',
+        body: { impersonate_email },
       }),
     }),
   }),
@@ -52,4 +60,5 @@ export const {
   useRegisterMutation,
   useForgotPasswordMutation,
   useChangePasswordMutation,
+  useLoginImpersonationMutation
 } = authApi;
