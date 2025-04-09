@@ -530,7 +530,7 @@ const Steptwo = () => {
                         e.target.value = e.target.value.replace(/[^0-9]/g, "");
 
                         const val = parseInt(e.target.value, 10);
-                        if (val > 10) e.target.value = "10";
+                        if (val > 10) e.target.value;
                         if (val < 1 && e.target.value !== "") e.target.value = "1";
                       }}
                       {...register("heightFt", {
@@ -560,7 +560,7 @@ const Steptwo = () => {
                         // Clamp value between 0 and 11
                         const value = parseInt(e.target.value, 10);
                         if (!isNaN(value)) {
-                          if (value > 11) e.target.value = "11";
+                          if (value > 11) e.target.value;
                           if (value < 0) e.target.value = "0";
                         }
                       }}
@@ -624,7 +624,7 @@ const Steptwo = () => {
                 </div>
                 <div className="grid grid-cols-12 gap-4">
                   <div className="col-span-6">
-                  <TextField
+                    <TextField
                       id="weightStones"
                       variant="standard"
                       label="stones"
@@ -640,7 +640,7 @@ const Steptwo = () => {
                         if (e.target.value.length > 0) {
                           const value = parseInt(e.target.value, 10);
                           if (!isNaN(value) && value > 80) {
-                            e.target.value = "80";
+                            e.target.value;
                           }
                         }
                       }}
@@ -648,9 +648,9 @@ const Steptwo = () => {
                         required: "Weight is required",
                         pattern: {
                           value: /^(?:[4-9]|[1-7][0-9]|80)$/,
-                          message: "Only whole numbers from 4 to 80 are allowed",
+                          message: "Only valid numbers (4–80) are allowed",
                         }
-                        
+
                       })}
                       error={!!errors.weightStones}
                       helperText={errors.weightStones?.message || ""}
@@ -730,7 +730,7 @@ const Steptwo = () => {
 
                         const value = parseInt(e.target.value, 10);
                         if (!isNaN(value)) {
-                          if (value > 20) e.target.value = "20";
+                          if (value > 20) e.target.value;
                         }
                       }}
                       {...register("weightLbs", {
@@ -848,7 +848,7 @@ const Steptwo = () => {
 
                         const val = parseInt(e.target.value, 10);
                         if (!isNaN(val)) {
-                          if (val > 300) e.target.value = "300";
+                          if (val > 300) e.target.value;
                           if (val < 1) e.target.value = "1";
                         }
                       }}
@@ -887,7 +887,7 @@ const Steptwo = () => {
                         if (e.target.value.length > 0) {
                           const value = parseInt(e.target.value, 10);
                           if (!isNaN(value) && value > 500) {
-                            e.target.value = "500";
+                            e.target.value;
                           }
                         }
                       }}

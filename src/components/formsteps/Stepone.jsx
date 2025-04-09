@@ -97,7 +97,7 @@ const Stepone = ({ setHideSidebar }) => {
   const [searchClicked, setSearchClicked] = useState(false);
 
   useEffect(() => {
-    if (lastConsultation || prevStep1 || userInfo) {
+    if (prevStep1 || lastConsultation || userInfo) {
       setZipCode(prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
       setValue("postCode", prevStep1?.address?.postalcode || "" || lastConsultation?.address?.postalcode);
       setValue("firstName", prevStep1?.firstName || "" || lastConsultation?.firstName || userInfo?.fname);
