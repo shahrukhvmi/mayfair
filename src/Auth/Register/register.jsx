@@ -62,9 +62,11 @@ const Register = () => {
   const params = new URLSearchParams(location.search);
   const impersonateEmail = params.get("impersonate_email");
 
+  const impersonateFromLocal = localStorage.getItem("impersonate_email");
+
   return (
     <>
-      {impersonateEmail ? (
+      {impersonateEmail || impersonateFromLocal ? (
         ""
       ) : (
         <div className="w-full">
