@@ -14,16 +14,14 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("previous_id", productId);
   }
 
+  // 🔥🔥🔥🔥🔥🔥🔥🔥login in url  direct Impersonation mode  🔥🔥🔥🔥🔥🔥🔥🔥
 
-// 🔥🔥🔥🔥🔥🔥🔥🔥login in url  direct Impersonation mode  🔥🔥🔥🔥🔥🔥🔥🔥
+  const paramss = new URLSearchParams(location.search);
+  const impersonateEmail = paramss.get("impersonate_email");
 
-    const paramss = new URLSearchParams(location.search);
-    const impersonateEmail = paramss.get("impersonate_email");
-
-    if (impersonateEmail) {
-      localStorage.clear();
-    }
- 
+  if (impersonateEmail) {
+    localStorage.clear();
+  }
 
   const checkAuthStatus = () => {
     const token = localStorage.getItem("token");
@@ -40,10 +38,10 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("currentStep")
+    localStorage.removeItem("currentStep");
     localStorage.removeItem("start_concent");
     localStorage.removeItem("reorder");
-    localStorage.removeItem("reorder_concent")
+    localStorage.removeItem("reorder_concent");
     localStorage.removeItem("discountCode");
     localStorage.removeItem("isCouponApplied");
     localStorage.removeItem("discountType");
@@ -61,15 +59,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("previous_id");
     localStorage.removeItem("impersonate_email");
 
-    setIsAuthenticated(false);
-
+    setIsAuthenticated(true);
 
     if (impersonateEmailGet) {
       window.location.href = "https://app.mayfairweightlossclinic.co.uk/admin";
-    } 
-    // else {
-    //   navigate("/");
-    // }
+      console.log("this runs");
+    } else {
+      navigate("/");
+      setIsAuthenticated(false);
+    }
   };
 
   useEffect(() => {

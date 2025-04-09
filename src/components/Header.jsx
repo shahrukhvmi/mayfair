@@ -30,7 +30,7 @@ const Header = () => {
         const userName = data?.profile?.user;
         setUserData(userName == null ? "" : userName);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   useEffect(() => {
     fetchUserData();
@@ -70,11 +70,11 @@ const Header = () => {
   const handleLogout = () => {
     setIsOpenDrop(false);
     logout();
-    navigate("/");
+    // navigate("/");
   };
   const handleRemovePid = () => {
-    localStorage.removeItem("previous_id")
-  }
+    localStorage.removeItem("previous_id");
+  };
   return (
     <div
       className={`md:mx-auto px-4 flex justify-center w-full items-center 2xl:w-[calc(1366px+16px)] 
@@ -99,7 +99,6 @@ const Header = () => {
       <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
         <Link to="/dashboard/" onClick={handleRemovePid}>
           <ApplicationLogo className="w-36 sm:w-36" />
-
         </Link>
       </div>
 
