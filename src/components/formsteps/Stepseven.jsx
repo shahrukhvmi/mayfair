@@ -346,6 +346,7 @@ const StepSeven = ({ setHideSidebar }) => {
               product: product.name,
               product_concent: productConcent, // ✅ Include product_concent
               label: `${product.name} , ${dose?.name}`,
+              expiry: dose.expiry,
               isSelected: true,
             })
           );

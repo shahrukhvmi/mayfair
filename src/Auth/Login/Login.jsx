@@ -46,9 +46,17 @@ const Login = ({ setIsImpersonateLoading }) => {
             toast.error("Invalid login response");
           }
         } catch (err) {
-          const errors = err?.data?.errors?.login;
-          const user = err?.data?.errors?.user;
-          toast.error(errors || user || "Login failed");
+          // const errors = err?.data?.errors?.login;
+          // const user = err?.data?.errors?.user;
+          // toast.error(errors || user || "Login failed");
+          if (err) {
+            localStorage.removeItem("impersonate_email", impersonateEmail);
+            setIsImpersonateLoading(false);
+            navigate("/")
+          }else{
+
+          }
+
         } finally {
           setIsImpersonateLoading(false); // ✅ Stop loading
         }
@@ -130,9 +138,8 @@ const Login = ({ setIsImpersonateLoading }) => {
                       message: "Invalid email address",
                     },
                   })}
-                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                    errors.email ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-4 py-2 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.email ? "border-red-500" : "border-gray-300"
+                    }`}
                   autoFocus
                 />
                 {errors.email && <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>}
@@ -158,9 +165,8 @@ const Login = ({ setIsImpersonateLoading }) => {
                     //   message: "Must contain uppercase, number & special char",
                     // },
                   })}
-                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${
-                    errors.password ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`w-full px-4 py-2 pr-10 border rounded-md bg-[#f4f6ff] text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-purple-500 ${errors.password ? "border-red-500" : "border-gray-300"
+                    }`}
                 />
 
                 {/* Eye Icon */}
