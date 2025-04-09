@@ -56,8 +56,6 @@ const Welcome = () => {
                   <Login setIsImpersonateLoading={setIsImpersonateLoading} />
                 </div>
               </div>
-
-              <Footer />
             </>
           )}
 
