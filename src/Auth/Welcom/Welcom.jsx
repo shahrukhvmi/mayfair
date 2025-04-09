@@ -56,6 +56,8 @@ const Welcome = () => {
                   <Login setIsImpersonateLoading={setIsImpersonateLoading} />
                 </div>
               </div>
+
+              <Footer />
             </>
           )}
 
@@ -112,10 +114,9 @@ const Welcome = () => {
                 {selectedTab === "tab1" && <Register />}
                 {selectedTab === "tab2" && <Login setIsImpersonateLoading={setIsImpersonateLoading} />}
               </div>
+              <Footer />
             </>
           )}
-
-          <Footer />
         </div>
       )}
     </>
