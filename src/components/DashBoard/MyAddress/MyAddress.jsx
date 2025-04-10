@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { useFetchAddressesForBillingQuery, useFetchAddressesQuery } from "../../../store/services/addressApi/addressApi";
 import { gsap } from "gsap";
 import toast from "react-hot-toast";
+import { useProfileUserDataQuery } from "../../../store/services/Dashboard/dashboardApi";
 
 const MyAddress = () => {
   const [activeTab, setActiveTab] = useState("shipping");
@@ -118,9 +119,9 @@ const MyAddress = () => {
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
 
-  useEffect(() => {
-    fetchUserData().then(() => setIsDataLoaded(true));
-  }, []);
+  // useEffect(() => {
+  //   fetchUserData().then(() => setIsDataLoaded(true));
+  // }, []);
 
   useEffect(() => {
     if (isDataLoaded && billing) {
