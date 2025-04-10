@@ -142,7 +142,6 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       if (res !== null) {
         dispatch(setStepPrevApiData(res));
       }
-
       // Navigate using React Router
       navigate(`/consultation-form/?product_id=${pid}`);
     } catch (err) {
