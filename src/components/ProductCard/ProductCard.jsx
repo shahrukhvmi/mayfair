@@ -27,7 +27,6 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
   //   }
   // }, []);
 
-
   useEffect(() => {
     if (!modalOpenedRef.current) {
       const params = new URLSearchParams(location.search);
@@ -40,8 +39,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       }
 
       const shouldOpenModal =
-        (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) ||
-        (previousId && String(previousId) === String(id));
+        (productId && !localStorage.getItem("modalOpened") && String(productId) === String(id)) || (previousId && String(previousId) === String(id));
 
       if (shouldOpenModal) {
         const pidToSet = productId || previousId;
@@ -59,8 +57,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     }
   }, [location.search, reorder, id]);
 
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleClick = () => {
     // localStorage.removeItem("previous_id")
@@ -89,7 +86,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       // dispatch(clearCartAddon())
     }
   };
-  // post pid or save preApiData 
+  // post pid or save preApiData
   const [getPrev, { data, error, isLoading }] = useGetPrevsMutation();
   const clinic_id = 1;
   const url = import.meta.env.VITE_BASE_URL;
@@ -108,24 +105,21 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     localStorage.setItem("start_concent", true);
     localStorage.removeItem("modalOpened");
 
-    // Navigate using React Router
-    navigate(`/consultation-form/?product_id=${pid}`);
-
     // Handle reordering or normal start...
     if (reorder) {
       if (reorderStatus) {
         localStorage.setItem("currentStep", 1);
-        localStorage.removeItem("previous_id")
+        localStorage.removeItem("previous_id");
         dispatch(triggerStep(1));
       } else {
         localStorage.setItem("currentStep", 2);
-        localStorage.removeItem("previous_id")
+        localStorage.removeItem("previous_id");
         dispatch(triggerStep(2));
       }
     } else {
       localStorage.setItem("currentStep", currentStep);
       dispatch(triggerStep(currentStep));
-      localStorage.removeItem("previous_id")
+      localStorage.removeItem("previous_id");
     }
 
     localStorage.removeItem("addonCart");
@@ -136,18 +130,21 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     dispatch(clearCartAddon());
 
     // Optional: Fetch previous step data
-    console.log(typeof reorder?.toString(), "reorder")
+    console.log(typeof reorder?.toString(), "reorder");
     try {
       const response = await getPrev({
-        url, 
-        clinic_id, 
-        product_id: id, 
-        reorder: reorder ? reorder : null
+        url,
+        clinic_id,
+        product_id: id,
+        reorder: reorder ? reorder : null,
       }).unwrap();
       const res = response?.data;
       if (res !== null) {
         dispatch(setStepPrevApiData(res));
       }
+
+      // Navigate using React Router
+      navigate(`/consultation-form/?product_id=${pid}`);
     } catch (err) {
       console.error("Failed to fetch previous steps:", err);
     }
@@ -156,32 +153,25 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     setReorderOpen(false);
   };
 
-
   const handleClose = () => {
     setReorderOpen(false);
     setModalOpen(false);
-    localStorage.removeItem("previous_id")
+    localStorage.removeItem("previous_id");
   };
 
   return (
     <>
       <div
         className="relative bg-white rounded-lg rounded-b-2xl overflow-hidden  transition-transform shadow-md"
-      // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}
+        // onMouseEnter={handleMouseEnter}
+        // onMouseLeave={handleMouseLeave}
       >
-
-
         {/* Out of Stock Overlay */}
-        {!status && (
-          <div className="h-full w-full left-0 absolute bg-[rgba(119,136,153,0.4)] cursor-not-allowed z-10 thin-font"></div>
-        )}
+        {!status && <div className="h-full w-full left-0 absolute bg-[rgba(119,136,153,0.4)] cursor-not-allowed z-10 thin-font"></div>}
 
         {/* Out of Stock Ribbon */}
         {!status && (
-          <div className="absolute -left-8 top-7 bg-red-500 text-white px-[30px] text-xs py-1 rounded-tl -rotate-45 z-20 thin-font">
-            Out of stock
-          </div>
+          <div className="absolute -left-8 top-7 bg-red-500 text-white px-[30px] text-xs py-1 rounded-tl -rotate-45 z-20 thin-font">Out of stock</div>
         )}
 
         {/* Price Ribbon */}
@@ -205,10 +195,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
         <div className="bg-[#EDE9FE] p-5 text-center rounded-2xl">
           <h2 className="text-lg semibold-font mb-3 text-gray-900">{title}</h2>
 
-          <p className="mb-3 text-sm  font-semibold">
-
-            {lastOrderDate && `Last Ordered: ${lastOrderDate}`}
-          </p>
+          <p className="mb-3 text-sm  font-semibold">{lastOrderDate && `Last Ordered: ${lastOrderDate}`}</p>
           {/* <button
             onClick={handleClick}
             className={`px-6 py-2 w-50 rounded-full text-white reg-font ${status ? "bg-[#7c3aed] hover:bg-[#fff]  hover:text-[#7c3aed] hover:scale-105" : "bg-gray-400 cursor-not-allowed"
@@ -235,7 +222,12 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       </div>
 
       {isModalOpen && (
-        <StartConsultationModal loading={isLoading} text="Do you want to start the consultation?" closeModel={handleClose} onHandleConfirm={handleConfirm} />
+        <StartConsultationModal
+          loading={isLoading}
+          text="Do you want to start the consultation?"
+          closeModel={handleClose}
+          onHandleConfirm={handleConfirm}
+        />
       )}
 
       {isReorderOpen && <ReOrderModel loading={isLoading} text="Reorder" closeModel={handleClose} onHandleConfirm={handleConfirm} />}
