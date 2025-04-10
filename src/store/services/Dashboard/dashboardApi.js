@@ -60,6 +60,14 @@ export const dashboardApi = createApi({
       }),
       providesTags: ["UserProfile"],
     }),
+
+    inStockNotified: builder.mutation({
+      query: (data) => ({
+        url: "api/GetNotified",
+        method: "POST",
+        body: data,
+      }),
+    }),
   }),
 });
 
@@ -70,4 +78,5 @@ export const {
   useGetOrdersDataQuery,
   useGetViewOrderQuery,
   useProfileUserDataQuery,
+  useInStockNotifiedMutation,
 } = dashboardApi;
