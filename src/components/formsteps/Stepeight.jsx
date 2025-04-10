@@ -762,9 +762,7 @@ const Stepeight = ({ setHideSidebar }) => {
                               variant="standard"
                               value={watch("streetAddress") || ""}
                               fullWidth
-                              {...register("streetAddress", {
-                                required: "Address Line 1 is required",
-                              })}
+                              {...register("streetAddress")}
                               error={!!errors.streetAddress}
                               helperText={errors.streetAddress?.message}
                             />
@@ -994,9 +992,7 @@ const Stepeight = ({ setHideSidebar }) => {
                                       fullWidth
                                       value={watch("billingStreetAddress2") || ""}
                                       // {...register("billingStreetAddress2")}
-                                      {...register("billingStreetAddress2", {
-                                        required: !isBillingSameAsShipping && "Address Line 2 is required",
-                                      })}
+                                      {...register("billingStreetAddress2")}
                                     />
                                   </div>
 

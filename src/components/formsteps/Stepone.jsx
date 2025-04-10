@@ -58,7 +58,7 @@ const Stepone = ({ setHideSidebar }) => {
       setPrevStep1(stepPrevParse);
       setUseriIfo(userInfo?.profile?.user);
     }
-  }, []);
+  }, [lastConsultation,prevStep1,userInfo]);
 
   const {
     register,
@@ -97,19 +97,19 @@ const Stepone = ({ setHideSidebar }) => {
   const [searchClicked, setSearchClicked] = useState(false);
 
   useEffect(() => {
-    if (prevStep1 || lastConsultation || userInfo) {
-      setZipCode(prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
-      setValue("postCode", prevStep1?.address?.postalcode || "" || lastConsultation?.address?.postalcode);
-      setValue("firstName", prevStep1?.firstName || "" || lastConsultation?.firstName || userInfo?.fname);
-      setValue("lastName", prevStep1?.lastName || "" || lastConsultation?.lastName || userInfo?.lname);
-      setValue("phoneNumber", prevStep1?.phoneNo || "" || lastConsultation?.phoneNo || userInfo?.phone);
-      setValue("gender", prevStep1?.gender || "" || lastConsultation?.gender || userInfo?.gender);
-      setValue("dateOfBirth", prevStep1?.dob || "" || lastConsultation?.dob || userInfo?.dob);
-      setValue("breastFeeding", prevStep1?.pregnancy || "" || lastConsultation?.pregnancy);
+    if (lastConsultation || prevStep1 || userInfo) {
+      setZipCode(lastConsultation?.address?.postalcode || prevStep1?.address?.postalcode || "");
+      setValue("postCode", lastConsultation?.address?.postalcode || prevStep1?.address?.postalcode || "");
+      setValue("firstName", lastConsultation?.firstName || prevStep1?.firstName || "" || userInfo?.fname);
+      setValue("lastName", lastConsultation?.lastName || prevStep1?.lastName || "" || userInfo?.lname);
+      setValue("phoneNumber", lastConsultation?.phoneNo || prevStep1?.phoneNo || "" || userInfo?.phone);
+      setValue("gender", lastConsultation?.gender || prevStep1?.gender || "" || userInfo?.gender);
+      setValue("dateOfBirth", lastConsultation?.dob || prevStep1?.dob || "" || userInfo?.dob);
+      setValue("breastFeeding", lastConsultation?.pregnancy || prevStep1?.pregnancy || "");
       setValue("ethnicity", prevStep1?.ethnicity || "" || lastConsultation?.ethnicity);
-      setValue("streetAddress", prevStep1?.address?.addressone || "" || lastConsultation?.address?.addressone);
-      setValue("streetAddress2", prevStep1?.address?.addresstwo || "" || lastConsultation?.address?.addresstwo);
-      setValue("city", prevStep1?.address?.city || "" || lastConsultation?.address?.city);
+      setValue("streetAddress", lastConsultation?.address?.addressone || prevStep1?.address?.addressone || "");
+      setValue("streetAddress2", lastConsultation?.address?.addresstwo || prevStep1?.address?.addresstwo || "");
+      setValue("city", lastConsultation?.address?.city || prevStep1?.address?.city || "" );
       // setValue("country", lastConsultation.address?.country || "");
 
       const dob = getValues("dateOfBirth");
