@@ -197,7 +197,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
             src={image}
             alt={title}
             className="w-full p-5 h-52 object-contain"
-            onError={(e) => (e.target.src = "/images/default.png")}
+            // onError={(e) => (e.target.src = "/images/default.png")}
           />
         </div>
 

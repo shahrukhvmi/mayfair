@@ -35,7 +35,7 @@ export const dashboardApi = createApi({
       query: (data) => ({
         url: "api/profile/UpdateUserData",
         method: "POST",
-        body: JSON.stringify(data),
+        body: data,
       }),
     }),
     getOrdersData: builder.query({
@@ -55,6 +55,7 @@ export const dashboardApi = createApi({
     profileUserData: builder.query({
       query: () => ({
         url: "api/profile/GetUserData",
+        // url: "api/profile/GetUserDataMayfair",
         method: "GET",
       }),
       providesTags: ["UserProfile"],

@@ -5,6 +5,7 @@ import { FaSearch } from "react-icons/fa";
 import { useFetchAddressesForBillingQuery, useFetchAddressesQuery } from "../../../store/services/addressApi/addressApi";
 import { gsap } from "gsap";
 import toast from "react-hot-toast";
+import { useProfileUserDataQuery, useUserUpdateMutation } from "../../../store/services/Dashboard/dashboardApi";
 
 const MyAddress = () => {
   const [activeTab, setActiveTab] = useState("shipping");
@@ -61,36 +62,12 @@ const MyAddress = () => {
   const [billingAddres, setBillingAddres] = useState({ country: "" });
   const [zipCode, setZipCode] = useState("");
 
-  // const fetchUserData = async () => {
-  //   try {
-  //     const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/GetUserData", {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //     });
+  const { data: getData, refetch, isLoading: isDataLoaded } = useProfileUserDataQuery();
 
-  //     const data = await response.json();
-  //     if (response.ok) {
-  //       const user = data;
-  //       localStorage.setItem("userData", JSON.stringify(user));
+  const [updateUserProfile, { isLoading: isPostLoding }] = useUserUpdateMutation();
 
-  //       // Update state
-  //       setUserData(user);
-  //       setCountry(user?.profile?.billing_countries);
-  //       setBillingCountrys(user?.profile?.billing_countries);
-  //       const initialStates = countries.map((_, index) => index < 3);
-  //       setSelectedStates(initialStates);
-  //     } else {
-  //       console.log(data.message);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error fetching user data:", error);
-  //   }
-  // };
-
-  const { data: getData } = useProfileUserDataQuery();
   useEffect(() => {
+
     if (getData) {
       const user = getData;
       localStorage.setItem("userData", JSON.stringify(user));
@@ -102,7 +79,7 @@ const MyAddress = () => {
       const initialStates = countries.map((_, index) => index < 3);
       setSelectedStates(initialStates);
     }
-  }, [getData]);
+  }, [getData, isDataLoaded, refetch]);
   const shippingValues = watchShipping();
   const billingValues = watchBilling();
   useEffect(() => { }, [shippingValues, billingValues]);
@@ -116,14 +93,11 @@ const MyAddress = () => {
   // Shiping BillingPost Api Call Here  👇👇👇
   const [loading, setIsLoading] = useState(false);
 
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+
 
   useEffect(() => {
-    fetchUserData().then(() => setIsDataLoaded(true));
-  }, []);
-
-  useEffect(() => {
-    if (isDataLoaded && billing) {
+    if (billing) {
       setValueBilling("billingCountry", billing?.country || "");
       setValueBilling("billingStreetAddress", billing?.addressone || "");
       setValueBilling("billingStreetAddress2", billing?.addresstwo || "");
@@ -262,68 +236,53 @@ const MyAddress = () => {
 
   const onSubmitBilling = async (data) => {
     try {
-      setIsLoading(true);
-      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          billing: true,
-          billingcountry: data?.billingCountry,
-          billingaddress_1: data?.billingStreetAddress,
-          billingaddress_2: data?.billingStreetAddress2,
-          billingcity: data?.billingCity,
-          billingstate: data?.billingState,
-          billingpostal_code: data?.billingPostalCode,
-        }),
-      });
-      const result = await response.json();
-
-      if (response.ok) {
-        toast.success(result.message);
-        fetchUserData();
+      setIsLoading(isPostLoding);
+      const response = await updateUserProfile({
+        billing: true,
+        billingcountry: data?.billingCountry,
+        billingaddress_1: data?.billingStreetAddress,
+        billingaddress_2: data?.billingStreetAddress2,
+        billingcity: data?.billingCity,
+        billingstate: data?.billingState,
+        billingpostal_code: data?.billingPostalCode,
+      }).unwrap();
+      if (response) {
+        toast.success(response?.message);
+        refetch();
       } else {
         toast.error(result?.message);
       }
     } catch (error) {
       toast.error("An unexpected error occurred while updating the profile.");
     } finally {
-      setIsLoading(false);
+      setIsLoading(isPostLoding);
     }
   };
   const onSubmitShipping = async (data) => {
     try {
-      setIsLoading(true);
-      const response = await fetch("https://app.mayfairweightlossclinic.co.uk/api/profile/UpdateUserData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          shipping: true,
-          country: data?.country,
-          address_1: data?.streetAddress,
-          address_2: data?.streetAddress2,
-          city: data?.city,
-          state: data?.state,
-          postal_code: data?.postalCode,
-        }),
-      });
-      const result = await response.json();
+      setIsLoading(isPostLoding);
+      const response = await updateUserProfile({
+        shipping: true,
+        country: data?.country,
+        address_1: data?.streetAddress,
+        address_2: data?.streetAddress2,
+        city: data?.city,
+        state: data?.state,
+        postal_code: data?.postalCode,
+      }).unwrap();
 
-      if (response.ok) {
-        toast.success(result.message);
-        fetchUserData();
+
+      if (response) {
+        toast.success(response?.message);
+
+        refetch();
       } else {
         toast.error(result?.message);
       }
     } catch (error) {
       toast.error("An unexpected error occurred while updating the profile.");
     } finally {
-      setIsLoading(false);
+      setIsLoading(isPostLoding);
     }
   };
   useEffect(() => { }, [activeTab, watchShipping, watchBilling]);
