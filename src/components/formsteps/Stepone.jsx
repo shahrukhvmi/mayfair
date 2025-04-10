@@ -58,7 +58,7 @@ const Stepone = ({ setHideSidebar }) => {
       setPrevStep1(stepPrevParse);
       setUseriIfo(userInfo?.profile?.user);
     }
-  }, [lastConsultation,prevStep1,userInfo]);
+  }, []);
 
   const {
     register,
