@@ -724,6 +724,7 @@ const StepSeven = ({ setHideSidebar }) => {
                       handleSelect={handleSelect}
                       removeSeleted={removeSeleted}
                       setRemoveSelected={setRemoveSelected}
+                      handleVariationClick={handleVariationClick}
                     />
                   ))}
               </div>

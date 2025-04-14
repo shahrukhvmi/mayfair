@@ -98,9 +98,9 @@ const Stepone = ({ setHideSidebar }) => {
 
   useEffect(() => {
     if (lastConsultation || prevStep1 || userInfo) {
-      setZipCode(lastConsultation?.address?.postalcode || prevStep1?.address?.postalcode || "");
-      setValue("postCode", lastConsultation?.address?.postalcode || prevStep1?.address?.postalcode || "");
-      setValue("firstName", lastConsultation?.firstName || prevStep1?.firstName || "" || userInfo?.fname);
+      setZipCode(prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
+      setValue("postCode", prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
+      setValue("firstName",  prevStep1?.firstName || lastConsultation?.firstName || "" || userInfo?.fname);
       setValue("lastName", lastConsultation?.lastName || prevStep1?.lastName || "" || userInfo?.lname);
       setValue("phoneNumber", lastConsultation?.phoneNo || prevStep1?.phoneNo || "" || userInfo?.phone);
       setValue("gender", lastConsultation?.gender || prevStep1?.gender || "" || userInfo?.gender);
@@ -109,7 +109,7 @@ const Stepone = ({ setHideSidebar }) => {
       setValue("ethnicity", prevStep1?.ethnicity || "" || lastConsultation?.ethnicity);
       setValue("streetAddress", lastConsultation?.address?.addressone || prevStep1?.address?.addressone || "");
       setValue("streetAddress2", lastConsultation?.address?.addresstwo || prevStep1?.address?.addresstwo || "");
-      setValue("city", lastConsultation?.address?.city || prevStep1?.address?.city || "" );
+      setValue("city", lastConsultation?.address?.city || prevStep1?.address?.city || "");
       // setValue("country", lastConsultation.address?.country || "");
 
       const dob = getValues("dateOfBirth");

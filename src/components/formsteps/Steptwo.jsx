@@ -201,9 +201,9 @@ const Steptwo = () => {
     if (lastBmi || prevStep2) {
       setValue("heightFt", lastBmi?.ft || prevStep2?.ft || "");
       setValue("heightIn", lastBmi?.inch || prevStep2?.inch || "");
-      setValue("weightStones", prevStep2?.stones || "");
+      setValue("weightStones", "");
       // lastBmi?.stones ||
-      setValue("weightLbs", prevStep2?.pound || "");
+      setValue("weightLbs", "");
       //  lastBmi?.pound ||
       setValue("weightKg", lastBmi?.kg || prevStep2?.kg || "");
       setValue("heightCm", lastBmi?.cm || prevStep2?.cm || "");

@@ -96,7 +96,8 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
     const pid = Number(localStorage.getItem("pid")) || id;
     const currentStep = Number(localStorage.getItem("currentStep")) || 1;
     const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
-
+    localStorage.removeItem("selectedMessages");
+    localStorage.removeItem("selectedVariations");
     const ability = sessionStorage.getItem("ability");
     const isChecked = sessionStorage.getItem("ischecked");
 
@@ -110,6 +111,7 @@ const ProductCard = ({ id, title, image, price, status, buttonText, reorder, las
       if (reorderStatus) {
         localStorage.setItem("currentStep", 1);
         localStorage.removeItem("previous_id");
+        
         dispatch(triggerStep(1));
       } else {
         localStorage.setItem("currentStep", 2);

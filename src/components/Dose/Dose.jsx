@@ -22,6 +22,8 @@ const Dose = ({
   setRemoveSelected,
   setVariations,
   handleSelect,
+  handleVariationClick,
+  index
 }) => {
   const [showModal, setShowModal] = useState(false);
   const [itemToRemove, setItemToRemove] = useState(null);
@@ -86,10 +88,11 @@ const Dose = ({
   const handleSelected = (e) => {
     e.stopPropagation();
     onSelect(e);
+    handleVariationClick && handleVariationClick(doseData?.name, index)
   };
   return (
     <>
-      <div className="flex flex-col items-center">
+      <div className="flex flex-col items-center" onClick={handleSelect}>
         {/* Main Card */}
         <div
           onClick={(e) => {
@@ -270,7 +273,7 @@ const Dose = ({
               </span>
             </button>
           )}
-        </div> 
+        </div>
       </div>
 
       <ConfirmationModal
