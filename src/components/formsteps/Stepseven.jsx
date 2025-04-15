@@ -14,6 +14,7 @@ import OrderSummaryAddons from "../AddonList/OrderSummaryAddons";
 import { addToCartAddon, removeFromCartAddon, updateCartAddon } from "../../store/slice/addonCartSlice";
 import DosageCheckPopup from "../DosageCheckPopup/DosageCheckPopup";
 import { Checkbox, FormControlLabel } from "@mui/material";
+import { setPaymentLoading } from "../../store/slice/paymentLoaderSlice";
 
 const StepSeven = ({ setHideSidebar }) => {
   setHideSidebar(true);
@@ -65,13 +66,19 @@ const StepSeven = ({ setHideSidebar }) => {
   }, [product?.show_expiry, clearErrors, setValue]);
   useEffect(() => {
     const fetchData = async () => {
+      dispatch(setPaymentLoading(false));
       const pid = localStorage.getItem("pid");
       // localStorage.setItem("pid", pid);
+      const p_id = localStorage.getItem("p_id");
       localStorage.setItem("comingFromStart", 0);
       localStorage.setItem("start_concent", true);
 
+      if (localStorage.getItem("in_stock")) {
+        localStorage.removeItem("in_stock");
+      }
+
       try {
-        const response = await getPrev({ url, clinic_id, product_id: pid }).unwrap();
+        const response = await getPrev({ url, clinic_id, product_id: pid || p_id }).unwrap();
         const res = response?.data;
         if (res !== null) {
           const vari = res?.selected_product?.variations || [];
@@ -187,10 +194,12 @@ const StepSeven = ({ setHideSidebar }) => {
 
     messages[selectedDose] = `
 
-      If you are taking ${name} for the first time, you will need to start the treatment on the ${lowestDose.mgValue
-      } mg dose. If you start on the higher doses, the risk of side effects (e.g., nausea) will be very high.
+      If you are taking ${name} for the first time, you will need to start the treatment on the ${
+      lowestDose.mgValue
+    } mg dose. If you start on the higher doses, the risk of side effects (e.g., nausea) will be very high.
 
-      Please confirm that you are currently taking either the ${prevDose ? prevDose.mgValue + "mg" : ""
+      Please confirm that you are currently taking either the ${
+        prevDose ? prevDose.mgValue + "mg" : ""
       } or ${selectedDose}mg dose from a different provider.
       `;
 
@@ -202,36 +211,24 @@ const StepSeven = ({ setHideSidebar }) => {
     const clickedMgValue = extractMgValue(name);
     const dynamicMessages = generateMessages(variations, clickedMgValue);
 
-    const sortedVariations = variations
-      .map((item) => ({ ...item, mgValue: extractMgValue(item?.name) }))
-      .sort((a, b) => a.mgValue - b.mgValue);
+    const sortedVariations = variations.map((item) => ({ ...item, mgValue: extractMgValue(item?.name) })).sort((a, b) => a.mgValue - b.mgValue);
 
     const lowestVariations = sortedVariations.slice(0, 2);
     const lowestMgValues = lowestVariations.map((item) => item.mgValue);
 
-    const shouldOpenModal =
-      !stepProps.isReturning &&
-      !openedVariationIndex.includes(index) &&
-      !lowestMgValues.includes(clickedMgValue);
+    const shouldOpenModal = !stepProps.isReturning && !openedVariationIndex.includes(index) && !lowestMgValues.includes(clickedMgValue);
 
     if (shouldOpenModal) {
-      const message =
-        dynamicMessages[clickedMgValue] ||
-        `You have selected ${clickedMgValue}mg.`;
+      const message = dynamicMessages[clickedMgValue] || `You have selected ${clickedMgValue}mg.`;
 
       setModalMessage(message);
       setOpenedVariationIndex((prevState) => [...prevState, index]);
 
-      const matchedVariation = variations?.find(
-        (variation) =>
-          variation.name.trim().toLowerCase() === name.trim().toLowerCase()
-      );
+      const matchedVariation = variations?.find((variation) => variation.name.trim().toLowerCase() === name.trim().toLowerCase());
       const id = matchedVariation?.id || null;
 
       SetAllSelectedMessage((prevState) => {
-        const previousMessages = Array.isArray(prevState)
-          ? prevState
-          : prevState?.messages || [];
+        const previousMessages = Array.isArray(prevState) ? prevState : prevState?.messages || [];
 
         const newMessages = [...previousMessages, { id, name, message }];
         localStorage.setItem("selectedMessages", JSON.stringify(newMessages));
@@ -243,7 +240,6 @@ const StepSeven = ({ setHideSidebar }) => {
       setModalOpen(true);
     }
   };
-
 
   const onHandleConfirmation = () => {
     setModalOpen(false);
@@ -436,7 +432,6 @@ const StepSeven = ({ setHideSidebar }) => {
 
   const onSubmit = (data) => {
     dispatch(nextStep());
-
   };
   const handleSelect = (e, index) => {
     e.stopPropagation();
@@ -765,8 +760,6 @@ const StepSeven = ({ setHideSidebar }) => {
               <div className="flex flex-col mt-4">
                 {addons?.length > 0 && (
                   <>
-
-
                     <h2 className="text-2xl lg:text-3xl 2xl:text-4xl font-light my-4">
                       Select
                       <span className="font-bold"> Addons</span>
@@ -868,10 +861,11 @@ const StepSeven = ({ setHideSidebar }) => {
               type="submit"
               onClick={() => dispatch(nextStep())}
               disabled={!isValid || !isDoseSelected}
-              className={`p-3 flex flex-col items-center justify-center ${!isValid || !isDoseSelected
-                ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                : "text-white rounded-md bg-violet-700"
-                }`}
+              className={`p-3 flex flex-col items-center justify-center ${
+                !isValid || !isDoseSelected
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
+              }`}
             >
               <span className="text-md font-semibold">Proceed to Checkout</span>
             </button>

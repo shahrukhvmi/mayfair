@@ -120,18 +120,18 @@ const Stepeight = ({ setHideSidebar }) => {
   //   fetchUserData();
   // }, []);
 
-   // RTk Query Fetch user /GetUserData 🔥🔥
-   const { data:getData } = useProfileUserDataQuery();
-   useEffect(() => {
-     if (getData) {
-       const user = getData;
-       const userLocalGet = localStorage.getItem("user");
-       // Update state
-       setShippingApi(user?.profile?.shipping);
-       setBillingApi(user?.profile?.billing);
-       setUserApi(user?.profile?.user || userLocalGet?.emai);
-     }
-   }, [getData]);
+  // RTk Query Fetch user /GetUserData 🔥🔥
+  const { data: getData } = useProfileUserDataQuery();
+  useEffect(() => {
+    if (getData) {
+      const user = getData;
+      const userLocalGet = localStorage.getItem("user");
+      // Update state
+      setShippingApi(user?.profile?.shipping);
+      setBillingApi(user?.profile?.billing);
+      setUserApi(user?.profile?.user || userLocalGet?.emai);
+    }
+  }, [getData]);
   // set prefilled data here 😊😊✔✔
   useEffect(() => {
     if (billing || shipping || userInfo) {
@@ -513,7 +513,10 @@ const Stepeight = ({ setHideSidebar }) => {
   const [paymentData, setPaymentData] = useState(null);
   const reorder_concent = localStorage.getItem("reorder_concent") || null;
 
-  const getPid = localStorage.getItem("pid");
+  const prevApiData = localStorage.getItem("stepPrevApiData") || null;
+  const reorder = prevApiData?.isReturning;
+  const getPid = localStorage.getItem("pid") || localStorage.getItem("p_id");
+
   const onSubmit = async (data) => {
     const checkout = {
       firstName: data?.firstName || patientInfo?.firstName || userProfile?.fname,
@@ -568,7 +571,7 @@ const Stepeight = ({ setHideSidebar }) => {
         bmi: getBmi,
         confirmationInfo: confirmationInfo,
         reorder_concent: reorder_concent ? reorder_concent.toString() : null,
-        product_id:getPid
+        product_id: getPid,
 
         // successurl: "https://weightlosspharmacy.vercel.app/thank-you",
         // failedurl: "https://weightlosspharmacy.vercel.app/payment-failed"

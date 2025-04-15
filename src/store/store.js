@@ -10,6 +10,7 @@ import { stepApi } from "./services/Steps/Steps";
 import cartSlice from "./slice/cartSlice"; // Fixed path
 import addonCartSlice from "./slice/addonCartSlice"; // Fixed path
 import paymentLoaderReducer from "./slice/paymentLoaderSlice"; // import the slice
+import stockLoaderReducer from "./slice/stockLoaderSlice"; // import the slice
 
 const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
     addonCart: addonCartSlice,
     auth: authReducer,
     paymentLoader: paymentLoaderReducer,
+    stockLoader: stockLoaderReducer,
     [authApi.reducerPath]: authApi.reducer,
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [addressApi.reducerPath]: addressApi.reducer,

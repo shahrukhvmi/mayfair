@@ -10,9 +10,7 @@ import NextButton from "../NextBtn/NextButton";
 import PrevButton from "../PrevBtn/PrevButton";
 import { BsInfoCircle } from "react-icons/bs";
 
-
 const Steptwo = () => {
-
   const {
     register,
     setValue,
@@ -143,8 +141,8 @@ const Steptwo = () => {
         "weight_related_comorbidity",
         checked
           ? [
-            "You have at least one weight-related comorbidity (e.g. PCOS, diabetes, pre-diabetes, high cholesterol, hypertension, sleep apnoea, osteoarthritis etc.)",
-          ]
+              "You have at least one weight-related comorbidity (e.g. PCOS, diabetes, pre-diabetes, high cholesterol, hypertension, sleep apnoea, osteoarthritis etc.)",
+            ]
           : ""
       );
     }
@@ -393,6 +391,7 @@ const Steptwo = () => {
   const [postSteps, { isLoading, error }] = usePostStepsMutation();
 
   const getPid = localStorage.getItem("pid");
+  const stockPid = localStorage.getItem("p_id");
 
   const onSubmit = async (data) => {
     const reorderStatus = JSON.parse(localStorage.getItem("reorder_concent"));
@@ -425,7 +424,7 @@ const Steptwo = () => {
     try {
       const response = await postSteps({
         bmi: BMI,
-        pid: getPid,
+        pid: getPid || stockPid,
       }).unwrap();
 
       if (response?.status === true) {
@@ -479,10 +478,11 @@ const Steptwo = () => {
               {/* Imperial Button */}
               <Box
                 onClick={() => handleUnitChange("imperial")}
-                className={`sm:w-3/4   w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "imperial"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                  : "border border-gray-100 bg-white text-gray-800 hover:shadow"
-                  }`}
+                className={`sm:w-3/4   w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${
+                  unit === "imperial"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                    : "border border-gray-100 bg-white text-gray-800 hover:shadow"
+                }`}
               >
                 <span className="text-sm font-bold">IMPERIAL</span>
                 {unit === "imperial" && (
@@ -497,10 +497,11 @@ const Steptwo = () => {
               {/* Metric Button */}
               <Box
                 onClick={() => handleUnitChange("metrics")}
-                className={`sm:w-3/4 w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${unit === "metrics"
-                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
-                  : "border border-gray-300 bg-white text-gray-800 hover:shadow"
-                  }`}
+                className={`sm:w-3/4 w-32 cursor-pointer flex items-center justify-between px-6 py-3 rounded-lg transition duration-300 shadow-md ${
+                  unit === "metrics"
+                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-lg"
+                    : "border border-gray-300 bg-white text-gray-800 hover:shadow"
+                }`}
               >
                 <span className="text-sm font-bold">METRICS</span>
                 {unit === "metrics" && (
@@ -543,10 +544,8 @@ const Steptwo = () => {
                       error={!!errors.heightFt}
                       helperText={errors.heightFt?.message || ""}
                     />
-
                   </div>
                   <div className="col-span-6">
-
                     <TextField
                       type="text"
                       inputMode="numeric"
@@ -574,7 +573,6 @@ const Steptwo = () => {
                       error={!!errors.heightIn}
                       helperText={errors.heightIn?.message || ""}
                     />
-
 
                     {/* <TextField
                       type="number"
@@ -649,8 +647,7 @@ const Steptwo = () => {
                         pattern: {
                           value: /^(?:[4-9]|[1-7][0-9]|80)$/,
                           message: "Only valid numbers (4–80) are allowed",
-                        }
-
+                        },
                       })}
                       error={!!errors.weightStones}
                       helperText={errors.weightStones?.message || ""}
@@ -717,7 +714,6 @@ const Steptwo = () => {
                   </div>
 
                   <div className="col-span-6">
-
                     <TextField
                       type="text" // Full control over input
                       inputMode="numeric" // Triggers numeric keypad on mobile
@@ -862,7 +858,6 @@ const Steptwo = () => {
                       error={!!errors.heightCm}
                       helperText={errors.heightCm?.message || ""}
                     />
-
                   </div>
 
                   {/* Weight Section */}
@@ -901,8 +896,6 @@ const Steptwo = () => {
                       error={!!errors.weightKg}
                       helperText={errors.weightKg?.message || ""}
                     />
-
-
 
                     {/* <TextField
                       id="weightKg"
@@ -1117,26 +1110,27 @@ const Steptwo = () => {
 
             <div className="block sm:hidden">
               <div
-                className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                  ? bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 18.5
+                className={`mt-2 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${
+                  lastConsultation?.isReturning
+                    ? bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 18.5
                       ? "bg-red-300"
                       : bmi > 18.5 && bmi <= 26.9
-                        ? "bg-yellow-100"
-                        : bmi > 26.9 && bmi <= 30
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  : bmi == 0
+                      ? "bg-yellow-100"
+                      : bmi > 26.9 && bmi <= 30
+                      ? "bg-green-300"
+                      : "bg-[#4DB581]"
+                    : bmi == 0
                     ? "bg-gray-100"
                     : bmi < 30
-                      ? "bg-red-300"
-                      : bmi >= 30
-                        ? "bg-yellow-100"
-                        : bmi > 27 && bmi <= 29.9
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  }`}
+                    ? "bg-red-300"
+                    : bmi >= 30
+                    ? "bg-yellow-100"
+                    : bmi > 27 && bmi <= 29.9
+                    ? "bg-green-300"
+                    : "bg-[#4DB581]"
+                }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
                 <p className="text-4xl text-black font-semibold">{parseFloat(bmi).toFixed(1)}</p>
@@ -1167,10 +1161,11 @@ const Steptwo = () => {
                   <button
                     type="submit"
                     disabled={errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())}
-                    className={`p-3 flex flex-col items-center justify-center ${errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())
-                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                      : "text-white rounded-md bg-violet-700"
-                      }`}
+                    className={`p-3 flex flex-col items-center justify-center ${
+                      errorMessage || isLoading || !isValid || (showCheckBox && !isAtLeastOneCheckboxValid())
+                        ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                        : "text-white rounded-md bg-violet-700"
+                    }`}
                   >
                     {isLoading ? (
                       // Loading Spinner with Label
@@ -1191,26 +1186,27 @@ const Steptwo = () => {
           <div className="right | w-full lg:w-[350px]">
             <div className="hidden sm:block">
               <div
-                className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${lastConsultation?.isReturning
-                  ? bmi == 0
-                    ? "bg-gray-100"
-                    : bmi < 18.5
+                className={`ml-8 text-center bg-gray-100 p-8 w-full rounded-md transition-colors duration-300 ease-in-out select-none ${
+                  lastConsultation?.isReturning
+                    ? bmi == 0
+                      ? "bg-gray-100"
+                      : bmi < 18.5
                       ? "bg-red-300"
                       : bmi > 18.5 && bmi <= 26.9
-                        ? "bg-yellow-100"
-                        : bmi > 26.9 && bmi <= 30
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  : bmi == 0
+                      ? "bg-yellow-100"
+                      : bmi > 26.9 && bmi <= 30
+                      ? "bg-green-300"
+                      : "bg-[#4DB581]"
+                    : bmi == 0
                     ? "bg-gray-100"
                     : bmi < 30
-                      ? "bg-red-300"
-                      : bmi >= 30
-                        ? "bg-yellow-100"
-                        : bmi > 27 && bmi <= 29.9
-                          ? "bg-green-300"
-                          : "bg-[#4DB581]"
-                  }`}
+                    ? "bg-red-300"
+                    : bmi >= 30
+                    ? "bg-yellow-100"
+                    : bmi > 27 && bmi <= 29.9
+                    ? "bg-green-300"
+                    : "bg-[#4DB581]"
+                }`}
               >
                 <div className="bmi-value | font-semibold text-lg">BMI Value</div>
                 <p className="text-4xl text-black font-semibold">{parseFloat(bmi).toFixed(1)}</p>

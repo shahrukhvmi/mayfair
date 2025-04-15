@@ -60,6 +60,8 @@ const Stepfive = ({ setHideSidebar }) => {
   const reorder_concent = localStorage.getItem("reorder_concent") || null;
 
   const getPid = localStorage.getItem("pid");
+  const stockPid = localStorage.getItem("p_id");
+
   const onSubmit = async (data, e) => {
     const gpDetails = {
       gpConsent: data.gpDetails,
@@ -71,14 +73,12 @@ const Stepfive = ({ setHideSidebar }) => {
       addressLine2: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.addressLine2 : "",
       state: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.state : "",
       city: data.gpDetails === "yes" && data.gepTreatMent === "yes" ? data.city : "",
-
     };
     try {
       const response = await postSteps({
         gpdetails: gpDetails,
-        pid: getPid,
-        reorder_concent: reorder_concent ? reorder_concent.toString() : null
-
+        pid: getPid || stockPid,
+        reorder_concent: reorder_concent ? reorder_concent.toString() : null,
       }).unwrap();
       if (response.status === true) {
         dispatch(nextStep());
@@ -297,10 +297,11 @@ const Stepfive = ({ setHideSidebar }) => {
               <div className="flex gap-4 flex-col sm:flex-row">
                 <label
                   htmlFor="gepTreatMentYes"
-                  className={`${gepTreatMent === "yes"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                    }`}
+                  className={`${
+                    gepTreatMent === "yes"
+                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                  }`}
                 >
                   Yes - Please inform my GP {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
                   <input
@@ -316,10 +317,11 @@ const Stepfive = ({ setHideSidebar }) => {
 
                 <label
                   htmlFor="gepTreatMentNo"
-                  className={`${gepTreatMent === "no"
-                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                    }`}
+                  className={`${
+                    gepTreatMent === "no"
+                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                  }`}
                 >
                   No – I will inform my GP prior to starting treatment{" "}
                   {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
@@ -521,10 +523,11 @@ const Stepfive = ({ setHideSidebar }) => {
               {/* Proceed Button */}
               <button
                 type="submit"
-                className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
-                  }`}
+                className={`p-3 flex flex-col items-center justify-center ${
+                  !isValid || isLoading
+                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                    : "text-white rounded-md bg-violet-700"
+                }`}
               >
                 {isLoading ? (
                   // Loading Spinner with Label
