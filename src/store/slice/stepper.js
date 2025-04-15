@@ -5,6 +5,8 @@ const totalSteps = 8;
 const savedStep = parseInt(localStorage.getItem("currentStep")) || 1;
 const savedProgress = parseFloat(localStorage.getItem("progress")) || 0;
 
+console.log(savedStep, "savedSteppppppppppppppppppppp");
+
 const initialState = {
   currentStep: savedStep,
   progress: savedProgress,
@@ -47,13 +49,12 @@ const stepperSlice = createSlice({
       if (step >= 1 && step <= totalSteps) {
         state.currentStep = step; // Set currentStep to the dispatched value
         state.progress = ((step - 1) / (totalSteps - 1)) * 100; // Update progress based on the step
-    
+
         // Sync with localStorage
         localStorage.setItem("currentStep", state.currentStep);
         localStorage.setItem("progress", state.progress);
       }
     },
-    
   },
 });
 

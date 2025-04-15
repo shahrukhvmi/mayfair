@@ -108,6 +108,8 @@ const Stepthree = ({ setHideSidebar }) => {
   // Submit API Call
   const [postSteps, { isLoading }] = usePostStepsMutation();
   const getPid = localStorage.getItem("pid");
+  const stockPid = localStorage.getItem("p_id");
+
   const reorder_concent = localStorage.getItem("reorder_concent") || null;
   const onSubmit = async () => {
     const medicalInfo = questions.map((q) => ({
@@ -117,12 +119,13 @@ const Stepthree = ({ setHideSidebar }) => {
       subfield_response: responses[q.id]?.subfield_response || "",
       sub_field_prompt: responses[q.id]?.sub_field_prompt || "",
       has_sub_field: responses[q.id]?.has_sub_field || false,
-
     }));
 
     try {
-      const response = await postSteps({ medicalInfo, pid: getPid, 
-        reorder_concent: reorder_concent ? reorder_concent.toString() : null
+      const response = await postSteps({
+        medicalInfo,
+        pid: getPid || stockPid,
+        reorder_concent: reorder_concent ? reorder_concent.toString() : null,
       }).unwrap();
       if (response?.status === true) {
         dispatch(setStep3(response?.lastConsultation?.fields?.medicalInfo));
@@ -162,8 +165,9 @@ const Stepthree = ({ setHideSidebar }) => {
           return (
             <div
               key={q.id}
-              className={`mb-8 flex justify-between field | border rounded-md p-3 flex-col lg:flex-row items-start gap-5 lg:gap-10 ${errorMessages[q.id] ? "border-red-300" : "border-gray-300"
-                }`}
+              className={`mb-8 flex justify-between field | border rounded-md p-3 flex-col lg:flex-row items-start gap-5 lg:gap-10 ${
+                errorMessages[q.id] ? "border-red-300" : "border-gray-300"
+              }`}
             >
               <div className="font-reg md:text-sm text-[#1C1C29]">
                 {/ul|li/.test(q.content) ? (
@@ -194,8 +198,9 @@ const Stepthree = ({ setHideSidebar }) => {
                   <div>
                     <label
                       key={option}
-                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"
-                        }`}
+                      className={`flex w-24 p-3 rounded-md shadow-md cursor-pointer border-2 items-center justify-between ${
+                        selectedAnswer === option ? "border-green-500 bg-green-50" : "border-gray-300 bg-white"
+                      }`}
                     >
                       <Controller
                         name={`responses[${q.id}].answer`}
@@ -243,10 +248,11 @@ const Stepthree = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 disabled={!isNextEnabled || isLoading}
-                className={`p-3 flex flex-col items-center justify-center ${!isNextEnabled || isLoading
-                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                  : "text-white rounded-md bg-violet-700"
-                  }`}
+                className={`p-3 flex flex-col items-center justify-center ${
+                  !isNextEnabled || isLoading
+                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                    : "text-white rounded-md bg-violet-700"
+                }`}
               >
                 {isLoading ? (
                   // Loading Spinner with Label

@@ -25,6 +25,7 @@ const Stepfour = ({ setHideSidebar }) => {
 
   const [postSteps, { error: isError, isLoading: loader }] = usePostStepsMutation();
   const pid = localStorage.getItem("pid");
+  const stockPid = localStorage.getItem("p_id");
 
   // Initialize useForm
   const {
@@ -69,8 +70,6 @@ const Stepfour = ({ setHideSidebar }) => {
         checklist: getQuestion?.checklist,
         answer: isChecked,
         has_checklist: getQuestion?.has_check_list ? getQuestion?.has_check_list : true,
-
-
       },
     ];
     setconfirmationInfo(updatedConfirmation); // Update state with the new value
@@ -79,7 +78,11 @@ const Stepfour = ({ setHideSidebar }) => {
   // Form submission handler
   const onSubmit = async (data) => {
     try {
-      const response = await postSteps({ pid, confirmationInfo, reorder_concent: reorder_concent ? reorder_concent.toString() : null }).unwrap();
+      const response = await postSteps({
+        pid: pid || stockPid,
+        confirmationInfo,
+        reorder_concent: reorder_concent ? reorder_concent.toString() : null,
+      }).unwrap();
       dispatch(setStep4(confirmationInfo)); // Dispatch action to update step 4
       dispatch(nextStep());
     } catch (error) {
@@ -164,10 +167,11 @@ const Stepfour = ({ setHideSidebar }) => {
                   type="submit"
                   // onClick={() => dispatch(nextStep())}
                   disabled={!isValid || loader}
-                  className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
-                    }`}
+                  className={`p-3 flex flex-col items-center justify-center ${
+                    !isValid || loader
+                      ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                      : "text-white rounded-md bg-violet-700"
+                  }`}
                 >
                   {loader ? (
                     // Loading Spinner with Label
