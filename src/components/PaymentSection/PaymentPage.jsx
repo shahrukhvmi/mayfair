@@ -61,6 +61,7 @@ const PaymentPage = ({ paymentData }) => {
     const updateCountdown = () => {
       setCountdown((prevCountdown) => {
         if (prevCountdown <= 1) {
+          localStorage.removeItem("p_id");
           document.getElementById("process-payment-form").submit();
           // Set loader false when countdown ends
           setTimeout(() => {

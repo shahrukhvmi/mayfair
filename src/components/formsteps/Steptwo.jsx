@@ -196,12 +196,20 @@ const Steptwo = () => {
   };
 
   useEffect(() => {
+    const getInStockPid = localStorage.getItem("p_id");
+
     if (lastBmi || prevStep2) {
       setValue("heightFt", lastBmi?.ft || prevStep2?.ft || "");
       setValue("heightIn", lastBmi?.inch || prevStep2?.inch || "");
-      setValue("weightStones", "");
+      if (getInStockPid) {
+        setValue("weightStones", lastBmi?.stones || prevStep2?.stones || "");
+        setValue("weightLbs", lastBmi?.pound || prevStep2?.pound || "");
+      } else {
+        setValue("weightStones", "");
+        setValue("weightLbs", "");
+      }
       // lastBmi?.stones ||
-      setValue("weightLbs", "");
+
       //  lastBmi?.pound ||
       setValue("weightKg", lastBmi?.kg || prevStep2?.kg || "");
       setValue("heightCm", lastBmi?.cm || prevStep2?.cm || "");
@@ -573,47 +581,6 @@ const Steptwo = () => {
                       error={!!errors.heightIn}
                       helperText={errors.heightIn?.message || ""}
                     />
-
-                    {/* <TextField
-                      type="number"
-                      variant="standard"
-                      label="inches"
-                      value={watch("heightIn") || ""}
-                      onInput={(e) => {
-                        let value = Number(e.target.value);
-                        if (value > 11) {
-                          e.target.value = 11;
-                        }
-                        if (value < 0) {
-                          e.target.value = 0;
-                        }
-                      }}
-                      {...register("heightIn", {
-                        required: "Height is required",
-                        pattern: {
-                          value: /^[0-9]+$/, // Allows 0-9
-                          message: "Only valid numbers are allowed",
-                        },
-                        minLength: {
-                          value: 1,
-                          message: "Inch must have at least 1 digit",
-                        },
-                        maxLength: {
-                          value: 2,
-                          message: "Inch must have a maximum of 2 digits",
-                        },
-                        min: {
-                          value: 0, // Now accepts 0
-                          message: "Inch must be greater than or equal to 0",
-                        },
-                        max: {
-                          value: 11,
-                          message: "Inch must be less than or equal to 11",
-                        },
-                      })}
-                      error={!!errors.heightIn}
-                      helperText={errors.heightIn ? errors.heightIn.message : ""}
-                    /> */}
                   </div>
                 </div>
 
