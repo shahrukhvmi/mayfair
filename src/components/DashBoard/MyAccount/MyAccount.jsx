@@ -21,6 +21,8 @@ const SkeletonCard = () => (
 const MyAccount = () => {
   const { data, error, isLoading } = useGetProductsQuery();
 
+
+  console.log(data?.data?.reorder?.inventories,"statuasadsdss")
   return (
     <div className="p-5 sm:p-10 sm:bg-gray-50 sm:min-h-screen sm:rounded-lg sm:shadow-md my-5">
       {/* ✅ Reorder Treatment Section */}
@@ -41,7 +43,7 @@ const MyAccount = () => {
                   title={data?.data?.reorder?.name}
                   image={data?.data?.reorder?.img}
                   price={data?.data?.reorder?.price || "N/A"}
-                  status={data?.data?.reorder?.status}
+                  status={data?.data?.reorder?.inventories?.[0]?.status}
                   lastOrderDate={data?.data?.reorder?.lastOrderDate}
                   buttonText={"Reorder Consultation"}
                   reorder={true}
@@ -54,7 +56,7 @@ const MyAccount = () => {
                     title={product?.name}
                     image={product?.img}
                     price={product?.price || "N/A"}
-                    status={product?.status}
+                    status={data?.data?.reorder?.inventories?.[0]?.status}
                     buttonText={"Reorder Consultation"}
                     reorder={true}
                   />
