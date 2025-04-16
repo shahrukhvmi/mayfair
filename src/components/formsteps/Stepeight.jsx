@@ -146,8 +146,9 @@ const Stepeight = ({ setHideSidebar }) => {
       setZipCode(shipping?.postalcode || "");
       setValue("country", shipping?.country || "");
 
-      const matchingCountry = ShipmentCountry?.find((country) => country.name === shipping?.country);
-
+      const matchingCountry = ShipmentCountry?.find((country) => (country.name === shipping?.country_name ?? shipping?.country));
+      console.log(matchingCountry, "matchingCountry")
+      console.log(shipping, "shipping")
       if (matchingCountry) {
         setCountryPrice(Number(matchingCountry.price) || 0);
       }
@@ -238,7 +239,7 @@ const Stepeight = ({ setHideSidebar }) => {
     // Shipment and countries
     if (storedPrev) {
       setShipmentCountry(storedPrev?.selected_product?.shippments || []);
-
+      console.log(storedPrev?.selected_product?.shippments, "sdsadfsedfs")
       const countries = storedPrev?.billing_countries || [];
       const termConditions = storedPrev?.selected_product?.terms_and_conditon || [];
       setBillingCountrys(countries);
@@ -1301,7 +1302,7 @@ const Stepeight = ({ setHideSidebar }) => {
                           </Box>
 
                           {(countryShippingPrice !== null && countryShippingPrice !== undefined) ||
-                          (coutryPrice !== null && coutryPrice !== undefined) ? (
+                            (coutryPrice !== null && coutryPrice !== undefined) ? (
                             <>
                               {/* <div className="flex justify-between items-center">
                                 <Typography variant="body1" className="text-gray-600">Shipping</Typography>
@@ -1365,11 +1366,10 @@ const Stepeight = ({ setHideSidebar }) => {
                                       type="button"
                                       onClick={handleApplyCoupon}
                                       disabled={discountCode.trim() === ""}
-                                      className={`w-50 ml-3 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold shadow-md transition-all duration-200 ${
-                                        discountCode.trim() === ""
-                                          ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                                          : "bg-gradient-to-r from-violet-700 to-violet-500 text-white hover:from-violet-700 hover:to-violet-600"
-                                      }`}
+                                      className={`w-50 ml-3 px-2 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold shadow-md transition-all duration-200 ${discountCode.trim() === ""
+                                        ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                                        : "bg-gradient-to-r from-violet-700 to-violet-500 text-white hover:from-violet-700 hover:to-violet-600"
+                                        }`}
                                     >
                                       Apply Code
                                     </button>
@@ -1441,11 +1441,10 @@ const Stepeight = ({ setHideSidebar }) => {
                       <button
                         type="submit"
                         disabled={!isValid || loader}
-                        className={`p-3 flex flex-col items-center justify-center ${
-                          !isValid || loader
-                            ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                            : "text-white rounded-md bg-violet-700"
-                        }`}
+                        className={`p-3 flex flex-col items-center justify-center ${!isValid || loader
+                          ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                          : "text-white rounded-md bg-violet-700"
+                          }`}
                       >
                         {loader ? (
                           // Loading Spinner with Label
