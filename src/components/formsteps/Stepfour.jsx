@@ -43,21 +43,37 @@ const Stepfour = ({ setHideSidebar }) => {
 
   // Fetch Data from Local Storage
   useEffect(() => {
+    console.log("THis is Effect");
     const stepPrevData = localStorage.getItem("stepPrevApiData");
     if (stepPrevData) {
       const dataParse = JSON.parse(stepPrevData);
+      console.log(dataParse, "dataParsesssss");
+      const answer = Array.isArray(dataParse?.last_consultation_data?.confirmationInfo)
+        ? dataParse.last_consultation_data.confirmationInfo[0]?.answer
+        : null;
+      console.log(answer, "answeeerrrrr From Inner");
       setGetQuestion(dataParse?.confirmation_question[0]?.qa); // Safe navigation
+
+      if (answer == true) {
+        setValue("confirmation_question", true);
+      } else {
+        setValue("confirmation_question", false);
+      }
     }
     const checkPrevData = localStorage.getItem("step4");
     if (checkPrevData) {
       // const dataParse = JSON.parse(checkPrevData);
       const dataParse = checkPrevData !== undefined && checkPrevData != "undefined" && checkPrevData ? JSON.parse(checkPrevData) : undefined;
 
+      console.log(dataParse, "dataaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
       if (dataParse[0].answer === true) {
         setValue("confirmation_question", true);
       } else {
         setValue("confirmation_question", false);
       }
+
+      // console.log(isChecked, "isChecked");
     }
   }, []);
   const reorder_concent = localStorage.getItem("reorder_concent") || null;
