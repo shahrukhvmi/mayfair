@@ -147,8 +147,7 @@ const Stepeight = ({ setHideSidebar }) => {
       setValue("country", shipping?.country || "");
 
       const matchingCountry = ShipmentCountry?.find((country) => (country.name === shipping?.country_name || shipping?.country));
-      console.log(matchingCountry, "matchingCountry")
-      console.log(shipping, "shipping")
+
       if (matchingCountry) {
         setCountryPrice(Number(matchingCountry.price) || 0);
       }
@@ -797,7 +796,9 @@ const Stepeight = ({ setHideSidebar }) => {
                               label="State / Province / Region"
                               variant="standard"
                               fullWidth
-                              {...register("state")}
+                              error={!!errors.state}
+                              {...register("state", { required: "state is required" })}
+                              helperText={errors.state?.message}
                             />
                           </div>
 
@@ -1024,6 +1025,9 @@ const Stepeight = ({ setHideSidebar }) => {
                                       {...register("billingState", {
                                         required: !isBillingSameAsShipping && "State is required",
                                       })}
+
+                                      error={!!errors.billingState}
+                                      helperText={errors.billingState?.message}
                                     />
                                   </div>
                                 </Box>
