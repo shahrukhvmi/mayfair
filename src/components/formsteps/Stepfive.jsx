@@ -459,7 +459,12 @@ const Stepfive = ({ setHideSidebar }) => {
                   sx={textFieldStyles}
                   variant="standard"
                   className="w-full"
-                  {...register("addressLine1")}
+                  {...register("addressLine1",{
+                    required:"Address Line 1 is required"
+                  })}
+               
+                  error={!!errors.addressLine1}
+                  helperText={errors.addressLine1?.message}
                 />
               </div>
               <div className="w-1/2">
@@ -484,7 +489,12 @@ const Stepfive = ({ setHideSidebar }) => {
                   variant="standard"
                   className="w-full"
                   sx={textFieldStyles}
-                  {...register("state")}
+                  {...register("state",{
+                    required:"state is required"
+                  })}
+               
+                  error={!!errors.state}
+                  helperText={errors.state?.message}
                 />
               </div>
               <div className="w-1/2">
@@ -496,7 +506,11 @@ const Stepfive = ({ setHideSidebar }) => {
                   variant="standard"
                   sx={textFieldStyles}
                   className="w-full"
-                  {...register("city")}
+                  {...register("city",{
+                    required:"city is required"
+                  })}
+                  error={!!errors.city}
+                  helperText={errors.city?.message}
                 />
               </div>
             </div>

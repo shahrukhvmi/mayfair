@@ -416,7 +416,20 @@ const MyAddress = () => {
                 error={!!errors.city}
                 helperText={errors.city?.message}
               />
-              <TextField variant="standard" label="State" fullWidth value={watchShipping("state")} {...register("state")} />
+              <TextField 
+              variant="standard" 
+              label="State" 
+              fullWidth 
+              value={watchShipping("state")} 
+
+              {...register("state", {
+                required: "State is required",
+              })}
+              error={!!errors.state}
+              helperText={errors.state?.message || ""}
+              
+              
+              />
             </div>
           </Box>
         </>

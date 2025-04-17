@@ -95,7 +95,6 @@ const Stepone = ({ setHideSidebar }) => {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addressOptions, setAddressOptions] = useState([]);
   const [searchClicked, setSearchClicked] = useState(false);
-
   useEffect(() => {
     if (lastConsultation || prevStep1 || userInfo) {
       setZipCode(prevStep1?.address?.postalcode || lastConsultation?.address?.postalcode || "");
@@ -755,13 +754,14 @@ const Stepone = ({ setHideSidebar }) => {
             sx={textFieldStyles}
             className="reg-font"
             {...register("postCode", { required: "Postal Code is required" })}
-            error={!!errors.postCode || error} // Displays error state
+            error={!!errors.postCode || !!error}
             helperText={errors.postCode?.message} // Shows error message
             fullWidth
             onChange={(e) => {
               setZipCode(e.target.value); // Update zipCode state
               setSearchClicked(false); // Reset search clicked
             }}
+            
             InputProps={{
               endAdornment: (
                 <>
@@ -780,6 +780,7 @@ const Stepone = ({ setHideSidebar }) => {
               ),
             }}
           />
+       
 
           <div className="mt-3 sm:mt-0">
             {!error && searchClicked && addressOptions.length > 0 && (
@@ -789,7 +790,7 @@ const Stepone = ({ setHideSidebar }) => {
                   <Select
                     {...register("addressSelect", {
                       required: "Please select an address",
-                    })} // Validation for Select
+                    })} 
                     onChange={(e) => handleSelect(e.target.value, setValue)}
                     defaultValue=""
                   >
