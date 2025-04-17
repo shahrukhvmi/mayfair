@@ -146,7 +146,7 @@ const Stepeight = ({ setHideSidebar }) => {
       setZipCode(shipping?.postalcode || "");
       setValue("country", shipping?.country || "");
 
-      const matchingCountry = ShipmentCountry?.find((country) => (country.name === shipping?.country_name ?? shipping?.country));
+      const matchingCountry = ShipmentCountry?.find((country) => (country.name === shipping?.country_name || shipping?.country));
       console.log(matchingCountry, "matchingCountry")
       console.log(shipping, "shipping")
       if (matchingCountry) {
