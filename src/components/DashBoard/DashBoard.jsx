@@ -10,7 +10,7 @@ const Dashboard = ({ children }) => {
     setIsOpen((prev) => !prev);
   };
 
-  const stockLoader = useSelector((state) => state.paymentLoader.loading);
+  const stockLoader = useSelector((state) => state.stockLoader.loading);
 
   // useEffect(() => {}, []);
 

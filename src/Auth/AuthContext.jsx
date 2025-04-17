@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { useGetPrevsMutation } from "../store/services/Steps/Steps";
 import { setStepPrevApiData } from "../store/slice/stepSlice";
 import { triggerStep } from "../store/slice/stepper";
-import { setPaymentLoading } from "../store/slice/paymentLoaderSlice";
+import { setStockLoading } from "../store/slice/stockLoaderSlice";
+// import { setPaymentLoading } from "../store/slice/paymentLoaderSlice";
+
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -81,7 +83,7 @@ export const AuthProvider = ({ children }) => {
   const autoCheck = async () => {
     try {
       setIsLoading(true); // Show loading spinner
-      dispatch(setPaymentLoading(true));
+      dispatch(setStockLoading(true));
       // localStorage.setItem("inStockLoader", "true");
       const response = await getPrev({
         url,

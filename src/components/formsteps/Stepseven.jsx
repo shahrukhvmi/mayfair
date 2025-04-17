@@ -14,7 +14,7 @@ import OrderSummaryAddons from "../AddonList/OrderSummaryAddons";
 import { addToCartAddon, removeFromCartAddon, updateCartAddon } from "../../store/slice/addonCartSlice";
 import DosageCheckPopup from "../DosageCheckPopup/DosageCheckPopup";
 import { Checkbox, FormControlLabel } from "@mui/material";
-import { setPaymentLoading } from "../../store/slice/paymentLoaderSlice";
+import { setStockLoading } from "../../store/slice/stockLoaderSlice";
 
 const StepSeven = ({ setHideSidebar }) => {
   setHideSidebar(true);
@@ -64,9 +64,10 @@ const StepSeven = ({ setHideSidebar }) => {
       setValue("terms", false);
     }
   }, [product?.show_expiry, clearErrors, setValue]);
+
   useEffect(() => {
     const fetchData = async () => {
-      dispatch(setPaymentLoading(false));
+      dispatch(setStockLoading(false));
       const pid = localStorage.getItem("pid");
       // localStorage.setItem("pid", pid);
       const p_id = localStorage.getItem("p_id");
