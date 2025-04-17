@@ -602,12 +602,15 @@ const Stepeight = ({ setHideSidebar }) => {
       } else {
         toast.error("Invalid login response");
       }
-    } catch (err) {
+    } catch (error) {
+      const errors = error?.data?.original?.errors;
       if (errors && typeof errors === "object") {
         Object.keys(errors).forEach((key) => {
           const errorMessage = errors[key];
           Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
         });
+      } else if (error.data?.errors?.Product) {
+        toast.error(error.data?.errors?.Product)
       } else {
         toast.error("An unexpected error occurred.");
       }

@@ -86,7 +86,15 @@ const Stepfive = ({ setHideSidebar }) => {
       }
       // e.preventDefault();
     } catch (error) {
-      console.log(error);
+      const errors = error?.data?.original?.errors;
+      if (errors && typeof errors === "object") {
+        Object.keys(errors).forEach((key) => {
+          const errorMessage = errors[key];
+          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
+        });
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
@@ -297,11 +305,10 @@ const Stepfive = ({ setHideSidebar }) => {
               <div className="flex gap-4 flex-col sm:flex-row">
                 <label
                   htmlFor="gepTreatMentYes"
-                  className={`${
-                    gepTreatMent === "yes"
+                  className={`${gepTreatMent === "yes"
                       ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
                       : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                  }`}
+                    }`}
                 >
                   Yes - Please inform my GP {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
                   <input
@@ -317,11 +324,10 @@ const Stepfive = ({ setHideSidebar }) => {
 
                 <label
                   htmlFor="gepTreatMentNo"
-                  className={`${
-                    gepTreatMent === "no"
+                  className={`${gepTreatMent === "no"
                       ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
                       : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
-                  }`}
+                    }`}
                 >
                   No – I will inform my GP prior to starting treatment{" "}
                   {gepTreatMent === "no" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
@@ -459,12 +465,7 @@ const Stepfive = ({ setHideSidebar }) => {
                   sx={textFieldStyles}
                   variant="standard"
                   className="w-full"
-                  {...register("addressLine1",{
-                    required:"Address Line 1 is required"
-                  })}
-               
-                  error={!!errors.addressLine1}
-                  helperText={errors.addressLine1?.message}
+                  {...register("addressLine1")}
                 />
               </div>
               <div className="w-1/2">
@@ -489,12 +490,7 @@ const Stepfive = ({ setHideSidebar }) => {
                   variant="standard"
                   className="w-full"
                   sx={textFieldStyles}
-                  {...register("state",{
-                    required:"state is required"
-                  })}
-               
-                  error={!!errors.state}
-                  helperText={errors.state?.message}
+                  {...register("state")}
                 />
               </div>
               <div className="w-1/2">
@@ -506,11 +502,7 @@ const Stepfive = ({ setHideSidebar }) => {
                   variant="standard"
                   sx={textFieldStyles}
                   className="w-full"
-                  {...register("city",{
-                    required:"city is required"
-                  })}
-                  error={!!errors.city}
-                  helperText={errors.city?.message}
+                  {...register("city")}
                 />
               </div>
             </div>
@@ -537,11 +529,10 @@ const Stepfive = ({ setHideSidebar }) => {
               {/* Proceed Button */}
               <button
                 type="submit"
-                className={`p-3 flex flex-col items-center justify-center ${
-                  !isValid || isLoading
+                className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
                     ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
                     : "text-white rounded-md bg-violet-700"
-                }`}
+                  }`}
               >
                 {isLoading ? (
                   // Loading Spinner with Label

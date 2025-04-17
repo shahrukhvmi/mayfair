@@ -452,7 +452,8 @@ const Steptwo = () => {
         toast.error("Invalid login response");
       }
     } catch (err) {
-      const errors = err?.data?.errors;
+      const errors = err?.data?.original?.errors;
+      console.log(errors,"errors")
       if (errors && typeof errors === "object") {
         Object.keys(errors).forEach((key) => {
           const errorMessage = errors[key];

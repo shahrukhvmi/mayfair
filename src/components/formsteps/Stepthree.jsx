@@ -134,7 +134,16 @@ const Stepthree = ({ setHideSidebar }) => {
         toast.error("Failed to submit data.");
       }
     } catch (err) {
-      toast.error("An error occurred while submitting.");
+      const errors = err?.data?.original?.errors;
+      console.log(errors,"errors")
+      if (errors && typeof errors === "object") {
+        Object.keys(errors).forEach((key) => {
+          const errorMessage = errors[key];
+          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
+        });
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 

@@ -8,6 +8,7 @@ import { setStep4 } from "../../store/slice/stepSlice";
 import { usePostStepsMutation } from "../../store/services/Steps/Steps";
 import PrevButton from "../PrevBtn/PrevButton";
 import NextButton from "../NextBtn/NextButton";
+import toast from "react-hot-toast";
 
 const Stepfour = ({ setHideSidebar }) => {
   setHideSidebar(false);
@@ -101,8 +102,16 @@ const Stepfour = ({ setHideSidebar }) => {
       }).unwrap();
       dispatch(setStep4(confirmationInfo)); // Dispatch action to update step 4
       dispatch(nextStep());
-    } catch (error) {
-      console.log(error);
+    } catch (error)  {
+      const errors = error?.data?.original?.errors;
+      if (errors && typeof errors === "object") {
+        Object.keys(errors).forEach((key) => {
+          const errorMessage = errors[key];
+          Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
+        });
+      } else {
+        toast.error("An unexpected error occurred.");
+      }
     }
   };
 
