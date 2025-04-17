@@ -764,12 +764,15 @@ const Stepeight = ({ setHideSidebar }) => {
                             <TextField
                               label="Address Line 1"
                               variant="standard"
-                              value={watch("streetAddress") || ""}
                               fullWidth
-                              {...register("streetAddress")}
+                              value={watch("streetAddress") || ""}
                               error={!!errors.streetAddress}
                               helperText={errors.streetAddress?.message}
+                              {...register("streetAddress", {
+                                required: "Address Line 1 is required"
+                              })}
                             />
+
                             <TextField
                               label="Address Line 2"
                               variant="standard"
