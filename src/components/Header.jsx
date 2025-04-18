@@ -49,6 +49,7 @@ const Header = () => {
   // Check if the current route is login or register
   const token = localStorage.getItem("token")
   const isAuth =
+    location.pathname === "/" ||
     location.pathname === "/dashboard/" ||
     location.pathname === "/register/" ||
     location.pathname === "/forgot-password/" ||
