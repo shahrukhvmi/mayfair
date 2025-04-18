@@ -107,7 +107,7 @@ const Stepfive = ({ setHideSidebar }) => {
     setValue("addressLine1", selected.Address1 || "");
     setValue("addressLine2", selected.Address2 || "");
     setValue("city", selected.City || "");
-    setValue("state", selected.County || "");
+    setValue("state", selected.state || "");
     setValue("postalCode", postalCode || "");
     setValue("gpName", selected.OrganisationName || "");
   };
@@ -306,8 +306,8 @@ const Stepfive = ({ setHideSidebar }) => {
                 <label
                   htmlFor="gepTreatMentYes"
                   className={`${gepTreatMent === "yes"
-                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
                     }`}
                 >
                   Yes - Please inform my GP {gepTreatMent === "yes" && <FaCheck className="ml-2 text-[#4DB581]" size={15} />}
@@ -325,8 +325,8 @@ const Stepfive = ({ setHideSidebar }) => {
                 <label
                   htmlFor="gepTreatMentNo"
                   className={`${gepTreatMent === "no"
-                      ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
-                      : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
+                    ? "cursor-pointer border-[#4DB581] px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md bg-green-50 border-[2px] flex justify-center items-center font-medium"
+                    : "border-gray-300 px-4 py-2 text-sm sm:text-sm text-gray-500 rounded-md items-left cursor-pointer shadow-md font-medium"
                     }`}
                 >
                   No – I will inform my GP prior to starting treatment{" "}
@@ -459,14 +459,19 @@ const Stepfive = ({ setHideSidebar }) => {
               <div className="w-1/2">
                 <TextField
                   id="standard-basic"
-                  label="Addressline 1"
+                  label="Street Address"
                   value={watch("addressLine1") || ""}
                   type="text"
                   sx={textFieldStyles}
                   variant="standard"
                   className="w-full"
-                  {...register("addressLine1")}
+                  {...register("addressLine1", {
+                    required: "Street Address is required"
+                  })}
+                  error={!!errors.addressLine1}
+                  helperText={errors.addressLine1?.message}
                 />
+
               </div>
               <div className="w-1/2">
                 <TextField
@@ -481,18 +486,7 @@ const Stepfive = ({ setHideSidebar }) => {
               </div>
             </div>
             <div className="mt-4 flex w-full gap-2 justify-between">
-              <div className="w-1/2">
-                <TextField
-                  id="standard-basic"
-                  type="text"
-                  label="County"
-                  value={watch("state") || ""}
-                  variant="standard"
-                  className="w-full"
-                  sx={textFieldStyles}
-                  {...register("state")}
-                />
-              </div>
+
               <div className="w-1/2">
                 <TextField
                   id="standard-basic"
@@ -502,7 +496,29 @@ const Stepfive = ({ setHideSidebar }) => {
                   variant="standard"
                   sx={textFieldStyles}
                   className="w-full"
-                  {...register("city")}
+
+                  {...register("city", {
+                    required: "City is required"
+                  })}
+                  error={!!errors.city}
+                  helperText={errors.city?.message}
+                />
+              </div>
+
+              <div className="w-1/2">
+                <TextField
+                  id="standard-basic"
+                  type="text"
+                  label="State"
+                  value={watch("state") || ""}
+                  variant="standard"
+                  className="w-full"
+                  sx={textFieldStyles}
+                  {...register("state", {
+                    required: "State is required"
+                  })}
+                  error={!!errors.state}
+                  helperText={errors.state?.message}
                 />
               </div>
             </div>
@@ -530,8 +546,8 @@ const Stepfive = ({ setHideSidebar }) => {
               <button
                 type="submit"
                 className={`p-3 flex flex-col items-center justify-center ${!isValid || isLoading
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
                   }`}
               >
                 {isLoading ? (
