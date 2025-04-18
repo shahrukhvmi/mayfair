@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link,  useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { MdEmail } from "react-icons/md";
 import { AuthContext } from "../Auth/AuthContext";
 import ApplicationLogo from "../config/ApplicationLogo";
@@ -47,11 +47,13 @@ const Header = () => {
   }, [isOpenDrop]);
 
   // Check if the current route is login or register
+  const token = localStorage.getItem("token")
   const isAuth =
-    location.pathname === "/" ||
+    location.pathname === "/dashboard/" ||
     location.pathname === "/register/" ||
     location.pathname === "/forgot-password/" ||
     location.pathname === "/change-forgot-password/";
+
 
   const handleLogout = () => {
     setIsOpenDrop(false);
@@ -82,11 +84,26 @@ const Header = () => {
         </a>
       )}
 
-      <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
-        <Link to="/dashboard/" onClick={handleRemovePid}>
-          <ApplicationLogo className="w-36 sm:w-36" />
-        </Link>
-      </div>
+      {token && (
+        <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
+          <Link to="/dashboard/" onClick={handleRemovePid}>
+            <ApplicationLogo className="w-36 sm:w-36" />
+          </Link>
+        </div>
+      )}
+
+      {!token && (
+        <div className="sm:absolute sm:left-1/2 transform sm:-translate-x-1/2">
+          <a
+            href="https://www.mayfairweightlossclinic.co.uk/"
+
+            rel="noopener noreferrer"
+          >
+            <ApplicationLogo className="w-36 sm:w-36" />
+          </a>
+        </div>
+      )}
+
 
       {/* User Info (Dropdown) - Aligned to the right, Only visible on non-login/register pages */}
       {!isAuth && (
