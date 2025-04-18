@@ -1,11 +1,9 @@
-import React from "react";
-import { TextField, Box, Container, Typography } from "@mui/material";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useDispatch, useSelector } from "react-redux";
 import { useForgotPasswordMutation } from "../../../store/services/Auth/authApi";
 import { setForgotToken } from "../../../store/services/Auth/authSlice";
-import { Link } from "react-router-dom";
+import { Helmet } from 'react-helmet-async';
 
 const ForgotPassword = () => {
   const passwordlink = import.meta.env.VITE_FORGOT_URL;
@@ -33,6 +31,15 @@ const ForgotPassword = () => {
     }
   };
   return (
+    <>
+    <Helmet>
+      <title>Reset Your Password - Secure Access to Your Account</title>
+      <meta
+        name="description"
+        content="If you've forgotten your password, you can securely reset it here to continue your treatment application without interruption."
+      />
+      <link rel="canonical" href={window.location.href} />
+    </Helmet>
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#DACFFF] px-4 pt-6">
       <div className="xl:w-1/3 lg:w-2/5 sm:w-1/2 bg-white xl:p-10 sm:p-7 border shadow-lg rounded-xl px-4 py-4">
         <div className="bg-white w-full rounded-lg mb-10 ">
@@ -75,6 +82,7 @@ const ForgotPassword = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
