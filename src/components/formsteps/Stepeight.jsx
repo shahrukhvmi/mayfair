@@ -413,7 +413,7 @@ const Stepeight = ({ setHideSidebar }) => {
   const [total, setTotal] = useState(0);
   const [finalDicount, setFinalDiscount] = useState(0);
   useEffect(() => {
-    // Calculate the subtotal
+    // Calculate the subtotal 
     const addonsTotal = addons.reduce((sum, addon) => sum + addon.price * addon.qty, 0);
     const dosesTotal = doses.reduce((sum, dose) => sum + dose.price * dose.qty, 0);
     const calculatedSubtotal = addonsTotal + dosesTotal;
