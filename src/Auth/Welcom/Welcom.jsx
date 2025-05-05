@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Login from "../Login/Login";
 import Register from "../Register/register";
 import Footer from "../../components/Footer";
+import { Helmet } from 'react-helmet-async';
 
 const Welcome = () => {
   const [selectedTab, setSelectedTab] = useState("tab1");
@@ -21,6 +22,14 @@ const Welcome = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Start Online Consultation - Mayfair Weight Loss Clinic</title>
+        <meta
+          name="description"
+          content="In order for our doctors to assess your suitability for treatment, you will be asked to complete a short medical questionnaire at the next step."
+        />
+        <link rel="canonical" href={window.location.href} />
+      </Helmet>
       {isImpersonateLoading ? (
         <div className="flex justify-center items-center min-h-screen">
           <div className="w-10 h-10 border-4 border-violet-500 border-t-transparent rounded-full animate-spin"></div>

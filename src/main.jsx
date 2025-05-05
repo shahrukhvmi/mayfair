@@ -7,15 +7,17 @@ import store from './store/store.js';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';  // Import BrowserRouter
 import { AuthProvider } from './Auth/AuthContext.jsx';
+import { HelmetProvider } from 'react-helmet-async';
 
 createRoot(document.getElementById('root')).render(
   <Provider store={store}>
+    <HelmetProvider>
+      <BrowserRouter> {/* Wrap your app with BrowserRouter */}
+        <AuthProvider>
 
-    <BrowserRouter> {/* Wrap your app with BrowserRouter */}
-      <AuthProvider>
-
-        <App />
-      </AuthProvider>
-    </BrowserRouter>
+          <App />
+        </AuthProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   </Provider>
 );
