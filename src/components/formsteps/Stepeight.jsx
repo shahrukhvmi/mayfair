@@ -62,6 +62,7 @@ const Stepeight = ({ setHideSidebar }) => {
   const [email, setEmail] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [countryShippingPrice, setCountryShippingPrice] = useState(null);
+  const [countryShippingId, setCountryShippingId] = useState(null);
   const [coutryPrice, setCountryPrice] = useState(null);
 
   useEffect(() => {
@@ -79,14 +80,14 @@ const Stepeight = ({ setHideSidebar }) => {
 
   const handleCountryChange = (selectedCountry) => {
     setValue("country", selectedCountry.name);
+    console.log(selectedCountry,"selectedCountry")
 
     setCountryShippingPrice(selectedCountry.price);
+    setCountryShippingId(selectedCountry.id);
   };
-
   const [shipping, setShippingApi] = useState("");
   const [billing, setBillingApi] = useState("");
   const [userInfo, setUserApi] = useState("");
-
   // const fetchUserData = async () => {
   //   try {
   //     const response = await fetch(
@@ -146,7 +147,12 @@ const Stepeight = ({ setHideSidebar }) => {
       setZipCode(shipping?.postalcode || "");
       setValue("country", shipping?.country || "");
 
-      const matchingCountry = ShipmentCountry?.find((country) => (country.name === shipping?.country_name || shipping?.country));
+      const matchingCountry = ShipmentCountry?.find(
+        (country) => country.name === 
+        (shipping?.country_name == null ? shipping?.country : shipping?.country_name)
+      );
+      
+      console.log(shipping, "ShipmentCountry")
 
       if (matchingCountry) {
         setCountryPrice(Number(matchingCountry.price) || 0);
@@ -413,7 +419,6 @@ const Stepeight = ({ setHideSidebar }) => {
     const calculatedSubtotal = addonsTotal + dosesTotal;
     const shippingPrice = parseFloat(countryShippingPrice || coutryPrice);
     const discountValue = calculateDiscountValue(calculatedSubtotal);
-
     const calculatedTotal = shippingPrice || discountValue ? calculatedSubtotal - (discountValue || 0) + (shippingPrice || 0) : calculatedSubtotal;
 
     setSubtotal(calculatedSubtotal);
@@ -516,7 +521,6 @@ const Stepeight = ({ setHideSidebar }) => {
   const prevApiData = localStorage.getItem("stepPrevApiData") || null;
   const reorder = prevApiData?.isReturning;
   const getPid = localStorage.getItem("pid") || localStorage.getItem("p_id");
-
   const onSubmit = async (data) => {
     const checkout = {
       firstName: data?.firstName || patientInfo?.firstName || userProfile?.fname,
@@ -550,7 +554,7 @@ const Stepeight = ({ setHideSidebar }) => {
       subTotal: parseFloat(subtotal),
       total: parseFloat(total),
       shipment: {
-        id: null,
+        id: countryShippingId,
         name: data.country || shipping?.country,
         price: parseFloat(countryShippingPrice || coutryPrice),
         status: 1,
