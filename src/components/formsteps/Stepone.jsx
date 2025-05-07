@@ -250,7 +250,7 @@ const Stepone = ({ setHideSidebar }) => {
           Array.isArray(errorMessage) ? errorMessage.forEach((msg) => toast.error(msg)) : toast.error(errorMessage);
         });
       } else {
-        toast.error("An unexpected error occurred.");
+        toast.error(product_error)
       }
     }
   };
@@ -520,8 +520,8 @@ const Stepone = ({ setHideSidebar }) => {
             <div className="flex gap-4">
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "male"
-                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                    : "rounded-lg shadow-md cursor-pointer bg-white"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                  : "rounded-lg shadow-md cursor-pointer bg-white"
                   }`}
               >
                 <input type="radio" value="male" {...register("gender", { required: "Gender is required" })} className="hidden" />
@@ -531,8 +531,8 @@ const Stepone = ({ setHideSidebar }) => {
 
               <label
                 className={`flex items-center justify-between w-full px-6 py-3 rounded-md cursor-pointer transition-all duration-300 ${gender === "female"
-                    ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
-                    : "rounded-lg shadow-md cursor-pointer bg-white"
+                  ? "border-2 border-green-500 bg-green-50 text-green-600 shadow-md"
+                  : "rounded-lg shadow-md cursor-pointer bg-white"
                   }`}
               >
                 <input type="radio" value="female" {...register("gender", { required: "Gender is required" })} className="hidden" />
@@ -552,8 +552,8 @@ const Stepone = ({ setHideSidebar }) => {
                 <div className="flex gap-4">
                   <label
                     className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                        ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                        : "bg-white"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
                       }`}
                   >
                     <input
@@ -584,8 +584,8 @@ const Stepone = ({ setHideSidebar }) => {
 
                   <label
                     className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                        ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                        : "bg-white"
+                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                      : "bg-white"
                       }`}
                   >
                     <input
@@ -649,8 +649,8 @@ const Stepone = ({ setHideSidebar }) => {
               <div className="flex gap-4">
                 <label
                   className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "Yes"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
+                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                    : "bg-white"
                     }`}
                 >
                   <input
@@ -681,8 +681,8 @@ const Stepone = ({ setHideSidebar }) => {
 
                 <label
                   className={`reg-font text-[#3E3E3E] px-10 py-2 border rounded-md cursor-pointer ${breastFeeding === "No"
-                      ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
-                      : "bg-white"
+                    ? "flex items-center border-[#4DB581] cursor-pointer text-[#4DB581] rounded bg-green-50 border-[2px] shadow-lg"
+                    : "bg-white"
                     }`}
                 >
                   <input
@@ -741,38 +741,45 @@ const Stepone = ({ setHideSidebar }) => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 sm:gap-4 gap-0">
-          <TextField
-            label="Postal Code"
-            variant="standard"
-            value={zipCode}
-            sx={textFieldStyles}
-            className="reg-font"
-            {...register("postCode", { required: "Postal Code is required" })}
-            error={!!errors.postCode || !!error}
-            helperText={errors.postCode?.message} // Shows error message
-            fullWidth
-            onChange={(e) => {
-              setZipCode(e.target.value); // Update zipCode state
-              setSearchClicked(false); // Reset search clicked
-            }}
-
-            InputProps={{
-              endAdornment: (
-                <>
-                  <div className="relative -top-2">
-                    <button
-                      type="button"
-                      onClick={handleSearch}
-                      disabled={btnZipCode}
-                      className="w-fit disabled:opacity-50 disabled:bg-gray-400 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 transition-all duration-200 py-2 px-4 mt-2 ms-2 flex text-white items-center gap-1 rounded-md"
-                    >
-                      <FaSearch className={`text-white`} />
-                      <span className="mr-2 text-sm">{isLoading ? "SEARCH..." : "SEARCH"}</span>
-                    </button>
-                  </div>
-                </>
-              ),
-            }}
+          <Controller
+            name="postCode"
+            control={control}
+            rules={{ required: "Postal Code is required" }}
+            render={({ field }) => (
+              <TextField
+                label="Postal Code"
+                variant="standard"
+                fullWidth
+                value={field.value || watch("postCode") || ""}
+                onChange={(e) => {
+                  field.onChange(e); // important: inform react-hook-form
+                  setZipCode(e.target.value); // your custom logic
+                  setSearchClicked(false);
+                  // handleSelect is for auto-select. Do not call it unless needed.
+                }}
+                error={!!errors.postCode || error}
+                helperText={errors.postCode?.message}
+                InputProps={{
+                  endAdornment: (
+                    <>
+                      {zipCode && (
+                        <div className="relative -top-2">
+                          <button
+                            type="button"
+                            onClick={handleSearch}
+                            disabled={btnZipCode}
+                            className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                          >
+                            <span className="mr-2 text-sm">{isLoading ? "SEARCH..." : "SEARCH"}</span>
+                            <FaSearch className={`text-white ${isLoading ? "animate-spin" : ""}`} />
+                          </button>
+                        </div>
+                      )}
+                    </>
+                  ),
+                }}
+              />
+            )}
           />
 
 
@@ -931,8 +938,8 @@ const Stepone = ({ setHideSidebar }) => {
                 type="submit"
                 disabled={!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError}
                 className={`p-3 flex flex-col items-center justify-center ${!isValid || loader || error || !selectedEthnicity || WarningMessage || !!dobError
-                    ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
-                    : "text-white rounded-md bg-violet-700"
+                  ? "disabled:opacity-50 disabled:hover:bg-violet-700 disabled:cursor-not-allowed bg-violet-700 text-white rounded-md"
+                  : "text-white rounded-md bg-violet-700"
                   }`}
               >
                 {loader ? (

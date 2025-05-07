@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { TextField, Select, MenuItem, InputLabel, FormControl, Checkbox, FormControlLabel, Box, Typography, IconButton } from "@mui/material";
 import "../../../src/fonts.css";
 import { FaSearch, FaEdit, FaCheck } from "react-icons/fa";
@@ -34,6 +34,7 @@ const Stepeight = ({ setHideSidebar }) => {
     watch,
     setValue,
     trigger,
+    control,
     formState: { errors, isValid },
   } = useForm({
     mode: "onChange",
@@ -80,7 +81,7 @@ const Stepeight = ({ setHideSidebar }) => {
 
   const handleCountryChange = (selectedCountry) => {
     setValue("country", selectedCountry.name);
-    console.log(selectedCountry,"selectedCountry")
+    console.log(selectedCountry, "selectedCountry")
 
     setCountryShippingPrice(selectedCountry.price);
     setCountryShippingId(selectedCountry.id);
@@ -148,10 +149,10 @@ const Stepeight = ({ setHideSidebar }) => {
       setValue("country", shipping?.country || "");
 
       const matchingCountry = ShipmentCountry?.find(
-        (country) => country.name === 
-        (shipping?.country_name == null ? shipping?.country : shipping?.country_name)
+        (country) => country.name ===
+          (shipping?.country_name == null ? shipping?.country : shipping?.country_name)
       );
-      
+
       console.log(shipping, "ShipmentCountry")
 
       if (matchingCountry) {
@@ -670,72 +671,86 @@ const Stepeight = ({ setHideSidebar }) => {
                               helperText={errors.lastName?.message}
                             />
                           </Box>
-                          <Box className="flex sm:grid sm:grid-flow-row my-4">
-                            <FormControl variant="standard" fullWidth error={!!errors.country}>
-                              <InputLabel>Country</InputLabel>
-                              <Select
-                                {...register("country", {
-                                  required: "Country is required",
-                                })}
-                                value={watch("country")} // Bind the current country value
-                                onChange={(e) => {
-                                  const selectedCountry = ShipmentCountry.find((country) => country.name === e.target.value);
-                                  handleCountryChange(selectedCountry);
-                                }}
-                              >
-                                {ShipmentCountry?.map((country, index) => (
-                                  <MenuItem key={index} value={country?.name}>
-                                    {country?.name}
-                                  </MenuItem>
-                                ))}
-                              </Select>
+                          <Controller
+                            name="country"
+                            control={control}
+                            rules={{ required: "Country is required" }}
+                            render={({ field }) => (
+                              <Box className="flex sm:grid sm:grid-flow-row my-4">
+                                <FormControl variant="standard" fullWidth error={!!errors.country}>
+                                  <InputLabel>Country</InputLabel>
+                                  <Select
+                                    {...field}
+                                    onChange={(e) => {
+                                      field.onChange(e.target.value); // Update RHF value
+                                      const selectedCountry = ShipmentCountry.find(
+                                        (country) => country.name === e.target.value
+                                      );
+                                      handleCountryChange(selectedCountry); // Your custom handler
+                                    }}
+                                  >
+                                    {ShipmentCountry?.map((country, index) => (
+                                      <MenuItem key={index} value={country?.name}>
+                                        {country?.name}
+                                      </MenuItem>
+                                    ))}
+                                  </Select>
 
-                              {/* Display error message */}
-                              {errors.country && (
-                                <Typography variant="body2" color="error" className="mt-1">
-                                  {errors.country.message}
-                                </Typography>
-                              )}
-                            </FormControl>
-                          </Box>
+                                  {errors.country && (
+                                    <Typography variant="body2" color="error" className="mt-1">
+                                      {errors.country.message}
+                                    </Typography>
+                                  )}
+                                </FormControl>
+                              </Box>
+                            )}
+                          />
+
 
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <TextField
-                              label="Postal Code"
-                              // value={watch("postCode") || zipCode}
-                              value={zipCode}
-                              variant="standard"
-                              fullWidth
-                              {...register("postCode", {
-                                required: "Postal Code is required",
-                              })}
-                              error={!!errors.postCode || !!error}
-                              helperText={errors.postCode?.message || error?.message}
-                              // value={zipCode}
-                              onChange={(e) => {
-                                setZipCode(e.target.value);
-                                setSearchClicked(false);
-                              }}
-                              InputProps={{
-                                endAdornment: (
-                                  <>
-                                    {zipCode && (
-                                      <div className="relative -top-2">
-                                        <button
-                                          type="button"
-                                          onClick={handleSearch}
-                                          disabled={!zipCode.trim() || isLoading || error}
-                                          className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
-                                        >
-                                          {/* Search Text */}
-                                          <FaSearch className={`text-white ${isLoading ? "animate-spin" : ""}`} />
-                                          <span className="mx-2 text-sm "> {isLoading ? "SEARCH..." : "SEARCH"} </span>
-                                        </button>
-                                      </div>
-                                    )}
-                                  </>
-                                ),
-                              }}
+                            <Controller
+                              name="postCode"
+                              control={control}
+                              rules={{ required: "Postal Code is required" }}
+                              render={({ field }) => (
+                                <TextField
+                                  label="Postal Code"
+                                  variant="standard"
+                                  fullWidth
+                                  value={zipCode}
+                                  onChange={(e) => {
+                                    const val = e.target.value;
+                                    field.onChange(val); // Sync with RHF
+                                    setZipCode(val);     // Sync with local state
+                                    setSearchClicked(false);
+                                  }}
+                                  error={!!errors.postCode || !!error}
+                                  helperText={errors.postCode?.message || error?.message}
+                                  InputProps={{
+                                    endAdornment: (
+                                      <>
+                                        {zipCode && (
+                                          <div className="relative -top-2">
+                                            <button
+                                              type="button"
+                                              onClick={handleSearch}
+                                              disabled={!zipCode.trim() || isLoading || error}
+                                              className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                                            >
+                                              <span className="mr-2 text-sm">
+                                                {isLoading ? "SEARCH..." : "SEARCH"}
+                                              </span>
+                                              <FaSearch
+                                                className={`text-white ${isLoading ? "animate-spin" : ""}`}
+                                              />
+                                            </button>
+                                          </div>
+                                        )}
+                                      </>
+                                    ),
+                                  }}
+                                />
+                              )}
                             />
 
                             <div className="">
@@ -900,41 +915,56 @@ const Stepeight = ({ setHideSidebar }) => {
                                   <Box className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6 w-full">
                                     {selectedStates ? (
                                       <>
-                                        <TextField
-                                          label="Postal Code"
-                                          value={zipCodeBill}
-                                          variant="standard"
-                                          fullWidth
-                                          disabled={!selectedStates}
-                                          {...register("billingPostalCode", {
-                                            required: "Postal Code is required",
-                                          })}
-                                          error={!!errors.billingPostalCode || !!errorBill}
-                                          helperText={errors.billingPostalCode?.message || errorBill?.message}
-                                          onChange={(e) => {
-                                            setZipCodeBill(e.target.value);
-                                            setSearchClickedBill(false);
-                                          }}
-                                          InputProps={{
-                                            className: `${!selectedStates ? "cursor-not-allowed" : ""}`,
-                                            endAdornment: (
-                                              <>
-                                                {zipCodeBill && (
-                                                  <div className="relative -top-2">
-                                                    <button
-                                                      type="button"
-                                                      onClick={handleSearchBilling}
-                                                      disabled={!zipCodeBill.trim() || load || errorBill || !selectedStates}
-                                                      className="flex items-center justify-center px-3 py-1 bg-violet-700 text-white font-semibold text-xs rounded-md hover:bg-violet-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
-                                                    >
-                                                      <FaSearch className={`${`text-white ${load ? "animate-spin" : ""}`}`} />
-                                                      <span className="mr-2 text-sm">{load ? "SEARCH..." : "SEARCH"}</span>
-                                                    </button>
-                                                  </div>
-                                                )}
-                                              </>
-                                            ),
-                                          }}
+                                        <Controller
+                                          name="billingPostalCode"
+                                          control={control}
+                                          rules={{ required: "Postal Code is required" }}
+                                          render={({ field }) => (
+                                            <TextField
+                                              label="Postal Code"
+                                              variant="standard"
+                                              fullWidth
+                                              disabled={!selectedStates}
+                                              value={zipCodeBill}
+                                              onChange={(e) => {
+                                                const val = e.target.value;
+                                                field.onChange(val); // Update form value
+                                                setZipCodeBill(val); // Update local state
+                                                setSearchClickedBill(false);
+                                              }}
+                                              error={!!errors.billingPostalCode || !!errorBill}
+                                              helperText={errors.billingPostalCode?.message || errorBill?.message}
+                                              InputProps={{
+                                                className: `${!selectedStates ? "cursor-not-allowed" : ""}`,
+                                                endAdornment: (
+                                                  <>
+                                                    {zipCodeBill && (
+                                                      <div className="relative -top-2">
+                                                        <button
+                                                          type="button"
+                                                          onClick={handleSearchBilling}
+                                                          disabled={
+                                                            !zipCodeBill.trim() ||
+                                                            load ||
+                                                            errorBill ||
+                                                            !selectedStates
+                                                          }
+                                                          className="flex items-center justify-center px-3 py-1 bg-blue-500 text-white font-semibold text-xs rounded-md hover:bg-blue-600 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed transition duration-300 ease-in-out"
+                                                        >
+                                                          <span className="mr-2 text-sm">
+                                                            {load ? "SEARCH..." : "SEARCH"}
+                                                          </span>
+                                                          <FaSearch
+                                                            className={`text-white ${load ? "animate-spin" : ""}`}
+                                                          />
+                                                        </button>
+                                                      </div>
+                                                    )}
+                                                  </>
+                                                ),
+                                              }}
+                                            />
+                                          )}
                                         />
 
                                         {searchClickedBill && (
