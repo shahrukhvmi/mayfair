@@ -473,6 +473,7 @@ const Stepeight = ({ setHideSidebar }) => {
       if (!response.ok) {
         const errorMessage = data?.errors?.coupon_code || data?.errors?.Coupon;
         toast.error(errorMessage);
+        setDiscountCode("");
         setIsCouponApplied(false);
         setError(errorMessage);
         return;
@@ -490,6 +491,7 @@ const Stepeight = ({ setHideSidebar }) => {
       toast.success("Coupon applied successfully!");
     } catch (error) {
       setIsCouponApplied(false);
+      setDiscountCode("");
     }
   };
 
