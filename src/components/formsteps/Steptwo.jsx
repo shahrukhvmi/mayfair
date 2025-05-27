@@ -189,7 +189,7 @@ const Steptwo = () => {
   }, [watch]);
 
   const handleExplanationChange = (event) => {
-    const explanationValue = event.target.value.trim();
+    const explanationValue = event.target.value;
 
     setComorbidityExplanation(explanationValue);
     setValue("weight_related_comorbidity_explanation", explanationValue);
