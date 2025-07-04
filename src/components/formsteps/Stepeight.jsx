@@ -475,6 +475,10 @@ const Stepeight = ({ setHideSidebar }) => {
         toast.error(errorMessage);
         setDiscountCode("");
         setIsCouponApplied(false);
+        localStorage.removeItem("discountCode");
+        localStorage.removeItem("isCouponApplied");
+        localStorage.removeItem("discountType");
+        localStorage.removeItem("discountAmount");
         setError(errorMessage);
         return;
       }
@@ -587,6 +591,7 @@ const Stepeight = ({ setHideSidebar }) => {
       }).unwrap();
 
       if (response?.status === true) {
+
         dispatch(setStep6(response?.lastConsultation?.fields.checkout));
         // localStorage.removeItem("step2");
         // localStorage.removeItem("cart");
@@ -607,7 +612,17 @@ const Stepeight = ({ setHideSidebar }) => {
 
         // dispatch(nextStep());
       } else {
-        toast.error("Invalid login response");
+        toast.error(response?.errors?.Coupon);
+        setDiscountCode("");
+        setIsCouponApplied(false);
+        setDiscountAmount(0);
+        setDiscountType("");
+
+        // Clear localStorage
+        localStorage.removeItem("discountCode");
+        localStorage.removeItem("isCouponApplied");
+        localStorage.removeItem("discountType");
+        localStorage.removeItem("discountAmount");
       }
     } catch (error) {
       const errors = error?.data?.original?.errors;
