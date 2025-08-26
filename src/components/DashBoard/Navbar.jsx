@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../Auth/AuthContext";
 import ApplicationLogo from "../../config/ApplicationLogo";
 import ApplicationUser from "../../config/ApplicationUser";
 import { useProfileUserDataQuery } from "../../store/services/Dashboard/dashboardApi";
+import { useGetBMIImagesForOrderProcessQuery } from "../../store/services/PhotoUploadApi/PhotoUploadApi";
+import UploadTopPrompt from "../UploadTopPrompt/UploadTopPrompt";
 
 const Navbar = ({ isOpen, toggleSidebar }) => {
   const [isOpenDrop, setIsOpenDrop] = useState(false);
@@ -66,9 +68,29 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
     logout();
 
   };
+
+
+  const [ImagesSend, setImagesSend] = useState(false);
+  const orderId = localStorage.getItem("order_id")
+  // const { setImageUploaded, imageUploaded } = useImageUploadStore();
+
+  // ✅ RTK Query - Fetch Images Status
+  const { data: imageStatusData, isSuccess: imageStatusFetched } =
+    useGetBMIImagesForOrderProcessQuery();
+
+  useEffect(() => {
+    if (imageStatusFetched) {
+      // setImageUploaded(imageStatusData?.data?.status);
+      localStorage.setItem('image-uplaod', imageStatusData?.status)
+      setImagesSend(imageStatusData?.status);
+      console.log("Image Upload Status", imageStatusData);
+    }
+  }, [imageStatusFetched, imageStatusData]);
+
   return (
 
     <>
+
       {impersonat && (
         <div className="bg-gray-100">
           <div className="bg-red-500 text-white text-center p-2 flex flex-col sm:flex-row justify-center items-center gap-2 text-sm sm:text-base">
@@ -93,7 +115,7 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
               className="ml-0 sm:ml-2 underline flex items-center gap-1 text-xs sm:text-sm"
               onClick={handleRemovedImpersonate}
             >
-             <svg
+              <svg
                 stroke="currentColor"
                 fill="currentColor"
                 strokeWidth="0"
@@ -127,6 +149,15 @@ const Navbar = ({ isOpen, toggleSidebar }) => {
           </Link>
         </div>
 
+
+
+        {
+          !ImagesSend && (
+
+
+            !ImagesSend && <UploadTopPrompt />
+          )
+        }
         {/* User Info */}
         <div className="relative">
           {/* Dropdown Trigger */}

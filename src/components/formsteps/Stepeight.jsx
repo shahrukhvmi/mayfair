@@ -607,6 +607,7 @@ const Stepeight = ({ setHideSidebar }) => {
         console.log(response?.paymentData, "response?.paymentData");
         // navigate("/thank-you");
         localStorage.removeItem("previous_id");
+        localStorage.setItem("order_id", response?.paymentData?.order_id)
 
         // window.location.href = response?.payment_Link;
 

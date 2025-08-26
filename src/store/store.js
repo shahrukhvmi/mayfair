@@ -11,6 +11,7 @@ import cartSlice from "./slice/cartSlice"; // Fixed path
 import addonCartSlice from "./slice/addonCartSlice"; // Fixed path
 import paymentLoaderReducer from "./slice/paymentLoaderSlice"; // import the slice
 import stockLoaderReducer from "./slice/stockLoaderSlice"; // import the slice
+import { uploadPhotoApi } from "./services/PhotoUploadApi/PhotoUploadApi";
 
 const store = configureStore({
   reducer: {
@@ -26,6 +27,7 @@ const store = configureStore({
     [addressApi.reducerPath]: addressApi.reducer,
     [gpAddressApi.reducerPath]: addressApi.reducer,
     [stepApi.reducerPath]: stepApi.reducer,
+    [uploadPhotoApi.reducerPath]: uploadPhotoApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -34,7 +36,8 @@ const store = configureStore({
       .concat(addressApi.middleware)
       .concat(gpAddressApi.middleware)
       .concat(stepApi.middleware)
-      .concat(addressApi.middleware),
+      .concat(addressApi.middleware)
+      .concat(uploadPhotoApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
 

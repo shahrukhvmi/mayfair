@@ -7,6 +7,7 @@ import PublicRoute from "./Auth/PublicRoute";
 import ProtectedRoute from "./Auth/ProtectedRoute";
 import PaymentFailed from "./components/PaymentFailed/PaymentFailed";
 import { useSelector } from "react-redux";
+import PhotoUpload from "./components/PhotoUplaod/Photo-uplaod";
 
 // Lazy load components
 const MainLayout = React.lazy(() => import("./Layout/MainLayout/MainLayout"));
@@ -170,6 +171,7 @@ const App = () => {
               /> */}
 
             <Route path="/thank-you/" element={<ThankYou />} />
+            <Route path="/photo-upload" element={<PhotoUpload />} />
             <Route path="/payment-failed/" element={<PaymentFailed />} />
 
             {/* Fallback Route */}
